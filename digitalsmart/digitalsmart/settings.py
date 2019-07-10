@@ -77,9 +77,15 @@ WSGI_APPLICATION = 'digitalsmart.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        "NAME": "digitalsmart",  # 数据库名
+        'USER': "root",  # 用户
+        'PASSWORD': 'lzs87724158',
+        'HOST': '',  # 数据库主机，留空默认为localhost
+        'PORT': '3306',  # 数据库端口
+    },
+
+
 }
 
 
