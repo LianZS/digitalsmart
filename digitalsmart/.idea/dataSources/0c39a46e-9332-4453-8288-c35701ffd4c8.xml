@@ -1626,35 +1626,43 @@ model</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="381" parent="294" name="datetime">
+    <column id="381" parent="294" name="date">
       <Position>4</Position>
-      <DataType>datetime(6)|0s</DataType>
+      <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="382" parent="294" name="num">
+    <column id="382" parent="294" name="detailtime">
       <Position>5</Position>
+      <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="383" parent="294" name="num">
+      <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="383" parent="294" name="scenceflow_scenceid_datetime_num_0fa64e23_uniq">
+    <index id="384" parent="294" name="scenceflow_scenceid_date_detailtime_num_7bc4f798_uniq">
       <ColNames>scenceid
-datetime
+date
+detailtime
 num</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="384" parent="294" name="PRIMARY">
+    <key id="385" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="385" parent="294" name="scenceflow_scenceid_datetime_num_0fa64e23_uniq">
+    <key id="386" parent="294" name="scenceflow_scenceid_date_detailtime_num_7bc4f798_uniq">
       <ColNames>scenceid
-datetime
+date
+detailtime
 num</ColNames>
-      <UnderlyingIndexName>scenceflow_scenceid_datetime_num_0fa64e23_uniq</UnderlyingIndexName>
+      <UnderlyingIndexName>scenceflow_scenceid_date_detailtime_num_7bc4f798_uniq</UnderlyingIndexName>
     </key>
   </database-model>
 </dataSource>
