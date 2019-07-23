@@ -11,6 +11,7 @@ class ScenceManager(models.Model):
     area = models.CharField(max_length=32, verbose_name="地名")
     longitude = models.FloatField(verbose_name="中心经度")
     latitude = models.FloatField(verbose_name="中心纬度")
+    province = models.CharField(max_length=18, verbose_name="省份")
     loaction = models.CharField(max_length=18, verbose_name="所处城市")
     citypid = models.IntegerField(verbose_name="所处城市标识")
     weatherpid = models.TextField(verbose_name="对应的天气标识")
