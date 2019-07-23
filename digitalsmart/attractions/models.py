@@ -99,8 +99,8 @@ class PeoplePositionN(models.Model):
     """
     pid = models.SmallIntegerField(verbose_name="标识")
     area = models.CharField(max_length=32, verbose_name="地名")
-    longitude = models.FloatField(verbose_name="经度")
-    latitude = models.FloatField(verbose_name="纬度")
+    lon = models.FloatField(verbose_name="经度")
+    lat = models.FloatField(verbose_name="纬度")
     num = models.SmallIntegerField(verbose_name="人数")
 
     class Meta:

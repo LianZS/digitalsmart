@@ -1,13 +1,14 @@
-from django.shortcuts import render, HttpResponse, Http404
+import datetime
+import re
 from django.http import JsonResponse
-from attractions.models import ScenceManager, ScenceFlow
+from attractions.models import ScenceManager, SearchRate, TableManager
 from django.db import connection
 
 
 # Create your views here.
 
 
-def cityList(request):  # http://127.0.0.1:8000/attractions/test/?province=广东省
+def citylist(request):  # http://127.0.0.1:8000/attractions/test/?province=广东省
     # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:# 反爬虫
     #
     #     return JsonResponse({"status": 0})
@@ -19,7 +20,7 @@ def cityList(request):  # http://127.0.0.1:8000/attractions/test/?province=广�
     return JsonResponse(response)
 
 
-def scenceList(request):  # http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
+def scencelist(request):  # http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
     # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
     #     return JsonResponse({"status": 0})
     province = request.GET.get("province")
@@ -34,18 +35,115 @@ def scenceList(request):  # http://127.0.0.1:8000/attractions/api/getRegionsByCi
     return JsonResponse(response)
 
 
-def scenceflowData(request):
-    pid: int = int(request.GET.get("pid"))
-    date_begin: int = int(request.GET.get("date_begin"))
-    date_end: int = request.GET.get("date_end")
+def scenceflow_data(
+        request):  # http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&predict=true
+    # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+    #     return JsonResponse({"status": 0})
+
+    pid = request.GET.get("pid")
+    date_begin = request.GET.get("date_begin")
+    date_end = request.GET.get("date_end")
     predict = request.GET.get("predict")  # 是否预测
+    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
+
+    if not pid or not date_begin or not date_end or not predict:
+        return JsonResponse({"status": 0})
+    try:
+        pid = int(pid)
+        date_begin = int(date_begin)
+        date_end = int(date_end)
+    except Exception:
+        return JsonResponse({"status": 0})
     # result = ScenceFlow.objects.raw('select id,ttime,num from digitalsmart.scenceflow where pid=%s and ddate=%s',
     #
-    #                                 params=[2, 20190722])
+    #                                 params=[pid, date_begin])
     with connection.cursor() as cursor:
         cursor.execute("select ttime,num from digitalsmart.scenceflow "
                        "where pid= %s and ddate=%s ", [pid, date_begin])
-        row = cursor.fetchall()
+        rows = cursor.fetchall()
+        result = sorted(rows, key=lambda x: str(x[0]))  # 排序
 
-    response = {"data": row}
+    response = {"data": result}
     return JsonResponse(response)
+
+
+def scenceflow_trend(
+        request):  # http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723&predict=true
+    pid = request.GET.get("pid")
+    date_begin = request.GET.get("date_begin")
+    date_end = request.GET.get("date_end")
+    predict = request.GET.get("predict")  # 是否预测
+    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
+
+    if not pid or not date_begin or not date_end or not predict:
+        return JsonResponse({"status": 0})
+    try:
+        pid = int(pid)
+        date_begin = int(date_begin)
+        date_end = int(date_end)
+    except Exception:
+        return JsonResponse({"status": 0})
+    with connection.cursor() as cursor:
+        cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s", [pid, date_begin])
+        rows = cursor.fetchall()
+        result = sorted(rows, key=lambda x: str(x[0]))  # 排序
+
+    response = {"data": result}
+    return JsonResponse(response)
+
+
+def search_heat(
+        request):  # 搜索热度#http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&date_begin=20190722&&date_end=20190723
+    pid = request.GET.get("pid")
+    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
+
+    if not pid:
+        return JsonResponse({"status": 0})
+    try:
+        pid = int(pid)
+    except Exception:
+        return JsonResponse({"status": 0})
+    old = datetime.datetime.today() - datetime.timedelta(days=30)
+    olddate = int(str(old.date()).replace("-", ""))
+    rows = SearchRate.objects.filter(pid=pid, tmp_date__gt=olddate).values("tmp_date", "name", "rate").iterator()
+    wechat = list()
+    baidu = list()
+    sougou = list()
+
+    for item in rows:
+        if item['name'] == 'wechat':
+            wechat.append(item)
+
+        elif item['name'] == 'sougou':
+            sougou.append(item)
+        else:
+            baidu.append(item)
+    response = {"微信": wechat, "搜狗": sougou, "百度": baidu}
+    return JsonResponse(response)
+
+
+def scence_people_distribution(request):
+    pid = request.GET.get("pid")
+
+    date_time = request.GET.get("date_time")  # 格式20190722 10:00:00
+    adjust = re.match("\d{8}\s\d{2}:\d{2}:\d{2}", date_time)
+    if not adjust:
+        return JsonResponse({"status": 0})
+    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
+    ddate, ttime = date_time.split(" ", 2)
+    ddate = int(ddate)
+    obj = TableManager.objects.get(pid=pid)
+    last_up: int = obj.last_date  # 最近更新时间
+    table_id: int = obj.table_id  # 表位置
+    pid = int(pid)
+    with connection.cursor() as cursor:
+        cursor.execute("select lat,lon,num from digitalsmart.peopleposition0 where pid=%s and tmp_date=%s",
+                       [pid, 1563773437])
+        rows = cursor.fetchall()
+        data = list()
+        for item in rows:
+            lat = item[0]
+            lon = item[1]
+            num = item[2]
+            data.append({"lat": lat, "lon": lon, "num": num})
+    return JsonResponse({"data": data})
