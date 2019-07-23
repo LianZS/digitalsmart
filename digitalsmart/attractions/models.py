@@ -19,9 +19,11 @@ class ScenceManager(models.Model):
 
     class Meta:
         db_table = "scencemanager"
+# class  ScenceFlow_Manager(models.Manager):
+#     def get_queryset(self):
+#         pass
 
-
-class Scenceflow(models.Model):
+class ScenceFlow(models.Model):
     """
     地区实时客流量数据
     """
