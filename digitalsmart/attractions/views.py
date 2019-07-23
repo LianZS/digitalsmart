@@ -1,7 +1,7 @@
 import datetime
 import re
 from django.http import JsonResponse
-from attractions.models import ScenceManager, SearchRate, TableManager
+from attractions.models import ScenceManager, SearchRate, TableManager, Geographic
 from django.db import connection
 
 
@@ -44,7 +44,7 @@ def scenceflow_data(
     date_begin = request.GET.get("date_begin")
     date_end = request.GET.get("date_end")
     predict = request.GET.get("predict")  # 是否预测
-    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
+    sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
 
     if not pid or not date_begin or not date_end or not predict:
         return JsonResponse({"status": 0})
@@ -73,7 +73,7 @@ def scenceflow_trend(
     date_begin = request.GET.get("date_begin")
     date_end = request.GET.get("date_end")
     predict = request.GET.get("predict")  # 是否预测
-    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
+    sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
 
     if not pid or not date_begin or not date_end or not predict:
         return JsonResponse({"status": 0})
@@ -93,9 +93,9 @@ def scenceflow_trend(
 
 
 def search_heat(
-        request):  # 搜索热度#http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&date_begin=20190722&&date_end=20190723
+        request):  # 搜索热度#http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&date_begin=20190722&date_end=20190723&sub_domain=
     pid = request.GET.get("pid")
-    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
+    sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
 
     if not pid:
         return JsonResponse({"status": 0})
@@ -122,23 +122,45 @@ def search_heat(
     return JsonResponse(response)
 
 
-def scence_people_distribution(request):
+def scence_people_distribution(
+        request):  # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&sub_domain=
     pid = request.GET.get("pid")
-
-    date_time = request.GET.get("date_time")  # 格式20190722 10:00:00
-    adjust = re.match("\d{8}\s\d{2}:\d{2}:\d{2}", date_time)
-    if not adjust:
+    if not pid:
         return JsonResponse({"status": 0})
-    sub_domain = request.GET.get('sub_domain=')  # 是否为开发者标识
-    ddate, ttime = date_time.split(" ", 2)
-    ddate = int(ddate)
+    try:
+        pid = int(pid)
+    except Exception:
+        return JsonResponse({"status": 0})
+    sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
     obj = TableManager.objects.get(pid=pid)
     last_up: int = obj.last_date  # 最近更新时间
     table_id: int = obj.table_id  # 表位置
-    pid = int(pid)
+    # 下面之所以不格式化字符串，是预防注入
+    sql = None
+    if table_id == 0:
+        sql = "select lat,lon,num from digitalsmart.peopleposition0 where pid=%s and tmp_date=%s"
+    elif table_id == 1:
+        sql = "select lat,lon,num from digitalsmart.peopleposition1 where pid=%s and tmp_date=%s"
+    elif table_id == 2:
+        sql = "select lat,lon,num from digitalsmart.peopleposition2 where pid=%s and tmp_date=%s"
+    elif table_id == 3:
+        sql = "select lat,lon,num from digitalsmart.peopleposition3 where pid=%s and tmp_date=%s"
+    elif table_id == 4:
+        sql = "select lat,lon,num from digitalsmart.peopleposition4 where pid=%s and tmp_date=%s"
+    elif table_id == 5:
+        sql = "select lat,lon,num from digitalsmart.peopleposition5 where pid=%s and tmp_date=%s"
+    elif table_id == 6:
+        sql = "select lat,lon,num from digitalsmart.peopleposition6 where pid=%s and tmp_date=%s"
+    elif table_id == 7:
+        sql = "select lat,lon,num from digitalsmart.peopleposition7 where pid=%s and tmp_date=%s"
+    elif table_id == 8:
+        sql = "select lat,lon,num from digitalsmart.peopleposition8 where pid=%s and tmp_date=%s"
+    elif table_id == 9:
+        sql = "select lat,lon,num from digitalsmart.peopleposition9 where pid=%s and tmp_date=%s"
+
     with connection.cursor() as cursor:
-        cursor.execute("select lat,lon,num from digitalsmart.peopleposition0 where pid=%s and tmp_date=%s",
-                       [pid, 1563773437])
+        cursor.execute(sql,
+                       [pid, last_up])
         rows = cursor.fetchall()
         data = list()
         for item in rows:
@@ -147,3 +169,18 @@ def scence_people_distribution(request):
             num = item[2]
             data.append({"lat": lat, "lon": lon, "num": num})
     return JsonResponse({"data": data})
+
+
+def scence_geographic(request):
+    pid = request.GET.get("pid")
+    if not pid:
+        return JsonResponse({"status": 0})
+    try:
+        pid = int(pid)
+    except Exception:
+        return JsonResponse({"status": 0})
+    with connection.cursor() as cursor:
+        cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s", [pid])
+        rows = cursor.fetchall()
+
+    return JsonResponse({"bounds": rows})
