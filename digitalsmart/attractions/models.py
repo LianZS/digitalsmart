@@ -83,7 +83,7 @@ class ScenceTrend(models.Model):
 class TableManager(models.Model):
     pid = models.SmallIntegerField(verbose_name="标识")
     area = models.CharField(max_length=32, verbose_name="地名")
-    last_date = models.IntegerField(verbose_name="最近更新时间,根据最新时间查找数据")
+    last_date = models.IntegerField(verbose_name="最近更新时间--时间戳，根据时间戳查找数据")
     table_id = models.SmallIntegerField(verbose_name="对应表格标识，表格标识为0-9")
 
     class Meta:
