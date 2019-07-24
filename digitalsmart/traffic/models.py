@@ -33,10 +33,21 @@ class RoadTraffic(models.Model):
     direction = models.CharField(max_length=80, db_column="direction", verbose_name="方向")
     bound = models.TextField(db_column="bound", verbose_name="经纬度列表字符串")
     data = models.TextField(db_column="data", verbose_name="指数集")
-    roadid = models.SmallIntegerField(db_column="roadid",verbose_name="道路标识")
+    roadid = models.SmallIntegerField(db_column="roadid", verbose_name="道路标识")
+
     class Meta:
         db_table = "roadtraffic"
         unique_together = [['pid', 'up_date']]
+
+
+class RoadManager(models.Model):
+    pid = models.SmallIntegerField(db_column="pid", verbose_name="标识")
+    city = models.CharField(max_length=32, db_column="city", verbose_name="城市名字")
+    up_date = models.IntegerField(db_column="up_date", verbose_name="更新时间，内容为时间戳")
+    roadid = models.SmallIntegerField(db_column="roadid", verbose_name="道路标识")
+
+    class Meta:
+        db_table = "roadmanager"
 
 
 class YearTraffic(models.Model):
