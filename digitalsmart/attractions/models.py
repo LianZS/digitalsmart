@@ -60,6 +60,7 @@ class Geographic(models.Model):
     pid = models.SmallIntegerField(db_index=True, db_column="pid", verbose_name="标识")
     longitude = models.FloatField(db_column="longitude", verbose_name="经度")
     latitude = models.CharField(max_length=18, db_column="latitude", verbose_name="维度")
+    flag = models.SmallIntegerField(verbose_name="类别标识flag(百度数据为1，腾讯为0", db_column="flag")
 
     class Meta:
         db_table = "geographic"
@@ -85,6 +86,7 @@ class TableManager(models.Model):
     area = models.CharField(max_length=32, verbose_name="地名")
     last_date = models.IntegerField(verbose_name="最近更新时间--时间戳，根据时间戳查找数据")
     table_id = models.SmallIntegerField(verbose_name="对应表格标识，表格标识为0-9")
+    flag = models.SmallIntegerField(verbose_name="类别标识flag(百度数据为1，腾讯为0", db_column="flag")
 
     class Meta:
         db_table = "tablemanager"

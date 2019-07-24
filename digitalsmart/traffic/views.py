@@ -6,7 +6,7 @@ from django.core.cache import cache
 from .models import CityManager, CityTraffic, RoadTraffic, YearTraffic, RoadManager
 
 
-## http://xx/traffic/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
+## http://xx/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
 
 @cache_page(timeout=None)
 def citylist(
@@ -22,7 +22,7 @@ def citylist(
     return JsonResponse(response)
 
 
-# http://127.0.0.1:8000/traffic/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
+# http://127.0.0.1:8000/traffic/api/trafficindex/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
 
 def daily_index(request):
     pid = request.GET.get("cityCode")
@@ -60,7 +60,7 @@ def daily_index(request):
     return JsonResponse(response)
 
 
-# http://127.0.0.1:8000/traffic/trafficindex/city/road?cityCode=100&request_datetime=1563475647&callback=jsonp_1563933175
+# http://127.0.0.1:8000/traffic/api/trafficindex/city/road?cityCode=100&request_datetime=1563475647&callback=jsonp_1563933175
 def road_list(request):
     pid = request.GET.get("cityCode")
     callback = request.GET.get("callback")  # jsonp_1563933175006
@@ -97,7 +97,7 @@ def road_list(request):
     return JsonResponse(response)
 
 
-# http://127.0.0.1:8000/traffic/trafficindex/city/detailroad?cityCode=100&id=4&up_date=1563968622
+# http://127.0.0.1:8000/traffic/api/trafficindex/city/detailroad?cityCode=100&id=4&up_date=1563968622
 def detail_road(request):
     pid = request.GET.get("cityCode")
     roadid = request.GET.get("id")
