@@ -12,7 +12,7 @@ def citylist(request):  # http://127.0.0.1:8000/attractions/test/?province=广�
     # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:# 反爬虫
     #
     #     return JsonResponse({"status": 0})
-    province = request.GET.get('province')
+    province = request.GET.get('province')#广东省
     if not province:
         return JsonResponse({"status": 0})
     result = ScenceManager.objects.filter(province=province).values("loaction", "citypid").distinct()
@@ -24,8 +24,8 @@ def scencelist(request):  # http://127.0.0.1:8000/attractions/api/getRegionsByCi
     # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
     #     return JsonResponse({"status": 0})
     province = request.GET.get("province")
-    city = request.GET.get("location")
-    citypid = request.GET.get("citypid")
+    city = request.GET.get("location")#深圳市
+    citypid = request.GET.get("citypid")#123
 
     if not len(city) or not len(province) or not citypid:
         return JsonResponse({"status": 0})
@@ -41,9 +41,9 @@ def scenceflow_data(
     #     return JsonResponse({"status": 0})
 
     pid = request.GET.get("pid")
-    date_begin = request.GET.get("date_begin")
-    date_end = request.GET.get("date_end")
-    predict = request.GET.get("predict")  # 是否预测
+    date_begin = request.GET.get("date_begin")#20190722
+    date_end = request.GET.get("date_end")#20190723
+    predict = request.GET.get("predict")  # 是否预测,true,false
     sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
 
     if not pid or not date_begin or not date_end or not predict:

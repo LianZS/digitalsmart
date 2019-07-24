@@ -31,9 +31,9 @@ class RoadTraffic(models.Model):
     up_date = models.IntegerField(db_column="up_date", verbose_name="更新时间，内容为时间戳")
     speed = models.FloatField(db_column="speed", verbose_name="速度")
     direction = models.CharField(max_length=80, db_column="direction", verbose_name="方向")
-    bounds = models.TextField(db_column="bounds", verbose_name="经纬度列表字符串")
+    bound = models.TextField(db_column="bound", verbose_name="经纬度列表字符串")
     data = models.TextField(db_column="data", verbose_name="指数集")
-
+    roadid = models.SmallIntegerField(db_column="roadid",verbose_name="道路标识")
     class Meta:
         db_table = "roadtraffic"
         unique_together = [['pid', 'up_date']]
