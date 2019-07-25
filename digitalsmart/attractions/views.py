@@ -6,9 +6,10 @@ from django.db import connection
 
 
 # Create your views here.
-# http://127.0.0.1:8000/attractions/getCitysByProvince?province=广东省
+# http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
 @cache_page(timeout=None)  # 永久缓存
 def citylist(request):
+
     # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:# 反爬虫
     #
     #     return JsonResponse({"status": 0})

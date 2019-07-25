@@ -1,15 +1,17 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from tool.identity_authentication import IdentityAuthentication
-
 from attractions.models import UserProfile
+from django.shortcuts import  render
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 @csrf_exempt
 def registered(request):
+    #字段idcard，password，user，email
     if request.method == "POST":
 
         idcard = request.POST.get('idcard')
@@ -31,35 +33,47 @@ def registered(request):
         profile.idcard = person.idcard
         profile.user = user
         profile.save()
-        return JsonResponse({"status": 1, "message": "success"})
+        # 链接待转
+        return HttpResponseRedirect("https://docs.djangoproject.com/zh-hans/2.2/topics/auth/default/")
     else:
         user = User()
-    return JsonResponse({"status": 0, "message": "error"})
+
+        return Http404
+
+
 
 
 @csrf_exempt
-def change_password(request):
-    if request.method == "POST":
-        oldpassword = request.POST.get("oldpassword")
-        newpassword = request.POST.get("newpassword")
-        username = request.POST.get("user")
-        user = authenticate(username=username, password=oldpassword)
-        if user is not None:  # 改密码
-            u = User.objects.get(username=username)
-            u.set_password(newpassword)
-            u.save()
-            return JsonResponse({"status": 1, "message": "修改成功"})
-        else:
-            return JsonResponse({"status": 0, "message": "修改失败"})
-
-
-@csrf_exempt
-def login_view(request):
+def login_view(request):#user，password
     if request.method == "POST":
         username = request.POST.get("user")
         password = request.POST.get("password")
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
+        if request.user.is_authenticated:
+            print("h活跃的")
         if user is not None:
             login(request, user)
+            # 链接待转
+            return render(request,"change_password.html")
         else:
-            return JsonResponse({"status": 0, "message": "登陆失败"})
+            # 链接待转
+            return Http404
+    return  JsonResponse({"message":"error"})
+
+@csrf_exempt
+def logout_view(request):
+    logout(request)
+    return JsonResponse({"STATUS": 0})
+
+
+@csrf_exempt
+def password_change(request):  # 密码更改时会话失效
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = PasswordChangeForm(user=request.user, data=request.POST)
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                return JsonResponse({"STATUS": 1})
+
+    return JsonResponse({"STATUS": 0})
