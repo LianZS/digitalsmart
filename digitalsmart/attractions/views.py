@@ -1,8 +1,7 @@
 import datetime
-import re
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
-from attractions.models import ScenceManager, SearchRate, TableManager, Geographic
+from attractions.models import ScenceManager, SearchRate, TableManager
 from django.db import connection
 
 
@@ -179,7 +178,8 @@ def scence_people_distribution(
             data.append({"lat": lat, "lon": lon, "num": num})
     return JsonResponse({"data": data})
 
-#http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&flag=1
+
+# http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&flag=1
 @cache_page(timeout=60 * 60 * 12)
 def scence_geographic(request):
     pid = request.GET.get("pid")
@@ -196,3 +196,5 @@ def scence_geographic(request):
         rows = cursor.fetchall()
 
     return JsonResponse({"bounds": rows})
+
+

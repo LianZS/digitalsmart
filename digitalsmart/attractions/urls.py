@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import citylist, scencelist, scenceflow_data, scenceflow_trend, \
-    search_heat, scence_people_distribution,scence_geographic
+    search_heat, scence_people_distribution, scence_geographic
 
 urlpatterns = {
     path("api/getCitysByProvince", citylist),
@@ -10,5 +10,6 @@ urlpatterns = {
     path("api/getLocation_search_rate", search_heat),
     path("api/getLocation_distribution_rate", scence_people_distribution),
     path("api/getLocation_geographic_bounds", scence_geographic),
+
 
 }

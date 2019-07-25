@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -151,3 +152,11 @@ class PeoplePosition7(PeoplePositionN):
 class PeoplePosition8(PeoplePositionN):
     class Meta:
         db_table = "peopleposition9"
+
+
+class UserProfile(models.Model):  # 存放用户信息
+    user = models.OneToOneField(User, unique=True, verbose_name="用户", on_delete=models.CASCADE)
+    idcard = models.BigIntegerField(db_column="idcard", verbose_name="身份证", null=False)
+
+    class Meta:
+        db_table = "userdb"

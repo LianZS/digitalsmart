@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .views import registered, change_password
 
 urlpatterns = [
+    path('registered/', registered),
+    path('change/', change_password),
+
     path('admin/', admin.site.urls),
     path('attractions/', include("attractions.urls")),
     path('traffic/', include("traffic.urls")),
