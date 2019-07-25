@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from tool.identity_authentication import IdentityAuthentication
 
 from attractions.models import UserProfile
@@ -54,7 +54,12 @@ def change_password(request):
 
 
 @csrf_exempt
-def login(request):
+def login_view(request):
     if request.method == "POST":
         username = request.POST.get("user")
         password = request.POST.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+        else:
+            return JsonResponse({"status": 0, "message": "登陆失败"})
