@@ -1,7 +1,9 @@
 import datetime
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
-from attractions.models import ScenceManager, SearchRate, TableManager
+from django.views.decorators.csrf import csrf_exempt
+
+from attractions.models import ScenceManager, SearchRate, TableManager, ImageProfile
 from django.db import connection
 
 
@@ -198,3 +200,12 @@ def scence_geographic(request):
         rows = cursor.fetchall()
 
     return JsonResponse({"bounds": rows})
+
+
+@csrf_exempt
+def upload_view(request):#传图片
+    file_obj = request.FILES.get("file", None)
+    ImageProfile(pid=1, name="1", photo=file_obj).save()
+    return JsonResponse({"message": "ok"})
+def down_view(request):
+    pass
