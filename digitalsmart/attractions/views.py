@@ -208,4 +208,7 @@ def upload_view(request):#传图片
     ImageProfile(pid=1, name="1", photo=file_obj).save()
     return JsonResponse({"message": "ok"})
 def down_view(request):
-    pass
+    images = ImageProfile.objects.filter(name=1).values("photo")
+    image =images[6]
+    print(image)
+    return JsonResponse({"message":image['photo']})

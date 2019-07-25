@@ -1,17 +1,17 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, HttpResponseRedirect, Http404
+from django.http import JsonResponse, HttpResponseRedirect, Http404, HttpResponse
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from tool.identity_authentication import IdentityAuthentication
 from attractions.models import UserProfile
-from django.shortcuts import  render
+from django.shortcuts import render
 from django.contrib.auth.forms import PasswordChangeForm
 
 
 @csrf_exempt
 def registered(request):
-    #字段idcard，password，user，email
+    # 字段idcard，password，user，email
     if request.method == "POST":
 
         idcard = request.POST.get('idcard')
@@ -41,10 +41,8 @@ def registered(request):
         return Http404
 
 
-
-
 @csrf_exempt
-def login_view(request):#user，password
+def login_view(request):  # user，password
     if request.method == "POST":
         username = request.POST.get("user")
         password = request.POST.get("password")
@@ -54,11 +52,12 @@ def login_view(request):#user，password
         if user is not None:
             login(request, user)
             # 链接待转
-            return render(request,"change_password.html")
+            return render(request, "upload.html")
         else:
             # 链接待转
-            return Http404
-    return  JsonResponse({"message":"error"})
+            return HttpResponse("404")
+    return JsonResponse({"message": "error"})
+
 
 @csrf_exempt
 def logout_view(request):
@@ -77,3 +76,14 @@ def password_change(request):  # 密码更改时会话失效
                 return JsonResponse({"STATUS": 1})
 
     return JsonResponse({"STATUS": 0})
+
+
+@csrf_exempt
+def upload_pic(request):  # 更新用户头像
+    if request.user.is_authenticated:
+        file = request.FILES.get("pic", None)
+        file_type = file.name.split(".", 2)[1]  # 图片类型
+        user = UserProfile.objects.get(user=request.user)
+        filename = ''.join([user.user.username, '.', file_type])  # 以用户名命名图像
+        user.photo.save(filename, file, save=True)
+    return HttpResponse("ok")

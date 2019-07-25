@@ -165,6 +165,6 @@ class ImageProfile(models.Model):
 class UserProfile(models.Model):  # 存放用户信息
     user = models.OneToOneField(User, unique=True, verbose_name="用户", on_delete=models.CASCADE)
     idcard = models.BigIntegerField(db_column="idcard", verbose_name="身份证", null=False)
-
+    photo = models.ImageField(upload_to="user",null=True)#头像
     class Meta:
         db_table = "userdb"
