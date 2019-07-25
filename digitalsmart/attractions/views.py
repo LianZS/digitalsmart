@@ -9,7 +9,6 @@ from django.db import connection
 # http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
 @cache_page(timeout=None)  # 永久缓存
 def citylist(request):
-
     # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:# 反爬虫
     #
     #     return JsonResponse({"status": 0})
@@ -38,7 +37,8 @@ def scencelist(request):
     return JsonResponse(response)
 
 
-# http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&predict=true
+# http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
+# predict=true&sub_domain=
 @cache_page(timeout=60 * 5)
 def scenceflow_data(
         request):
@@ -70,7 +70,8 @@ def scenceflow_data(
     return JsonResponse(response)
 
 
-# http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723&predict=true
+# http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723
+# &predict=true&sub_domain=
 @cache_page(timeout=60 * 5)
 def scenceflow_trend(
         request):
@@ -197,5 +198,3 @@ def scence_geographic(request):
         rows = cursor.fetchall()
 
     return JsonResponse({"bounds": rows})
-
-

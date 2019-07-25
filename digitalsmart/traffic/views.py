@@ -22,7 +22,7 @@ def citylist(
     return JsonResponse(response)
 
 
-# http://127.0.0.1:8000/traffic/api/trafficindex/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
+# http://127.0.0.1:8000/traffic/api/trafficindex/city/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
 
 def daily_index(request):
     pid = request.GET.get("cityCode")
@@ -134,7 +134,7 @@ def detail_road(request):
 
 
 @cache_page(60 * 60 * 24)
-def yeartraffic(request):  # http://127.0.0.1:8000/traffic/trafficindex/city/year?cityCode=130300
+def yeartraffic(request):  # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=130300
 
     pid = request.GET.get("cityCode")
     if not pid:
