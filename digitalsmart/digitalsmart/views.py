@@ -1,5 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, HttpResponseRedirect, Http404, HttpResponse
+from django.http import JsonResponse, Http404, HttpResponse, StreamingHttpResponse, HttpResponseRedirect
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
@@ -7,6 +7,7 @@ from tool.identity_authentication import IdentityAuthentication
 from attractions.models import UserProfile
 from django.shortcuts import render
 from django.contrib.auth.forms import PasswordChangeForm
+from tool.file_hander import Hander_File
 
 
 @csrf_exempt
@@ -34,7 +35,7 @@ def registered(request):
         profile.user = user
         profile.save()
         # 链接待转
-        return HttpResponseRedirect("https://docs.djangoproject.com/zh-hans/2.2/topics/auth/default/")
+        return render(request, "upload.html")
     else:
         user = User()
 
@@ -79,11 +80,34 @@ def password_change(request):  # 密码更改时会话失效
 
 
 @csrf_exempt
-def upload_pic(request):  # 更新用户头像
+def upload_user_pic(request):  # 更新用户头像
     if request.user.is_authenticated:
         file = request.FILES.get("pic", None)
         file_type = file.name.split(".", 2)[1]  # 图片类型
         user = UserProfile.objects.get(user=request.user)
         filename = ''.join([user.user.username, '.', file_type])  # 以用户名命名图像
         user.photo.save(filename, file, save=True)
-    return HttpResponse("ok")
+        return HttpResponse("success")
+        # return  HttpResponseRedirect("http://127.0.0.1:8000/down/")
+    return HttpResponse("error")
+
+
+def down_user_pic(request): #下载用户头像
+    if request.user.is_authenticated:
+
+        user = UserProfile.objects.get(user=request.user)
+        imgae = user.photo
+
+        file_itertor = Hander_File().hander_file(imgae)
+
+        return HttpResponse(file_itertor, content_type=" image/png")
+    return HttpResponse("CSS")
+
+
+
+    # the_file_name = "big.gif"
+
+    # response = StreamingHttpResponse(file_itertor)
+    # response['content_type'] = 'image/png'
+    # response['Content-Disposition'] = 'attachment;filename={0}'.format(the_file_name)
+

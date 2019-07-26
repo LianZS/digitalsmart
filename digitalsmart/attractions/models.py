@@ -154,12 +154,6 @@ class PeoplePosition8(PeoplePositionN):
         db_table = "peopleposition9"
 
 
-class ImageProfile(models.Model):
-    pid = models.IntegerField(db_index=True)
-    name = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to='photo')
-    class Meta:
-        db_table="imagedb"
 
 
 class UserProfile(models.Model):  # 存放用户信息
@@ -168,3 +162,4 @@ class UserProfile(models.Model):  # 存放用户信息
     photo = models.ImageField(upload_to="user",null=True)#头像
     class Meta:
         db_table = "userdb"
+

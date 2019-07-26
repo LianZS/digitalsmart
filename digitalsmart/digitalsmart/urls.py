@@ -19,14 +19,15 @@ from django.urls import path, include,re_path
 
 from django.views.static import serve
 from digitalsmart.settings import MEDIA_ROOT
-from .views import registered, login_view, logout_view, password_change,upload_pic
+from .views import registered, login_view, logout_view, password_change,upload_user_pic,down_user_pic
 
 urlpatterns = [
     path('registered/', registered),
     path('change/', password_change),
     path('login/', login_view),
     path('logout/', logout_view),
-    path('upload/', upload_pic),
+    path('upload/',upload_user_pic ),
+    path('down/', down_user_pic),
 
     path('admin/', admin.site.urls),
     path('attractions/', include("attractions.urls")),
