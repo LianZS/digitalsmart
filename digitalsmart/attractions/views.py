@@ -202,4 +202,3 @@ def scence_geographic(request):
     return JsonResponse({"bounds": rows})
 
 
-

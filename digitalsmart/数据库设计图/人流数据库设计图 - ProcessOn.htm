@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://www.processon.com/diagraming/5d2f56cbe4b0511f13091dcc -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>人流数据库设计图 - ProcessOn</title>
+
+<meta name="description" content="ProcessOn一款HTML5版的免费在线作图工具，无需下载和安装，点击即可使用；支持用户无延迟协作 和历史记录动画回放等，只需一个浏览器即可全部完成！轻松、简单、易用！">
+<meta name="renderer" content="webkit">
+<script async="" src="./人流数据库设计图 - ProcessOn_files/analytics.js"></script><script type="text/javascript" id="zhuge-js" async="" src="./人流数据库设计图 - ProcessOn_files/zhuge.min.js"></script><script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/jquery.js"></script>
+<script type="text/javascript" src="./人流数据库设计图 - ProcessOn_files/util-c7792d76.js"></script>
+<link rel="stylesheet" href="./人流数据库设计图 - ProcessOn_files/global-c7792d76.css" type="text/css">
+<link type="text/css" rel="stylesheet" href="./人流数据库设计图 - ProcessOn_files/designer.css">
+<link type="text/css" rel="stylesheet" href="./人流数据库设计图 - ProcessOn_files/ui.css">
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/schema.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/themes.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/basic.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/flow.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/lane.js"></script>
+<script src="./人流数据库设计图 - ProcessOn_files/qrcode-c7792d76.js" charset="UTF-8" type="text/javascript"></script>
+<script type="text/javascript">
+var chartId = "5d2f56cbe4b0511f13091dcc";
+var userId = "5c1496d1e4b0e244fdf861bf";
+var userName = "        ";
+var teamId = "";
+var orgId = "";
+var role = "owner";
+var cateType = "flow";
+var time = "1564227654083";
+var dock = "none";
+var tutorial = false;
+var locale = "zh";
+
+
+var showToolbar = true;
+
+var cstatus = "private";
+var dateFormat = "yyyy-MM-dd hh:mm";
+var showCommentIco = true;
+
+var localRuntime = false;
+var chartVersion = 880;
+var isNewTextV = (new Date("2019-07-18 01:11:39") > new Date("2019-01-01"));
+$(function(){
+$("#publish_category").val("");
+if("" != ""){
+$("#publish_language").val("");
+}
+$("#publish_tags").val("");
+$("#public_edit").attr("checked", false);
+});
+</script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/collaboration.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/designer.core.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/export.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/designer.methods.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/designer.events.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/designer.ui.js"></script>
+<style type="text/css">@keyframes animate_dots{0%{opacity:1}to{opacity:0}}@-webkit-keyframes animate_dots{0%{opacity:1}to{opacity:0}}.dot0,.dot1{animation:animate_dots .9s infinite;-moz-animation:animate_dots .9s infinite;-webkit-animation:animate_dots .9s infinite;-o-animation:animate_dots .9s infinite}.dot1{animation-delay:.2s;-webkit-animation-delay:.2s}.dot2{animation:animate_dots .9s infinite;-moz-animation:animate_dots .9s infinite;-webkit-animation:animate_dots .9s infinite;-o-animation:animate_dots .9s infinite;animation-delay:.4s;-webkit-animation-delay:.4s}.dots_item{display:inline-block;margin-right:5px;width:10px;height:10px;border-radius:50%;background:#4886ff}.verify-icon{position:absolute;width:100%;margin-top:70px;text-align:center}.t-mask{width:100%;height:100%;position:fixed;_position:absolute;left:0;top:0;background:#000;opacity:.5;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);z-index:2000000000}</style><script type="text/javascript" async="" src="./人流数据库设计图 - ProcessOn_files/tcaptcha-frame.1b406056.js"></script><style type="text/css">
+button.btn[data-v-cef78672]{display:inline-block;font-weight:300;line-height:1.25;text-align:center;white-space:nowrap;vertical-align:middle;user-select:none;border:1px solid transparent;cursor:pointer;letter-spacing:1px;transition:all .15s ease
+}
+button.btn.btn-sm[data-v-cef78672]{padding:.4rem .8rem;font-size:.8rem;border-radius:.2rem
+}
+button.btn.btn-primary[data-v-cef78672]{color:#fff;background-color:#45C8F1;border-color:#45C8F1
+}
+button.btn.btn-outline-primary[data-v-cef78672]{color:#45C8F1;background-color:transparent;border-color:#45C8F1
+}
+button.btn.btn-danger[data-v-cef78672]{color:#fff;background-color:#FF4949;border-color:#FF4949
+}
+.text-muted[data-v-cef78672]{color:#8492A6
+}
+.text-center[data-v-cef78672]{text-align:center
+}
+.drop-down-enter[data-v-cef78672],.drop-down-leave-to[data-v-cef78672]{transform:translateX(0) translateY(-20px);transition-timing-function:cubic-bezier(0.74, 0.04, 0.26, 1.05);opacity:0
+}
+.drop-down-enter-active[data-v-cef78672],.drop-down-leave-active[data-v-cef78672]{transition:all .15s
+}
+.move-left-enter[data-v-cef78672],.move-left-leave-to[data-v-cef78672]{transform:translateY(0) translateX(-80px);transition-timing-function:cubic-bezier(0.74, 0.04, 0.26, 1.05);opacity:0
+}
+.move-left-enter-active[data-v-cef78672],.move-left-leave-active[data-v-cef78672]{transition:all .15s
+}
+.shake[data-v-cef78672]{animation:shake-data-v-cef78672 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;transform:translate3d(0, 0, 0)
+}
+@keyframes shake-data-v-cef78672{
+10%,90%{transform:translate3d(-1px, 0, 0)
+}
+20%,80%{transform:translate3d(2px, 0, 0)
+}
+30%,50%,70%{transform:translate3d(-4px, 0, 0)
+}
+40%,60%{transform:translate3d(4px, 0, 0)
+}
+}
+.pulse[data-v-cef78672]{animation:pulse-data-v-cef78672 2s ease infinite
+}
+@keyframes pulse-data-v-cef78672{
+0%{opacity:.7
+}
+50%{opacity:.4
+}
+100%{opacity:.7
+}
+}
+.flash-once[data-v-cef78672]{animation:flash-once 3.5s ease 1
+}
+@keyframes fade-up-data-v-cef78672{
+0%{transform:translate3d(0, 10px, 0);opacity:0
+}
+100%{transform:translate3d(0, 0, 0);opacity:1
+}
+}
+.fade-in[data-v-cef78672]{animation:fade-in-data-v-cef78672 .3s ease-in-out
+}
+@keyframes fade-in-data-v-cef78672{
+0%{opacity:0
+}
+100%{opacity:1
+}
+}
+.spin[data-v-cef78672]{animation-name:spin-data-v-cef78672;animation-duration:2000ms;animation-iteration-count:infinite;animation-timing-function:linear
+}
+@keyframes spin-data-v-cef78672{
+from{transform:rotate(0deg)
+}
+to{transform:rotate(360deg)
+}
+}
+.bounceIn[data-v-cef78672]{animation-name:bounceIn-data-v-cef78672;transform-origin:center bottom;animation-duration:1s;animation-fill-mode:both;animation-iteration-count:1
+}
+@keyframes bounceIn-data-v-cef78672{
+0%,20%,40%,60%,80%,100%{-webkit-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1)
+}
+0%{opacity:1;-webkit-transform:scale3d(0.8, 0.8, 0.8);transform:scale3d(0.8, 0.8, 0.8)
+}
+20%{-webkit-transform:scale3d(1.1, 1.1, 1.1);transform:scale3d(1.1, 1.1, 1.1)
+}
+40%{-webkit-transform:scale3d(0.9, 0.9, 0.9);transform:scale3d(0.9, 0.9, 0.9)
+}
+60%{opacity:1;-webkit-transform:scale3d(1.03, 1.03, 1.03);transform:scale3d(1.03, 1.03, 1.03)
+}
+80%{-webkit-transform:scale3d(0.97, 0.97, 0.97);transform:scale3d(0.97, 0.97, 0.97)
+}
+100%{opacity:1;-webkit-transform:scale3d(1, 1, 1);transform:scale3d(1, 1, 1)
+}
+}
+@keyframes dots-data-v-cef78672{
+0%,20%{color:rgba(0,0,0,0);text-shadow:0.25em 0 0 rgba(0,0,0,0),0.5em 0 0 rgba(0,0,0,0)
+}
+40%{color:#8492A6;text-shadow:0.25em 0 0 rgba(0,0,0,0),0.5em 0 0 rgba(0,0,0,0)
+}
+60%{text-shadow:0.25em 0 0 #8492A6,0.5em 0 0 rgba(0,0,0,0)
+}
+80%,100%{text-shadow:.25em 0 0 #8492A6, .5em 0 0 #8492A6
+}
+}
+@keyframes recording-data-v-cef78672{
+0%{box-shadow:0px 0px 5px 0px rgba(173,0,0,0.3)
+}
+65%{box-shadow:0px 0px 5px 5px rgba(173,0,0,0.3)
+}
+90%{box-shadow:0px 0px 5px 5px rgba(173,0,0,0)
+}
+}
+html[data-v-cef78672]{max-height:500px
+}
+body[data-v-cef78672]{margin:0;font-size:100%;color:#3C4858;width:350px;max-height:500px
+}
+a[data-v-cef78672]{text-decoration:none;color:#45C8F1
+}
+h1[data-v-cef78672],h2[data-v-cef78672],h3[data-v-cef78672],h4[data-v-cef78672]{margin-top:0
+}
+.container_selected_area[data-v-cef78672]{padding:0px;position:fixed;z-index:1000000;top:0px;left:0px;right:0px;bottom:0px;display:none;visibility:hidden
+}
+.container_selected_area.active[data-v-cef78672]{visibility:visible;display:block
+}
+.container_selected_area .label[data-v-cef78672]{font-family:"Didact Gothic Regular",sans-serif;font-size:22px;text-align:center;padding-top:15px
+}
+.container_selected_area .area[data-v-cef78672]{border:1px solid #1e83ff;background:rgba(30,131,255,0.1);display:none;position:fixed;z-index:1000000;box-sizing:border-box
+}
+.container_selected_area .area.active[data-v-cef78672]{display:block;top:0px;left:0px
+}
+.hide[data-v-cef78672]{display:none
+}
+</style></head>
+<body>
+<canvas id="support_canvas" style="display: none;"></canvas>
+<script type="text/javascript">
+if(!document.getElementById("support_canvas").getContext){
+window.location.href = "/diagraming/not_support";
+}
+</script>
+
+<div id="designer_header">
+<div class="titlebar">
+<a class="btn_back" href="https://www.processon.com/diagraming/back?id=5d2f56cbe4b0511f13091dcc" title="返回"><span class="ico ico_goback"></span></a>
+<div class="row row1">
+<div id="title_container">
+<span class="diagram_title">人流数据库设计图</span>
+</div>
+</div>
+<div class="row row2 menubar">
+<ul id="menu_bar">
+<li id="menu_bar_file" menu="bar_list_file">文件</li>
+<li id="menu_bar_edit" menu="bar_list_edit">编辑</li>
+<li id="menu_bar_view" menu="bar_list_view">视图</li>
+<li id="menu_bar_insert" menu="bar_list_insert">插入</li>
+<li id="menu_bar_page" menu="bar_list_page">页面</li>
+<li id="menu_bar_arrange" menu="bar_list_arrange">排列</li>
+<li id="menu_bar_help" menu="bar_list_help">帮助</li>
+</ul>
+<div id="saving_tip">正在保存...</div>
+</div>
+<div class="share_container">
+<div class="header_right_btn">
+<div class="toolbar_button active" style="padding: 0px 10px;" onclick="UI.showDownload()">
+下载
+</div>
+<div class="toolbar_button active" style="padding: 0px 10px;" onclick="UI.showAddColla()">
+协作
+</div>
+<div id="share_btn" class="toolbar_button drop_button active" onmousedown="UI.showShareMenu(event)">
+分享
+</div>
+<div class="toolbar_button active" style="padding: 0px 10px;" onclick="UI.showPublish()">
+发布
+</div>
+</div>
+<div class="user" onmousedown="UI.showUserMenu(event)">
+<img src="./人流数据库设计图 - ProcessOn_files/5c1496d1e4b0e244fdf861bf.png">
+<div class="ico ico_accordion"></div>
+</div>
+</div>
+</div>
+<div class="toolbar">
+<div id="bar_theme" class="toolbar_button" title="切换风格"><div class="ico theme"></div></div>
+<div class="toolbar_devider"></div>
+<div id="bar_undo" class="toolbar_button" title="撤销 (Ctrl+Z)"><div class="ico undo"></div></div>
+<div id="bar_redo" class="toolbar_button disabled" title="恢复 (Ctrl+Y)"><div class="ico redo"></div></div>
+<div id="bar_brush" class="toolbar_button" title="格式刷 (Ctrl+Shift+B)"><div class="ico brush"></div></div>
+<div class="toolbar_devider"></div>
+<div id="bar_font_family" title="字体" class="toolbar_button" style="width: 80px;"><div class="text_content">微软雅黑</div><div class="ico ico_dropdown"></div></div>
+<div class="toolbar_small_devider"></div>
+<div id="bar_font_size" title="字号" class="spinner" style="width: 50px;" min="12" max="100" old="13px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+<div class="toolbar_small_devider"></div>
+<div id="bar_font_bold" title="粗体 (Ctrl+B)" class="toolbar_button"><div class="ico bold"></div></div>
+<div id="bar_font_italic" title="斜体 (Ctrl+I)" class="toolbar_button"><div class="ico italic"></div></div>
+<div id="bar_font_underline" title="下划线 (Ctrl+U)" class="toolbar_button"><div class="ico underline"></div></div>
+<div id="bar_font_color" title="文本颜色" class="toolbar_button drop_button">
+<div class="ico fontcolor"></div>
+<div class="btn_color" style="background-color: rgb(50,50,50)"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div id="bar_font_align" title="对齐" class="toolbar_button drop_button">
+<div class="ico alignleft"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div class="toolbar_devider"></div>
+<div id="bar_fill" title="填充样式" class="toolbar_button drop_button">
+<div class="ico fillcolor"></div>
+<div class="btn_color" style="background-color: rgb(255,255,255)"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div id="bar_line_color" title="线条颜色" class="toolbar_button drop_button">
+<div class="ico linecolor"></div>
+<div class="btn_color" style="background-color: rgb(50,50,50)"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div id="bar_line_width" title="线宽" class="toolbar_button drop_button">
+<div class="ico linewidth"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div id="bar_line_style" title="线条样式" class="toolbar_button drop_button">
+<div class="ico linedash"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div class="toolbar_devider"></div>
+<div id="bar_linkertype" title="连线类型" class="toolbar_button drop_button disabled">
+<div class="ico linkertype_broken"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div id="bar_beginarrow" title="起点" class="toolbar_button drop_button disabled">
+<div class="ico ico_arrow larrow_none"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div id="bar_endarrow" title="终点" class="toolbar_button drop_button disabled">
+<div class="ico ico_arrow rarrow_none"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div class="toolbar_devider"></div>
+<div id="bar_front" title="置于顶层 (Ctrl+] )" class="toolbar_button"><div class="ico ico_front"></div></div>
+<div id="bar_back" title="置于底层 (Ctrl+[ )" class="toolbar_button"><div class="ico ico_back"></div></div>
+<div class="toolbar_devider"></div>
+<div id="bar_lock" title="锁定 (Ctrl+L)" class="toolbar_button"><div class="ico ico_lock"></div></div>
+<div id="bar_unlock" title="解锁 (Ctrl+Shift+L)" class="toolbar_button disabled"><div class="ico ico_unlock"></div></div>
+<div class="toolbar_small_devider"></div>
+<div id="bar_link" title="插入链接" class="toolbar_button"><div class="ico ico_link"></div></div>
+<div class="toolbar_right">
+<div id="bar_collapse" class="toolbar_button"><div class="ico collapse"></div></div>
+</div>
+<a id="bar_return" class="toolbar_button" href="https://www.processon.com/diagraming/back?id=5d2f56cbe4b0511f13091dcc" title="返回"><span class="ico ico_goback"></span></a>
+</div>
+</div>
+<div id="designer">
+<div id="shape_panel" class="layout" style="height: 754px;"><div class="panel_container panel_collapsed"><h3 class="panel_title search"><input id="shape_search" placeholder="搜索" title="搜索ProcessOn图形和网络图标，搜索网络图标建议使用英文单词，搜索更精准。" title_pos="right"></h3><div id="panel_search" class="content"></div></div><div class="panel_container"><h3 class="panel_title"><div class="ico ico_accordion"></div>基础图形</h3><div id="panel_basic" class="content"><div class="panel_box" shapename="text"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="note"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="round"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="rectangle"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="roundRectangle"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="triangle"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="diamond"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="polygon"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="hexagon"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="octagon"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="pentagon"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="sector"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="sector2"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="cross"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="cloud"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="comment"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="braces"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="parentheses"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="rightBrace"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="leftBrace"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="apqc"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="teardrop"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="singleLeftArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="singleRightArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="doubleHorizontalArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="singleUpArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="singleDownArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="doubleVerticalArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="backArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="rightBackArrow"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="corner"><canvas class="panel_item" width="50" height="50"></canvas></div></div></div><div class="panel_container"><h3 class="panel_title"><div class="ico ico_accordion"></div>Flowchart 流程图</h3><div id="panel_flow" class="content"><div class="panel_box" shapename="process"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="decision"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="terminator"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="document"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="data"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="predefinedProcess"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="storedData"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="internalStorage"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="sequentialData"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="directData"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="manualInput"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="card"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="paperTape"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="display"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="manualOperation"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="preparation"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="parallelMode"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="loopLimit"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="onPageReference"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="offPageReference"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="annotation"><canvas class="panel_item" width="50" height="50"></canvas></div></div></div><div class="panel_container"><h3 class="panel_title"><div class="ico ico_accordion"></div>泳池/泳道</h3><div id="panel_lane" class="content"><div class="panel_box" shapename="verticalPool"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="verticalLane"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="horizontalSeparator"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="verticalSeparator"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="horizontalPool"><canvas class="panel_item" width="50" height="50"></canvas></div><div class="panel_box" shapename="horizontalLane"><canvas class="panel_item" width="50" height="50"></canvas></div></div></div></div>
+<div id="designer_viewport">
+<div id="designer_layout" class="layout" style="height: 754px;">
+<div id="canvas_container" style="width: 2220px; height: 2100px; padding: 1000px; cursor: move;">
+<div id="designer_canvas" style="background-color: rgb(242, 242, 242);">
+<canvas id="designer_grids" width="2220" height="2100"></canvas>
+<ul id="designer_contextmenu" class="menu list options_menu" style="display: none;">
+<li ac="cut"><div class="ico cut"></div>剪切<div class="extend">Ctrl+X</div></li>
+<li ac="copy"><div class="ico copy"></div>复制<div class="extend">Ctrl+C</div></li>
+<li ac="paste"><div class="ico paste"></div>粘贴<div class="extend">Ctrl+V</div></li>
+<li ac="duplicate">复用<div class="extend">Ctrl+D</div></li>
+<li ac="defaultStyle">设置默认样式<div class="extend tip_text" click-btn="clearStyle">清除</div></li>
+<li ac="replace"><div class="ico theme"></div>替换图形</li>
+<li class="devider devi_clip"></li>
+<li ac="front"><div class="ico ico_front"></div>置于顶层<div class="extend">Ctrl+]</div></li>
+<li ac="back"><div class="ico ico_back"></div>置于底层<div class="extend">Ctrl+[</div></li>
+<li ac="lock"><div class="ico ico_lock"></div>锁定<div class="extend">Ctrl+L</div></li>
+<li ac="unlock"><div class="ico ico_unlock"></div>解锁<div class="extend">Ctrl+Shift+L</div></li>
+<li ac="group">组合<div class="extend">Ctrl+G</div></li>
+<li ac="ungroup">取消组合<div class="extend">Ctrl+Shift+G</div></li>
+<li id="ctxmenu_align">
+图形对齐<div class="extend ex_arrow">►</div>
+<ul class="menu list extend_menu">
+<li ac="align_shape" al="left">左对齐</li>
+<li ac="align_shape" al="center">居中对齐</li>
+<li ac="align_shape" al="right">右对齐</li>
+<li class="devider"></li>
+<li ac="align_shape" al="top">顶端对齐</li>
+<li ac="align_shape" al="middle">垂直居中对齐</li>
+<li ac="align_shape" al="bottom">底端对齐</li>
+</ul>
+</li>
+<li class="devider devi_shape"></li>
+<li ac="changelink"><div class="ico ico_link"></div>修改链接</li>
+<li ac="edit"><div class="ico edittext"></div>编辑文本<div class="extend">空格</div></li>
+<li ac="delete"><div class="ico remove"></div>删除<div class="extend">Delete/Backspace</div></li>
+<li class="devider devi_del"></li>
+<li ac="selectall">全选<div class="extend">Ctrl+A</div></li>
+<li class="devider devi_selectall"></li>
+<li ac="drawline"><div class="ico linkertype_normal"></div>创建连线<div class="extend">L</div></li>
+</ul>
+<div id="16c0394e291cd" class="shape_box" style="left: 1549.47px; top: 550.655px; width: 145.385px; height: 53.8462px; z-index: 94;"><canvas class="shape_canvas" width="145.3846153846157" height="53.84615384615387"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0394e291cd" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 105.385px; height: 32px; left: 20px; top: 10.9231px; transform: rotate(0deg) scale(1);">经度longitude<div></div>(float)</div></div><div id="16c00eb217c618" class="shape_box" style="left: 907.688px; top: 140.7px; width: 120px; height: 90px; z-index: 0;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00eb217c618" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03aceeddb5" class="shape_box" style="left: 188.802px; top: 149.159px; width: 153.401px; height: 50.8415px; z-index: 104;"><canvas class="shape_canvas" width="153.40117642939697" height="50.84146013129194"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03aceeddb5" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 113.401px; height: 32px; left: 20px; top: 9.42073px; transform: rotate(0deg) scale(1);">所处城市loaction<div>varchar(18)<br></div></div></div><div id="16c00eb3fbbee3" class="shape_box" style="left: 906.701px; top: 162.664px; width: 120px; height: 49px; z-index: 1;"><canvas class="shape_canvas" width="120" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00eb3fbbee3" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c00ed437d9db" class="shape_box" style="left: 1193.23px; top: 326.231px; width: 144px; height: 53px; z-index: 7;"><canvas class="shape_canvas" width="144" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00ed437d9db" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 104px; height: 32px; left: 20px; top: 10.5px; transform: rotate(0deg) scale(1);">百度baidu<div><br></div></div></div><div id="16c03948ae671b" class="shape_box" style="left: 1447.69px; top: 503.149px; width: 120px; height: 160px; z-index: 92;"><canvas class="shape_canvas" width="120" height="160"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03948ae671b" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03232d4c672" class="shape_box" style="left: 859px; top: 1337.5px; width: 135px; height: 49px; z-index: 46;"><canvas class="shape_canvas" width="135" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03232d4c672" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 95px; height: 32px; left: 20px; top: 8.5px; transform: rotate(0deg) scale(1);">标识pid<div></div>（smallint(6)）</div></div><div id="16c038a2dc4737" class="shape_box" style="left: 39.4615px; top: 167.13px; width: 120px; height: 90px; z-index: 80;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c038a2dc4737" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03208187572" class="shape_box" style="left: 723px; top: 1360px; width: 100px; height: 96px; z-index: 41;"><canvas class="shape_canvas" width="100" height="96"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03208187572" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c038ae719fd4" class="shape_box" style="left: 189.472px; top: 10.2239px; width: 142.556px; height: 49.7761px; z-index: 84;"><canvas class="shape_canvas" width="142.5556353068871" height="49.77611478520868"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c038ae719fd4" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 102.556px; height: 32px; left: 20px; top: 8.88806px; transform: rotate(0deg) scale(1);">标识pid<div></div> smallint(6)&nbsp;</div></div><div id="16c031d6bf9e45" class="shape_box" style="left: 679px; top: 950px; width: 177px; height: 60px; z-index: 29;"><canvas class="shape_canvas" width="177" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031d6bf9e45" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 137px; height: 32px; left: 20px; top: 14px; transform: rotate(0deg) scale(1);">标识pid<div></div>（ smallint(6)）</div></div><div id="16c031b201918d" class="shape_box" style="left: 675px; top: 595px; width: 67px; height: 44px; z-index: 23;"><canvas class="shape_canvas" width="67" height="44"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031b201918d" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c042063f6688" class="shape_box" style="left: 1266.3px; top: 898.857px; width: 118.742px; height: 49.5567px; z-index: 112;"><canvas class="shape_canvas" width="118.74152952565343" height="49.55665024630542"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f6688" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 78.7415px; height: 32px; left: 20px; top: 8.77833px; transform: rotate(0deg) scale(1);">上升指数rate<div></div>(float)</div></div><div id="16c0381b59a1ae" class="shape_box" style="left: 290.5px; top: 793px; width: 67px; height: 44px; z-index: 69;"><canvas class="shape_canvas" width="67" height="44"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59a1ae" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031d2b2b57e" class="shape_box" style="left: 679px; top: 1000px; width: 170px; height: 56px; z-index: 28;"><canvas class="shape_canvas" width="170" height="56"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031d2b2b57e" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 130px; height: 32px; left: 20px; top: 12px; transform: rotate(0deg) scale(1);">地名area（varchar(30)）</div></div><div id="16c031aecc7b49" class="shape_box" style="left: 724px; top: 471.053px; width: 391.577px; height: 320.95px; z-index: 22;"><canvas class="shape_canvas" width="391.5769230769224" height="320.9499464233218"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031aecc7b49" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 351.577px; height: 288px; left: 20px; top: 16.475px; transform: rotate(0deg) scale(1);">&nbsp;CREATE TABLE `historyscenceflow` (<div>&nbsp; `pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`ddate` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`ttime` time not NULL,<div></div>&nbsp;&nbsp;`num` int(11) not NULL,<div></div>&nbsp;&nbsp;KEY `pid_date_num_time` (`pid`,`ddate`,`ttime`,`num`)<div></div>) ENGINE=MyISAM DEFAULT CHARSET=latin1<div></div>PARTITION BY RANGE&nbsp;&nbsp;COLUMNS(ddate)<div></div>(PARTITION p0 VALUES LESS THAN (20180101) ENGINE = MyISAM,<div></div> PARTITION p1 VALUES LESS THAN (20190101) ENGINE = MyISAM,<div></div> PARTITION p2 VALUES LESS THAN (20200101) ENGINE = MyISAM,<div></div> PARTITION p3 VALUES LESS THAN (20210101) ENGINE = MyISAM,<div></div> PARTITION p4 VALUES LESS THAN (20220101) ENGINE = MyISAM)&nbsp;<div></div></div></div></div><div id="16c031ba5e250e" class="shape_box" style="left: 394px; top: 514px; width: 180px; height: 60px; z-index: 24;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031ba5e250e" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">景区历史客流量数据<div></div>historyscenceflow</div></div><div id="16c031ce7ec6ad" class="shape_box" style="left: 541px; top: 1016px; width: 120px; height: 40px; z-index: 26;"><canvas class="shape_canvas" width="120" height="40"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031ce7ec6ad" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c042063f6315" class="shape_box" style="left: 1263.34px; top: 854.522px; width: 124.666px; height: 48.5714px; z-index: 111;"><canvas class="shape_canvas" width="124.66602129719264" height="48.57142857142857"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f6315" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 84.666px; height: 32px; left: 20px; top: 8.28571px; transform: rotate(0deg) scale(1);">时间ttime<div></div>(time)</div></div><div id="16c03219354a6d" class="shape_box" style="left: 759px; top: 1352px; width: 120px; height: 160px; z-index: 45;"><canvas class="shape_canvas" width="120" height="160"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03219354a6d" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031d0df291e" class="shape_box" style="left: 571px; top: 961px; width: 120px; height: 182px; z-index: 27;"><canvas class="shape_canvas" width="120" height="182"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031d0df291e" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0117a19c3de" class="shape_box" style="left: 1193.23px; top: 387.231px; width: 144px; height: 53px; z-index: 11;"><canvas class="shape_canvas" width="144" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0117a19c3de" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 104px; height: 32px; left: 20px; top: 10.5px; transform: rotate(0deg) scale(1);">搜狗sougou<div><br></div></div></div><div id="16c03207f7647b" class="shape_box" style="left: 703px; top: 1340px; width: 100px; height: 96px; z-index: 39;"><canvas class="shape_canvas" width="100" height="96"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03207f7647b" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c039b335199d" class="shape_box" style="left: 398px; top: 43.9739px; width: 345px; height: 235.955px; z-index: 98;"><canvas class="shape_canvas" width="345" height="235.9549774573673"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c039b335199d" ind="0" readonly="readonly" style="line-height: 15px; font-size: 12px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 305px; height: 210px; left: 20px; top: 12.9775px; transform: rotate(0deg) scale(1);">scencemanager | CREATE TABLE `scencemanager` (<div></div>&nbsp;&nbsp;`id` int(11) NOT NULL AUTO_INCREMENT,<div></div>&nbsp;&nbsp;`pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`area` varchar(32) NOT NULL,<div></div>&nbsp;&nbsp;`longitude` float NOT NULL,<div></div>&nbsp;&nbsp;`latitude` float NOT NULL,<div></div>&nbsp;&nbsp;`loaction` varchar(18) NOT NULL,<div></div>&nbsp;&nbsp;`citypid` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`weatherpid` int(11) NOT NULL,<div>&nbsp; `flag`smallint(6)&nbsp; NOT NULL default 0,</div><div>'province' varchar(18) not null,&nbsp;<br><div></div><div></div>&nbsp; PRIMARY KEY (`id`)<div></div>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8</div></div></div><div id="16c03949c5d8c1" class="shape_box" style="left: 1549.47px; top: 490.785px; width: 140.769px; height: 58.9231px; z-index: 93;"><canvas class="shape_canvas" width="140.76923076923072" height="58.92307692307696"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03949c5d8c1" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 100.769px; height: 32px; left: 20px; top: 13.4615px; transform: rotate(0deg) scale(1);">标识pid<div></div>（ smallint(6)）</div></div><div id="16c031aad31009" class="shape_box" style="left: 563px; top: 648px; width: 120px; height: 50px; z-index: 21;"><canvas class="shape_canvas" width="120" height="50"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031aad31009" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 80px; height: 32px; left: 20px; top: 9px; transform: rotate(0deg) scale(1);">数量num<div></div>(int)</div></div><div id="16c00f14340ce5" class="shape_box" style="left: 1179.31px; top: 150.077px; width: 78px; height: 53px; z-index: 9;"><canvas class="shape_canvas" width="78" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00f14340ce5" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03ad258585e" class="shape_box" style="left: 180.864px; top: 223.929px; width: 188.63px; height: 48px; z-index: 105;"><canvas class="shape_canvas" width="188.62959980392844" height="47.999999999999716"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03ad258585e" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 148.63px; height: 32px; left: 20px; top: 8px; transform: rotate(0deg) scale(1);">对应的天气标识<div>weatherpid</div></div></div><div id="16c031a3dd2b1c" class="shape_box" style="left: 560px; top: 554px; width: 126px; height: 53px; z-index: 19;"><canvas class="shape_canvas" width="126" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031a3dd2b1c" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 86px; height: 32px; left: 20px; top: 10.5px; transform: rotate(0deg) scale(1);">日期ddate<div></div>(int)</div></div><div id="16c03881deb655" class="shape_box" style="left: 449.5px; top: 600.75px; width: 115px; height: 53.5px; z-index: 77;"><canvas class="shape_canvas" width="115" height="53.5"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03881deb655" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c032081873cc" class="shape_box" style="left: 724px; top: 1384px; width: 98px; height: 48px; z-index: 42;"><canvas class="shape_canvas" width="98" height="48"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c032081873cc" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03941b760bf" class="shape_box" style="left: 1391.54px; top: 490.556px; width: 180px; height: 60px; z-index: 91;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03941b760bf" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">地区范围经纬度<div>geographic</div></div></div><div id="16c042063f60d9" class="shape_box" style="left: 1376.89px; top: 846.64px; width: 66.4085px; height: 43.6453px; z-index: 114;"><canvas class="shape_canvas" width="66.40851887705712" height="43.645320197044335"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f60d9" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0381b59a784" class="shape_box" style="left: 68.5px; top: 721px; width: 120px; height: 160px; z-index: 63;"><canvas class="shape_canvas" width="120" height="160"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59a784" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03a4e00257" class="shape_box" style="left: 76.5769px; top: 314.231px; width: 180px; height: 60px; z-index: 102;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03a4e00257" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 16px; left: 10px; top: 22px; transform: rotate(0deg) scale(1);">写入缓存</div></div><div id="16c00eba276417" class="shape_box" style="left: 937.846px; top: 54.3254px; width: 127px; height: 273px; z-index: 2;"><canvas class="shape_canvas" width="127" height="273"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00eba276417" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c1cc232c61c7" class="shape_box" style="left: 185.37px; top: 299.231px; width: 138.363px; height: 52.6154px; z-index: 125;"><canvas class="shape_canvas" width="138.3629201054647" height="52.615384615384755"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c1cc232c61c7" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 98.3629px; height: 32px; left: 20px; top: 10.3077px; transform: rotate(0deg) scale(1);">省份province&nbsp;<div>varchar(18)</div></div></div><div id="16c042063f6b55" class="shape_box" style="left: 1263.34px; top: 806.246px; width: 124.666px; height: 52.5123px; z-index: 110;"><canvas class="shape_canvas" width="124.66602129719264" height="52.51231527093596"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f6b55" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 84.666px; height: 32px; left: 20px; top: 10.2562px; transform: rotate(0deg) scale(1);">日期ddate<div></div>(int)</div></div><div id="16c031991a0ab2" class="shape_box" style="left: 428px; top: 579px; width: 120px; height: 40px; z-index: 16;"><canvas class="shape_canvas" width="120" height="40"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031991a0ab2" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031a73d7429" class="shape_box" style="left: 560px; top: 603px; width: 126px; height: 49px; z-index: 20;"><canvas class="shape_canvas" width="126" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031a73d7429" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 86px; height: 32px; left: 20px; top: 8.5px; transform: rotate(0deg) scale(1);">时间ttime<div></div>(time)</div></div><div id="16c0324389de3c" class="shape_box" style="left: 1031px; top: 1251px; width: 524px; height: 301px; z-index: 50;"><canvas class="shape_canvas" width="524" height="301"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0324389de3c" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 484px; height: 256px; left: 20px; top: 22.5px; transform: rotate(0deg) scale(1);">|&nbsp;peoplepositionN &nbsp; &nbsp;| CREATE TABLE `peoplepositionN' (<div></div>&nbsp;&nbsp;`id` int(11) NOT NULL AUTO_INCREMENT,<div></div>&nbsp;&nbsp;`pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`tmp_date` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`lat` float NOT NULL,<div></div>&nbsp;&nbsp;`lon` float NOT NULL,<div></div>&nbsp;&nbsp;`num` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;PRIMARY KEY (`id`),<div></div>&nbsp;&nbsp;KEY `pid_tmp` (`pid`,`tmp_date`)<div></div>) ENGINE=InnoDB&nbsp; DEFAULT CHARSET=latin1<div></div>/*!50100 PARTITION BY RANGE (id)<div></div>(PARTITION p1 VALUES LESS THAN (7200000) ENGINE = InnoDB,<div></div> PARTITION p2 VALUES LESS THAN (14400000) ENGINE = InnoDB,<div></div> PARTITION p3 VALUES LESS THAN (21600000) ENGINE = InnoDB,<div></div> PARTITION p4 VALUES LESS THAN (28800000) ENGINE = InnoDB,<div></div> PARTITION p5 VALUES LESS THAN MAXVALUE ENGINE = InnoDB) */ |</div></div><div id="16c038abefcc77" class="shape_box" style="left: 71.1172px; top: 51.9739px; width: 124.383px; height: 277.703px; z-index: 83;"><canvas class="shape_canvas" width="124.38282973285246" height="277.7031171443816"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c038abefcc77" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03868be181a" class="shape_box" style="left: 92px; top: 1300px; width: 180px; height: 60px; z-index: 73;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03868be181a" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">同一份数据一份统计出某时刻的总人数，一份记录详情</div></div><div id="16c0381b59ae47" class="shape_box" style="left: 173.5px; top: 701px; width: 137px; height: 58px; z-index: 64;"><canvas class="shape_canvas" width="137" height="58"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59ae47" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 97px; height: 32px; left: 20px; top: 13px; transform: rotate(0deg) scale(1);">标识pid<div></div>（smallint）</div></div><div id="16c03aeafbae73" class="shape_box" style="left: 185.37px; top: 183.664px; width: 167.63px; height: 55.9446px; z-index: 106;"><canvas class="shape_canvas" width="167.62959980392844" height="55.94464079057644"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03aeafbae73" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 127.63px; height: 32px; left: 20px; top: 11.9723px; transform: rotate(0deg) scale(1);">所处城市标识citypid<div>int</div></div></div><div id="16c0320dff2e2e" class="shape_box" style="left: 743px; top: 1412.5px; width: 97px; height: 49px; z-index: 44;"><canvas class="shape_canvas" width="97" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0320dff2e2e" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c038a416cf51" class="shape_box" style="left: 41px; top: 188px; width: 120px; height: 44px; z-index: 81;"><canvas class="shape_canvas" width="120" height="44"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c038a416cf51" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031fd7f8c7f" class="shape_box" style="left: 663px; top: 1300px; width: 100px; height: 96px; z-index: 35;"><canvas class="shape_canvas" width="100" height="96"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031fd7f8c7f" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c24211b7e47e" class="shape_box" style="left: 1549.47px; top: 653.367px; width: 159.533px; height: 67.6327px; z-index: 127;"><canvas class="shape_canvas" width="159.5325443786985" height="67.63268188291363"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c24211b7e47e" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 119.533px; height: 48px; left: 20px; top: 9.81634px; transform: rotate(0deg) scale(1);">类别标识flag<div></div>samllint（百度数据为1，腾讯为0）</div></div><div id="16c06c0e494cad" class="shape_box" style="left: 1683px; top: 551.078px; width: 78px; height: 53px; z-index: 121;"><canvas class="shape_canvas" width="78" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c06c0e494cad" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c042063f6c62" class="shape_box" style="left: 1133px; top: 830.877px; width: 118.742px; height: 39.7044px; z-index: 108;"><canvas class="shape_canvas" width="118.74152952565343" height="39.70443349753695"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f6c62" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c00ec1fbaaef" class="shape_box" style="left: 1059.92px; top: 115.231px; width: 127px; height: 51px; z-index: 4;"><canvas class="shape_canvas" width="127" height="51"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00ec1fbaaef" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 87px; height: 32px; left: 20px; top: 9.5px; transform: rotate(0deg) scale(1);">时间tmp_date<div></div>（ int(11)）</div></div><div id="16c0389cb3f407" class="shape_box" style="left: 349.494px; top: 336.735px; width: 90px; height: 90px; z-index: 79;"><canvas class="shape_canvas" width="90" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0389cb3f407" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(255, 0, 0); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 50px; height: 48px; left: 20px; top: 21px; transform: rotate(0deg) scale(1);">redis缓存pid和name</div></div><div id="16c038b01f61ed" class="shape_box" style="left: 189.985px; top: 43.9739px; width: 144.028px; height: 51.2377px; z-index: 85;"><canvas class="shape_canvas" width="144.02781765344358" height="51.237653246747044"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c038b01f61ed" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 104.028px; height: 32px; left: 20px; top: 9.61883px; transform: rotate(0deg) scale(1);">地名area<div></div>（ varchar(32)）</div></div><div id="16c03196331fec" class="shape_box" style="left: 428px; top: 558px; width: 120px; height: 90px; z-index: 15;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03196331fec" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c039598c915b" class="shape_box" style="left: 189.985px; top: 113.566px; width: 133.58px; height: 48.5112px; z-index: 97;"><canvas class="shape_canvas" width="133.5798816568048" height="48.51115157032325"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c039598c915b" ind="0" readonly="readonly" style="line-height: 15px; font-size: 12px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 93.5799px; height: 30px; left: 20px; top: 9.25558px; transform: rotate(0deg) scale(1);">中心纬度latitude<div></div>(float)</div></div><div id="16c0381b59a8c5" class="shape_box" style="left: 175.5px; top: 801px; width: 126px; height: 49px; z-index: 66;"><canvas class="shape_canvas" width="126" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59a8c5" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 86px; height: 32px; left: 20px; top: 8.5px; transform: rotate(0deg) scale(1);">时间ttime<div></div>(time)</div></div><div id="16c0119f896ff2" class="shape_box" style="left: 1057.92px; top: 214.231px; width: 138px; height: 63px; z-index: 14;"><canvas class="shape_canvas" width="138" height="63"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0119f896ff2" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 98px; height: 32px; left: 20px; top: 15.5px; transform: rotate(0deg) scale(1);"><div>频率rate<br></div><div>(int(11))</div></div></div><div id="16c042063f6925" class="shape_box" style="left: 1428.73px; top: 752px; width: 344.269px; height: 224px; z-index: 113;"><canvas class="shape_canvas" width="344.269119070668" height="224"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f6925" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 304.269px; height: 176px; left: 20px; top: 24px; transform: rotate(0deg) scale(1);">&nbsp;CREATE TABLE `scencetrend`(<div>&nbsp;`id` int(11) NOT NULL AUTO_INCREMENT primary key,<br><div></div>&nbsp;&nbsp;`pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`ddate` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`ttime` time not NULL,<div></div>&nbsp;&nbsp;`rate` float not NULL,<div></div>&nbsp;&nbsp;KEY `pid_date_time_rate` (`pid`,`ddate`,`ttime`,`rate`)<div></div>) ENGINE=InnoDB DEFAULT CHARSET=latin1<div></div>&nbsp;|<div></div></div></div></div><div id="16c0387d4b92b1" class="shape_box" style="left: 438px; top: 569.5px; width: 120px; height: 90px; z-index: 74;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0387d4b92b1" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c042063f6e18" class="shape_box" style="left: 1133px; top: 810.187px; width: 118.742px; height: 88.9655px; z-index: 107;"><canvas class="shape_canvas" width="118.74152952565343" height="88.96551724137932"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f6e18" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c039598c9828" class="shape_box" style="left: 189.985px; top: 82.6154px; width: 139.734px; height: 44.6154px; z-index: 96;"><canvas class="shape_canvas" width="139.73372781065092" height="44.61538461538461"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c039598c9828" ind="0" readonly="readonly" style="line-height: 15px; font-size: 12px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 99.7337px; height: 30px; left: 20px; top: 7.30769px; transform: rotate(0deg) scale(1);">中心经度longitude<div></div>(float)</div></div><div id="16c0319cf07bd6" class="shape_box" style="left: 460px; top: 537px; width: 120px; height: 160px; z-index: 17;"><canvas class="shape_canvas" width="120" height="160"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0319cf07bd6" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031f778f28" class="shape_box" style="left: 511px; top: 940px; width: 180px; height: 60px; z-index: 34;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031f778f28" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">人口分表管理tablemanager</div></div><div id="16c0324a4cd86c" class="shape_box" style="left: 978px; top: 1403px; width: 67px; height: 44px; z-index: 52;"><canvas class="shape_canvas" width="67" height="44"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0324a4cd86c" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0381b59ac1d" class="shape_box" style="left: 178.5px; top: 846px; width: 120px; height: 50px; z-index: 67;"><canvas class="shape_canvas" width="120" height="50"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59ac1d" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 80px; height: 32px; left: 20px; top: 9px; transform: rotate(0deg) scale(1);">总人数num<div></div>(int)</div></div><div id="16c0393e00c495" class="shape_box" style="left: 1421.54px; top: 538.149px; width: 120px; height: 90px; z-index: 89;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0393e00c495" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0320d0334e9" class="shape_box" style="left: 743px; top: 1389px; width: 100px; height: 96px; z-index: 43;"><canvas class="shape_canvas" width="100" height="96"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0320d0334e9" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03204da113f" class="shape_box" style="left: 664px; top: 1324px; width: 98px; height: 48px; z-index: 36;"><canvas class="shape_canvas" width="98" height="48"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03204da113f" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c00ec071726a" class="shape_box" style="left: 1059.42px; top: 57.2308px; width: 127px; height: 51px; z-index: 3;"><canvas class="shape_canvas" width="127" height="51"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00ec071726a" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 87px; height: 32px; left: 20px; top: 9.5px; transform: rotate(0deg) scale(1);">标识pid<div></div> smallint(6)&nbsp;</div></div><div id="16c011890478a8" class="shape_box" style="left: 1053.92px; top: 289.231px; width: 120px; height: 90px; z-index: 12;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c011890478a8" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 80px; height: 32px; left: 20px; top: 29px; transform: rotate(0deg) scale(1);">搜索引擎name</div></div><div id="16c06c66c1595a" class="shape_box" style="left: 863px; top: 1532px; width: 135px; height: 53px; z-index: 123;"><canvas class="shape_canvas" width="135" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c06c66c1595a" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 95px; height: 32px; left: 20px; top: 10.5px; transform: rotate(0deg) scale(1);">人数num<div>（smallint）</div></div></div><div id="16c03207d8cf71" class="shape_box" style="left: 684px; top: 1344px; width: 98px; height: 48px; z-index: 38;"><canvas class="shape_canvas" width="98" height="48"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03207d8cf71" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0323e99d25a" class="shape_box" style="left: 859px; top: 1487px; width: 135px; height: 53px; z-index: 49;"><canvas class="shape_canvas" width="135" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0323e99d25a" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 95px; height: 32px; left: 20px; top: 10.5px; transform: rotate(0deg) scale(1);">经度lon<div></div>（float）</div></div><div id="16c03856b3d7ed" class="shape_box" style="left: 164px; top: 535px; width: 193.5px; height: 64px; z-index: 72;"><canvas class="shape_canvas" width="193.5" height="64"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03856b3d7ed" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 173.5px; height: 48px; left: 10px; top: 8px; transform: rotate(0deg) scale(1);">每晚12点把昨日的数据进行统计插入历史表，并清空scenceflow，进入下一波记录</div></div><div id="16c0319db2a406" class="shape_box" style="left: 560px; top: 503px; width: 137px; height: 58px; z-index: 18;"><canvas class="shape_canvas" width="137" height="58"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0319db2a406" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 97px; height: 32px; left: 20px; top: 13px; transform: rotate(0deg) scale(1);">标识pid<div></div>（smallint）</div></div><div id="16c0381b59ae8d" class="shape_box" style="left: 43.5px; top: 777px; width: 120px; height: 40px; z-index: 62;"><canvas class="shape_canvas" width="120" height="40"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59ae8d" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0387edc74b2" class="shape_box" style="left: 438px; top: 592.5px; width: 120px; height: 49px; z-index: 75;"><canvas class="shape_canvas" width="120" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0387edc74b2" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0d303676efb" class="shape_box" style="left: 180.864px; top: 265px; width: 256.136px; height: 50.1596px; z-index: 124;"><canvas class="shape_canvas" width="256.1356044956404" height="50.159631902927856"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0d303676efb" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 216.136px; height: 32px; left: 20px; top: 9.07982px; transform: rotate(0deg) scale(1);">类别标识flag<div>samllint（百度数据为1，腾讯为0）</div></div></div><div id="16c0388102a2ad" class="shape_box" style="left: 447px; top: 582.5px; width: 120px; height: 90px; z-index: 76;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0388102a2ad" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031e0559564" class="shape_box" style="left: 679px; top: 1104px; width: 170px; height: 52px; z-index: 31;"><canvas class="shape_canvas" width="170" height="52"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031e0559564" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 130px; height: 32px; left: 20px; top: 10px; transform: rotate(0deg) scale(1);">对应表格标识table_id<div></div>（smallint(6）</div></div><div id="16c04228fedb4f" class="shape_box" style="left: 1093px; top: 773.734px; width: 180px; height: 60px; z-index: 115;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c04228fedb4f" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">地区人口趋势<div>scencetrend</div></div></div><div id="16c042063f6dc5" class="shape_box" style="left: 1261.36px; top: 756px; width: 135.528px; height: 57.4384px; z-index: 109;"><canvas class="shape_canvas" width="135.5275895450145" height="57.4384236453202"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042063f6dc5" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 95.5276px; height: 32px; left: 20px; top: 12.7192px; transform: rotate(0deg) scale(1);">标识pid<div></div>（smallint）</div></div><div id="16c03239ebafe9" class="shape_box" style="left: 859px; top: 1437px; width: 135px; height: 48px; z-index: 48;"><canvas class="shape_canvas" width="135" height="48"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03239ebafe9" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 95px; height: 32px; left: 20px; top: 8px; transform: rotate(0deg) scale(1);">维度lat<div></div>（float）</div></div><div id="16c240ee34bd26" class="shape_box" style="left: 675px; top: 894px; width: 196px; height: 69.8936px; z-index: 126;"><canvas class="shape_canvas" width="196" height="69.8936220507112"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c240ee34bd26" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 156px; height: 48px; left: 20px; top: 10.9468px; transform: rotate(0deg) scale(1);">类别标识flag<div>samllint（百度数据为1，腾讯为0）</div></div></div><div id="16c00f0ff189b1" class="shape_box" style="left: 1256.98px; top: 54.6154px; width: 325px; height: 198.5px; z-index: 8;"><canvas class="shape_canvas" width="325" height="198.5"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00f0ff189b1" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 285px; height: 160px; left: 20px; top: 19.25px; transform: rotate(0deg) scale(1);">| searchrate | CREATE TABLE `searchrate` (<div></div>&nbsp;&nbsp;`id` int(11) NOT NULL AUTO_INCREMENT,<div></div>&nbsp;&nbsp;`pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`tmp_date` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`baidu` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`wechat` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`name` varchar(18) NOT NULL,<div></div>&nbsp;&nbsp;PRIMARY KEY (`id`),<div></div>&nbsp;&nbsp;KEY `pid_index` (`pid`)<div></div>) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</div></div><div id="16c0381b59af1c" class="shape_box" style="left: 343px; top: 719px; width: 237px; height: 205px; z-index: 68;"><canvas class="shape_canvas" width="237" height="205"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59af1c" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 197px; height: 192px; left: 20px; top: 6.5px; transform: rotate(0deg) scale(1);">&nbsp;CREATE TABLE `scenceflow` (<div>&nbsp;`id` int(11) NOT NULL AUTO_INCREMENT primary key,<br><div></div>&nbsp;&nbsp;`pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`ddate` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`ttime` time not NULL,<div></div>&nbsp;&nbsp;`num` int(11) not NULL,<div></div>&nbsp;&nbsp;KEY `pid_date_time_num` (`pid`,`ddate`,`ttime`,`num`)<div></div>) ENGINE=InnoDB DEFAULT CHARSET=latin1<div></div>&nbsp;|<div></div></div></div></div><div id="16c031d9240fd1" class="shape_box" style="left: 679px; top: 1051px; width: 177px; height: 55px; z-index: 30;"><canvas class="shape_canvas" width="177" height="55"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031d9240fd1" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 137px; height: 32px; left: 20px; top: 11.5px; transform: rotate(0deg) scale(1);">最近更新时间last_date<div></div>（int(11)）</div></div><div id="16c0382c4078ab" class="shape_box" style="left: 4px; top: 708px; width: 180px; height: 60px; z-index: 70;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0382c4078ab" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">地区实时客流量数据<div></div>scenceflow</div></div><div id="16c06c0a5b15f8" class="shape_box" style="left: 1741px; top: 481.789px; width: 337px; height: 191.578px; z-index: 120;"><canvas class="shape_canvas" width="337" height="191.57821207805762"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c06c0a5b15f8" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 297px; height: 160px; left: 20px; top: 15.7891px; transform: rotate(0deg) scale(1);">| geographic | CREATE TABLE `geographic` (<div></div>&nbsp;&nbsp;`id` int(11) NOT NULL AUTO_INCREMENT,<div></div>&nbsp;&nbsp;`pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`longitude` float NOT NULL,<div></div>&nbsp;&nbsp;`latitude` float NOT NULL,<div></div>&nbsp;&nbsp;`flag` smallint(6) NOT NULL DEFAULT '0',<div></div>&nbsp;&nbsp;PRIMARY KEY (`id`),<div></div>&nbsp;&nbsp;KEY `pid_index` (`pid`)<div></div>) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |</div></div><div id="16c03800ee1955" class="shape_box" style="left: 653.5px; top: 1151px; width: 117px; height: 65px; z-index: 59;"><canvas class="shape_canvas" width="117" height="65"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03800ee1955" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 97px; height: 32px; left: 10px; top: 16.5px; transform: rotate(0deg) scale(1);">根据table_id定位到哪个表</div></div><div id="16c0381b59a6fd" class="shape_box" style="left: 175.5px; top: 752px; width: 126px; height: 53px; z-index: 65;"><canvas class="shape_canvas" width="126" height="53"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b59a6fd" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 86px; height: 32px; left: 20px; top: 10.5px; transform: rotate(0deg) scale(1);">日期ddate<div></div>(int)</div></div><div id="16c00f1ad600a5" class="shape_box" style="left: 878.692px; top: 70.6154px; width: 180px; height: 60px; z-index: 10;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00f1ad600a5" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">地名搜索频率<div></div>searchrate</div></div><div id="16c039400efad" class="shape_box" style="left: 1421.54px; top: 559.738px; width: 120px; height: 46.8225px; z-index: 90;"><canvas class="shape_canvas" width="120" height="46.8224852071005"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c039400efad" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03a3033fd5b" class="shape_box" style="left: 343px; top: 164.447px; width: 69.9615px; height: 45.4342px; z-index: 100;"><canvas class="shape_canvas" width="69.96153846153851" height="45.434228493400184"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03a3033fd5b" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03207d8b1c4" class="shape_box" style="left: 683px; top: 1320px; width: 100px; height: 96px; z-index: 37;"><canvas class="shape_canvas" width="100" height="96"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03207d8b1c4" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c042a9231b56" class="shape_box" style="left: 405.131px; top: 336.735px; width: 180px; height: 60px; z-index: 119;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c042a9231b56" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 16px; left: 10px; top: 22px; transform: rotate(0deg) scale(1);">直接从缓缓存取出数据</div></div><div id="16c0381b5991e" class="shape_box" style="left: 43.5px; top: 756px; width: 120px; height: 90px; z-index: 61;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0381b5991e" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031f39f423a" class="shape_box" style="left: 842px; top: 1036px; width: 67px; height: 44px; z-index: 33;"><canvas class="shape_canvas" width="67" height="44"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031f39f423a" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0428bb8fda5" class="shape_box" style="left: 1153px; top: 773.734px; width: 120px; height: 160px; z-index: 118;"><canvas class="shape_canvas" width="120" height="160"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0428bb8fda5" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c038a6dbdabd" class="shape_box" style="left: 15.5px; top: 128px; width: 180px; height: 60px; z-index: 82;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c038a6dbdabd" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">信息概况总表scencemanager</div></div><div id="16c01196a64fc8" class="shape_box" style="left: 1075.92px; top: 276.231px; width: 120px; height: 160px; z-index: 13;"><canvas class="shape_canvas" width="120" height="160"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c01196a64fc8" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c03247669758" class="shape_box" style="left: 622px; top: 1260px; width: 180px; height: 60px; z-index: 51;"><canvas class="shape_canvas" width="180" height="60"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03247669758" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 160px; height: 32px; left: 10px; top: 14px; transform: rotate(0deg) scale(1);">人口分布分表<div></div><div></div>peoplepositionN（N=10）</div></div><div id="16c03236bdb762" class="shape_box" style="left: 859px; top: 1389px; width: 135px; height: 49px; z-index: 47;"><canvas class="shape_canvas" width="135" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03236bdb762" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 95px; height: 32px; left: 20px; top: 8.5px; transform: rotate(0deg) scale(1);">时间tmp_date<div></div>int(11)&nbsp;</div></div><div id="16c00ec24c07a4" class="shape_box" style="left: 1053.92px; top: 160.231px; width: 138px; height: 63px; z-index: 5;"><canvas class="shape_canvas" width="138" height="63"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00ec24c07a4" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 98px; height: 32px; left: 20px; top: 15.5px; transform: rotate(0deg) scale(1);">地名area<div></div>（ varchar(18)）</div></div><div id="16c031bc67496b" class="shape_box" style="left: 541px; top: 990px; width: 120px; height: 90px; z-index: 25;"><canvas class="shape_canvas" width="120" height="90"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031bc67496b" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c031e64cb7c2" class="shape_box" style="left: 893.339px; top: 961px; width: 410.661px; height: 185px; z-index: 32;"><canvas class="shape_canvas" width="410.66118102613746" height="185"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c031e64cb7c2" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 370.661px; height: 160px; left: 20px; top: 12.5px; transform: rotate(0deg) scale(1);">| Table | Create Table&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<div></div><div></div>| tablemanager&nbsp; &nbsp;| CREATE TABLE `tablemanager` (<div>&nbsp; `id` int(11) NOT NULL AUTO_INCREMENT,<div></div><div></div>&nbsp; `area` varchar(30) NOT NULL,<div></div>&nbsp;&nbsp;`pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`last_date` int(11) NOT NULL,后期根据最新时间查找查找<div></div>&nbsp;&nbsp;`table_id` smallint(6) NOT NULL,</div><div>flag smallint not null default 0,<br><div></div>&nbsp;&nbsp;PRIMARY KEY (`id`)<div></div>) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</div></div></div><div id="16c03207f7611a" class="shape_box" style="left: 704px; top: 1364px; width: 98px; height: 48px; z-index: 40;"><canvas class="shape_canvas" width="98" height="48"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c03207f7611a" ind="0" readonly="readonly" style="height: 0px; width: 0px; display: none;"></div></div><div id="16c0395232e4e4" class="shape_box" style="left: 1549.47px; top: 608.149px; width: 145.385px; height: 58.5px; z-index: 95;"><canvas class="shape_canvas" width="145.3846153846157" height="58.5"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c0395232e4e4" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 105.385px; height: 32px; left: 20px; top: 13.25px; transform: rotate(0deg) scale(1);">纬度latitude<div></div>(float)</div></div><div id="16c00ec26b374b" class="shape_box" style="left: 1188.23px; top: 270.231px; width: 144px; height: 49px; z-index: 6;"><canvas class="shape_canvas" width="144" height="49"></canvas><div contenteditable="true" spellcheck="false" class="text_canvas" forshape="16c00ec26b374b" ind="0" readonly="readonly" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; opacity: 1; overflow-wrap: break-word; width: 104px; height: 32px; left: 20px; top: 8.5px; transform: rotate(0deg) scale(1);">微信wechat<div><br></div></div></div><div id="16c04271bc446f" class="shape_box linker_box" style="z-index: 117; left: 1182.37px; top: 763px; width: 20px; height: 63.5872px;"><canvas class="shape_canvas" width="20" height="63.58719211822665"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c0388c63bfdc" class="shape_box linker_box" style="z-index: 78; left: 488px; top: 539.5px; width: 29px; height: 59.4px;"><canvas class="shape_canvas" width="29" height="59.39999999999998"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c039067420c2" class="shape_box linker_box" style="z-index: 86; left: 93.5px; top: 404px; width: 20px; height: 368.4px;"><canvas class="shape_canvas" width="20" height="368.4"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c0390a49debb" class="shape_box linker_box" style="z-index: 87; left: 92px; top: 371.735px; width: 276.494px; height: 52.2652px;"><canvas class="shape_canvas" width="276.49399530828805" height="52.26519944295211"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c038515acd4" class="shape_box linker_box" style="z-index: 71; left: 93.5px; top: 590px; width: 350.9px; height: 185px;"><canvas class="shape_canvas" width="350.9" height="185"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c03a5ecef4b5" class="shape_box linker_box" style="z-index: 103; left: 420.494px; top: 371.735px; width: 1017.91px; height: 222.265px;"><canvas class="shape_canvas" width="1017.9060046917118" height="222.26519944295183"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c039fd8443" class="shape_box linker_box" style="z-index: 99; left: 420.494px; top: 371.735px; width: 89.506px; height: 203.896px;"><canvas class="shape_canvas" width="89.50600469171178" height="203.89596867372137"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c037e621f405" class="shape_box linker_box" style="z-index: 54; left: 703px; top: 1270px; width: 40px; height: 66.4px;"><canvas class="shape_canvas" width="40" height="66.40000000000009"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c06c1bf7c9d6" class="shape_box linker_box" style="z-index: 122; left: 420.494px; top: 173px; width: 502.906px; height: 218.735px;"><canvas class="shape_canvas" width="502.9060046917119" height="218.73480055704806"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(255, 0, 0); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c03a48935142" class="shape_box linker_box" style="z-index: 101; left: 89.4615px; top: 238.13px; width: 315.032px; height: 128.802px;"><canvas class="shape_canvas" width="315.0324568467496" height="128.80231152112756"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c037f06c4a4d" class="shape_box linker_box" style="z-index: 58; left: 763px; top: 1330px; width: 40px; height: 75.4px;"><canvas class="shape_canvas" width="40" height="75.40000000000009"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c037ecadb528" class="shape_box linker_box" style="z-index: 57; left: 763px; top: 1330px; width: 40px; height: 75.4px;"><canvas class="shape_canvas" width="40" height="75.40000000000009"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c039156baa3d" class="shape_box linker_box" style="z-index: 88; left: 384.494px; top: 407.735px; width: 226.506px; height: 598.665px;"><canvas class="shape_canvas" width="226.50600469171172" height="598.6651994429521"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c0423490e24d" class="shape_box linker_box" style="z-index: 116; left: 420.494px; top: 371.735px; width: 782.506px; height: 410.265px;"><canvas class="shape_canvas" width="782.506004691712" height="410.26519944295194"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c037e229899c" class="shape_box linker_box" style="z-index: 53; left: 703px; top: 1137px; width: 71px; height: 179.4px;"><canvas class="shape_canvas" width="71" height="179.4000000000001"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c037e9b6b76f" class="shape_box linker_box" style="z-index: 56; left: 743px; top: 1310px; width: 40px; height: 66.4px;"><canvas class="shape_canvas" width="40" height="66.40000000000009"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c037e8cc3429" class="shape_box linker_box" style="z-index: 55; left: 723px; top: 1290px; width: 40px; height: 66.4px;"><canvas class="shape_canvas" width="40" height="66.40000000000009"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="16c03810c1e75d" class="shape_box linker_box" style="z-index: 60; left: 84px; top: 829.6px; width: 596.4px; height: 529.4px;"><canvas class="shape_canvas" width="596.4" height="529.4"></canvas><div class="text_canvas linker_text" style="line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; transform: scale(1); display: none;"></div></div><div id="shape_controls" style="left: 734px; top: 481.053px; width: 371.577px; height: 300.95px; z-index: 128; display: block;"><canvas id="controls_bounding" width="391.5769230769224" height="320.9499464233218"></canvas><div class="shape_controller n w" index="0" resizedir="tl" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: block; left: -4px; top: -4px;"></div><div class="shape_controller n e" index="1" resizedir="tr" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: block; left: 367.577px; top: -4px;"></div><div class="shape_controller s e" index="2" resizedir="br" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: block; left: 367.577px; top: 296.95px;"></div><div class="shape_controller s w" index="3" resizedir="bl" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: block; left: -4px; top: 296.95px;"></div><div class="shape_controller w" resizedir="l" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: none;"></div><div class="shape_controller n" resizedir="t" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: none;"></div><div class="shape_controller e" resizedir="r" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: none;"></div><div class="shape_controller s" resizedir="b" style="border-color: rgb(136, 51, 51); width: 6px; height: 6px; z-index: 128; display: none;"></div><canvas class="shape_rotater" width="41px" height="40px" style="top: -40px; left: 165.288px;"></canvas><div class="group_icon change_shape_icon" style="display: none;"></div></div><div contenteditable="true" spellcheck="false" id="shape_text_ruler" style="width: 351.577px; z-index: 130; line-height: 16px; font-size: 13px; font-family: 微软雅黑; font-weight: normal; font-style: normal; text-align: center; color: rgb(50, 50, 50); text-decoration: none; overflow-wrap: break-word;">&nbsp;CREATE TABLE `historyscenceflow` (<div>&nbsp; `pid` smallint(6) NOT NULL,<div></div>&nbsp;&nbsp;`ddate` int(11) NOT NULL,<div></div>&nbsp;&nbsp;`ttime` time not NULL,<div></div>&nbsp;&nbsp;`num` int(11) not NULL,<div></div>&nbsp;&nbsp;KEY `pid_date_num_time` (`pid`,`ddate`,`ttime`,`num`)<div></div>) ENGINE=MyISAM DEFAULT CHARSET=latin1<div></div>PARTITION BY RANGE&nbsp;&nbsp;COLUMNS(ddate)<div></div>(PARTITION p0 VALUES LESS THAN (20180101) ENGINE = MyISAM,<div></div> PARTITION p1 VALUES LESS THAN (20190101) ENGINE = MyISAM,<div></div> PARTITION p2 VALUES LESS THAN (20200101) ENGINE = MyISAM,<div></div> PARTITION p3 VALUES LESS THAN (20210101) ENGINE = MyISAM,<div></div> PARTITION p4 VALUES LESS THAN (20220101) ENGINE = MyISAM)&nbsp;<div></div></div></div><div class="shape_contour" forshape="16c031aecc7b49" style="left: 734px; top: 481.053px; z-index: 129;"><div class="shape_anchor" style="border-color: rgb(136, 51, 51); border-radius: 4px; width: 6px; height: 6px; left: 181.788px; top: -4px;"></div><div class="shape_anchor" style="border-color: rgb(136, 51, 51); border-radius: 4px; width: 6px; height: 6px; left: 181.788px; top: 296.95px;"></div><div class="shape_anchor" style="border-color: rgb(136, 51, 51); border-radius: 4px; width: 6px; height: 6px; left: -4px; top: 146.475px;"></div><div class="shape_anchor" style="border-color: rgb(136, 51, 51); border-radius: 4px; width: 6px; height: 6px; left: 367.577px; top: 146.475px;"></div></div><div class="pop-editor" style="left: 855px; top: 785.528px; display: none;"><div data-key="bold"><div class="ico bold"></div></div><div data-key="italic"><div class="ico italic"></div></div><div data-key="underline"><div class="ico underline"></div></div><div data-key="color"><div class="ico fontcolor"></div></div></div></div>
+</div>
+<div id="shape_img_container"></div>
+<div id="layout_block"></div>
+</div>
+<div id="shape_thumb" class="menu"><canvas width="160px"></canvas><div></div></div>
+<div id="dock" style="right: 9px;">
+<div class="dock_header"></div>
+<div class="dock_buttons">
+<div id="dock_btn_navigator" title="导航" disabletitle="true" class="toolbar_button" onclick="Dock.showView(&#39;navigator&#39;, true)"><div class="ico ico_dock_nav"></div></div>
+<div id="dock_btn_graphic" title="图形" disabletitle="true" class="toolbar_button" onclick="Dock.showView(&#39;graphic&#39;, true)"><div class="ico ico_dock_styles"></div></div>
+<div id="dock_btn_metric" title="度量" disabletitle="true" class="toolbar_button" onclick="Dock.showView(&#39;metric&#39;, true)"><div class="ico ico_dock_metric"></div></div>
+<div id="dock_btn_attribute" title="数据属性" disabletitle="true" class="toolbar_button" onclick="Dock.showView(&#39;attribute&#39;, true)"><div class="ico ico_dock_attribute"></div></div>
+<div id="dock_btn_page" title="页面设置" disabletitle="true" class="toolbar_button" onclick="Dock.showView(&#39;page&#39;, true)"><div class="ico ico_dock_page"></div></div>
+<div id="dock_btn_history" title="历史版本" disabletitle="true" class="toolbar_button" onclick="Dock.showView(&#39;history&#39;, true)"><div class="ico ico_history"></div></div>
+<div id="dock_btn_comment" title="评论" disabletitle="true" class="toolbar_button" onclick="Dock.showView(&#39;comment&#39;, true)"><div class="ico ico_comment"></div></div>
+</div>
+</div>
+<div id="navigation_view" class="dock_view dock_view_navigator" style="right: 45px;">
+<div class="dock_view_header">
+导航
+<div class="ico ico_dock_collapse"></div>
+</div>
+<div class="navigation_bounding">
+<div class="navigation_view_container">
+<canvas id="navigation_canvas" width="120px" height="160px" style=""></canvas>
+<div id="navigation_eye" style="left: -1px; top: -1px; width: 0px; height: 0px;"></div>
+</div>
+</div>
+<div class="dock_devider" style="margin: 0px 10px"></div>
+<div class="navigation_view_bar">
+缩放：
+<div id="dock_zoom" class="spinner active" min="50" max="200" old="50%"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+<div class="toolbar_button active" onclick="Dock.enterFullScreen()" title="全屏视图 (F11)"><div class="ico ico_fullscreen"></div></div>
+<div class="toolbar_button active" onclick="Dock.enterPresentation()" title="演示视图 (F10)"><div class="ico ico_presentation"></div> </div>
+</div>
+<div id="fullscreen_tip" class="alert error">
+<div class="ico dlg_close" onclick="$(&#39;#fullscreen_tip&#39;).hide();"></div>
+<div class="t"></div>
+<div class="full_suggest"><span>我们推荐使用以下浏览器：</span>
+<a href="http://www.google.com/chrome" target="_blank"><span class="ico chrome"></span></a>
+<a href="http://www.firefox.com/" target="_blank"><span class="ico firefox"></span></a>
+</div>
+</div>
+</div>
+<div class="dock_view dock_view_graphic" style="right: 45px;">
+<div class="dock_view_header">
+图形
+<div class="ico ico_dock_collapse"></div>
+</div>
+<div class="dock_content">
+<div class="dock_content_title">连线</div>
+<div id="dock_line_color" class="picker_btn btn_inline"><div class="picker_btn_holder"></div><div class="ico ico_colordrop"></div></div>
+<div id="dock_line_style" class="toolbar_button drop_button active btn_inline" style="margin: 0px 0px 0px 10px">
+<div class="ico linestyle linesolid"></div>
+<div class="ico ico_dropdown"></div>
+</div>
+<div id="dock_line_width" class="spinner active btn_inline" style="width: 82px; margin-left: 10px;" min="0" max="10" old="0px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+<div style="clear: both"></div>
+<div class="dock_devider"></div>
+<div class="dock_content_title">填充样式</div>
+<div id="dock_fill_type" class="toolbar_button active"><div class="text_content"></div><div class="ico ico_dropdown"></div></div>
+<div class="fill_detail fill_detail_solid">
+<div id="fill_solid_btn" class="picker_btn"><div class="picker_btn_holder"></div><div class="ico ico_colordrop"></div></div>
+</div>
+<div class="fill_detail fill_detail_gradient">
+<div id="fill_gradient_begin" c="255,255,255" class="picker_btn btn_inline"><div class="picker_btn_holder"></div><div class="ico ico_colordrop"></div></div>
+<div id="gradient_swap" class="toolbar_button btn_normal btn_inline">
+<div class="ico gradient_swap"></div>
+</div>
+<div id="fill_gradient_end" c="255,255,255" class="picker_btn btn_inline"><div class="picker_btn_holder"></div><div class="ico ico_colordrop"></div></div>
+<div id="gradient_type" class="toolbar_button active btn_normal btn_inline" style="width: 100px;margin: 0px 0px 0px 10px;">
+<div class="text_content"></div><div class="ico ico_dropdown"></div>
+</div>
+<div style="clear: both"></div>
+<div id="gradient_type_linear" class="gradient_details">
+角度：
+<div id="gradient_angle" class="spinner active" style="width: 100px; display: inline-block;" min="0" max="360" old="0°"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+</div>
+<div id="gradient_type_radial" class="gradient_details">
+半径：
+<div id="gradient_radius" class="spinner active" style="width: 100px; display: inline-block;" min="0" max="100" old="0%"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+</div>
+<div style="clear: both"></div>
+</div>
+<div class="fill_detail fill_detail_image">
+<div id="fill_change_img" class="toolbar_button active" style="width: 95px;">更改图片</div>
+<div style="height: 10px;"></div>
+显示方式：
+<div id="fill_img_display" class="toolbar_button active" style="width: 100px; display: inline-block;">
+<div class="text_content"></div><div class="ico ico_dropdown"></div>
+</div>
+</div>
+<div class="dock_devider"></div>
+<div class="dock_content_title">透明度</div>
+<div id="spinner_opacity" class="spinner active" style="width: 90px;" min="0" max="100" old="0%"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+</div>
+</div>
+<div class="dock_view dock_view_metric" style="right: 45px;">
+<div class="dock_view_header">
+度量
+<div class="ico ico_dock_collapse"></div>
+</div>
+<div class="dock_content">
+<div class="dock_content_title">位置和大小</div>
+<div class="dock_label">X:</div>
+<div id="dock_metric_x" class="spinner active btn_inline" style="width: 65px;" min="-800" max="20000" old="0px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+<div class="dock_label">宽:</div>
+<div id="dock_metric_w" class="spinner active btn_inline" style="width: 65px;" min="20" max="20000" old="20px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+<div style="clear: both; height: 10px;"></div>
+<div class="dock_label">Y:</div>
+<div id="dock_metric_y" class="spinner active btn_inline" style="width: 65px;" min="-800" max="20000" old="0px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+<div class="dock_label">高:</div>
+<div id="dock_metric_h" class="spinner active btn_inline" style="width: 65px;" min="20" max="20000" old="20px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+<div style="clear: both"></div>
+<div class="dock_devider"></div>
+<div class="dock_content_title">旋转方向</div>
+<div id="dock_metric_angle" class="spinner active" style="width: 95px; display: inline-block;" min="0" max="360" old="0°"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div>
+</div>
+</div>
+<div class="dock_view dock_view_page" style="right: 45px;">
+<div class="dock_view_header">
+页面设置
+<div class="ico ico_dock_collapse"></div>
+</div>
+<div class="dock_content">
+<div class="dock_content_title">页面</div>
+<div class="dock_label" style="width: 80px;">页面大小:</div>
+<div id="dock_page_size" class="toolbar_button active btn_inline" style="width: 110px;display: inline-block;"><div class="text_content"></div><div class="ico ico_dropdown"></div></div>
+<div style="height: 10px; clear: both"></div>
+<div class="dock_label" style="width: 80px;">内边距:</div>
+<div id="dock_page_padding" class="toolbar_button active btn_inline" style="width: 110px;display: inline-block;"><div class="text_content"></div><div class="ico ico_dropdown"></div></div>
+<div style="height: 10px; clear: both"></div>
+<div class="dock_label" style="width: 80px;">背景颜色:</div>
+<div id="dock_page_color" class="picker_btn btn_inline"><div class="picker_btn_holder"></div><div class="ico ico_colordrop"></div></div>
+<div style="height: 10px; clear: both"></div>
+<div class="dock_label" style="width: 80px;">页面方向:</div>
+<div class="dock_page_ori_list">
+<input type="radio" name="dock_page_ori" value="portrait">竖向<br>
+<input type="radio" name="dock_page_ori" value="landscape">横向
+</div>
+<div style="clear: both"></div>
+<div class="dock_devider"></div>
+<div class="dock_content_title">网格</div>
+<input id="dock_page_showgrid" type="checkbox"><label for="dock_page_showgrid">显示网格</label>
+<div id="dock_gridsize_box" style="margin-top: 10px;">
+<div class="dock_label">网格大小:</div>
+<div id="dock_page_gridsize" class="toolbar_button active btn_inline" style="width: 110px;display: inline-block;"><div class="text_content"></div><div class="ico ico_dropdown"></div></div>
+<div style="clear: both"></div>
+</div>
+</div>
+</div>
+<div class="dock_view dock_view_attribute" style="width: 350px; right: 45px;">
+<div class="dock_view_header">
+数据属性
+<div class="ico ico_dock_collapse"></div>
+</div>
+<div class="dock_content" style="padding: 5px 0px 5px;">
+<div class="attr_add">
+<div id="attr_add_btn" class="toolbar_button active noover" style="width: 120px;display: inline-block;" onclick="Dock.showAttrAdd()">添加数据属性</div>
+<div class="attr_add_items">
+<div class="dock_label" style="width: 50px;">名字:</div>
+<input id="attr_add_name" type="text" class="input_text" style="float: left; width: 260px;">
+<div style="height: 5px; clear: both"></div>
+<div class="dock_label" style="width: 50px;">类型:</div>
+<select id="attr_add_type" class="input_select" style="float: left; width: 120px;">
+<option value="string">文本</option>
+<option value="link">链接</option>
+<option value="number">数值</option>
+<option value="date">日期</option>
+<option value="boolean">布尔</option>
+<option value="list" style="display:none;">列表</option>
+</select>
+<div style="height: 5px; clear: both"></div>
+<div class="dock_label" style="width: 50px;">值:</div>
+<div id="attr_add_value_arera" style="float: left;"></div>
+<div style="height: 5px; clear: both"></div>
+<div class="toolbar_button active" style="width: 70px;display: inline-block;" onclick="Dock.saveAttrAdd()">确定</div>
+<div class="toolbar_button active" style="width: 70px;display: inline-block;" onclick="Dock.cancelAttrAdd()">取消</div>
+</div>
+<div class="dock_devider"></div>
+</div>
+<ul class="attr_list">
+</ul>
+</div>
+</div>
+<div class="dock_view dock_view_history" style="width: 280px; right: 45px;">
+<div class="dock_view_header">
+历史版本
+<div class="ico ico_dock_collapse"></div>
+</div>
+<div class="dock_content" style="padding: 0px;">
+<div class="history_bar">
+<div class="area_history">
+<div id="btn_history_add" class="toolbar_button active" style="padding: 0px 10px 0px 3px;margin-left: 7px;"><div class="ico ico_plus" style="float: left;"></div>创建历史版本</div>
+<div class="switch-container" style="display: inline-block;">
+<input id="switch" type="checkbox" class="switch">
+<label for="switch" onclick="Dock.switchCheck();" id="switch-label"></label>
+</div>
+<div id="btn_history_restore" class="toolbar_button active disabled" title="恢复到此版本"><div class="ico ico_restore"></div></div>
+</div>
+<div id="area_history_add" class="area_history" style="margin-left: 7px;">
+<textarea id="history_remark" class="input_text" placeholder="填写注释..." style="width: 236px; height: 36px; margin-bottom: 5px;"></textarea>
+<div class="toolbar_button active" style="width: 70px;display: inline-block;" onclick="Dock.addHistory()">确定</div>
+<div class="toolbar_button active" style="width: 70px;display: inline-block;" onclick="Dock.toggleAddHistory()">取消</div>
+</div>
+</div>
+<div class="switch-tip">显示全部版本记录</div>
+<div id="history-none-tip" style="border-top:1px solid #f8f8f8;padding:10px 18px;display: none;">
+<div style="font-size:14px;">暂时没有符合的版本记录</div>
+<div style="margin-top:4px;color:#666;">您可以创建历史版本，来纪录当前的作图状态，帮助以后进行恢复和查看</div>
+</div>
+<div id="history_container" style="min-height: 120px;"><ul id="history_versions"><li vid="5d3c400fe4b092b3346b59d3" def="5d3c400fe4b092b3346b59d2"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-27 20:14</span></div></li><li vid="5d3afd05e4b0511f13147470" def="5d3afd05e4b0511f1314746f"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-26 21:15</span></div></li><li vid="5d3afc51e4b0d11c89125e31" def="5d3afc51e4b0d11c89125e30"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-26 21:12</span></div></li><li vid="5d3afae9e4b0511f13147380" def="5d3afae9e4b0511f1314737f"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-26 21:06</span></div></li><li vid="5d3af981e4b043dcf8476aef" def="5d3af981e4b043dcf8476aee"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-26 21:00</span></div></li><li vid="5d3af8cde4b065dc42b3edf3" def="5d3af8cde4b065dc42b3edf2"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-26 20:57</span></div></li><li vid="5d3af819e4b0511f131471ca" def="5d3af819e4b0511f131471c9"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-26 20:54</span></div></li><li vid="5d385a8fe4b0e6d9199ae057" def="5d385a8fe4b0e6d9199ae056"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-24 21:18</span></div></li><li vid="5d385657e4b0208611101ae7" def="5d385657e4b0208611101ae6"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-24 21:00</span></div></li><li vid="5d371274e4b0511f130ff932" def="5d371274e4b0511f130ff931"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 21:58</span></div></li><li vid="5d370681e4b092b334663add" def="5d370681e4b092b334663adc"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 21:07</span></div></li><li vid="5d36d2e9e4b058ef96b186f4" def="5d36d2e9e4b058ef96b186f3"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 17:27</span></div></li><li vid="5d36d17fe4b058ef96b18311" def="5d36d17fe4b058ef96b18310"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 17:21</span></div></li><li vid="5d367890e4b043dcf841ceed" def="5d367890e4b043dcf841ceec"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 11:01</span></div></li><li vid="5d3677dce4b092b334651b5b" def="5d3677dce4b092b334651b5a"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 10:58</span></div></li><li vid="5d366e05e4b02015bd8681ee" def="5d366e05e4b02015bd8681ed"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 10:16</span></div></li><li vid="5d366c9de4b02015bd867e42" def="5d366c9de4b02015bd867e41"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 10:10</span></div></li><li vid="5d366b35e4b0b3e4dcceb9f2" def="5d366b35e4b0b3e4dcceb9f1"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-23 10:04</span></div></li><li vid="5d355ca8e4b0b3e4dccdc3b8" def="5d355ca8e4b0b3e4dccdc3b7"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 14:50</span></div></li><li vid="5d3552d0e4b043dcf8409a93" def="5d3552d0e4b043dcf8409a92"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 14:08</span></div></li><li vid="5d354e98e4b02015bd8561be" def="5d354e98e4b02015bd8561bd"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 13:50</span></div></li><li vid="5d354d30e4b043dcf8408f51" def="5d354d30e4b043dcf8408f50"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 13:44</span></div></li><li vid="5d3549ace4b0e6d91996e43c" def="5d3549ace4b0e6d91996e43b"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 13:29</span></div></li><li vid="5d3548f8e4b0e6d91996e353" def="5d3548f8e4b0e6d91996e352"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 13:26</span></div></li><li vid="5d354844e4b092b33463d6ff" def="5d354844e4b092b33463d6fe"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 13:23</span></div></li><li vid="5d354790e4b043dcf840875f" def="5d354790e4b043dcf840875e"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 13:20</span></div></li><li vid="5d3541f0e4b02086110c209f" def="5d3541f0e4b02086110c209e"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 12:56</span></div></li><li vid="5d35413ce4b0d11c890b7c8d" def="5d35413ce4b0d11c890b7c8c"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 12:53</span></div></li><li vid="5d354088e4b043dcf84081ee" def="5d354088e4b043dcf84081ed"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 12:50</span></div></li><li vid="5d353fd4e4b02086110c1f75" def="5d353fd4e4b02086110c1f74"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 12:47</span></div></li><li vid="5d353db8e4b02086110c1e0f" def="5d353db8e4b02086110c1e0e"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-22 12:38</span></div></li><li vid="5d32c833e4b043dcf83f4d12" def="5d32c833e4b043dcf83f4d11"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-20 15:52</span></div></li><li vid="5d32c780e4b092b33462962d" def="5d32c780e4b092b33462962c"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-20 15:49</span></div></li><li vid="5d327bfee4b092b334625fe9" def="5d327bfee4b092b334625fe8"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-20 10:27</span></div></li><li vid="5d327b4ae4b0e6d919957072" def="5d327b4ae4b0e6d919957071"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-20 10:24</span></div></li><li vid="5d32765ee4b0e6d919956d06" def="5d32765ee4b0e6d919956d05"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-20 10:03</span></div></li><li vid="5d30da52e4b0208611094dde" def="5d30da52e4b0208611094ddd"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:45</span></div></li><li vid="5d30d782e4b0d11c8908aca2" def="5d30d782e4b0d11c8908aca1"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:33</span></div></li><li vid="5d30d6cae4b0511f130ab169" def="5d30d6cae4b0511f130ab168"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:30</span></div></li><li vid="5d30d61ae4b0208611094d97" def="5d30d61ae4b0208611094d96"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:27</span></div></li><li vid="5d30d562e4b065dc42aa382c" def="5d30d562e4b065dc42aa382b"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:24</span></div></li><li vid="5d30d4afe4b02015bd827a26" def="5d30d4afe4b02015bd827a25"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:21</span></div></li><li vid="5d30d346e4b02015bd827a1a" def="5d30d346e4b02015bd827a19"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:15</span></div></li><li vid="5d30d292e4b0d11c8908ac57" def="5d30d292e4b0d11c8908ac56"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:12</span></div></li><li vid="5d30d1dce4b0e6d919940e0d" def="5d30d1dce4b0e6d919940e0c"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-19 04:09</span></div></li><li vid="5d3054dae4b043dcf83d7008" def="5d3054dae4b043dcf83d7007"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 19:15</span></div></li><li vid="5d302d7ae4b0b3e4dcca2f0d" def="5d302d7ae4b0b3e4dcca2f0c"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 16:27</span></div></li><li vid="5d302c12e4b092b334606a66" def="5d302c12e4b092b334606a65"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 16:21</span></div></li><li vid="5d302b5ee4b092b3346067ec" def="5d302b5ee4b092b3346067eb"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 16:18</span></div></li><li vid="5d302aabe4b02015bd81de7b" def="5d302aabe4b02015bd81de7a"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 16:15</span></div></li><li vid="5d3029f6e4b02015bd81dc03" def="5d3029f6e4b02015bd81dc02"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 16:12</span></div></li><li vid="5d302942e4b043dcf83d1122" def="5d302942e4b043dcf83d1121"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 16:09</span></div></li><li vid="5d300d22e4b058ef96ab99a4" def="5d300d22e4b058ef96ab99a3"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 14:09</span></div></li><li vid="5d300c6fe4b065dc42a93b47" def="5d300c6fe4b065dc42a93b46"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 14:06</span></div></li><li vid="5d300bbae4b02086110851b3" def="5d300bbae4b02086110851b2"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 14:03</span></div></li><li vid="5d30091fe4b092b3346001f7" def="5d30091fe4b092b3346001f6"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:52</span></div></li><li vid="5d30086be4b092b334600078" def="5d30086be4b092b334600077"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:49</span></div></li><li vid="5d3007b7e4b0b3e4dcc9bf2f" def="5d3007b7e4b0b3e4dcc9bf2e"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:46</span></div></li><li vid="5d300703e4b065dc42a92fe7" def="5d300703e4b065dc42a92fe6"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:43</span></div></li><li vid="5d30064fe4b065dc42a92e96" def="5d30064fe4b065dc42a92e95"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:40</span></div></li><li vid="5d30059be4b092b3345ffb0f" def="5d30059be4b092b3345ffb0e"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:37</span></div></li><li vid="5d3004e7e4b043dcf83ca8f4" def="5d3004e7e4b043dcf83ca8f3"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:34</span></div></li><li vid="5d300433e4b092b3345ff910" def="5d300433e4b092b3345ff90f"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:31</span></div></li><li vid="5d30037fe4b0208611084289" def="5d30037fe4b0208611084288"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:28</span></div></li><li vid="5d3002cbe4b0511f1309a3cf" def="5d3002cbe4b0511f1309a3cd"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:25</span></div></li><li vid="5d300217e4b0d11c89079e26" def="5d300217e4b0d11c89079e25"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:22</span></div></li><li vid="5d300163e4b092b3345ff599" def="5d300163e4b092b3345ff598"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:19</span></div></li><li vid="5d3000afe4b0d11c89079ca0" def="5d3000afe4b0d11c89079c9f"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:16</span></div></li><li vid="5d2ffffbe4b043dcf83ca2c4" def="5d2ffffbe4b043dcf83ca2c3"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 13:13</span></div></li><li vid="5d2fe8c7e4b02015bd814e96" def="5d2fe8c7e4b02015bd814e95"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 11:34</span></div></li><li vid="5d2fe813e4b0e6d91992ded6" def="5d2fe813e4b0e6d91992ded5"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 11:31</span></div></li><li vid="5d2fe75ee4b043dcf83c80ef" def="5d2fe75ee4b043dcf83c80ee"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 11:28</span></div></li><li vid="5d2fe6aae4b092b3345fd060" def="5d2fe6aae4b092b3345fd05f"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 11:25</span></div></li><li vid="5d2fe5f6e4b092b3345fce34" def="5d2fe5f6e4b092b3345fce33"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 11:22</span></div></li><li vid="5d2f6376e4b058ef96ab00a1" def="5d2f6376e4b058ef96ab00a0"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 02:05</span></div></li><li vid="5d2f62c2e4b0d11c89071903" def="5d2f62c2e4b0d11c89071902"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 02:02</span></div></li><li vid="5d2f58eae4b0511f13091e38" def="5d2f58eae4b0511f13091e37"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 01:20</span></div></li><li vid="5d2f5836e4b065dc42a8a1aa" def="5d2f5836e4b065dc42a8a1a9"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 01:17</span></div></li><li vid="5d2f5782e4b020861107bab0" def="5d2f5782e4b020861107baaf"><div class="history_remark">自动存储<span class="ico dlg_close dock_history_remove"></span></div><div class="version_name"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="margin-left: 5px;">07-18 01:14</span></div></li></ul></div>
+</div>
+</div>
+<div class="dock_view dock_view_comment" style="width: 300px; right: 45px;">
+<div class="dock_view_header">
+评论
+<div class="ico ico_dock_collapse"></div>
+</div>
+<div class="dock_content" style="padding: 0px;">
+<div id="comment_container" style="min-height: 120px;">
+</div>
+<div class="comment_bar">
+<div>
+<textarea id="txt_sub_comment" class="input_text" placeholder="发表评论" style="width: 268px; height: 36px"></textarea>
+</div>
+<div class="comment_control">
+<input type="checkbox" id="show_comment_ico">
+<label for="show_comment_ico">显示评论图标</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="designer_footer">
+<div class="footer_content">
+<div class="left_box">
+<div class="designer_button" onclick="UI.showShapesManage()">更多图形</div>
+</div>
+<div class="content_box">
+<div class="footer_left">
+<div id="collaborators">
+<img id="chat_user_5c1496d1e4b0e244fdf861bf" src="./人流数据库设计图 - ProcessOn_files/5c1496d1e4b0e244fdf861bf(1).png" title="        " title_pos="top" class="online">
+</div>
+<div class="toolbar_button" onclick="UI.showAddColla()"><div class="ico useradd" style="float: left;"></div>&nbsp;<b>邀请协作者</b></div>
+</div>
+<ul class="footer_right">
+<li class="footer_chrome" style="display: list-item;"><a href="https://chrome.google.com/webstore/detail/processon-diagram-online/pnggaliohjcaboolkcpjhfondbjlehkm/reviews" target="_blank"><span class="ico chrome"></span>给我们评个分？</a></li>
+<li><a href="http://weibo.com/u/2711044785" target="_blank"><span class="ico weibo"></span>关注我们</a></li>
+<li><a href="https://www.processon.com/support" target="_blank">帮助中心</a></li>
+<li class="footer_fb" onclick="UI.showFeedBack()">提交反馈</li>
+</ul>
+<script type="text/javascript">
+if(navigator.userAgent.toLowerCase().match(/chrome/) != null){
+$(function(){
+$(".footer_chrome").show();
+});
+}
+</script>
+</div>
+</div>
+</div>
+<div id="ui_container">
+<div id="color_picker" class="menu color_picker" style="display: none;">
+<div class="color_items"><div style="background-color:rgb(255,255,255);"></div><div style="background-color:rgb(229,229,229);"></div><div style="background-color:rgb(207,207,207);"></div><div style="background-color:rgb(184,184,184);"></div><div style="background-color:rgb(161,161,161);"></div><div style="background-color:rgb(138,138,138);"></div><div style="background-color:rgb(115,115,115);"></div><div style="background-color:rgb(92,92,92);"></div><div style="background-color:rgb(69,69,69);"></div><div style="background-color:rgb(50,50,50);"></div><div style="background-color:rgb(23,23,23);"></div><div style="background-color:rgb(0,0,0);"></div><div class="clear"></div></div>
+<div class="color_items"><div style="background-color:rgb(255,204,204);"></div><div style="background-color:rgb(255,230,204);"></div><div style="background-color:rgb(255,255,204);"></div><div style="background-color:rgb(230,255,204);"></div><div style="background-color:rgb(204,255,204);"></div><div style="background-color:rgb(204,255,230);"></div><div style="background-color:rgb(204,255,255);"></div><div style="background-color:rgb(204,229,255);"></div><div style="background-color:rgb(204,204,255);"></div><div style="background-color:rgb(229,204,255);"></div><div style="background-color:rgb(255,204,255);"></div><div style="background-color:rgb(255,204,230);"></div><div style="background-color:rgb(255,153,153);"></div><div style="background-color:rgb(255,204,153);"></div><div style="background-color:rgb(255,255,153);"></div><div style="background-color:rgb(204,255,153);"></div><div style="background-color:rgb(153,255,153);"></div><div style="background-color:rgb(153,255,204);"></div><div style="background-color:rgb(153,255,255);"></div><div style="background-color:rgb(153,204,255);"></div><div style="background-color:rgb(153,153,255);"></div><div style="background-color:rgb(204,153,255);"></div><div style="background-color:rgb(255,153,255);"></div><div style="background-color:rgb(255,153,204);"></div><div style="background-color:rgb(255,102,102);"></div><div style="background-color:rgb(255,179,102);"></div><div style="background-color:rgb(255,255,102);"></div><div style="background-color:rgb(179,255,102);"></div><div style="background-color:rgb(102,255,102);"></div><div style="background-color:rgb(102,255,179);"></div><div style="background-color:rgb(102,255,255);"></div><div style="background-color:rgb(102,178,255);"></div><div style="background-color:rgb(102,102,255);"></div><div style="background-color:rgb(178,102,255);"></div><div style="background-color:rgb(255,102,255);"></div><div style="background-color:rgb(255,102,179);"></div><div style="background-color:rgb(255,51,51);"></div><div style="background-color:rgb(255,153,51);"></div><div style="background-color:rgb(255,255,51);"></div><div style="background-color:rgb(153,255,51);"></div><div style="background-color:rgb(51,255,51);"></div><div style="background-color:rgb(51,255,153);"></div><div style="background-color:rgb(51,255,255);"></div><div style="background-color:rgb(51,153,255);"></div><div style="background-color:rgb(51,51,255);"></div><div style="background-color:rgb(153,51,255);"></div><div style="background-color:rgb(255,51,255);"></div><div style="background-color:rgb(255,51,153);"></div><div style="background-color:rgb(255,0,0);"></div><div style="background-color:rgb(255,128,0);"></div><div style="background-color:rgb(255,255,0);"></div><div style="background-color:rgb(128,255,0);"></div><div style="background-color:rgb(0,255,0);"></div><div style="background-color:rgb(0,255,128);"></div><div style="background-color:rgb(0,255,255);"></div><div style="background-color:rgb(0,127,255);"></div><div style="background-color:rgb(0,0,255);"></div><div style="background-color:rgb(127,0,255);"></div><div style="background-color:rgb(255,0,255);"></div><div style="background-color:rgb(255,0,128);"></div><div style="background-color:rgb(204,0,0);"></div><div style="background-color:rgb(204,102,0);"></div><div style="background-color:rgb(204,204,0);"></div><div style="background-color:rgb(102,204,0);"></div><div style="background-color:rgb(0,204,0);"></div><div style="background-color:rgb(0,204,102);"></div><div style="background-color:rgb(0,204,204);"></div><div style="background-color:rgb(0,102,204);"></div><div style="background-color:rgb(0,0,204);"></div><div style="background-color:rgb(102,0,204);"></div><div style="background-color:rgb(204,0,204);"></div><div style="background-color:rgb(204,0,102);"></div><div style="background-color:rgb(153,0,0);"></div><div style="background-color:rgb(153,76,0);"></div><div style="background-color:rgb(153,153,0);"></div><div style="background-color:rgb(77,153,0);"></div><div style="background-color:rgb(0,153,0);"></div><div style="background-color:rgb(0,153,77);"></div><div style="background-color:rgb(0,153,153);"></div><div style="background-color:rgb(0,76,153);"></div><div style="background-color:rgb(0,0,153);"></div><div style="background-color:rgb(76,0,153);"></div><div style="background-color:rgb(153,0,153);"></div><div style="background-color:rgb(153,0,77);"></div><div style="background-color:rgb(102,0,0);"></div><div style="background-color:rgb(102,51,0);"></div><div style="background-color:rgb(102,102,0);"></div><div style="background-color:rgb(51,102,0);"></div><div style="background-color:rgb(0,102,0);"></div><div style="background-color:rgb(0,102,51);"></div><div style="background-color:rgb(0,102,102);"></div><div style="background-color:rgb(0,51,102);"></div><div style="background-color:rgb(0,0,102);"></div><div style="background-color:rgb(51,0,102);"></div><div style="background-color:rgb(102,0,102);"></div><div style="background-color:rgb(102,0,51);"></div><div style="background-color:rgb(51,0,0);"></div><div style="background-color:rgb(51,26,0);"></div><div style="background-color:rgb(51,51,0);"></div><div style="background-color:rgb(26,51,0);"></div><div style="background-color:rgb(0,51,0);"></div><div style="background-color:rgb(0,51,26);"></div><div style="background-color:rgb(0,51,51);"></div><div style="background-color:rgb(0,25,51);"></div><div style="background-color:rgb(0,0,51);"></div><div style="background-color:rgb(25,0,51);"></div><div style="background-color:rgb(51,0,51);"></div><div style="background-color:rgb(51,0,26);"></div><div class="clear"></div></div>
+<div title="透明" class="ico transparent color_transparent"></div>
+<div class="color_hex">#<input type="text"></div>
+<div class="clear"></div>
+</div>
+<ul id="bar_list_file" class="menu list options_menu noico">
+<li ac="rename">重命名文件</li>
+<li class="devider"></li>
+<li ac="saveAs">克隆此文件</li>
+<li ac="export">下载为...</li>
+<li class="devider"></li>
+<li ac="close">关闭</li>
+</ul>
+<ul id="bar_list_edit" class="menu list options_menu">
+<li ac="undo" class=""><div class="ico undo"></div>撤销<div class="extend">Ctrl+Z</div></li>
+<li ac="redo" class="disabled"><div class="ico redo"></div>恢复<div class="extend">Ctrl+Y</div></li>
+<li class="devider"></li>
+<li ac="cut" class=""><div class="ico cut"></div>剪切<div class="extend">Ctrl+X</div></li>
+<li ac="copy" class=""><div class="ico copy"></div>复制<div class="extend">Ctrl+C</div></li>
+<li ac="paste" class="disabled"><div class="ico paste"></div>粘贴<div class="extend">Ctrl+V</div></li>
+<li ac="duplicate" class="">复用<div class="extend">Ctrl+D</div></li>
+<li ac="brush" class=""><div class="ico brush"></div>格式刷<div class="extend">Ctrl+Shift+B</div></li>
+<li ac="defaultStyle" class="">设置默认样式<div class="extend tip_text" click-btn="clearStyle">清除</div></li>
+<li class="devider"></li>
+<li ac="selectall">全选<div class="extend">Ctrl+A</div></li>
+<li ac="delete" class=""><div class="ico remove"></div>删除<div class="extend">Delete/Backspace</div></li>
+</ul>
+<ul id="bar_list_view" class="menu list options_menu">
+<li ac="zoom" zoom="in"><div class="ico zoomin"></div>放大<div class="extend">Alt+(+)</div></li>
+<li ac="zoom" zoom="out"><div class="ico zoomout"></div>缩小<div class="extend">Alt+(-)</div></li>
+<li class="devider"></li>
+<li ac="zoom" zoom="0.5" class="static">50%</li>
+<li ac="zoom" zoom="0.75" class="static">75%</li>
+<li ac="zoom" zoom="1" class="static">100%</li>
+<li ac="zoom" zoom="1.5" class="static">150%</li>
+<li ac="zoom" zoom="2" class="static">200%</li>
+<li class="devider"></li>
+<li ac="zoom" zoom="1">重置缩放</li>
+</ul>
+<ul id="bar_list_insert" class="menu list options_menu">
+<li ac="insert" in="text"><div class="ico text"></div>文本<div class="extend">T</div></li>
+<li ac="insert" in="image"><div class="ico ico_img"></div>图片<div class="extend">I</div></li>
+<li ac="insert" in="line"><div class="ico linkertype_normal"></div>连线<div class="extend">L</div></li>
+</ul>
+<ul id="bar_list_page" class="menu list options_menu">
+<li id="bar_page_color">
+<div class="ico fillcolor"></div>
+背景颜色<div class="extend ex_arrow">►</div>
+<div class="menu color_picker extend_menu" style="right: -179px;">
+<div class="color_items"><div style="background-color:rgb(255,255,255);"></div><div style="background-color:rgb(229,229,229);"></div><div style="background-color:rgb(207,207,207);"></div><div style="background-color:rgb(184,184,184);"></div><div style="background-color:rgb(161,161,161);"></div><div style="background-color:rgb(138,138,138);"></div><div style="background-color:rgb(115,115,115);"></div><div style="background-color:rgb(92,92,92);"></div><div style="background-color:rgb(69,69,69);"></div><div style="background-color:rgb(50,50,50);"></div><div style="background-color:rgb(23,23,23);"></div><div style="background-color:rgb(0,0,0);"></div><div class="clear"></div></div>
+<div class="color_items"><div style="background-color:rgb(255,204,204);"></div><div style="background-color:rgb(255,230,204);"></div><div style="background-color:rgb(255,255,204);"></div><div style="background-color:rgb(230,255,204);"></div><div style="background-color:rgb(204,255,204);"></div><div style="background-color:rgb(204,255,230);"></div><div style="background-color:rgb(204,255,255);"></div><div style="background-color:rgb(204,229,255);"></div><div style="background-color:rgb(204,204,255);"></div><div style="background-color:rgb(229,204,255);"></div><div style="background-color:rgb(255,204,255);"></div><div style="background-color:rgb(255,204,230);"></div><div style="background-color:rgb(255,153,153);"></div><div style="background-color:rgb(255,204,153);"></div><div style="background-color:rgb(255,255,153);"></div><div style="background-color:rgb(204,255,153);"></div><div style="background-color:rgb(153,255,153);"></div><div style="background-color:rgb(153,255,204);"></div><div style="background-color:rgb(153,255,255);"></div><div style="background-color:rgb(153,204,255);"></div><div style="background-color:rgb(153,153,255);"></div><div style="background-color:rgb(204,153,255);"></div><div style="background-color:rgb(255,153,255);"></div><div style="background-color:rgb(255,153,204);"></div><div style="background-color:rgb(255,102,102);"></div><div style="background-color:rgb(255,179,102);"></div><div style="background-color:rgb(255,255,102);"></div><div style="background-color:rgb(179,255,102);"></div><div style="background-color:rgb(102,255,102);"></div><div style="background-color:rgb(102,255,179);"></div><div style="background-color:rgb(102,255,255);"></div><div style="background-color:rgb(102,178,255);"></div><div style="background-color:rgb(102,102,255);"></div><div style="background-color:rgb(178,102,255);"></div><div style="background-color:rgb(255,102,255);"></div><div style="background-color:rgb(255,102,179);"></div><div style="background-color:rgb(255,51,51);"></div><div style="background-color:rgb(255,153,51);"></div><div style="background-color:rgb(255,255,51);"></div><div style="background-color:rgb(153,255,51);"></div><div style="background-color:rgb(51,255,51);"></div><div style="background-color:rgb(51,255,153);"></div><div style="background-color:rgb(51,255,255);"></div><div style="background-color:rgb(51,153,255);"></div><div style="background-color:rgb(51,51,255);"></div><div style="background-color:rgb(153,51,255);"></div><div style="background-color:rgb(255,51,255);"></div><div style="background-color:rgb(255,51,153);"></div><div style="background-color:rgb(255,0,0);"></div><div style="background-color:rgb(255,128,0);"></div><div style="background-color:rgb(255,255,0);"></div><div style="background-color:rgb(128,255,0);"></div><div style="background-color:rgb(0,255,0);"></div><div style="background-color:rgb(0,255,128);"></div><div style="background-color:rgb(0,255,255);"></div><div style="background-color:rgb(0,127,255);"></div><div style="background-color:rgb(0,0,255);"></div><div style="background-color:rgb(127,0,255);"></div><div style="background-color:rgb(255,0,255);"></div><div style="background-color:rgb(255,0,128);"></div><div style="background-color:rgb(204,0,0);"></div><div style="background-color:rgb(204,102,0);"></div><div style="background-color:rgb(204,204,0);"></div><div style="background-color:rgb(102,204,0);"></div><div style="background-color:rgb(0,204,0);"></div><div style="background-color:rgb(0,204,102);"></div><div style="background-color:rgb(0,204,204);"></div><div style="background-color:rgb(0,102,204);"></div><div style="background-color:rgb(0,0,204);"></div><div style="background-color:rgb(102,0,204);"></div><div style="background-color:rgb(204,0,204);"></div><div style="background-color:rgb(204,0,102);"></div><div style="background-color:rgb(153,0,0);"></div><div style="background-color:rgb(153,76,0);"></div><div style="background-color:rgb(153,153,0);"></div><div style="background-color:rgb(77,153,0);"></div><div style="background-color:rgb(0,153,0);"></div><div style="background-color:rgb(0,153,77);"></div><div style="background-color:rgb(0,153,153);"></div><div style="background-color:rgb(0,76,153);"></div><div style="background-color:rgb(0,0,153);"></div><div style="background-color:rgb(76,0,153);"></div><div style="background-color:rgb(153,0,153);"></div><div style="background-color:rgb(153,0,77);"></div><div style="background-color:rgb(102,0,0);"></div><div style="background-color:rgb(102,51,0);"></div><div style="background-color:rgb(102,102,0);"></div><div style="background-color:rgb(51,102,0);"></div><div style="background-color:rgb(0,102,0);"></div><div style="background-color:rgb(0,102,51);"></div><div style="background-color:rgb(0,102,102);"></div><div style="background-color:rgb(0,51,102);"></div><div style="background-color:rgb(0,0,102);"></div><div style="background-color:rgb(51,0,102);"></div><div style="background-color:rgb(102,0,102);"></div><div style="background-color:rgb(102,0,51);"></div><div style="background-color:rgb(51,0,0);"></div><div style="background-color:rgb(51,26,0);"></div><div style="background-color:rgb(51,51,0);"></div><div style="background-color:rgb(26,51,0);"></div><div style="background-color:rgb(0,51,0);"></div><div style="background-color:rgb(0,51,26);"></div><div style="background-color:rgb(0,51,51);"></div><div style="background-color:rgb(0,25,51);"></div><div style="background-color:rgb(0,0,51);"></div><div style="background-color:rgb(25,0,51);"></div><div style="background-color:rgb(51,0,51);"></div><div style="background-color:rgb(51,0,26);"></div><div class="clear"></div></div>
+<div title="透明" class="ico transparent color_transparent"></div>
+<div class="color_hex">#<input type="text"></div>
+<div class="clear"></div>
+</div></li>
+<li>
+页面大小<div class="extend ex_arrow">►</div>
+<ul id="bar_list_pagesize" class="menu list extend_menu menu_ico">
+<li ac="set_page_size" w="1500" h="2100">A3(1500x2100)</li>
+<li ac="set_page_size" w="1050" h="1500">A4(1050x1500)</li>
+<li ac="set_page_size" w="750" h="1050">A5(750x1050)</li>
+<li class="devider"></li>
+<li class="menu_text" id="page_size_custom">自定义</li>
+<li class="menu_text" style="line-height: 30px;"><span class="lbl">W:</span><div id="page_size_w" class="spinner active" style="width: 75px;" min="200" max="20000" old="200px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div></li>
+<li class="menu_text" style="line-height: 30px;"><span class="lbl">H:</span><div id="page_size_h" class="spinner active" style="width: 75px;" min="200" max="20000" old="200px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div></li>
+</ul>
+</li>
+<li>
+页面方向<div class="extend ex_arrow">►</div>
+<ul id="bar_list_orientation" class="menu list extend_menu menu_ico">
+<li ac="set_page_orientation" ori="portrait">竖向</li>
+<li ac="set_page_orientation" ori="landscape">横向</li>
+</ul>
+</li>
+<li>
+<div class="ico padding"></div>
+内边距<div class="extend ex_arrow">►</div>
+<ul id="bar_list_padding" class="menu list extend_menu menu_ico">
+<li ac="set_page_padding" p="0">0px</li>
+<li ac="set_page_padding" p="20">20px</li>
+<li ac="set_page_padding" p="40">40px</li>
+<li ac="set_page_padding" p="60">60px</li>
+<li ac="set_page_padding" p="80">80px</li>
+<li ac="set_page_padding" p="100">100px</li>
+</ul>
+</li>
+<li class="devider"></li>
+<li ac="set_page_showgrid"><div class="ico ico_selected"></div>显示网格</li>
+<li>
+<div class="ico gridsize"></div>
+网格大小<div class="extend ex_arrow">►</div>
+<ul id="bar_list_gridsize" class="menu list extend_menu menu_ico">
+<li ac="set_page_gridsize" s="10">小</li>
+<li ac="set_page_gridsize" s="15">正常</li>
+<li ac="set_page_gridsize" s="20">大</li>
+<li ac="set_page_gridsize" s="30">很大</li>
+</ul>
+</li>
+</ul>
+<ul id="bar_list_arrange" class="menu list options_menu">
+<li ac="front" class=""><div class="ico ico_front"></div>置于顶层<div class="extend">Ctrl+]</div></li>
+<li ac="back" class=""><div class="ico ico_back"></div>置于底层<div class="extend">Ctrl+[</div></li>
+<li ac="forward" class="">上移一层<div class="extend">Ctrl+Shift+]</div></li>
+<li ac="backward" class="">下移一层<div class="extend">Ctrl+Shift+[</div></li>
+<li class="devider"></li>
+<li id="bar_arrange_align" class="disabled">
+图形对齐<div class="extend ex_arrow">►</div>
+<ul class="menu list extend_menu">
+<li ac="align_shape" al="left">左对齐</li>
+<li ac="align_shape" al="center">居中对齐</li>
+<li ac="align_shape" al="right">右对齐</li>
+<li class="devider"></li>
+<li ac="align_shape" al="top">顶端对齐</li>
+<li ac="align_shape" al="middle">垂直居中对齐</li>
+<li ac="align_shape" al="bottom">底端对齐</li>
+</ul>
+</li>
+<li id="bar_arrange_dist" class="disabled">
+图形分布<div class="extend ex_arrow">►</div>
+<ul class="menu list extend_menu">
+<li ac="distribute_shape" dis="h">水平平均分布</li>
+<li ac="distribute_shape" dis="v">垂直平均分布</li>
+</ul>
+</li>
+<li id="bar_arrange_match" class="disabled">
+匹配大小<div class="extend ex_arrow">►</div>
+<ul class="menu list extend_menu">
+<li ac="match_size" w="auto" h="">宽度</li>
+<li ac="match_size" w="" h="auto">高度</li>
+<li ac="match_size" w="auto" h="auto">宽度和高度</li>
+<li ac="match_size" custom="true">自定义</li>
+</ul>
+</li>
+<li class="devider"></li>
+<li ac="lock" class=""><div class="ico ico_lock"></div>锁定<div class="extend">Ctrl+L</div></li>
+<li ac="unlock" class="disabled"><div class="ico ico_unlock"></div>解锁<div class="extend">Ctrl+Shift+L</div></li>
+<li class="devider"></li>
+<li ac="group" class="disabled">组合<div class="extend">Ctrl+G</div></li>
+<li ac="ungroup" class="disabled">取消组合<div class="extend">Ctrl+Shift+G</div></li>
+</ul>
+<ul id="bar_list_help" class="menu list options_menu noico">
+<li ac="hotkey">快捷键列表</li>
+<li ac="getting_started">开始向导</li>
+<li ac="feedback">发送反馈</li>
+</ul>
+<ul id="font_list" class="menu list menu_ico" style="display: none;">
+<li style="font-family: Arial">Arial</li>
+<li style="font-family: Verdana">Verdana</li>
+<li style="font-family: Georgia">Georgia</li>
+<li style="font-family: Times New Roman">Times New Roman</li>
+<li style="font-family: Courier New">Courier New</li>
+<li style="font-family: Impact">Impact</li>
+<li style="font-family: Comic Sans MS">Comic Sans MS</li>
+<li style="font-family: Tahoma">Tahoma</li>
+<li style="font-family: Garamond">Garamond</li>
+<li style="font-family: Lucida Console">Lucida Console</li>
+<li class="devider"></li>
+<li style="font-family: 宋体">宋体</li>
+<li style="font-family: 微软雅黑">微软雅黑</li>
+<li style="font-family: 黑体">黑体</li>
+<li style="font-family: 楷体">楷体</li>
+</ul>
+<ul id="font_size_list" class="menu list" style="display: none;">
+<li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li><li>14</li><li>18</li><li>24</li><li>30</li><li>36</li><li>48</li><li>60</li><li>72</li>
+</ul>
+<ul id="font_align_list" class="menu list" style="display: none;">
+<li cate="textAlign" al="left"><div class="ico alignleft"></div></li>
+<li cate="textAlign" al="center"><div class="ico aligncenter"></div></li>
+<li cate="textAlign" al="right"><div class="ico alignright"></div></li>
+<li cate="vAlign" al="top"><div class="ico aligntop"></div></li>
+<li cate="vAlign" al="middle"><div class="ico alignmiddle"></div></li>
+<li cate="vAlign" al="bottom"><div class="ico alignbottom"></div></li>
+</ul>
+<ul id="line_width_list" class="menu list menu_ico" style="display: none;">
+<li>0px</li>
+<li>1px</li>
+<li>2px</li>
+<li>3px</li>
+<li>4px</li>
+<li>5px</li>
+<li>6px</li>
+<li>8px</li>
+<li>10px</li>
+</ul>
+<ul id="line_style_list" class="menu list menu_ico" style="display: none;">
+<li line="solid"><div class="ico linestyle linesolid"></div></li>
+<li line="dashed"><div class="ico linestyle linedashed"></div></li>
+<li line="dot"><div class="ico linestyle linedot"></div></li>
+<li line="dashdot"><div class="ico linestyle linedashdot"></div></li>
+</ul>
+<ul id="line_type_list" class="menu list" style="display: none;">
+<li tp="broken"><div class="ico linkertype_broken"></div></li>
+<li tp="curve"><div class="ico linkertype_curve"></div></li>
+<li tp="normal"><div class="ico linkertype_normal"></div></li>
+</ul>
+<ul id="beginarrow_list" class="menu list menu_ico" style="display: none;">
+<li arrow="none"><div class="ico ico_arrow larrow_none"></div></li>
+<li arrow="solidArrow"><div class="ico ico_arrow larrow_solidarrow"></div></li>
+<li arrow="dashedArrow"><div class="ico ico_arrow larrow_dashedarrow"></div></li>
+<li arrow="normal"><div class="ico ico_arrow larrow_normal"></div></li>
+<li arrow="solidDiamond"><div class="ico ico_arrow larrow_soliddiamond"></div></li>
+<li arrow="dashedDiamond"><div class="ico ico_arrow larrow_dasheddiamond"></div></li>
+<li arrow="solidCircle"><div class="ico ico_arrow larrow_solidcircle"></div></li>
+<li arrow="dashedCircle"><div class="ico ico_arrow larrow_dashedcircle"></div></li>
+<li arrow="cross"><div class="ico ico_arrow larrow_cross"></div></li>
+<li arrow="asynch1"><div class="ico ico_arrow larrow_asynch1"></div></li>
+<li arrow="asynch2"><div class="ico ico_arrow larrow_asynch2"></div></li>
+</ul>
+<ul id="endarrow_list" class="menu list menu_ico" style="display: none;">
+<li arrow="none"><div class="ico ico_arrow rarrow_none"></div></li>
+<li arrow="solidArrow"><div class="ico ico_arrow rarrow_solidarrow"></div></li>
+<li arrow="dashedArrow"><div class="ico ico_arrow rarrow_dashedarrow"></div></li>
+<li arrow="normal"><div class="ico ico_arrow rarrow_normal"></div></li>
+<li arrow="solidDiamond"><div class="ico ico_arrow rarrow_soliddiamond"></div></li>
+<li arrow="dashedDiamond"><div class="ico ico_arrow rarrow_dasheddiamond"></div></li>
+<li arrow="solidCircle"><div class="ico ico_arrow rarrow_solidcircle"></div></li>
+<li arrow="dashedCircle"><div class="ico ico_arrow rarrow_dashedcircle"></div></li>
+<li arrow="cross"><div class="ico ico_arrow rarrow_cross"></div></li>
+<li arrow="asynch1"><div class="ico ico_arrow rarrow_asynch1"></div></li>
+<li arrow="asynch2"><div class="ico ico_arrow rarrow_asynch2"></div></li>
+</ul>
+<div id="hotkey_list" class="dialog">
+<div class="dialog_header">快捷键列表</div>
+<div class="dialog_content">
+<div class="hotkey_content">
+<span class="hotkey_line hotkey_group">通用 </span>
+<span class="hotkey_line">
+<span class="hotkey">Space</span><span class="hotkey_desc">按住Space，通过鼠标可以对页面进行拖动 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl</span><span class="hotkey_desc">按住Ctrl，点击一个图形，将其添加到选择图形中，或者从中移除 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Alt + (+) , Alt + (-)</span><span class="hotkey_desc">放大，缩小 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + A</span><span class="hotkey_desc">全部选中 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Esc</span><span class="hotkey_desc">取消选中，并取消当先操作 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">T</span><span class="hotkey_desc">插入文本 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">I</span><span class="hotkey_desc">插入图片 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">L</span><span class="hotkey_desc">插入连线 </span>
+</span>
+<span class="hotkey_line null_line">&nbsp;</span>
+<span class="hotkey_line hotkey_group">图形被选中时 </span>
+<span class="hotkey_line">
+<span class="hotkey">箭头 (←↑↓→) </span><span class="hotkey_desc">将选中图形向左、向上、向下、向右移动 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Shift + 箭头 (←↑↓→) </span><span class="hotkey_desc">每次微移一个像素 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">调整图形大小时按住Ctrl </span><span class="hotkey_desc">调整图形大小，并且约束比例 </span>
+</span>
+<span class="hotkey_line">&nbsp;</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Z</span><span class="hotkey_desc">撤销 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Y</span><span class="hotkey_desc">恢复 </span>
+</span>
+<span class="hotkey_line">&nbsp;</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + X</span><span class="hotkey_desc">剪切 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + C</span><span class="hotkey_desc">复制 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + V</span><span class="hotkey_desc">粘贴 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + D</span><span class="hotkey_desc">复用 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Shift + B</span><span class="hotkey_desc">格式刷 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Delete, Backspace</span><span class="hotkey_desc">删除 </span>
+</span>
+<span class="hotkey_line">&nbsp;</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + ]</span><span class="hotkey_desc">将选中的图形置于顶层 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + [</span><span class="hotkey_desc">将选中的图形置于底层 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Shift + ]</span><span class="hotkey_desc">将选中的图形上移一层 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Shift + [</span><span class="hotkey_desc">将选中的图形下移一层 </span>
+</span>
+<span class="hotkey_line">&nbsp;</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + L</span><span class="hotkey_desc">锁定选中的图形 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Shift + L</span><span class="hotkey_desc">将选中的图形解锁 </span>
+</span>
+<span class="hotkey_line">&nbsp;</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + G</span><span class="hotkey_desc">组合选中的图形 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Shift + G</span><span class="hotkey_desc">将选中的图形取消组合 </span>
+</span>
+<span class="hotkey_line null_line">&nbsp;</span>
+<span class="hotkey_line hotkey_group">编辑文本 </span>
+<span class="hotkey_line">
+<span class="hotkey">空格 </span><span class="hotkey_desc">编辑文本 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + B</span><span class="hotkey_desc">粗体 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + I</span><span class="hotkey_desc">斜体 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + U</span><span class="hotkey_desc">下划线 </span>
+</span>
+<span class="hotkey_line">
+<span class="hotkey">Ctrl + Enter</span><span class="hotkey_desc">保存文本编辑 </span>
+</span>
+</div>
+</div>
+<div class="designer_button normal hotkey_ok" onclick="$(&#39;#hotkey_list&#39;).dlg(&#39;close&#39;)">确定 </div>
+</div>
+<div id="send_feedback" class="dialog">
+<div class="dialog_header">发送反馈</div>
+<div class="dialog_content" style="padding: 20px 40px">
+<p style="margin-top: 0px;">
+您可以把使用中遇到的问题、功能的建议、评论等发送给我们。<br>我们迫切希望得到您有价值的反馈，有您的反馈，我们会做的更好！<br><br>请写下您的邮箱和反馈描述：
+</p>
+<span class="feedback_lebal" style="height: 33px;line-height: 33px;">
+<span>邮箱：</span>
+<span class="feedback_error_email_format">邮箱不正确，请填写一个您常用的邮箱</span>
+</span>
+<input id="feedback_email" type="text" value="2214057556@qq.com" class="txt" style="width:490px;height:24px;">
+<span class="feedback_lebal" style="height: 33px;line-height: 33px;">
+<span>姓名：</span>
+</span>
+<input id="feedback_name" type="text" value="        " class="txt" style="width:490px;height:24px;">
+<span class="feedback_lebal" style="height: 33px;line-height: 33px;">
+<span>反馈：</span>
+<span class="feedback_error_msg">请填写您的反馈信息</span>
+</span>
+<textarea id="feedback_message" class="txt" style="width:490px;height:93px;"></textarea>
+</div>
+<div class="dialog_buttons" style="padding: 0px 40px 20px;position:relative;">
+<span class="send_btn designer_button" onclick="UI.sendFeedBack(this)">发送</span>
+<div style="text-align:left;">您可以直接加我们的qq群进行反馈 (方便、快捷)：<a style="position:absolute;" target="_blank" href="https://shang.qq.com/wpa/qunwpa?idkey=8d849a69e70f475c5a648db74016a1f01c3077d6766ebd0cdbc8d3071ff863f3"><img border="0" src="./人流数据库设计图 - ProcessOn_files/group.png" alt="ProcessOn 6群" title="ProcessOn"></a></div>
+</div>
+</div>
+<div id="link_dialog" class="dialog" style="min-width: 500px;">
+<div class="dialog_header">插入链接</div>
+<div class="dialog_content" style="padding: 30px 20px; text-align: center;">
+<b>链接到：</b><input placeholder="processon.com" id="linkto_addr" type="text" class="input_text" style="width: 350px;">
+</div>
+<div class="dialog_buttons">
+<div class="designer_button" onclick="UI.setLink()">确定</div>&nbsp;
+<div class="designer_button normal" onclick="$(&#39;#link_dialog&#39;).dlg(&#39;close&#39;);">取消</div>
+</div>
+</div>
+<div id="saveas_dialog" class="dialog" style="min-width: 450px;">
+<div class="dialog_header">克隆此文件</div>
+<div class="dialog_content" style="padding: 30px 20px; text-align: center;">
+<form id="saveas_form" action="https://www.processon.com/diagraming/saveas" method="post">
+<input id="hid_saveas_id" type="hidden" name="id">
+<b>标题：</b><input name="title" id="saveas_title" type="text" class="input_text" style="width: 300px;" onkeydown="if(event.keyCode == 13) return false;">
+</form>
+</div>
+<div class="dialog_buttons">
+<div class="designer_button" onclick="UI.doSaveAs()" id="btn_dosaveas">确定</div>&nbsp;
+<div class="designer_button normal" onclick="$(&#39;#saveas_dialog&#39;).dlg(&#39;close&#39;);">取消</div>
+</div>
+</div>
+<div id="export_dialog" class="dialog" style="min-width: 450px;">
+<div class="dialog_header">下载格式</div>
+<div class="dialog_content">
+<form id="export_form" action="https://assets.processon.com/diagram_export/flow" method="post">
+<ul class="export-list">
+<li class="first">
+<input id="export_png" type="radio" name="type" value="image" checked="checked" style="float: left;margin-right: 5px;">
+<label for="export_png" class="export-menu" style="float:left;line-height: 18px;">
+图片文件<span class="suffix"> (*.png)</span>
+<span class="export_des">将文件导出为图片</span>
+</label>
+<div style="clear: both;"></div>
+</li>
+<li class="first">
+<input id="export_png_hd" type="radio" name="type" value="png" style="float: left;margin-right: 5px;">
+<label for="export_png_hd" class="export-menu" style="float:left;line-height: 18px;">
+高清图片文件<span class="suffix"> (*.png)</span>
+<span class="export_des">将文件导出为图片</span> <label style="color:#f60">（会员功能限免）</label>
+</label>
+<div style="clear: both;"></div>
+</li>
+<li class="first">
+<input id="export_jpg" type="radio" name="type" value="jpg" style="float: left;margin-right: 5px;">
+<label for="export_jpg" class="export-menu" style="float:left;line-height: 18px;">
+JPG文件<span class="suffix"> (*.jpg)</span>
+<span class="export_des">导出为JPG图片格式 (默认白色背景)</span>
+</label>
+<div style="clear: both;"></div>
+</li>
+<li class="first">
+<input id="export_pdf" type="radio" name="type" value="pdf" style="float: left;margin-right: 5px;">
+<label for="export_pdf" class="export-menu" style="float:left;line-height: 18px;">
+PDF文件<span class="suffix"> (*.pdf)</span>
+<span class="export_des">由图片保存成的PDF文件</span>
+</label>
+<div style="clear: both;"></div>
+</li>
+<li class="first">
+<input id="export_pdfHD" type="radio" name="type" value="pdfHD" style="float: left;margin-right: 5px;">
+<label for="export_pdfHD" class="export-menu" style="float:left;line-height: 18px;">
+PDF文件<span class="suffix"> (*.pdf)</span>
+<span class="export_des">导出高清PDF文件（仅支持部分字体样式）<span style="color:#f60;"></span></span>
+</label>
+<div style="clear: both;"></div>
+</li>
+<li class="first">
+<input id="export_pos" type="radio" name="type" value="pos" style="float: left;margin-right: 5px;">
+<label for="export_pos" class="export-menu" style="float:left;line-height: 18px;">
+POS文件<span class="suffix"> (*.pos)</span>
+<span class="export_des">包含图片与图形结构定义（可导入）</span>
+</label>
+<div style="clear: both;"></div>
+</li>
+<li class="first">
+<input id="export_svg" type="radio" name="type" value="svg" style="float: left;margin-right: 5px;">
+<label for="export_svg" class="export-menu" style="float:left;line-height: 18px;">
+SVG文件<span class="suffix"> (*.svg)</span>
+<span class="export_des">导出为SVG矢量图形<span style="color:#f60;"></span></span>
+</label>
+<div style="clear: both;"></div>
+</li>
+</ul>
+<input id="export_definition" type="hidden" name="definition">
+<input id="export_title" type="hidden" name="title">
+<input id="export_width" type="hidden" name="width">
+<input id="export_height" type="hidden" name="height">
+<input type="hidden" name="chartId" value="5d2f56cbe4b0511f13091dcc">
+<input type="hidden" name="ignore" value="definition">
+</form>
+</div>
+<div class="dialog_buttons">
+<div class="designer_button" id="export_ok" onclick="UI.doExport()">确定</div>&nbsp;
+<div class="designer_button normal" onclick="$(&#39;#export_dialog&#39;).dlg(&#39;close&#39;);">取消</div>
+</div>
+</div>
+<div id="svg_dialog" style="width:100%;height:100%;position:fixed;top:0;left:0;visibility:hidden;"></div>
+<div class="menu mark_content mark1_content">
+<div class="dialog_header">开始</div>
+<div class="ico dlg_close" onclick="UI.closeGettingStart()"></div>
+<div class="_content">把您想使用的图形拖到右侧画布上，创建图形就是如此简单。</div>
+<div class="arr-icon left"><div class="arr-border"></div><div class="inner-arr"></div></div>
+<div class="mark_next"><span class="designer_button normal" onclick="UI.showStartStep(2)">下一步</span></div>
+</div>
+<div class="menu mark_content mark2_content">
+<div class="dialog_header">菜单栏</div>
+<div class="ico dlg_close" onclick="UI.closeGettingStart()"></div>
+<div class="_content">通过这些菜单，您可以调整和设置图形的属性、样式，也可以管理您的文件。</div>
+<div class="arr-icon top"><div class="arr-border"></div><div class="inner-arr"></div></div>
+<div class="mark_next"><span class="designer_button normal" onclick="UI.showStartStep(3)">下一步</span></div>
+</div>
+<div class="menu mark_content mark3_content">
+<div class="dialog_header">属性工具栏</div>
+<div class="ico dlg_close" onclick="UI.closeGettingStart()"></div>
+<div class="_content">对选中的文本、图形、连线进行个性化设置，让他们看起来更漂亮。</div>
+<div class="arr-icon top"><div class="arr-border"></div><div class="inner-arr"></div></div>
+<div class="mark_next"><span class="designer_button normal" onclick="UI.showStartStep(4)">下一步</span></div>
+</div>
+<div class="menu mark_content mark4_content">
+<div class="dialog_header">属性面板</div>
+<div class="ico dlg_close" onclick="UI.closeGettingStart()"></div>
+<div class="_content">这些面板让您的绘制过程更方便、简单，使用之后，您一定会喜欢。</div>
+<div class="arr-icon right"><div class="arr-border"></div><div class="inner-arr"></div></div>
+<div class="mark_next"><span class="designer_button normal" onclick="UI.closeGettingStart()">关闭</span></div>
+</div>
+<div class="menu mark_content markcreated_content">
+<div class="dialog_header">编辑图形</div>
+<div class="ico dlg_close" onclick="UI.closeGettingStart()"></div>
+<div class="_content">
+<p>在图形边缘的任何地方点击并拖动，您可以创建出一条漂亮的连线。（小圆点是推荐的连接点）</p><p>通过小的矩形控制点，您可以改变图形大小。（按住CTRL键可约束比例）</p><p>通过顶部的圆形控制点，对图形进行旋转。</p><p>双击可以编辑文本。（CTRL+ENTER保存文本）</p>
+</div>
+<div class="arr-icon left"><div class="arr-border"></div><div class="inner-arr"></div></div>
+<div class="mark_next"><span class="designer_button normal" onclick="UI.closeGettingStart()">关闭</span></div>
+</div>
+<ul id="dock_fill_list" class="menu list menu_ico" style="display: none; width: 198px;">
+<li ty="none">无</li>
+<li ty="solid">颜色</li>
+<li ty="gradient">渐变</li>
+<li ty="image">图片</li>
+</ul>
+<ul id="gradient_type_list" class="menu list menu_ico" style="display: none; z-index: 1;">
+<li ty="linear" style="width: 60px">线性渐变</li>
+<li ty="radial" style="width: 60px">径向渐变</li>
+</ul>
+<ul id="img_display_list" class="menu list" style="display: none;">
+<li ty="fill">填充</li>
+<li ty="fit">自适应</li>
+<li ty="stretch">按图形伸展</li>
+<li ty="original">原始尺寸</li>
+<li ty="tile">平铺</li>
+</ul>
+<ul id="page_size_list" class="menu list dock_page_menu menu_ico" style="display: none;">
+<li ac="set_page_size" w="1500" h="2100">A3(1500x2100)</li>
+<li ac="set_page_size" w="1050" h="1500">A4(1050x1500)</li>
+<li ac="set_page_size" w="750" h="1050">A5(750x1050)</li>
+<li class="devider"></li>
+<li class="menu_text" id="dock_size_custom">自定义</li>
+<li class="menu_text" style="line-height: 30px;"><span class="lbl">W:</span><div id="dock_size_w" class="spinner active" style="width: 75px;" min="200" max="20000" old="200px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div></li>
+<li class="menu_text" style="line-height: 30px;"><span class="lbl">H:</span><div id="dock_size_h" class="spinner active" style="width: 75px;" min="200" max="20000" old="200px"><div class="spinner_input"><input></div><div class="buttons"><div class="spinner_up"></div><div class="spinner_down"></div></div></div></li>
+</ul>
+<ul id="page_padding_list" class="menu list dock_page_menu menu_ico" style="display: none;">
+<li p="0">0px</li>
+<li p="20">20px</li>
+<li p="40">40px</li>
+<li p="60">60px</li>
+<li p="80">80px</li>
+<li p="100">100px</li>
+</ul>
+<ul id="page_gridsize_list" class="menu list dock_page_menu menu_ico" style="display: none;">
+<li s="10">小</li>
+<li s="15">正常</li>
+<li s="20">大</li>
+<li s="30">很大</li>
+</ul>
+<ul id="attr_display_list" class="menu list dock_page_menu menu_ico" style="display: none;">
+<li ty="none">无</li>
+<li ty="text">文本</li>
+<li ty="icon">图标</li>
+</ul>
+<ul id="attr_icon_list" class="menu list dock_page_menu" style="display: none;">
+<li></li>
+</ul>
+<ul id="attr_location_h_list" class="menu list attr_location_menu dock_page_menu" style="display: none;">
+<li loc="mostleft"><div><span style="left: -5px"></span></div>最左边</li>
+<li loc="leftedge"><div><span style="left: -3px"></span></div>左边缘</li>
+<li loc="left"><div><span style="left: 0px"></span></div>左边</li>
+<li loc="center"><div><span style="left: 3px"></span></div>中间</li>
+<li loc="right"><div><span style="left: 6px"></span></div>右边</li>
+<li loc="rightedge"><div><span style="left: 9px"></span></div>右边缘</li>
+<li loc="mostright"><div><span style="left: 11px"></span></div>最右边</li>
+</ul>
+<ul id="attr_location_v_list" class="menu list attr_location_menu dock_page_menu" style="display: none;">
+<li loc="mosttop"><div><span style="top: -5px"></span></div>最上边</li>
+<li loc="topedge"><div><span style="top: -3px"></span></div>上边缘</li>
+<li loc="top"><div><span style="top: 0px"></span></div>顶部</li>
+<li loc="middle"><div><span style="top: 3px"></span></div>中间</li>
+<li loc="bottom"><div><span style="top: 6px"></span></div>底部</li>
+<li loc="bottomedge"><div><span style="top: 9px"></span></div>下边缘</li>
+<li loc="mostbottom"><div><span style="top: 11px"></span></div>最下边</li>
+</ul>
+<div id="colla_dialog" class="dialog">
+<div class="dialog_header">分享与协作 </div>
+<div class="dialog_content" style="padding: 20px 20px 0px 20px;width: 494px;">
+<div style="padding: 4px 0px;"><strong>权限列表： </strong></div>
+<div class="role_list"></div>
+<div class="new_invitation_container" style="margin-bottom: 10px;">
+<div style="padding: 4px 0px;">
+<strong>新邀请： </strong>
+<span id="add_prompt1" style="margin-left: 100px;"><span class="badge">1</span>输入受邀请人姓名或者邮箱。</span>
+<span id="add_prompt2" style="margin-left: 100px;"><span class="badge">2</span>从以下用户列表中选择一个用户发起邀请。</span>
+<span id="add_prompt3" class="_fail alert" style="margin-left: 150px;">已经被邀请！</span>
+<span id="add_prompt4" class="alert success" style="margin-left: 150px;">发送成功。</span>
+</div>
+<div class="add_new_invit" style="margin-bottom: 15px;">
+<input id="input_add_colla" type="text" class="txt" placeholder="输入受邀请人姓名或者邮箱。">
+<input id="add_userid" type="hidden" value="">
+<input id="add_type" type="hidden" value="">
+<div class="select_add_role">
+<select id="invit_role">
+<option value="editor" selected="selected">编辑者</option>
+<option value="viewer">浏览者</option>
+</select>
+<div style="clear:both;"></div>
+</div>
+<div class="suggest_bot_tip">
+<span class="left">
+<strong>常用联系人</strong>
+：
+</span>
+<span class="right">
+<strong>我的小组成员</strong>
+：
+</span>
+</div>
+<div id="colla_suggest_box"></div>
+</div>
+<div class="add_new_button" style="text-align:right;">
+<span class="designer_button normal" onclick="UI.doAddCollaboration()">发送邀请 </span>
+</div>
+</div>
+</div>
+</div>
+<div id="colla_add" style="width:500px;z-index:3;" class="dialog" title="添加协作成员">
+<div style="margin-top: 20px">
+<div class="colla-tabs">
+<a tit="colla_users" class="colla-tab active">最近联系人</a>
+<a tit="colla_teams" class="colla-tab">小组成员</a>
+<a tit="colla_following" class="colla-tab">我的关注</a>
+<a tit="colla_follower" class="colla-tab">我的粉丝</a>
+</div>
+<div class="colla-context-con">
+<div id="colla_users" class="colla-tab-content"></div>
+<div id="colla_teams" class="colla-tab-content"></div>
+<div id="colla_following" data-type="following" class="colla-tab-content"></div>
+<div id="colla_follower" data-type="follower" class="colla-tab-content"></div>
+</div>
+</div>
+<div style="margin-top: 20px">
+<div style="margin-bottom: 20px">
+<div style="color:#666;">新邀请</div>
+</div>
+<div class="multi-input" id="multi-input-colla"></div>
+<div style="margin-bottom: 10px;margin-top:12px;">
+<select id="role" class="txt" style="height: 25px;padding: 0px;margin-top: -3px;width:80px;">
+<option value="editor" selected="selected">编辑者</option>
+<option value="viewer">浏览者</option>
+</select>
+<div style="float:right;cursor: pointer;">
+<span id="send-colla-invite" class="pro-btn default okbtn" style="margin-top:-2px;">发送邀请</span>
+<span id="send-colla-invite-loading" class="pro-btn default okbtn" style="margin-top:-5px;display: none;cursor: wait;">发送中...</span>
+</div>
+</div>
+<div id="send-colla-invite-success" class="alert success" style="text-align: center;display: none">邀请已发送，请耐心等待受邀人接受您的邀请。</div>
+<div id="send-colla-invite-danger" class="alert danger" style="text-align: center;display: none">邀请发送失败。</div>
+</div>
+<div style="margin-top: 20px">
+<div style="color:#666;">权限列表</div>
+<div id="role_list">
+</div>
+</div>
+</div>
+<div id="pubpo_win" title="发布和公开到ProcessOn" class="dialog-win dialog" style="width:566px;z-index:3;">
+<div class="pubpo-content"></div>
+</div>
+<div id="share_win" title="分享" class="dialog-win dialog" style="width:700px;z-index:3;">
+<div class="dialog-win-left">
+<ul>
+<li tit="viewlink" class="active"><a>生成浏览链接</a></li>
+<li tit="emb"><a>嵌入到其他站点</a></li>
+<li tit="image"><a>生成在线图片</a></li>
+</ul>
+</div>
+<div class="dialog-win-right"></div>
+</div>
+<div id="confirm_dlg">
+<div class="confirm_header">提示： </div>
+<div class="confirm_content">
+<p>请从列表中选择一个用户</p>
+<div class="designer_button" onclick="$(&#39;#confirm_dlg&#39;).hide();">确定 </div>
+<div style="clear: both;"></div>
+</div>
+</div>
+<div id="image_dialog" class="dialog">
+<div class="dialog_header">选择图片</div>
+<div class="dialog_content" style="padding: 0px;">
+<ul class="image_sources">
+<li ty="upload" class="active">我的图片</li>
+<li ty="url">网络图片</li>
+<li ty="search">搜索图片</li>
+</ul>
+<div class="image_content">
+<div id="image_select_upload" class="image_list">
+<form id="frm_upload_image" action="https://www.processon.com/user_image/upload" method="post" enctype="multipart/form-data">
+<div id="btn_img_upload" class="toolbar_button active">
+<div class="ico"></div>上传图片
+<input id="input_upload_image" name="image" type="file">
+</div>
+<span id="upload_img_res"></span>
+<div style="clear: both;"></div>
+</form>
+<div id="user_image_items" class="image_items"></div>
+</div>
+<div id="image_select_url" class="image_list" style="display: none">
+粘贴一个图片地址：<input id="input_img_url" type="text" class="input_text" style="width: 380px;">
+<div id="img_url_area"></div>
+</div>
+<div id="image_select_search" class="image_list" style="display: none">
+<input id="input_img_search" type="text" class="input_text" style="width: 380px;">
+<div id="btn_img_search" class="toolbar_button active" style="display: inline-block;width: 70px;">搜索</div>
+<div style="padding: 15px 0px 0px;">在上面输入搜索关键字，建议使用英文单词搜索。</div>
+<div id="google_image_items" class="image_items"></div>
+</div>
+<div class="image_btns">
+<div id="set_image_submit" class="designer_button">确定</div>
+<div id="set_image_cancel" class="designer_button normal">取消</div>
+<span id="set_image_text"></span>
+</div>
+</div>
+<div style="clear: both;"></div>
+</div>
+</div>
+<div id="chattingbox">
+<div class="dock_view_header">
+聊天
+<span class="chatting_icon chatting_close" onclick="CLB.closeChatWin()"></span>
+</div>
+<div id="chatting_content">
+<ul id="chat_messages"></ul>
+<div class="dock_devider" style="margin-top: 0px;"></div>
+<div class="chatting_bottom">
+<textarea id="chatting_edit" class="txt" style="width: 228px;"></textarea>
+<input type="button" class="designer_button" value="发送" onclick="CLB.sendChatMsg()">
+</div>
+</div>
+</div>
+<div id="disconnected" class="dialog">
+<div class="dialog_content" style="padding: 40px;">
+您已经和服务器断开连接，请刷新重试。
+</div>
+<div class="dialog_buttons">
+<a class="designer_button" href="https://www.processon.com/diagraming/5d2f56cbe4b0511f13091dcc">重试</a>&nbsp;
+<a class="designer_button normal" href="https://www.processon.com/diagraming/back?id=5d2f56cbe4b0511f13091dcc">关闭</a>
+</div>
+</div>
+<div id="shapes_dialog" class="dialog" style="width: 400px;">
+<div class="dialog_header">图形管理</div>
+<div class="dialog_content" style="padding: 0px; max-height: 372px; overflow: auto;">
+<ul id="shape_manage_list">
+<li><div><input type="checkbox" value="basic">基础图形</div></li>
+<li><div><input type="checkbox" value="flow">Flowchart 流程图</div></li>
+<li><div><input type="checkbox" value="bpmn">BPMN</div></li>
+<li><div><input type="checkbox" value="evc">EVC 企业价值链</div></li>
+<li><div><input type="checkbox" value="epc">EPC 事件过程链</div></li>
+<li><div><input type="checkbox" value="lane">泳池/泳道</div></li>
+<li><div><input type="checkbox" value="er">实体关系图</div></li>
+<li><div><input type="checkbox" class="cate_parent" value="uml_common,uml_usecase,uml_sequence,uml_class,uml_stateactivity,uml_deployment,uml_component">UML图</div></li>
+<li class="child"><div><input type="checkbox" value="uml_common">UML 通用</div></li>
+<li class="child"><div><input type="checkbox" value="uml_usecase">UML 用例图</div></li>
+<li class="child"><div><input type="checkbox" value="uml_sequence">UML 时序图</div></li>
+<li class="child"><div><input type="checkbox" value="uml_class">UML 类图</div></li>
+<li class="child"><div><input type="checkbox" value="uml_stateactivity">UML 状态图/活动图</div></li>
+<li class="child"><div><input type="checkbox" value="uml_deployment">UML 部署图</div></li>
+<li class="child"><div><input type="checkbox" value="uml_component">UML 组件图</div></li>
+<li><div><input type="checkbox" class="cate_parent" value="ui,ui_input">UI 界面原型图</div></li>
+<li class="child"><div><input type="checkbox" value="ui">UI 界面元素</div></li>
+<li class="child"><div><input type="checkbox" value="ui_input">UI 输入控件</div></li>
+<li><div><input type="checkbox" class="cate_parent" value="ios_devices,ios_elements,ios_controls,ios_icons">iOS 界面原型图</div></li>
+<li class="child"><div><input type="checkbox" value="ios_devices">iOS 设备</div></li>
+<li class="child"><div><input type="checkbox" value="ios_elements">iOS 元素</div></li>
+<li class="child"><div><input type="checkbox" value="ios_controls">iOS 控件</div></li>
+<li class="child"><div><input type="checkbox" value="ios_icons">iOS 图标</div></li>
+<li><div><input type="checkbox" class="cate_parent" value="andriod_devices,andriod_elements,andriod_controls,andriod_icons">Android界面原型图</div></li>
+<li class="child"><div><input type="checkbox" value="andriod_devices">Android设备</div></li>
+<li class="child"><div><input type="checkbox" value="andriod_elements">Android控件</div></li>
+<li class="child"><div><input type="checkbox" value="andriod_controls">Android 表单</div></li>
+<li class="child"><div><input type="checkbox" value="andriod_icons">Android图标</div></li>
+<li><div><input type="checkbox" value="org">ORG 组织结构图</div></li>
+<li><div><input type="checkbox" value="venn">维恩图</div></li>
+<li><div><input type="checkbox" value="weizhu_bm">魏朱商业模式</div></li>
+<li><div><input type="checkbox" class="cate_parent" value="network,network_aliyun,network_aws,network_cisco,network_azure">网络拓扑图</div></li>
+<li class="child"><div><input type="checkbox" value="network">Network</div></li>
+<li class="child"><div><input type="checkbox" value="network_aliyun">阿里云</div></li>
+<li class="child"><div><input type="checkbox" value="network_aws">AWS</div></li>
+<li class="child"><div><input type="checkbox" value="network_cisco">Cisco</div></li>
+<li class="child"><div><input type="checkbox" value="network_azure">Azure</div></li>
+</ul>
+</div>
+<div class="dialog_buttons" style="padding: 20px;">
+<span class="designer_button" onclick="UI.saveShapesManage()">确定</span>&nbsp;
+<span class="designer_button normal" onclick="$(&#39;#shapes_dialog&#39;).dlg(&#39;close&#39;)">取消</span>
+</div>
+</div>
+<ul id="user_menu" class="menu list" style="z-index: 1; display: none;width:160px;">
+<li style="padding:4px 16px;">
+<div class="user" onmousedown="UI.showUserMenu(event)" style="display:flex;">
+<img src="./人流数据库设计图 - ProcessOn_files/5c1496d1e4b0e244fdf861bf.png">&nbsp;
+<a style="font-size:14px;color:#222;" href="https://www.processon.com/u/profile" target="_blank">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</a>
+</div>
+</li>
+<li class="devider"></li>
+<li><a style="font-size:14px;color:#222;display:block;" href="https://www.processon.com/upgrade" target="_blank">升级</a></li>
+<li ac="dia">我的文件</li>
+<li class="devider"></li>
+<li ac="out">退出</li>
+</ul>
+<div id="themes" class="menu" style="display: none;"></div>
+<div id="svg_exporter" style="display:none;position:fixed;z-index:-10;"></div>
+</div>
+<div>
+<input id="signup_ticket" type="hidden">
+<input id="randstr" type="hidden">
+<span style="display:none" id="TencentCaptcha" data-appid="2046103261" data-cbfn="callback_public" class="pro-btn default pub-btn">点击验证</span>
+</div>
+<script src="./人流数据库设计图 - ProcessOn_files/svgUtil-c7792d76.js" charset="UTF-8" type="text/javascript"></script>
+<script src="./人流数据库设计图 - ProcessOn_files/TCaptcha.js"></script>
+<script type="text/javascript" charset="UTF-8" src="./人流数据库设计图 - ProcessOn_files/designer.2svg.js"></script>
+<script type="text/javascript">
+window.zhuge = window.zhuge || [];window.zhuge.methods = "_init debug identify track trackLink trackForm page".split(" ");
+window.zhuge.factory = function(b) {return function() {var a = Array.prototype.slice.call(arguments);a.unshift(b);
+window.zhuge.push(a);return window.zhuge;}};for (var i = 0; i < window.zhuge.methods.length; i++) {
+var key = window.zhuge.methods[i];window.zhuge[key] = window.zhuge.factory(key);}window.zhuge.load = function(b, x) {
+if (!document.getElementById("zhuge-js")) {var a = document.createElement("script");var verDate = new Date();
+var verStr = verDate.getFullYear().toString()+ verDate.getMonth().toString() + verDate.getDate().toString();
+a.type = "text/javascript";a.id = "zhuge-js";a.async = !0;a.src = (location.protocol == 'http:' ? "http://sdk.zhugeio.com/zhuge.min.js?v=" : 'https://zgsdk.zhugeio.com/zhuge.min.js?v=') + verStr;
+a.onerror = function(){window.zhuge.identify = window.zhuge.track = function(ename, props, callback){if(callback && Object.prototype.toString.call(callback) === '[object Function]')callback();};};
+var c = document.getElementsByTagName("script")[0];c.parentNode.insertBefore(a, c);window.zhuge._init(b, x)}};
+window.zhuge.load('3f37ba50e54f4374b9af5be6d12b208f');//éç½®åºç¨çAppKey
+</script>
+<script type="text/javascript">
+(function(){var po_user_id = getCookie();if(po_user_id == ''){removeLoginTag();return};var userLoginTag = localStorage.getItem('userLoginTag_'+ po_user_id);if(userLoginTag){return}zhuge.identify(po_user_id, {});localStorage.setItem('userLoginTag_'+ po_user_id, 'login');function getCookie(){var name = "processon_userKey=";
+var ca = document.cookie.split(';');for(var i=0, len = ca.length; i < len; i++){var c = ca[i].trim();if (c.indexOf(name) == 0){return c.substring(name.length,c.length);};}return "";}
+function removeLoginTag(){for(var key in localStorage){if(key.indexOf('userLoginTag') > -1){localStorage.removeItem(key)}}}})();
+</script>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-28802488-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" focusable="false" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><iframe src="./人流数据库设计图 - ProcessOn_files/captcha-pre-verify.html" style="width: 0px; height: 0px; display: none;"></iframe><input type="file" id="" name="file" style="display: none;"><div data-v-cef78672="" class="container_selected_area" style="cursor: url(&quot;chrome-extension://ialiedlpfknneamnbemcgmaboleiccdd/assets/images/cursor-imagen.svg&quot;) 9 9, crosshair;"><div data-v-cef78672="" class="area"></div></div></body></html>
