@@ -2,7 +2,7 @@ import datetime
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from tool.access_control_allow_origin import Access_Control_Allow_Origin
 from attractions.models import ScenceManager, SearchRate, TableManager
 from django.db import connection
 
@@ -22,11 +22,7 @@ def citylist(request):
     #站点跨域请求的问题
     response=JsonResponse(response)
 
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-    response["Access-Control-Max-Age"] = "1000"
-    response["Access-Control-Allow-Headers"] = "*"
-
+    response = Access_Control_Allow_Origin(response)
 
     return response
 
@@ -44,8 +40,11 @@ def scencelist(request):
         return JsonResponse({"status": 0})
     result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid).values("area", "pid")
     response = {"city": city, "area": list(result)}
+    #站点跨域请求的问题
+    response=JsonResponse(response)
 
-    return JsonResponse(response)
+    response = Access_Control_Allow_Origin(response)
+    return response
 
 
 # http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
