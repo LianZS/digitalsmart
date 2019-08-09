@@ -111,3 +111,7 @@ def down_user_pic(request): #下载用户头像
     # response['content_type'] = 'image/png'
     # response['Content-Disposition'] = 'attachment;filename={0}'.format(the_file_name)
 
+
+
+def test(request):
+    return render(request,"index.html")

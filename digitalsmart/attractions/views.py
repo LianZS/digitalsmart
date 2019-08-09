@@ -19,7 +19,16 @@ def citylist(request):
         return JsonResponse({"status": 0})
     result = ScenceManager.objects.filter(province=province).values("loaction", "citypid").distinct()
     response = {"province": province, "city": list(result)}
-    return JsonResponse(response)
+    #站点跨域请求的问题
+    response=JsonResponse(response)
+
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Allow-Headers"] = "*"
+
+
+    return response
 
 
 ## http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340

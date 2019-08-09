@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<style>
+			body{
+				text-align: center;
+				height: auto;
+				margin: 0px auto;
+				width: 60%;
+				align-content: center;
+			}
+			*{
+				margin: 0px;
+			}
+			.header{
+				background-color: bisque;
+			}
+			.body{
+			margin-top: 20px;
+
+			}
+			.j{
+				width: 33.333%;
+				float: left;
+			}
+			
+			
+		</style>
+		<title></title>
+	</head>
+	<body>
+
+<!DOCTYPE html>
+<html lang="zh-hans">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="ROBOTS" content="ALL" />
+    <meta name="MSSmartTagsPreventParsing" content="true" />
+    <meta name="Copyright" content="Django Software Foundation" />
+    <meta name="keywords" content="Python, Django, framework, open-source" />
+    <meta name="description" content="" />
+
+
+
+
+
+  <link rel="canonical" href="https://.com/zh-hans/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="el"
+       href="https://.com/el/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="en"
+       href="https://.com/en/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="es"
+       href="https://.com/es/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="fr"
+       href="https://.com/fr/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="id"
+       href="https://.com/id/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="ja"
+       href="https://.com/ja/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="ko"
+       href="https://.com/ko/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="pl"
+       href="https://.com/pl/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="pt-br"
+       href="https://.com/pt-br/2.2/">
+
+
+
+
+    <link rel="alternate"
+       hreflang="zh-hans"
+       href="https://.com/zh-hans/2.2/">
+
+
+  <link rel="search"
+        type="application/opensearchdescription+xml"
+        href="https://.com/zh-hans/2.2/search/description/"
+        title="Django 文档">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <title>Django 文档 | Django 文档 | Django</title>
+
+    <link rel="stylesheet" href="https://static.djangoproject.com/css/output.beb34528fd55.css" >
+    <script src="https://static.djangoproject.com/js/lib/webfontloader/webfontloader.e75218f5f090.js"></script>
+    <script>
+    WebFont.load({
+      custom: {
+        families: ['FontAwesome', 'Fira+Mono'],
+      },
+      google: {
+        families: ['Roboto:400italic,700italic,300,700,400:latin'
+        ]
+      },
+      classes: false,
+      events: false,
+      timeout: 1000
+    });
+    </script>
+    <script src="https://static.djangoproject.com/js/lib/modernizr.3b36762e418a.js"></script>
+
+  </head>
+
+  <body id="generic" class="">
+
+    <div role="banner" id="top">
+</div>
+
+
+    <div class="copy-banner">
+      <div class="container">
+
+  <h1><a href="https://.com/zh-hans/2.2/">文档</a></h1>
+
+      </div>
+    </div>
+    <div id="billboard"></div>
+
+    <div class="container sidebar-right">
+      <div role="main">
+
+
+
+
+
+
+<div id="version-switcher">
+  <ul id="doc-languages" class="language-switcher">
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/el/2.2/">el</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/en/2.2/">en</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/es/2.2/">es</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/fr/2.2/">fr</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/id/2.2/">id</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/ja/2.2/">ja</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/ko/2.2/">ko</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://docs.com/pl/2.2/">pl</a>
+  </li>
+
+
+
+  <li class="other">
+
+
+
+    <a href="https://.com/pt-br/2.2/">pt-br</a>
+  </li>
+
+
+
+
+    <li class="current"
+        title="点击左侧的链接以切换到另一种语言。">
+      <span>语言： <strong>zh-hans</strong></span>
+    </li>
+  </ul>
+
+
+  <ul id="doc-versions" class="version-switcher">
+
+
+    <li class="other">
+
+
+
+      <a href="https://.com/zh-hans/2.0/">2.0</a>
+    </li>
+
+
+
+    <li class="other">
+
+
+
+      <a href="https://.com/zh-hans/2.1/">2.1</a>
+    </li>
+
+
+
+
+
+    <li class="other">
+
+
+
+      <a href="https://.com/zh-hans/dev/">dev</a>
+    </li>
+
+
+    <li class="current"
+        title="此文档是为 Django 2.2 编写的。 点击左侧的链接查看其它版本">
+       <span>文档版本：
+         <strong>2.2</strong>
+       </span>
+    </li>
+  </ul>
+</div>
+
+
+<div id="docs-content">
+<div class="section" id="s-django-documentation">
+<span id="django-documentation"></span><h1>Django 文档<a class="headerlink" href="#django-documentation" title="永久链接至标题">¶</a></h1>
+<p class="rubric">你所需要知道的关于 Django 的一切。</p>
+<div class="section" id="s-getting-help">
+<span id="getting-help"></span><h2>获取帮助<a class="headerlink" href="#getting-help" title="永久链接至标题">¶</a></h2>
+<p>遇到问题？我们可以帮你！</p>
+<ul class="simple">
+<li>试试 <a class="reference internal" href="faq/"><span class="doc">FAQ</span></a> —— 这里有很多常见问题的解答。</li>
+<li>正在寻找特定的信息？试试 <a class="reference internal" href="genindex/"><span class="std std-ref">索引</span></a>，<a class="reference internal" href="py-modindex/"><span class="std std-ref">模块索引</span></a> 或者 <a class="reference internal" href="contents/"><span class="doc">详细内容目录</span></a>。</li>
+<li>在 <a class="reference internal" href="internals/mailing-lists/#django-users-mailing-list"><span class="std std-ref">django-users</span></a> 邮件列表的档案库搜索，或者 <a class="reference external" href="https://groups.google.com/d/forum/django-users">post a question</a>。</li>
+<li>在 <a class="reference external" href="irc://irc.freenode.net/django">#django IRC channel</a> 频道提问</li>
+<li>在我们的 <a class="reference external" href="https://code.djangoproject.com/">ticket tracker</a> 报告关于 Django 的 Bug。</li>
+</ul>
+</div>
+<div class="section" id="s-how-the-documentation-is-organized">
+<span id="how-the-documentation-is-organized"></span><h2>这份文档是如何组织的<a class="headerlink" href="#how-the-documentation-is-organized" title="永久链接至标题">¶</a></h2>
+<p>Django 有丰富的文档。一份高度概述的文档会告诉你在哪里找到特定的东西：</p>
+<ul class="simple">
+<li><a class="reference internal" href="intro/"><span class="doc">教程</span></a> 通过手把手地方式教你一步步的创建一个 Web 应用。如果你初学 Django 或编程，请从这里开始。也请看看下面的 &quot;<a class="reference internal" href="#index-first-steps"><span class="std std-ref">快速入门</span></a>&quot;。</li>
+<li><a class="reference internal" href="topics/"><span class="doc">专题指南</span></a> 在相当高的层次上介绍关键主题和概念，并提供有用的背景信息和解释。</li>
+<li><a class="reference internal" href="ref/"><span class="doc">参考指南</span></a> 包含 API 和 Django 各个工作机制方面的技术参考。它们介绍了 Django 是如何工作，如何被使用的。不过，你得先对关键字的概念有一定理解。</li>
+<li><a class="reference internal" href="howto/"><span class="doc">操作指南</span></a> 是一份目录。它们以排列好的关键问题和用例的方式指导你。它们比教程更加深入，且需要你先了解一些关于 Django 是如何工作的知识。</li>
+</ul>
+</div>
+<div class="section" id="s-first-steps">
+<span id="s-index-first-steps"></span><span id="first-steps"></span><span id="index-first-steps"></span><h2>快速入门<a class="headerlink" href="#first-steps" title="永久链接至标题">¶</a></h2>
+<p>您是刚学 Django 或是初学编程？ 这就是你开始学习的地方！</p>
+<ul class="simple">
+<li><strong>从零开始：</strong> <a class="reference internal" href="intro/overview/"><span class="doc">概要</span></a> | <a class="reference internal" href="intro/install/"><span class="doc">安装</span></a></li>
+<li><strong>入门教程:</strong> <a class="reference internal" href="intro/tutorial01/"><span class="doc">第1节: 请求和响应</span></a> | <a class="reference internal" href="intro/tutorial02/"><span class="doc">第2节: 模型和 admin 站点</span></a> | <a class="reference internal" href="intro/tutorial03/"><span class="doc">第3节: 视图和模板</span></a> | <a class="reference internal" href="intro/tutorial04/"><span class="doc">第4节: 表单和通用视图</span></a> | <a class="reference internal" href="intro/tutorial05/"><span class="doc">第5节: 测试</span></a> | <a class="reference internal" href="intro/tutorial06/"><span class="doc">第6节: 静态文件</span></a> | <a class="reference internal" href="intro/tutorial07/"><span class="doc">第7节: 自定义 admin 站点</span></a></li>
+<li><strong>进阶教程 :</strong> <a class="reference internal" href="intro/reusable-apps/"><span class="doc">如何编写可复用的应用</span></a> | <a class="reference internal" href="intro/contributing/"><span class="doc">提交你的第一个 Django 补丁</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-the-model-layer">
+<span id="the-model-layer"></span><h2>模型层<a class="headerlink" href="#the-model-layer" title="永久链接至标题">¶</a></h2>
+<p>Django 提供了一个抽象的模型  (&quot;models&quot;)  层，为了构建和操纵你的Web应用的数据。阅读下面内容了解更多：</p>
+<ul class="simple">
+<li><strong>模型:</strong> <a class="reference internal" href="topics/db/models/"><span class="doc">模型介绍</span></a> | <a class="reference internal" href="ref/models/fields/"><span class="doc">字段类型</span></a> | <a class="reference internal" href="ref/models/indexes/"><span class="doc">索引</span></a> | <a class="reference internal" href="ref/models/options/"><span class="doc">Meta 选项</span></a> | <a class="reference internal" href="ref/models/class/"><span class="doc">Model 类</span></a></li>
+<li><strong>QuerySet:</strong> <a class="reference internal" href="topics/db/queries/"><span class="doc">执行查询</span></a> | <a class="reference internal" href="ref/models/querysets/"><span class="doc">QuerySet 方法参考</span></a> | <a class="reference internal" href="ref/models/lookups/"><span class="doc">查询表达式</span></a></li>
+<li><strong>Model 实例:</strong> <a class="reference internal" href="ref/models/instances/"><span class="doc">实例方法</span></a> | <a class="reference internal" href="ref/models/relations/"><span class="doc">访问关联的对象</span></a></li>
+<li><strong>迁移:</strong> <a class="reference internal" href="topics/migrations/"><span class="doc">迁移概述</span></a> | <a class="reference internal" href="ref/migration-operations/"><span class="doc">操作参考</span></a> | <a class="reference internal" href="ref/schema-editor/"><span class="doc">SchemaEditor</span></a> | <a class="reference internal" href="howto/writing-migrations/"><span class="doc">编写迁移</span></a></li>
+<li><strong>高级:</strong> <a class="reference internal" href="topics/db/managers/"><span class="doc">管理员</span></a> | <a class="reference internal" href="topics/db/sql/"><span class="doc">原始 SQL</span></a> | <a class="reference internal" href="topics/db/transactions/"><span class="doc">事务</span></a> | <a class="reference internal" href="topics/db/aggregation/"><span class="doc">聚合</span></a> | <a class="reference internal" href="topics/db/search/"><span class="doc">搜索</span></a> | <a class="reference internal" href="howto/custom-model-fields/"><span class="doc">自定义字段</span></a> | <a class="reference internal" href="topics/db/multi-db/"><span class="doc">多个数据库</span></a> | <a class="reference internal" href="howto/custom-lookups/"><span class="doc">自定义查询</span></a> | <a class="reference internal" href="ref/models/expressions/"><span class="doc">查询表达式</span></a> | <a class="reference internal" href="ref/models/conditional-expressions/"><span class="doc">条件表达式</span></a> | <a class="reference internal" href="ref/models/database-functions/"><span class="doc">数据库函数</span></a></li>
+<li><strong>其它：</strong> <a class="reference internal" href="ref/databases/"><span class="doc">支持的数据库</span></a> | <a class="reference internal" href="howto/legacy-databases/"><span class="doc">旧数据库</span></a> | <a class="reference internal" href="howto/initial-data/"><span class="doc">提供初始化数据</span></a> | <a class="reference internal" href="topics/db/optimization/"><span class="doc">优化数据库访问</span></a> | <a class="reference internal" href="ref/contrib/postgres/"><span class="doc">PostgreSQL 的特定功能</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-the-view-layer">
+<span id="the-view-layer"></span><h2>视图层<a class="headerlink" href="#the-view-layer" title="永久链接至标题">¶</a></h2>
+<p>Django 具有 “视图” 的概念，负责处理用户的请求并返回响应。通过以下链接查找所有你需要知道的有关视图的信息：</p>
+<ul class="simple">
+<li><strong>基础：</strong> <a class="reference internal" href="topics/http/urls/"><span class="doc">URL配置</span></a> | <a class="reference internal" href="topics/http/views/"><span class="doc">视图函数</span></a> | <a class="reference internal" href="topics/http/shortcuts/"><span class="doc">便捷工具</span></a> | <a class="reference internal" href="topics/http/decorators/"><span class="doc">装饰器</span></a></li>
+<li><strong>参考：</strong> <a class="reference internal" href="ref/views/"><span class="doc">内置视图</span></a> | <a class="reference internal" href="ref/request-response/"><span class="doc">Request/response 对象</span></a> | <a class="reference internal" href="ref/template-response/"><span class="doc">TemplateResponse 对象</span></a></li>
+<li><strong>文件上传：</strong> <a class="reference internal" href="topics/http/file-uploads/"><span class="doc">概览</span></a> | <a class="reference internal" href="ref/files/file/"><span class="doc">文件对象</span></a> | <a class="reference internal" href="ref/files/storage/"><span class="doc">存储 API</span></a> | <a class="reference internal" href="topics/files/"><span class="doc">管理文件</span></a> | <a class="reference internal" href="howto/custom-file-storage/"><span class="doc">自定义存储</span></a></li>
+<li><strong>基于类的视图：</strong> <a class="reference internal" href="topics/class-based-views/"><span class="doc">概览</span></a> | <a class="reference internal" href="topics/class-based-views/generic-display/"><span class="doc">内置显示视图</span></a> | <a class="reference internal" href="topics/class-based-views/generic-editing/"><span class="doc">内置编辑视图</span></a> | <a class="reference internal" href="topics/class-based-views/mixins/"><span class="doc">使用混入</span></a> | <a class="reference internal" href="ref/class-based-views/"><span class="doc">API 参考</span></a> | <a class="reference internal" href="ref/class-based-views/flattened-index/"><span class="doc">扁平化索引</span></a></li>
+<li><strong>高级：</strong> <a class="reference internal" href="howto/outputting-csv/"><span class="doc">生成 CSV</span></a> | <a class="reference internal" href="howto/outputting-pdf/"><span class="doc">生成 PDF</span></a></li>
+<li><strong>中间件：</strong> <a class="reference internal" href="topics/http/middleware/"><span class="doc">概览</span></a> | <a class="reference internal" href="ref/middleware/"><span class="doc">内建的中间件类</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-the-template-layer">
+<span id="the-template-layer"></span><h2>模板层<a class="headerlink" href="#the-template-layer" title="永久链接至标题">¶</a></h2>
+<p>模板层提供了一个对设计者友好的语法用于渲染向用户呈现的信息。学习如何使用语法（面向设计者）以及如何扩展（面向程序员）：</p>
+<ul class="simple">
+<li><strong>基础：</strong> <a class="reference internal" href="topics/templates/"><span class="doc">概述</span></a></li>
+<li><strong>对于设计者:</strong> <a class="reference internal" href="ref/templates/language/"><span class="doc">语法概述</span></a> | <a class="reference internal" href="ref/templates/builtins/"><span class="doc">内建标签及过滤器（filters）</span></a> | <a class="reference internal" href="ref/contrib/humanize/"><span class="doc">人性化</span></a></li>
+<li><strong>针对程序员:</strong> <a class="reference internal" href="ref/templates/api/"><span class="doc">模板 API</span></a> | <a class="reference internal" href="howto/custom-template-tags/"><span class="doc">自定义标签(tags)和过滤器(filters)</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-forms">
+<span id="forms"></span><h2>表单<a class="headerlink" href="#forms" title="永久链接至标题">¶</a></h2>
+<p>Django 提供了一个丰富的框架来帮助创建表单和处理表单数据。</p>
+<ul class="simple">
+<li><strong>基础:</strong> <a class="reference internal" href="topics/forms/"><span class="doc">概览</span></a> | <a class="reference internal" href="ref/forms/api/"><span class="doc">表单 API</span></a> | <a class="reference internal" href="ref/forms/fields/"><span class="doc">内建字段</span></a> | <a class="reference internal" href="ref/forms/widgets/"><span class="doc">内建 widgets</span></a></li>
+<li><strong>进阶:</strong> <a class="reference internal" href="topics/forms/modelforms/"><span class="doc">针对模型的表单</span></a> | <a class="reference internal" href="topics/forms/media/"><span class="doc">整合媒体</span></a> | <a class="reference internal" href="topics/forms/formsets/"><span class="doc">表单集</span></a> | <a class="reference internal" href="ref/forms/validation/"><span class="doc">自定义验证</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-the-development-process">
+<span id="the-development-process"></span><h2>开发进程<a class="headerlink" href="#the-development-process" title="永久链接至标题">¶</a></h2>
+<p>学习众多的组件及工具，来帮助你开发和测试 Django 应用：</p>
+<ul class="simple">
+<li><strong>设置：</strong> <a class="reference internal" href="topics/settings/"><span class="doc">概览</span></a> | <a class="reference internal" href="ref/settings/"><span class="doc">完整的设置列表</span></a></li>
+<li><strong>应用程序：</strong> <a class="reference internal" href="ref/applications/"><span class="doc">概览</span></a></li>
+<li><strong>异常：</strong> <a class="reference internal" href="ref/exceptions/"><span class="doc">概览</span></a></li>
+<li><strong>django-admin.py 和 manage.py:</strong> <a class="reference internal" href="ref/django-admin/"><span class="doc">概览</span></a> | <a class="reference internal" href="howto/custom-management-commands/"><span class="doc">添加自定义命令</span></a></li>
+<li><strong>测试：</strong> <a class="reference internal" href="topics/testing/"><span class="doc">介绍</span></a> | <a class="reference internal" href="topics/testing/overview/"><span class="doc">书写并运行测试</span></a> | <a class="reference internal" href="topics/testing/tools/"><span class="doc">包含的测试工具</span></a> | <a class="reference internal" href="topics/testing/advanced/"><span class="doc">高级主题</span></a></li>
+<li><strong>部署：</strong> <a class="reference internal" href="howto/deployment/"><span class="doc">概览</span></a> | <a class="reference internal" href="howto/deployment/wsgi/"><span class="doc">WSGI 服务器</span></a> | <a class="reference internal" href="howto/static-files/deployment/"><span class="doc">部署静态文件</span></a> | <a class="reference internal" href="howto/error-reporting/"><span class="doc">用 email 跟踪代码错误</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-the-admin">
+<span id="the-admin"></span><h2>管理<a class="headerlink" href="#the-admin" title="永久链接至标题">¶</a></h2>
+<p>找到所有你想知道的，关于自动化管理界面的知识，Django 最受欢迎的特性之一：</p>
+<ul class="simple">
+<li><a class="reference internal" href="ref/contrib/admin/"><span class="doc">管理站点</span></a></li>
+<li><a class="reference internal" href="ref/contrib/admin/actions/"><span class="doc">管理动作</span></a></li>
+<li><a class="reference internal" href="ref/contrib/admin/admindocs/"><span class="doc">管理文档生成器</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-security">
+<span id="security"></span><h2>安全<a class="headerlink" href="#security" title="永久链接至标题">¶</a></h2>
+<p>在 Web 应用的发展中，安全是最重要主题，Django 提供了多种保护手段和机制。</p>
+<ul class="simple">
+<li><a class="reference internal" href="topics/security/"><span class="doc">安全概览</span></a></li>
+<li><a class="reference internal" href="releases/security/"><span class="doc">在 Django 中披露的安全问题</span></a></li>
+<li><a class="reference internal" href="ref/clickjacking/"><span class="doc">点击劫持保护</span></a></li>
+<li><a class="reference internal" href="ref/csrf/"><span class="doc">跨站请求伪造 CSRF 保护</span></a></li>
+<li><a class="reference internal" href="topics/signing/"><span class="doc">登录加密</span></a></li>
+<li><a class="reference internal" href="ref/middleware/#security-middleware"><span class="std std-ref">安全中间件</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-internationalization-and-localization">
+<span id="internationalization-and-localization"></span><h2>国际化和本地化<a class="headerlink" href="#internationalization-and-localization" title="永久链接至标题">¶</a></h2>
+<p>Django 提供了一个强大的国际化和本地化的框架, 以帮助您在多语言和世界各地区进行应用程序的开发：</p>
+<ul class="simple">
+<li><a class="reference internal" href="topics/i18n/"><span class="doc">概览</span></a> | <a class="reference internal" href="topics/i18n/translation/"><span class="doc">国际化</span></a> | <a class="reference internal" href="topics/i18n/translation/#how-to-create-language-files"><span class="std std-ref">本地化</span></a> | <a class="reference internal" href="topics/i18n/formatting/"><span class="doc">给 Web 界面及表单输入进行本地化</span></a></li>
+<li><a class="reference internal" href="topics/i18n/timezones/"><span class="doc">时区</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-performance-and-optimization">
+<span id="performance-and-optimization"></span><h2>性能和优化<a class="headerlink" href="#performance-and-optimization" title="永久链接至标题">¶</a></h2>
+<p>有各种各样的技术和工具，可以帮助你的代码的运行更高效，更快和使用更少的系统资源.</p>
+<ul class="simple">
+<li><a class="reference internal" href="topics/performance/"><span class="doc">性能和优化概述</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-geographic-framework">
+<span id="geographic-framework"></span><h2>地理框架<a class="headerlink" href="#geographic-framework" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="ref/contrib/gis/"><span class="doc">GeoDjango</span></a> 想要成为一个世界级的地理 Web 框架。尽可能简化构建 GIS Web 应用程序的流程，和利用空间化数据的能力是它的目标。</p>
+</div>
+<div class="section" id="s-common-web-application-tools">
+<span id="common-web-application-tools"></span><h2>常用的 Web 应用程序工具<a class="headerlink" href="#common-web-application-tools" title="永久链接至标题">¶</a></h2>
+<p>Django 提供了多种开发 Web 应用程序所需的常用工具:</p>
+<ul class="simple">
+<li><strong>认证:</strong> <a class="reference internal" href="topics/auth/"><span class="doc">概述</span></a> | <a class="reference internal" href="topics/auth/default/"><span class="doc">使用认证系统</span></a> | <a class="reference internal" href="topics/auth/passwords/"><span class="doc">密码管理</span></a> | <a class="reference internal" href="topics/auth/customizing/"><span class="doc">自定义认证</span></a> | <a class="reference internal" href="ref/contrib/auth/"><span class="doc">API 参考</span></a></li>
+<li><a class="reference internal" href="topics/cache/"><span class="doc">缓存</span></a></li>
+<li><a class="reference internal" href="topics/logging/"><span class="doc">日志</span></a></li>
+<li><a class="reference internal" href="topics/email/"><span class="doc">发送邮件</span></a></li>
+<li><a class="reference internal" href="ref/contrib/syndication/"><span class="doc">资讯聚合 (RSS/Atom)</span></a></li>
+<li><a class="reference internal" href="topics/pagination/"><span class="doc">分页</span></a></li>
+<li><a class="reference internal" href="ref/contrib/messages/"><span class="doc">消息框架</span></a></li>
+<li><a class="reference internal" href="topics/serialization/"><span class="doc">序列化</span></a></li>
+<li><a class="reference internal" href="topics/http/sessions/"><span class="doc">会话</span></a></li>
+<li><a class="reference internal" href="ref/contrib/sitemaps/"><span class="doc">站点地图</span></a></li>
+<li><a class="reference internal" href="ref/contrib/staticfiles/"><span class="doc">静态文件管理</span></a></li>
+<li><a class="reference internal" href="ref/validators/"><span class="doc">数据验证</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-other-core-functionalities">
+<span id="other-core-functionalities"></span><h2>其它核心功能<a class="headerlink" href="#other-core-functionalities" title="永久链接至标题">¶</a></h2>
+<p>了解更多 Django 框架的其他核心功能 :</p>
+<ul class="simple">
+<li><a class="reference internal" href="topics/conditional-view-processing/"><span class="doc">有条件的内容处理</span></a></li>
+<li><a class="reference internal" href="ref/contrib/contenttypes/"><span class="doc">内容类型和通用关系</span></a></li>
+<li><a class="reference internal" href="ref/contrib/flatpages/"><span class="doc">简单页面</span></a></li>
+<li><a class="reference internal" href="ref/contrib/redirects/"><span class="doc">重定向</span></a></li>
+<li><a class="reference internal" href="topics/signals/"><span class="doc">信号</span></a></li>
+<li><a class="reference internal" href="topics/checks/"><span class="doc">系统检查框架</span></a></li>
+<li><a class="reference internal" href="ref/contrib/sites/"><span class="doc">站点框架</span></a></li>
+<li><a class="reference internal" href="ref/unicode/"><span class="doc">Django 中的 Unicode</span></a></li>
+</ul>
+</div>
+<div class="section" id="s-the-django-open-source-project">
+<span id="the-django-open-source-project"></span><h2>Django开源项目<a class="headerlink" href="#the-django-open-source-project" title="永久链接至标题">¶</a></h2>
+<p>了解 Django 项目本身的开发进程以及您如何为 Django 做贡献：</p>
+<ul class="simple">
+<li><strong>社区：</strong> <a class="reference internal" href="internals/contributing/"><span class="doc">如何参与其中</span></a> | <a class="reference internal" href="internals/release-process/"><span class="doc">发布进程</span></a> | <a class="reference internal" href="internals/organization/"><span class="doc">团队组织</span></a> | <a class="reference internal" href="internals/git/"><span class="doc">Django 源代码仓库</span></a> | <a class="reference internal" href="internals/security/"><span class="doc">安全政策</span></a> | <a class="reference internal" href="internals/mailing-lists/"><span class="doc">邮件列表</span></a></li>
+<li><strong>设计哲学：</strong> <a class="reference internal" href="misc/design-philosophies/"><span class="doc">概览</span></a></li>
+<li><strong>文档：</strong> <a class="reference internal" href="internals/contributing/writing-documentation/"><span class="doc">关于本文档</span></a></li>
+<li><strong>第三方发行:</strong> <a class="reference internal" href="misc/distributions/"><span class="doc">概览</span></a></li>
+<li><strong>Django 时间线：</strong> <a class="reference internal" href="misc/api-stability/"><span class="doc">API 稳定性</span></a> | <a class="reference internal" href="releases/"><span class="doc">发行说明和升级说明</span></a> | <a class="reference internal" href="internals/deprecation/"><span class="doc">过时时间表</span></a></li>
+</ul>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="browse-horizontal">
+
+  <div class="left"><a href="contents/"><i class="icon icon-chevron-left"></i> Django 文档内容</a></div>
+
+
+  <div class="right"><a href="intro/">开始 <i class="icon icon-chevron-right"></i></a></div>
+
+</div>
+
+
+
+        <a href="#top" class="backtotop"><i class="icon icon-chevron-up"></i> Back to Top</a>
+      </div>
+
+
+<h1 class="visuallyhidden">附加信息</h1>
+<div role="complementary">
+
+
+
+<form action="https://.com/zh-hans/2.2/search/" class="search form-input" role="search">
+  <label class="visuallyhidden" for="id_q">Search:</label>
+    <input type="search" name="q" id="id_q" placeholder="搜索 2.2 文档">
+
+    <button type="submit">
+      <i class="icon icon-search"></i>
+      <span class="visuallyhidden">搜索</span>
+    </button>
+</form>
+
+
+
+
+
+
+  <div class="fundraising-sidebar">
+    <h2>Support Django!</h2>
+
+    <div class="small-heart">
+      <img src="https://static.djangoproject.com/img/fundraising-heart.cd6bb84ffd33.svg" alt="Support Django!" />
+    </div>
+
+    <div class="small-cta">
+      <ul class="list-links-small">
+        <li><a href="https://www.djangoproject.com/fundraising/">
+          getup8 donated to the Django Software Foundation to
+          support Django development. Donate today!
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+
+
+
+  <h2>浏览</h2>
+  <ul>
+
+
+    <li>上一个： <a href="contents/">Django 文档内容</a></li>
+
+
+    <li>下一个： <a href="intro/">开始</a></li>
+
+    <li><a href="https://.com/zh-hans/2.2/contents/">目录</a></li>
+
+    <li><a href="https://.com/zh-hans/2.2/genindex/">总目录</a></li>
+
+    <li><a href="https://.com/zh-hans/2.2/py-modindex/">Python 模块索引</a></li>
+
+
+  </ul>
+
+
+
+  <h2>当前位置</h2>
+  <ul>
+    <li>
+      <a href="https://.com/zh-hans/2.2/">Django 2.2 文档</a>
+
+      <ul><li>Django 文档</li></ul>
+
+    </li>
+  </ul>
+
+
+
+  <h2 id="getting-help-sidebar">获取帮助</h2>
+  <dl class="list-links">
+    <dt><a href="https://.com/zh-hans/2.2/faq/">FAQ</a></dt>
+    <dd>尝试查看 FAQ — 它包括了很多常见问题的答案</dd>
+
+    <dt><a href="/en/stable/genindex/">索引</a>, <a href="/en/stable/py-modindex/">模块索引</a>, or <a href="/en/stable/contents/">目录</a></dt>
+    <dd>查找特定信息时比较容易</dd>
+
+    <dt><a href="https://groups.google.com/group/django-users/">django-users mailing list</a></dt>
+    <dd>在 django-users 邮件列表存档中搜索信息，或者发布一个问题。</dd>
+
+    <dt><a href="irc://irc.freenode.net/django">#django IRC channel</a></dt>
+    <dd>在 #django IRC 频道上提问，或者搜索 IRC 历史找到相似的问题与解答。</dd>
+
+    <dt><a href="https://code.djangoproject.com/">Ticket tracker</a></dt>
+    <dd>在我们的 `ticket tracker`_ 中报告 Django 或 Django 文档的 Bug。</dd>
+  </dl>
+
+
+
+  <h2>下载：</h2>
+  <p>
+    离线 (Django 2.2):
+    <a href="https://media.djangoproject.com/docs/django-docs-2.2-zh-hans.zip">HTML</a> |
+    <a href="https://media.readthedocs.org/pdf/django/2.2.x/django.pdf">PDF</a> |
+    <a href="https://media.readthedocs.org/epub/django/2.2.x/django.epub">ePub</a>
+    <br>
+    <span class="quiet">
+      由 <a href="https://readthedocs.org/">Read the Docs</a> 提供。
+    </span>
+  </p>
+
+</div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+    function extless(input) {
+        return input.replace(/(.*)\.[^.]+$/, '$1');
+    }
+    var require = {
+        shim: {
+            'jquery': [],
+            'jquery.inview': ["jquery"],
+            'jquery.payment': ["jquery"],
+            'jquery.flot': ["jquery"],
+            'jquery.unveil': ["jquery"],
+            'stripe': {
+              exports: 'Stripe'
+            }
+        },
+        paths: {
+            "jquery": extless("https://static.djangoproject.com/js/lib/jquery/dist/jquery.min.87e69028f78d.js"),
+            "jquery.inview": extless("https://static.djangoproject.com/js/lib/jquery.inview/jquery.inview.min.4edba1c65592.js"),
+            "jquery.payment": extless("https://static.djangoproject.com/js/lib/jquery.payment/lib/jquery.payment.e99c05ca79ae.js"),
+            "jquery.unveil": extless("https://static.djangoproject.com/js/lib/unveil/jquery.unveil.min.ac79eb277093.js"),
+            "jquery.flot": extless("https://static.djangoproject.com/js/lib/jquery-flot/jquery.flot.min.9964206e9d7f.js"),
+            "clipboard": extless("https://static.djangoproject.com/js/lib/clipboard/dist/clipboard.min.bd70fd596a23.js"),
+            "mod/floating-warning": extless("https://static.djangoproject.com/js/mod/floating-warning.a21b2abd2884.js"),
+            "mod/list-collapsing": extless("https://static.djangoproject.com/js/mod/list-collapsing.c1a08d3ef9e9.js"),
+            "mod/list-feature": extless("https://static.djangoproject.com/js/mod/list-feature.73529480f25b.js"),
+            "mod/mobile-menu": extless("https://static.djangoproject.com/js/mod/mobile-menu.841726ee903a.js"),
+            "mod/version-switcher": extless("https://static.djangoproject.com/js/mod/version-switcher.c28bb83972bb.js"),
+            "mod/search-key": extless("https://static.djangoproject.com/js/mod/search-key.f3c0a6fcfedd.js"),
+            "mod/stripe-custom-checkout": extless("https://static.djangoproject.com/js/mod/stripe-custom-checkout.aac1352045b7.js"),
+            "mod/stripe-change-card": extless("https://static.djangoproject.com/js/mod/stripe-change-card.682c710317a8.js"),
+            "mod/console-tabs": extless("https://static.djangoproject.com/js/mod/console-tabs.70ce882faaf3.js"),
+            "stripe-checkout": "https://checkout.stripe.com/checkout",
+            "stripe": "https://js.stripe.com/v2/?"  // ? needed due to require.js
+        }
+    };
+    </script>
+    <script data-main="https://static.djangoproject.com/js/main.07884ebc4865.js" src="https://static.djangoproject.com/js/lib/require.177879fbe7dd.js"></script>
+
+
+
+
+  </body>
+</html>
+
+
+        <a href="http://www.beian.miit.gov.cn "style="margin-top: 500px"><h4>粤ICP备19046099号</h4></a>
+	</body>
+</html>
