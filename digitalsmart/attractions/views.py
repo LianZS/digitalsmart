@@ -19,8 +19,8 @@ def citylist(request):
         return JsonResponse({"status": 0})
     result = ScenceManager.objects.filter(province=province).values("loaction", "citypid").distinct()
     response = {"province": province, "city": list(result)}
-    #站点跨域请求的问题
-    response=JsonResponse(response)
+    # 站点跨域请求的问题
+    response = JsonResponse(response)
 
     response = Access_Control_Allow_Origin(response)
 
@@ -37,10 +37,11 @@ def scencelist(request):
     citypid = request.GET.get("citypid")  # 123
     if not len(city) or not len(province) or not citypid:
         return JsonResponse({"status": 0})
-    result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid).values("area", "pid")
+    result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid).values("area", "pid",
+                                                                                                    "flag","longitude","latitude")
     response = {"city": city, "area": list(result)}
-    #站点跨域请求的问题
-    response=JsonResponse(response)
+    # 站点跨域请求的问题
+    response = JsonResponse(response)
 
     response = Access_Control_Allow_Origin(response)
     return response
@@ -112,9 +113,10 @@ def scenceflow_trend(
 
 
 # http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=
-@cache_page(timeout=60 * 60 * 12)
+# @cache_page(timeout=60 * 60 * 12)
 def search_heat(
         request):  # 搜索热度
+
     pid = request.GET.get("pid")
     sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
     if not pid:
@@ -138,12 +140,14 @@ def search_heat(
             sougou.append(item)
         else:
             baidu.append(item)
-    response = {"微信": wechat, "搜狗": sougou, "百度": baidu}
-    return JsonResponse(response)
+    response = {"wechat": wechat, "sougou": sougou, "baidu": baidu}
+    response = JsonResponse(response)
+    response = Access_Control_Allow_Origin(response)
+    return response
 
 
 # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&flag=0&sub_domain=
-@cache_page(timeout=60 * 5)
+# @cache_page(timeout=60 * 5)
 def scence_people_distribution(
         request):
     pid = request.GET.get("pid")
@@ -190,8 +194,10 @@ def scence_people_distribution(
             lat = item[0]
             lon = item[1]
             num = item[2]
-            data.append({"lat": lat, "lon": lon, "num": num})
-    return JsonResponse({"data": data})
+            data.append({"lat": lat, "lng": lon, "count": num})
+    response=JsonResponse({"data": data})
+    response=Access_Control_Allow_Origin(response)
+    return response
 
 
 # http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&flag=1
@@ -209,7 +215,6 @@ def scence_geographic(request):
     with connection.cursor() as cursor:
         cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s", [pid, flag])
         rows = cursor.fetchall()
-
-    return JsonResponse({"bounds": rows})
-
-
+    response = JsonResponse({"bounds": rows})
+    response = Access_Control_Allow_Origin(response)
+    return response
