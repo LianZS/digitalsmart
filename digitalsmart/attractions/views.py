@@ -35,7 +35,6 @@ def scencelist(request):
     province = request.GET.get("province")
     city = request.GET.get("location")  # 深圳市
     citypid = request.GET.get("citypid")  # 123
-
     if not len(city) or not len(province) or not citypid:
         return JsonResponse({"status": 0})
     result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid).values("area", "pid")
@@ -77,7 +76,9 @@ def scenceflow_data(
         result = sorted(rows, key=lambda x: str(x[0]))  # 排序
 
     response = {"data": result}
-    return JsonResponse(response)
+    response = JsonResponse(response)
+    response = Access_Control_Allow_Origin(response)
+    return response
 
 
 # http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723
@@ -105,10 +106,12 @@ def scenceflow_trend(
         result = sorted(rows, key=lambda x: str(x[0]))  # 排序
 
     response = {"data": result}
-    return JsonResponse(response)
+    response = JsonResponse(response)
+    response = Access_Control_Allow_Origin(response)
+    return response
 
 
-# http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&date_begin=20190722&date_end=20190723&sub_domain=
+# http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=
 @cache_page(timeout=60 * 60 * 12)
 def search_heat(
         request):  # 搜索热度
