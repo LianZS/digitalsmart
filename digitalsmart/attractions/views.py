@@ -1,10 +1,11 @@
 import datetime
 from django.views.decorators.cache import cache_page
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
-from attractions.models import ScenceManager, SearchRate, TableManager
+from attractions.models import ScenceManager, SearchRate, TableManager, ScenceImage
 from django.db import connection
+from tool.file_hander import Hander_File
 
 
 # Create your views here.
@@ -38,7 +39,8 @@ def scencelist(request):
     if not len(city) or not len(province) or not citypid:
         return JsonResponse({"status": 0})
     result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid).values("area", "pid",
-                                                                                                    "flag","longitude","latitude")
+                                                                                                    "flag", "longitude",
+                                                                                                    "latitude")
     response = {"city": city, "area": list(result)}
     # 站点跨域请求的问题
     response = JsonResponse(response)
@@ -113,7 +115,7 @@ def scenceflow_trend(
 
 
 # http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=
-# @cache_page(timeout=60 * 60 * 12)
+@cache_page(timeout=60 * 60 * 12)
 def search_heat(
         request):  # 搜索热度
 
@@ -147,7 +149,7 @@ def search_heat(
 
 
 # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&flag=0&sub_domain=
-# @cache_page(timeout=60 * 5)
+@cache_page(timeout=60 * 5)
 def scence_people_distribution(
         request):
     pid = request.GET.get("pid")
@@ -195,8 +197,8 @@ def scence_people_distribution(
             lon = item[1]
             num = item[2]
             data.append({"lat": lat, "lng": lon, "count": num})
-    response=JsonResponse({"data": data})
-    response=Access_Control_Allow_Origin(response)
+    response = JsonResponse({"data": data})
+    response = Access_Control_Allow_Origin(response)
     return response
 
 
@@ -216,5 +218,34 @@ def scence_geographic(request):
         cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s", [pid, flag])
         rows = cursor.fetchall()
     response = JsonResponse({"bounds": rows})
+    response = Access_Control_Allow_Origin(response)
+    return response
+
+
+@csrf_exempt
+def upload_photo(request):
+    # 上传图片
+    pid = request.POST.get("pid")
+
+    file = request.FILES.get("pic", None)
+    file_type = file.name.split(".", 2)[1]  # 图片类型
+
+    name = str(datetime.datetime.now().timestamp())
+    filename ="".join([name,'.',file_type])
+    file.name=filename
+    image = ScenceImage()
+    image.pid = pid
+    image.photo = file
+    image.save()
+
+    return HttpResponse("success")
+
+
+def get_photo_url(request):
+    #照片链接
+    pid = request.GET.get("pid")
+    images = ScenceImage.objects.filter(pid=pid).values("photo").iterator()
+    response = {"url": list(images)}
+    response = JsonResponse(response)
     response = Access_Control_Allow_Origin(response)
     return response

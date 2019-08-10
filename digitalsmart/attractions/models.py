@@ -163,3 +163,8 @@ class UserProfile(models.Model):  # 存放用户信息
     class Meta:
         db_table = "userdb"
 
+class ScenceImage(models.Model):
+    pid = models.SmallIntegerField(db_column="pid", verbose_name="标识")
+    photo = models.ImageField(upload_to="photo")
+    class Meta:
+        db_table="photodb"
