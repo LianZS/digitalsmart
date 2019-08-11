@@ -168,3 +168,10 @@ class ScenceImage(models.Model):
     photo = models.ImageField(upload_to="photo")
     class Meta:
         db_table="photodb"
+
+class CommentRate(models.Model):
+    pid = models.IntegerField(db_column="pid")
+    adjectives = models.CharField(max_length=16,db_column="adjectives",verbose_name="形容词")
+    rate = models.FloatField(db_column="rate",verbose_name="评分")
+    class Meta:
+        db_table="comment_rate"
