@@ -48,7 +48,7 @@ class SearchRate(models.Model):
     area = models.CharField(db_column="area", max_length=32, verbose_name="地名")
     rate = models.IntegerField(db_column="rate", verbose_name="频率")
     name = models.CharField(max_length=16, db_column="name", verbose_name="搜索引擎，包括微信-wechat，百度-baidu，搜狗-sougou")
-
+    flag = models.SmallIntegerField(db_column="flag",verbose_name="种类",default=0)
     class Meta:
         db_table = "searchrate"
 

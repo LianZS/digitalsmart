@@ -11,8 +11,9 @@ class Comment():
             request):  # 搜索热度
 
         pid = request.GET.get("pid")
+        flag =request.GET.get("flag")
         sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
-        if not pid:
+        if not pid and not flag:
             return JsonResponse({"status": 0})
         try:
             pid = int(pid)
@@ -20,7 +21,8 @@ class Comment():
             return JsonResponse({"status": 0})
         old = datetime.datetime.today() - datetime.timedelta(days=30)
         olddate = int(str(old.date()).replace("-", ""))
-        rows = SearchRate.objects.filter(pid=pid, tmp_date__gt=olddate).values("tmp_date", "name", "rate").iterator()
+        rows = SearchRate.objects.filter(pid=pid, tmp_date__gt=olddate,flag=flag).values("tmp_date", "name", "rate").\
+            iterator()
         wechat = list()
         baidu = list()
         sougou = list()
