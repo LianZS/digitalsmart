@@ -6,8 +6,10 @@ from django.db import connection
 class AreaInfo():
     #景区地理基本信息
     # http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
+    @staticmethod
     @cache_page(timeout=None)  # 永久缓存
-    def citylist(self,request):
+    def citylist(request):
+        print("test")
         # 城市列表
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:# 反爬虫
         #
@@ -25,8 +27,10 @@ class AreaInfo():
         return response
 
     ## http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
+    @staticmethod
+
     @cache_page(timeout=None)
-    def scencelist(self,request):
+    def scencelist(request):
         # 景区数据
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
@@ -47,8 +51,9 @@ class AreaInfo():
         return response
 
     # http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&flag=1
+    @staticmethod
     @cache_page(timeout=60 * 60 * 12)
-    def scence_geographic(self,request):
+    def scence_geographic(request):
         # 景区地理数据
         pid = request.GET.get("pid")
         flag = request.GET.get("flag")  # 避免同pid冲突

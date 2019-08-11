@@ -12,8 +12,10 @@ class PeopleFlow():
 
     # http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
     # predict=true&sub_domain=
+    @staticmethod
+
     @cache_page(timeout=60 * 5)
-    def scenceflow_data(self,
+    def scenceflow_data(
             request):
         # 景区实时人流
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
@@ -47,9 +49,11 @@ class PeopleFlow():
 
     # http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723
     # &predict=true&sub_domain=
+    @staticmethod
+
     @cache_page(timeout=60 * 5)
     def scenceflow_trend(
-            self,request):
+            request):
         # 景区人流趋势
         pid = request.GET.get("pid")
         date_begin = request.GET.get("date_begin")
@@ -77,9 +81,10 @@ class PeopleFlow():
         return response
 
     # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&flag=0&sub_domain=
+    @staticmethod
+
     @cache_page(timeout=60 * 5)
-    def scence_people_distribution(self,
-            request):
+    def scence_people_distribution(request):
         # 人流分布数据
         pid = request.GET.get("pid")
         flag = request.GET.get("flag")

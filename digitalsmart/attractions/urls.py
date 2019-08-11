@@ -6,6 +6,7 @@ from .comment import Comment
 from .views import  upload_photo,get_photo_url
 admin = Admin()
 areainfo = AreaInfo()
+
 flow=PeopleFlow()
 comment=Comment()
 urlpatterns = {
@@ -18,7 +19,7 @@ urlpatterns = {
     path("api/getLocation_geographic_bounds", areainfo.scence_geographic),  # 地区经纬度范围
     path("api/upload",upload_photo),#上传照片
     path("api/getImage",get_photo_url),#获取图片链接
-    path("api/commentRate",comment.get_comment_rate),#获取评价关键词指数
+    path("api/getCommentRate",comment.get_comment_rate),#获取评价关键词指数
     path("admin/provinces", admin.get_all_provinces),
     path("admin/area_cover", admin.get_cover_pic),
 

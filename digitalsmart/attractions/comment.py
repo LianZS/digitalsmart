@@ -5,8 +5,9 @@ from tool.access_control_allow_origin import Access_Control_Allow_Origin
 from attractions.models import SearchRate,CommentRate
 class Comment():
     # http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=
+    @staticmethod
     @cache_page(timeout=60 * 60 * 12)
-    def search_heat(self,
+    def search_heat(
             request):  # 搜索热度
 
         pid = request.GET.get("pid")
@@ -36,13 +37,14 @@ class Comment():
         response = JsonResponse(response)
         response = Access_Control_Allow_Origin(response)
         return response
-
-    def get_comment_rate(self,request):
+    @staticmethod
+    @cache_page(timeout=60 * 60 * 24)
+    def get_comment_rate(request):
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
         response = CommentRate.objects.filter(pid=pid).values("adjectives", "rate").iterator()
-        response = {"comment": response}
+        response = {"comment": list(response)}
         response = JsonResponse(response)
         response = Access_Control_Allow_Origin(response)
         return response
