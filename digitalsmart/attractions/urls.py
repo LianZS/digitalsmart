@@ -1,8 +1,8 @@
 from django.urls import path
-
+from .admin_views import Admin
 from .views import citylist, scencelist, scenceflow_data, scenceflow_trend, \
     search_heat, scence_people_distribution, scence_geographic,upload_photo,get_photo_url
-
+admin = Admin()
 urlpatterns = {
     path("api/getCitysByProvince", citylist),  # 获取省份下所有城市列表
     path("api/getRegionsByCity", scencelist),  # 2.获取城市下所有地区列表
@@ -13,6 +13,7 @@ urlpatterns = {
     path("api/getLocation_geographic_bounds", scence_geographic),  # 地区经纬度范围
     path("api/upload",upload_photo),#上传照片
     path("api/getImage",get_photo_url),
-
+    path("admin/provinces", admin.get_all_provinces),
+    path("admin/area_cover", admin.get_cover_pic),
 
 }

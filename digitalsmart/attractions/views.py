@@ -249,3 +249,6 @@ def get_photo_url(request):
     response = JsonResponse(response)
     response = Access_Control_Allow_Origin(response)
     return response
+
+
+
