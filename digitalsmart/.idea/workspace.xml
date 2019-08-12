@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attractions/comment.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/comment.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attractions/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/peopleflow.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/peopleflow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -86,11 +82,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attractions/comment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="57" column="92" selection-start-line="57" selection-start-column="92" selection-end-line="57" selection-end-column="92" />
+            <state relative-caret-position="289">
+              <caret line="64" column="34" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -110,11 +106,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/attractions/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="179" column="9" selection-start-line="179" selection-start-column="9" selection-end-line="179" selection-end-column="9" />
+            <state relative-caret-position="184">
+              <caret line="193" column="10" selection-start-line="193" selection-start-column="10" selection-end-line="193" selection-end-column="10" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -205,8 +201,8 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/attractions/__init__.py" />
         <option value="$PROJECT_DIR$/attractions/urls.py" />
-        <option value="$PROJECT_DIR$/attractions/models.py" />
         <option value="$PROJECT_DIR$/attractions/comment.py" />
+        <option value="$PROJECT_DIR$/attractions/models.py" />
       </list>
     </option>
   </component>
@@ -505,12 +501,12 @@
       <workItem from="1565438950976" duration="8116000" />
       <workItem from="1565497218232" duration="5590000" />
       <workItem from="1565523060319" duration="5570000" />
-      <workItem from="1565583643176" duration="4341000" />
+      <workItem from="1565583643176" duration="5957000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="178933000" />
+    <option name="totallyTimeSpent" value="180549000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="6" />
@@ -833,16 +829,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attractions/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="179" column="9" selection-start-line="179" selection-start-column="9" selection-end-line="179" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/areainfomation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
@@ -862,10 +848,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/attractions/comment.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="57" column="92" selection-start-line="57" selection-start-column="92" selection-end-line="57" selection-end-column="92" />
+        <state relative-caret-position="289">
+          <caret line="64" column="34" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attractions/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="193" column="10" selection-start-line="193" selection-start-column="10" selection-end-line="193" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>

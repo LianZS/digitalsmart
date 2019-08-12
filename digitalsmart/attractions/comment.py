@@ -60,4 +60,7 @@ class Comment():
         response=JsonResponse(response)
         response=Access_Control_Allow_Origin(response)
         return response
+    def get_state(self,request):
+        pid = request.GET.get("pid")
+        return JsonResponse({"s":1})
 

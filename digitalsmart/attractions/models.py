@@ -164,12 +164,14 @@ class UserProfile(models.Model):  # 存放用户信息
         db_table = "userdb"
 
 class ScenceImage(models.Model):
+    #景区图片
     pid = models.SmallIntegerField(db_column="pid", verbose_name="标识")
     photo = models.ImageField(upload_to="photo")
     class Meta:
         db_table="photodb"
 
 class CommentRate(models.Model):
+    #景区评价关键词指数
     pid = models.IntegerField(db_column="pid")
 
     adjectives = models.CharField(max_length=16,db_column="adjectives",verbose_name="形容词")
@@ -178,11 +180,25 @@ class CommentRate(models.Model):
         db_table="comment_rate"
 
 class NetComment(models.Model):
+    #网友评论
     pid = models.IntegerField(db_column="pid",db_index=True)
     commentuser =models.CharField(max_length=32,db_column="commentuser",verbose_name="网友")
     comment=models.TextField(db_column="comment",verbose_name="评论")
     commenttime=models.DateField(db_column="commenttime",verbose_name="评论时间")
     commentlike=models.SmallIntegerField(db_column="commentlike",verbose_name="星级好感数（1-5）")
+    userphoto=models.ImageField(upload_to="user",verbose_name="网友头像")
     class Meta:
         db_table="comment"
+
+class  ScenceState(models.Model):
+    #景区总状况
+    pid = models.IntegerField(db_column="pid",db_index=True)
+    trafficstate=models.CharField(max_length=16,db_column="trafficstate",verbose_name="交通状况")
+    weatherstate=models.CharField(max_length=16,db_column="weatherstate",verbose_name="天气状况")
+    coststate=models.CharField(max_length=16,db_column="coststate",verbose_name="性价比状况")
+    environmentstate=models.CharField(max_length=16,db_column="environmentstate",verbose_name="环境状况")
+    class Meta:
+        db_table="scencestate"
+
+
 
