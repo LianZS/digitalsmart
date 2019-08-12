@@ -171,7 +171,18 @@ class ScenceImage(models.Model):
 
 class CommentRate(models.Model):
     pid = models.IntegerField(db_column="pid")
+
     adjectives = models.CharField(max_length=16,db_column="adjectives",verbose_name="形容词")
     rate = models.FloatField(db_column="rate",verbose_name="评分")
     class Meta:
         db_table="comment_rate"
+
+class NetComment(models.Model):
+    pid = models.IntegerField(db_column="pid",db_index=True)
+    commentuser =models.CharField(max_length=32,db_column="commentuser",verbose_name="网友")
+    comment=models.TextField(db_column="comment",verbose_name="评论")
+    commenttime=models.DateField(db_column="commenttime",verbose_name="评论时间")
+    commentlike=models.SmallIntegerField(db_column="commentlike",verbose_name="星级好感数（1-5）")
+    class Meta:
+        db_table="comment"
+

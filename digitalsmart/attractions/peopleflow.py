@@ -11,7 +11,7 @@ from tool.access_control_allow_origin import Access_Control_Allow_Origin
 class PeopleFlow():
 
     # http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
-    # predict=true&sub_domain=
+    # predict
     @staticmethod
 
     @cache_page(timeout=60 * 5)

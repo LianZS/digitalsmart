@@ -19,6 +19,7 @@ urlpatterns = {
         path("getLocation_distribution_rate", flow.scence_people_distribution),  # 地区实时人口分布热力图数据
         path("getLocation_geographic_bounds", areainfo.scence_geographic),  # 地区经纬度范围
         path("getCommentRate", comment.get_comment_rate),  # 获取评价关键词指数
+        path("getComment", comment.get_comment),  # 获取评价关键词指数
     ])),
 
 

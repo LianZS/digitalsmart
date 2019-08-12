@@ -2,7 +2,7 @@ import datetime
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
-from attractions.models import SearchRate,CommentRate
+from attractions.models import SearchRate,CommentRate,NetComment
 class Comment():
     # http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=
     @staticmethod
@@ -45,9 +45,19 @@ class Comment():
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
-        response = CommentRate.objects.filter(pid=pid).values("adjectives", "rate").iterator()
-        response = {"comment": list(response)}
+        all = CommentRate.objects.filter(pid=pid).values("adjectives", "rate").iterator()
+        response = {"comment": list(all)}
         response = JsonResponse(response)
         response = Access_Control_Allow_Origin(response)
+        return response
+
+    def get_comment(self,request):
+        pid = request.GET.get("pid")
+        if pid is None:
+            return JsonResponse({"status": 0})
+        all = NetComment.objects.filter(pid=pid).values("commentuser","comment","commenttime","commentlike").iterator()
+        response={"comment":list(all)}
+        response=JsonResponse(response)
+        response=Access_Control_Allow_Origin(response)
         return response
 
