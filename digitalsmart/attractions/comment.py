@@ -42,12 +42,12 @@ class Comment():
         response = Access_Control_Allow_Origin(response)
         return response
     @staticmethod
-    @cache_page(timeout=60 * 60 * 24)
+    # @cache_page(timeout=60 * 60 * 24)
     def get_comment_rate(request):
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
-        all = CommentRate.objects.filter(pid=pid).values("adjectives", "rate").iterator()
+        all = CommentRate.objects.filter(pid=pid).values('pk',"adjectives", "rate").iterator()
         response = {"comment": list(all)}
         response = JsonResponse(response)
         response = Access_Control_Allow_Origin(response)
