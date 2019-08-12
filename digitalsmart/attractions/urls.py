@@ -20,6 +20,8 @@ urlpatterns = {
         path("getLocation_geographic_bounds", areainfo.scence_geographic),  # 地区经纬度范围
         path("getCommentRate", comment.get_comment_rate),  # 获取评价关键词指数
         path("getComment", comment.get_comment),  # 获取评价关键词指数
+        path("getState", comment.get_state),  # 获取景区状况
+
     ])),
 
 

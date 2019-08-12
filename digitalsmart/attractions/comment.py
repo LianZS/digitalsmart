@@ -1,8 +1,10 @@
 import datetime
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
+from django.core import serializers
+
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
-from attractions.models import SearchRate,CommentRate,NetComment
+from attractions.models import SearchRate,CommentRate,NetComment,ScenceState
 class Comment():
     # http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=
     @staticmethod
@@ -55,12 +57,20 @@ class Comment():
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
-        all = NetComment.objects.filter(pid=pid).values("commentuser","comment","commenttime","commentlike").iterator()
+        all = NetComment.objects.filter(pid=pid).values("commentuser","comment","commenttime","commentlike","userphoto").iterator()
         response={"comment":list(all)}
         response=JsonResponse(response)
         response=Access_Control_Allow_Origin(response)
         return response
     def get_state(self,request):
         pid = request.GET.get("pid")
-        return JsonResponse({"s":1})
+        if pid is None:
+            return JsonResponse({"status": 0})
+        obj = ScenceState.objects.get(pid=pid)
+        response={"trafficstate":obj.trafficstate,"weatherstate":obj.weatherstate,"coststate":obj.coststate,
+                  "environmentstate":obj.environmentstate}
+        # response = serializers.serialize("json",[obj]) #序列化对象
+        response=JsonResponse({"state":response})
+        response=Access_Control_Allow_Origin(response)
+        return response
 

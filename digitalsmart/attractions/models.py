@@ -186,13 +186,14 @@ class NetComment(models.Model):
     comment=models.TextField(db_column="comment",verbose_name="评论")
     commenttime=models.DateField(db_column="commenttime",verbose_name="评论时间")
     commentlike=models.SmallIntegerField(db_column="commentlike",verbose_name="星级好感数（1-5）")
-    userphoto=models.ImageField(upload_to="user",verbose_name="网友头像")
+    userphoto=models.ImageField(upload_to="user",db_column="userphoto",verbose_name="网友头像")
+
     class Meta:
         db_table="comment"
 
 class  ScenceState(models.Model):
     #景区总状况
-    pid = models.IntegerField(db_column="pid",db_index=True)
+    pid = models.IntegerField(db_column="pid")
     trafficstate=models.CharField(max_length=16,db_column="trafficstate",verbose_name="交通状况")
     weatherstate=models.CharField(max_length=16,db_column="weatherstate",verbose_name="天气状况")
     coststate=models.CharField(max_length=16,db_column="coststate",verbose_name="性价比状况")
