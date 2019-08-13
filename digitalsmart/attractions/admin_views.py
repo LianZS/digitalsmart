@@ -24,7 +24,8 @@ class Admin():
             return JsonResponse({"url": {"photo": ""}})
         if flag==1:
             photo = photo[0]
-
+        else:
+            photo=list(photo)
 
         return JsonResponse({"url": photo})
 
