@@ -31,6 +31,7 @@ urlpatterns = {
         path("provinces", admin.get_all_provinces),  # 管理员景区管理的省份界面数据
         path("area_cover", admin.get_cover_pic),  # 管理员景区管理的城市界面图片
         path("uploadCommentRate",admin.up_comment_rate),#更新评价指数
+        path("uploadComment", admin.up_comment),  # 更新评价
 
     ])),
 
