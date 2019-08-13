@@ -15,11 +15,17 @@ class Admin():
         return response
 
     def get_cover_pic(self, request):
+        #flag为1时表示要请求的图片时作为封面的，只需要返回一张就就行
         pid = request.GET.get("pid")
+        flag=int(request.GET.get("flag"))
         photo = ScenceImage.objects.filter(pid=pid).values("photo")
+
         if len(photo) == 0:
             return JsonResponse({"url": {"photo": ""}})
-        photo = photo[0]
+        if flag==1:
+            photo = photo[0]
+
+
         return JsonResponse({"url": photo})
 
     @csrf_exempt
