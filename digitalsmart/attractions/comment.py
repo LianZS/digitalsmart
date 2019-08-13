@@ -57,7 +57,7 @@ class Comment():
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
-        all = NetComment.objects.filter(pid=pid).values("commentuser","comment","commenttime","commentlike","userphoto").iterator()
+        all = NetComment.objects.filter(pid=pid).values("pk","commentuser","comment","commenttime","commentlike","userphoto").iterator()
         response={"comment":list(all)}
         response=JsonResponse(response)
         response=Access_Control_Allow_Origin(response)
