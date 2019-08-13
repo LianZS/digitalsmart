@@ -13,6 +13,7 @@ def upload_photo(request):
     pid = request.POST.get("pid")
 
     file = request.FILES.get("pic", None)
+
     file_type = file.name.split(".", 2)[1]  # 图片类型
 
     name = str(datetime.datetime.now().timestamp())
