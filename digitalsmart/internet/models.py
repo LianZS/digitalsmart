@@ -14,9 +14,9 @@ class MobileBrand(models.Model):
 
 class MobileModel(models.Model):
     # 品牌手机机型占有率
-    pid = models.ForeignKey(to="MobileBrand", to_field="id", on_delete=models.CASCADE, db_column="pid", db_index=True,
+    pid = models.ForeignKey(to="MobileBrand", to_field="id", on_delete=models.CASCADE, db_column="pid",
                             verbose_name="品牌标识外键")
-    mpid = models.SmallIntegerField(db_column="mpid", verbose_name="机型标识",  db_index=True)
+    mpid = models.SmallIntegerField(db_column="mpid", verbose_name="机型标识")
     mmodel = models.CharField(max_length=32, db_column="mmodel", verbose_name="机型")
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
     rate = models.FloatField(db_column="rate", verbose_name="机型占有率")
@@ -24,6 +24,7 @@ class MobileModel(models.Model):
 
     class Meta:
         db_table = "mobilemodel"
+        index_together=[["mpid","pid"]]
 
 
 class BrandShare(models.Model):
@@ -31,16 +32,10 @@ class BrandShare(models.Model):
                             verbose_name="品牌标识外键")
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
     rate = models.FloatField(db_column="rate", verbose_name="品牌占有率")
+    class Meta:
+        db_table="brandshare"
 
 
-# class ModelModel(models.Model):
-#     #下面的模型父类
-#     version = models.CharField(db_column="version", max_length=32, verbose_name="类型名")
-#     ddate = models.DateField(db_column="ddate", verbose_name="日期")
-#     rate = models.FloatField(db_column="rate", verbose_name="占有率")
-#
-#     class Meta:
-#         abstract = True
 
 
 class Operator(models.Model):
@@ -122,6 +117,7 @@ class AppInfo(models.Model):
 
 
 class AppActive(models.Model):
+    #创建无效果
     pid = models.ForeignKey(to="AppInfo", to_field="id", db_column="pid", verbose_name="app标识", db_index=True,
                             on_delete=models.CASCADE)
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
@@ -158,6 +154,7 @@ class AppLike(models.Model):
     rate = models.FloatField(db_column="rate", verbose_name="应用偏好占有率")
     class Meta:
         db_table="applike"
+
 class AppProvinceShare(models.Model):
     pid = models.ForeignKey(to="AppInfo", to_field="id", db_column="pid", verbose_name="app标识", db_index=True,
                             on_delete=models.CASCADE)
@@ -165,15 +162,3 @@ class AppProvinceShare(models.Model):
     rate = models.FloatField(db_column="rate", verbose_name="省份占有率")
     class Meta:
         db_table="app_province_share"
-# class NetWork(ModelModel):
-#     class Meta:
-#         db_table = "network"
-
-#
-# class UserHabit(models.Model):
-#     ddate = models.DateField(db_column="ddate")
-#     installnum = models.SmallIntegerField(db_column="installnum")
-#     activenum = models.SmallIntegerField(db_column="activenum")
-#
-#     class Meta:
-#         db_table = "userhabit"
