@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 # Create your models here.
 
 class ScenceManager(models.Model):
@@ -36,7 +35,7 @@ class ScenceFlow(models.Model):
 
     class Meta:
         db_table = "scenceflow"
-        unique_together = [['pid', 'ddate', 'ttime', 'num']]
+        index_together = ['pid', 'ddate', 'ttime', 'num']
 
 
 class SearchRate(models.Model):
@@ -79,7 +78,7 @@ class ScenceTrend(models.Model):
 
     class Meta:
         db_table = "scencetrend"
-        unique_together = [['pid', 'ddate', 'ttime', 'rate']]
+        index_together = ['pid', 'ddate', 'ttime', 'rate']
 
 
 class TableManager(models.Model):
@@ -106,7 +105,7 @@ class PeoplePositionN(models.Model):
 
     class Meta:
         abstract = True
-        unique_together = [['pid', 'tmp_date']]
+        index_together = ['pid', 'tmp_date']
 
 
 class PeoplePosition0(PeoplePositionN):

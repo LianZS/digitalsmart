@@ -3,7 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
-from .models import CityManager, CityTraffic, RoadTraffic, YearTraffic, RoadManager
+from .models import CityInfoManager, CityTraffic, RoadTraffic, YearTraffic, RoadInfoManager
 
 
 ## http://xx/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
@@ -13,7 +13,7 @@ def citylist(
         request):
     now = datetime.datetime.now().timestamp()
 
-    result = CityManager.objects.all().values("pid", "name").iterator()
+    result = CityInfoManager.objects.all().values("pid", "name").iterator()
     response = {"data":
                     {"datetime": int(now),
                      "citylist": list(result),
@@ -45,7 +45,7 @@ def daily_index(request):
     # if now - request_datetime > 10:  # 反爬虫
     #     return JsonResponse({"status": 0})
     if not response:
-        name = CityManager.objects.get(pid=pid).name
+        name = CityInfoManager.objects.get(pid=pid).name
         result = CityTraffic.objects.filter(pid=pid, ddate=ddate).values("ttime", "rate").iterator()
         response = {"data":
             {
@@ -79,7 +79,7 @@ def road_list(request):
     #     return JsonResponse({"status": 0})
     response = cache.get(pid, default=None)
     if not response:
-        updateSet = RoadManager.objects.filter(pid=pid).values("up_date")
+        updateSet = RoadInfoManager.objects.filter(pid=pid).values("up_date")
         ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
         up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
         result = RoadTraffic.objects.filter(pid=pid, up_date=up_date).values("pid", "roadname", "speed", "direction",
