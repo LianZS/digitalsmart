@@ -100,6 +100,7 @@ def road_list(request):
 
 
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/detailroad?cityCode=100&id=4&up_date=1563968622
+@cache_page(timeout=60*5)
 def detail_road(request):
     pid = request.GET.get("cityCode")
     roadid = request.GET.get("id")
@@ -134,7 +135,7 @@ def detail_road(request):
     return JsonResponse(response)
 
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=130300
-@cache_page(60 * 60 * 24)
+@cache_page(60 * 25)
 def yeartraffic(request):
 
     pid = request.GET.get("cityCode")
@@ -144,8 +145,8 @@ def yeartraffic(request):
         pid = int(pid)
     except Exception:
         return JsonResponse({"status": 0})
-
-    result = YearTraffic.objects.filter(yearpid=pid, tmp_date__gt=20190101).values("tmp_date", "rate").distinct()
+    yearpid= CityInfoManager.objects.get(pid=pid).yearpid
+    result = YearTraffic.objects.filter(yearpid=yearpid, tmp_date__gt=20190101).values("tmp_date", "rate").distinct()
     response = {
         "data":
             {
