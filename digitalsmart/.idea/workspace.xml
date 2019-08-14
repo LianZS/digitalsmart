@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/intruction/开发文档.docx" beforeDir="false" afterPath="$PROJECT_DIR$/intruction/开发文档.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traffic/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traffic/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traffic/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internet/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internet/migrations/0002_auto_20190726_1716.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internet/migrations/0003_mobileystem_network_operator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internet/migrations/0004_userhabit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internet/migrations/0005_auto_20190728_1107.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internet/migrations/0006_auto_20190728_1108.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internet/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/internet/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +55,7 @@
         <item name="digitalsmart@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="airstate: table" type="285a2a93:MysqlImplModel$Table" />
+        <item name="mobilesystemversion: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -63,11 +65,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/traffic/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="70" column="61" lean-forward="true" selection-start-line="70" selection-start-column="61" selection-end-line="70" selection-end-column="61" />
+            <state relative-caret-position="1050">
+              <caret line="70" column="61" selection-start-line="70" selection-start-column="61" selection-end-line="70" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -75,8 +77,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/traffic/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="16" lean-forward="true" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+            <state relative-caret-position="165">
+              <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -87,11 +89,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/traffic/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="145" column="22" lean-forward="true" selection-start-line="145" selection-start-column="22" selection-end-line="145" selection-end-column="22" />
+            <state relative-caret-position="102">
+              <caret line="183" column="21" lean-forward="true" selection-start-line="183" selection-start-column="21" selection-end-line="183" selection-end-column="21" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/internet/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="114" column="60" selection-start-line="114" selection-start-column="60" selection-end-line="114" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -109,7 +120,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>backe</find>
       <find>144</find>
       <find>4910</find>
       <find>INSTALLED_APPS.</find>
@@ -139,6 +149,7 @@
       <find>131000</find>
       <find>130300</find>
       <find>燕山路</find>
+      <find>mobilemodel</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -163,7 +174,6 @@
         <option value="$PROJECT_DIR$/digitalsmart/urls.py" />
         <option value="$PROJECT_DIR$/internet/urls.py" />
         <option value="$PROJECT_DIR$/digitalsmart/__init__.py" />
-        <option value="$PROJECT_DIR$/internet/models.py" />
         <option value="$PROJECT_DIR$/digitalsmart/views.py" />
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/tool/access_control_allow_origin.py" />
@@ -185,6 +195,7 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/traffic/views.py" />
         <option value="$PROJECT_DIR$/traffic/models.py" />
+        <option value="$PROJECT_DIR$/internet/models.py" />
       </list>
     </option>
   </component>
@@ -199,6 +210,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -209,24 +221,18 @@
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="intruction" type="462c0819:PsiDirectoryNode" />
+              <item name="internet" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="traffic" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="traffic" type="462c0819:PsiDirectoryNode" />
+              <item name="internet" type="462c0819:PsiDirectoryNode" />
               <item name="migrations" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -464,17 +470,19 @@
       <workItem from="1565670165188" duration="14060000" />
       <workItem from="1565696156508" duration="4726000" />
       <workItem from="1565740600915" duration="10599000" />
-      <workItem from="1565761092384" duration="7429000" />
+      <workItem from="1565761092384" duration="8609000" />
+      <workItem from="1565781269606" duration="6034000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="223805000" />
+    <option name="totallyTimeSpent" value="231019000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24313408" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15266559" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -496,7 +504,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32956383" />
-      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.17689823" />
+      <window_info anchor="right" id="Database" order="4" weight="0.17689823" />
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" />
     </layout>
   </component>
@@ -504,7 +512,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/media/photo/1565444852.840565.jpg" />
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/django/views/static.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -694,13 +701,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/internet/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="15" lean-forward="true" selection-start-line="11" selection-start-column="15" selection-end-line="11" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/migrations/0034_auto_20190814_0850.py" />
     <entry file="file://$PROJECT_DIR$/attractions/migrations/0034_auto_20190814_0854.py" />
     <entry file="file://$PROJECT_DIR$/attractions/migrations/0033_remove_commentrate_num.py" />
@@ -783,10 +783,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/traffic/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1050">
+          <caret line="70" column="61" selection-start-line="70" selection-start-column="61" selection-end-line="70" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/traffic/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="16" lean-forward="true" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+        <state relative-caret-position="165">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
@@ -795,18 +802,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/traffic/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="145" column="22" lean-forward="true" selection-start-line="145" selection-start-column="22" selection-end-line="145" selection-end-column="22" />
+        <state relative-caret-position="102">
+          <caret line="183" column="21" lean-forward="true" selection-start-line="183" selection-start-column="21" selection-end-line="183" selection-end-column="21" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/traffic/models.py">
+    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/mobilesystemversion">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/internet/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="70" column="61" lean-forward="true" selection-start-line="70" selection-start-column="61" selection-end-line="70" selection-end-column="61" />
+        <state relative-caret-position="174">
+          <caret line="114" column="60" selection-start-line="114" selection-start-column="60" selection-end-line="114" selection-end-column="60" />
         </state>
       </provider>
     </entry>
