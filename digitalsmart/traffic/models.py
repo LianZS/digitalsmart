@@ -60,3 +60,20 @@ class YearTraffic(models.Model):
     class Meta:
         db_table = "yeartraffic"
         index_together = ["yearpid", "tmp_date"]
+
+class AirState(models.Model):
+    citypid = models.IntegerField(db_column="pid", verbose_name="城市标识")
+    flag=models.BooleanField(db_column="flag",verbose_name="判断是否为最新数据，1是，0否")
+    aqi=models.SmallIntegerField(db_column="aqi",verbose_name="AQI ")
+    lasttime=models.DateTimeField(db_column="lasttime",verbose_name="最近更新时间")
+    pm2=models.SmallIntegerField(db_column="pm2",verbose_name="PM2.5/1h")
+    pm10=models.SmallIntegerField(db_column="pm10",verbose_name="PM10/1h")
+    co=models.FloatField(db_column="co",verbose_name="CO/1h")
+    no2=models.SmallIntegerField(db_column="no2",verbose_name="NO2/1h")
+    o3=models.SmallIntegerField(db_column="o3",verbose_name="O3/8h")
+    so2=models.SmallIntegerField(db_column="so2",verbose_name="SO2/1h")
+    class Meta:
+        db_table="airstate"
+
+
+

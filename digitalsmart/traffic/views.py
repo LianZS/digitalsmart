@@ -1,10 +1,11 @@
 import datetime
 import json
-from django.http import JsonResponse,HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
-from .models import CityInfoManager, CityTraffic, RoadTraffic, YearTraffic, RoadInfoManager
+from .models import CityInfoManager, CityTraffic, RoadTraffic, YearTraffic, RoadInfoManager, AirState
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
+
 
 ## http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
 
@@ -20,7 +21,7 @@ def citylist(
                      "message": None}
                 }
     response = JsonResponse(response)
-    response  =Access_Control_Allow_Origin(response)
+    response = Access_Control_Allow_Origin(response)
     return response
 
 
@@ -84,8 +85,8 @@ def road_list(request):
         updateSet = RoadInfoManager.objects.filter(citypid=pid).values("up_date")
         ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
         up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
-        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values( "roadname", "speed", "direction",
-                                                                             "roadpid","rate")
+        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values("roadname", "speed", "direction",
+                                                                                 "roadpid", "rate")
         response = {
             "data":
                 {
@@ -100,11 +101,11 @@ def road_list(request):
 
 
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/detailroad?cityCode=100&id=4&up_date=1563968622
-@cache_page(timeout=60*5)
+@cache_page(timeout=60 * 5)
 def detail_road(request):
     pid = request.GET.get("cityCode")
     roadid = request.GET.get("id")
-    up_date = request.GET.get("up_date") #重要参数，最近道路更新时间
+    up_date = request.GET.get("up_date")  # 重要参数，最近道路更新时间
     if not (pid and roadid and up_date):  # 反爬虫
         return JsonResponse({"status": 0})
     try:
@@ -116,7 +117,7 @@ def detail_road(request):
     key = pid * 1000 + roadid
     response = cache.get(key, default=None)
     if not response:
-        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds","data")
+        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds", "data")
         if len(result) > 0:
             bounds = result[0]['bounds']
             data = result[0]['data']
@@ -134,10 +135,10 @@ def detail_road(request):
 
     return JsonResponse(response)
 
+
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=130300
 @cache_page(60 * 25)
 def yeartraffic(request):
-
     pid = request.GET.get("cityCode")
     if not pid:
         return JsonResponse({"status": 0})
@@ -145,7 +146,7 @@ def yeartraffic(request):
         pid = int(pid)
     except Exception:
         return JsonResponse({"status": 0})
-    yearpid= CityInfoManager.objects.get(pid=pid).yearpid
+    yearpid = CityInfoManager.objects.get(pid=pid).yearpid
     result = YearTraffic.objects.filter(yearpid=yearpid, tmp_date__gt=20190101).values("tmp_date", "rate").distinct()
     response = {
         "data":
@@ -157,3 +158,36 @@ def yeartraffic(request):
             }
     }
     return JsonResponse(response)
+
+
+def get_city_air(request):
+    pid = request.GET.get("cityCode")
+    try:
+        obj = AirState.objects.get(citypid=pid, flag=True)
+    except Exception as e:
+        return JsonResponse({"status": 0, "message": "不好意思，数据不公开"})
+    lasttime = obj.lasttime
+    aqi = obj.aqi
+    pm2 = obj.pm2
+    pm10 = obj.pm10
+    co = obj.co
+    no2 = obj.no2
+    o3 = obj.o3
+    so2 = obj.so2
+    response = {
+        "pid": pid,
+        "lasttime": lasttime,
+        "data": {
+            "aqi": aqi,
+            "pm2": pm2,
+            "pm10": pm10,
+            "co": co,
+            "no2": no2,
+            "o3": o3,
+            "so2": so2
+
+        }
+    }
+    response = JsonResponse(response)
+    response = Access_Control_Allow_Origin(response)
+    return response
