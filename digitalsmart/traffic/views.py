@@ -1,25 +1,27 @@
 import datetime
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from .models import CityInfoManager, CityTraffic, RoadTraffic, YearTraffic, RoadInfoManager
+from tool.access_control_allow_origin import Access_Control_Allow_Origin
 
-
-## http://xx/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
+## http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
 
 @cache_page(timeout=None)
 def citylist(
         request):
     now = datetime.datetime.now().timestamp()
 
-    result = CityInfoManager.objects.all().values("pid", "name").iterator()
+    result = CityInfoManager.objects.all().values("pid", "cityname").iterator()
     response = {"data":
                     {"datetime": int(now),
                      "citylist": list(result),
                      "message": None}
                 }
-    return JsonResponse(response)
+    response = JsonResponse(response)
+    response  =Access_Control_Allow_Origin(response)
+    return response
 
 
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
@@ -45,7 +47,7 @@ def daily_index(request):
     # if now - request_datetime > 10:  # 反爬虫
     #     return JsonResponse({"status": 0})
     if not response:
-        name = CityInfoManager.objects.get(pid=pid).name
+        name = CityInfoManager.objects.get(pid=pid).cityname
         result = CityTraffic.objects.filter(pid=pid, ddate=ddate).values("ttime", "rate").iterator()
         response = {"data":
             {
@@ -79,11 +81,11 @@ def road_list(request):
     #     return JsonResponse({"status": 0})
     response = cache.get(pid, default=None)
     if not response:
-        updateSet = RoadInfoManager.objects.filter(pid=pid).values("up_date")
+        updateSet = RoadInfoManager.objects.filter(citypid=pid).values("up_date")
         ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
         up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
-        result = RoadTraffic.objects.filter(pid=pid, up_date=up_date).values("pid", "roadname", "speed", "direction",
-                                                                             "roadid")
+        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values("citypid", "roadname", "speed", "direction",
+                                                                             "roadpid")
         response = {
             "data":
                 {
@@ -101,7 +103,7 @@ def road_list(request):
 def detail_road(request):
     pid = request.GET.get("cityCode")
     roadid = request.GET.get("id")
-    up_date = request.GET.get("up_date")
+    up_date = request.GET.get("up_date") #重要参数，最近道路更新时间
     if not (pid and roadid and up_date):  # 反爬虫
         return JsonResponse({"status": 0})
     try:
@@ -113,10 +115,9 @@ def detail_road(request):
     key = pid * 1000 + roadid
     response = cache.get(key, default=None)
     if not response:
-
-        result = RoadTraffic.objects.filter(pid=pid, up_date=up_date, roadid=roadid).values("bound", "data")
+        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds","data")
         if len(result) > 0:
-            bounds = result[0]['bound']
+            bounds = result[0]['bounds']
             data = result[0]['data']
             response = {
                 "data":
@@ -132,9 +133,9 @@ def detail_road(request):
 
     return JsonResponse(response)
 
-
+# http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=130300
 @cache_page(60 * 60 * 24)
-def yeartraffic(request):  # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=130300
+def yeartraffic(request):
 
     pid = request.GET.get("cityCode")
     if not pid:
@@ -144,7 +145,7 @@ def yeartraffic(request):  # http://127.0.0.1:8000/traffic/api/trafficindex/city
     except Exception:
         return JsonResponse({"status": 0})
 
-    result = YearTraffic.objects.filter(pid=pid, tmp_date__gt=20190101).values("tmp_date", "rate").distinct()
+    result = YearTraffic.objects.filter(yearpid=pid, tmp_date__gt=20190101).values("tmp_date", "rate").distinct()
     response = {
         "data":
             {

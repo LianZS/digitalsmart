@@ -3,41 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0002_scencemanager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0003_auto_20190723_0205.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0004_geographic.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0005_scencetrend.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0006_tablemanager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0007_peopleposition0_peopleposition1_peopleposition2_peopleposition3_peopleposition4_peopleposition5_peop.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0008_scencemanager_province.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0009_auto_20190723_0957.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0010_auto_20190723_1316.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0011_auto_20190723_1318.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0012_auto_20190724_0144.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0013_tablemanager_flag.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0014_geographic_flag.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0015_usermodel.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0016_auto_20190725_1602.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0017_imagemanager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0018_auto_20190725_2142.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0019_auto_20190725_2143.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0020_auto_20190725_2143.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0021_userprofile_photo.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0022_auto_20190726_0047.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0023_auto_20190726_0103.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0024_delete_imageprofile.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0025_scenceimage.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0026_commentrate.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0027_searchrate_flag.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0028_auto_20190811_2037.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0029_netcomment_scencestate.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0030_auto_20190812_1548.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0031_auto_20190812_1636.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0032_commentrate_num.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/migrations/0033_remove_commentrate_num.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/traffic/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/traffic/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/traffic/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/traffic/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -102,31 +70,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attractions/models.py">
+        <entry file="file://$PROJECT_DIR$/traffic/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="112">
+              <caret line="32" column="46" lean-forward="true" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/traffic/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="44" column="32" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/traffic/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-746">
-              <caret line="85" column="51" lean-forward="true" selection-start-line="85" selection-start-column="51" selection-end-line="85" selection-end-column="51" />
+            <state relative-caret-position="329">
+              <caret line="147" column="51" selection-start-line="147" selection-start-column="51" selection-end-line="147" selection-end-column="51" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -135,10 +91,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attractions/migrations/0001_initial.py">
+        <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadtraffic">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/traffic/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3749">
-              <caret line="25" column="41" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="41" />
+            <state relative-caret-position="150">
+              <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -207,7 +175,6 @@
         <option value="$PROJECT_DIR$/templates/login.html" />
         <option value="$PROJECT_DIR$/templates/logout.html" />
         <option value="$PROJECT_DIR$/templates/change_password.html" />
-        <option value="$PROJECT_DIR$/traffic/urls.py" />
         <option value="$PROJECT_DIR$/digitalsmart/urls.py" />
         <option value="$PROJECT_DIR$/internet/urls.py" />
         <option value="$PROJECT_DIR$/digitalsmart/__init__.py" />
@@ -229,8 +196,9 @@
         <option value="$PROJECT_DIR$/attractions/views.py" />
         <option value="$PROJECT_DIR$/attractions/trafficmodels.py" />
         <option value="$PROJECT_DIR$/attractions/models.py" />
-        <option value="$PROJECT_DIR$/traffic/views.py" />
+        <option value="$PROJECT_DIR$/traffic/urls.py" />
         <option value="$PROJECT_DIR$/traffic/models.py" />
+        <option value="$PROJECT_DIR$/traffic/views.py" />
       </list>
     </option>
   </component>
@@ -256,18 +224,13 @@
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="attractions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="attractions" type="462c0819:PsiDirectoryNode" />
-              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+              <item name="traffic" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
               <item name="traffic" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -509,12 +472,12 @@
       <workItem from="1565624907515" duration="666000" />
       <workItem from="1565670165188" duration="14060000" />
       <workItem from="1565696156508" duration="4726000" />
-      <workItem from="1565740600915" duration="3531000" />
+      <workItem from="1565740600915" duration="5627000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="209308000" />
+    <option name="totallyTimeSpent" value="211404000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
@@ -534,7 +497,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Statistic" order="10" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.400982" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.26022914" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.3289689" />
@@ -550,20 +513,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/peopleposition0">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/tablemanager">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/peopleposition3">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -807,13 +756,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadtraffic">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadmanager">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -838,10 +780,22 @@
     <entry file="file://$PROJECT_DIR$/attractions/migrations/0033_remove_commentrate_num.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/attractions/trafficmodels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="43" column="29" selection-end-line="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/traffic/migrations/0005_roadmanager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-139" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/migrations/0001_initial.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3749">
-          <caret line="25" column="41" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="41" />
+        <state relative-caret-position="15">
+          <caret line="24" column="21" lean-forward="true" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -855,27 +809,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attractions/trafficmodels.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="43" column="29" selection-end-line="51" />
+    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadtraffic">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/traffic/views.py">
+    <entry file="file://$PROJECT_DIR$/traffic/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-746">
-          <caret line="85" column="51" lean-forward="true" selection-start-line="85" selection-start-column="51" selection-end-line="85" selection-end-column="51" />
+        <state relative-caret-position="150">
+          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/traffic/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="44" column="32" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
+        <state relative-caret-position="112">
+          <caret line="32" column="46" lean-forward="true" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/traffic/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="147" column="51" selection-start-line="147" selection-start-column="51" selection-end-line="147" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -30,7 +30,7 @@ class RoadTraffic(models.Model):
     up_date=models.IntegerField(db_column="up_date",verbose_name="更新时间")
     speed=models.FloatField(db_column="speed",verbose_name="速度")
     direction=models.CharField(max_length=80,db_column="direction",verbose_name="方向")
-    bounds = models.FileField(db_column="bounds",verbose_name="道路经纬度数据集")
+    bounds = models.FileField(db_column="bound",verbose_name="道路经纬度数据集")
     data =models.FileField(db_column="data",verbose_name="道路交通数据集")
     class Meta:
         db_table="roadtraffic"
