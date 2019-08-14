@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traffic/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/intruction/开发文档.docx" beforeDir="false" afterPath="$PROJECT_DIR$/intruction/开发文档.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/traffic/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traffic/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/traffic/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,14 +52,7 @@
         <item name="digitalsmart@localhost" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="roadtraffic: table" type="285a2a93:MysqlImplModel$Table" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="digitalsmart@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="scenceflow: table" type="285a2a93:MysqlImplModel$Table" />
+        <item name="roadmanager: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -72,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/traffic/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="32" column="46" lean-forward="true" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
+            <state relative-caret-position="210">
+              <caret line="55" column="71" lean-forward="true" selection-start-line="55" selection-start-column="71" selection-end-line="55" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -81,20 +74,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/traffic/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="147" column="51" selection-start-line="147" selection-start-column="51" selection-end-line="147" selection-end-column="51" />
+            <state relative-caret-position="167">
+              <caret line="88" selection-start-line="88" selection-end-line="88" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadtraffic">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -197,6 +181,7 @@
         <option value="$PROJECT_DIR$/attractions/trafficmodels.py" />
         <option value="$PROJECT_DIR$/attractions/models.py" />
         <option value="$PROJECT_DIR$/traffic/urls.py" />
+        <option value="$PROJECT_DIR$/traffic/migrations/0002_roadinfomanager_rate.py" />
         <option value="$PROJECT_DIR$/traffic/models.py" />
         <option value="$PROJECT_DIR$/traffic/views.py" />
       </list>
@@ -220,6 +205,11 @@
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
+              <item name="intruction" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
@@ -472,12 +462,12 @@
       <workItem from="1565624907515" duration="666000" />
       <workItem from="1565670165188" duration="14060000" />
       <workItem from="1565696156508" duration="4726000" />
-      <workItem from="1565740600915" duration="5627000" />
+      <workItem from="1565740600915" duration="10099000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211404000" />
+    <option name="totallyTimeSpent" value="215876000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
@@ -497,7 +487,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Statistic" order="10" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.26022914" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.34042552" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.3289689" />
@@ -505,7 +495,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32956383" />
-      <window_info anchor="right" id="Database" order="4" weight="0.17689823" />
+      <window_info active="true" anchor="right" id="Database" order="4" visible="true" weight="0.17689823" />
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" />
     </layout>
   </component>
@@ -513,14 +503,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/peopleposition3">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/media/photo/hello.jpg" />
     <entry file="file://$PROJECT_DIR$/media/photo/hello_pTOrN9S.jpg" />
     <entry file="file://$PROJECT_DIR$/tool/file_hander.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -756,13 +738,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadmanager">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/migrations/0034_auto_20190814_0850.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
@@ -809,10 +784,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadtraffic">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
+    <entry file="file://$PROJECT_DIR$/traffic/migrations/0002_roadinfomanager_rate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="63" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/traffic/migrations/0002_roadtraffic_rate.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/traffic/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="55" column="71" lean-forward="true" selection-start-line="55" selection-start-column="71" selection-end-line="55" selection-end-column="71" />
         </state>
       </provider>
     </entry>
@@ -826,17 +811,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/traffic/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="32" column="46" lean-forward="true" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
+    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadtraffic">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/roadmanager">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/traffic/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="147" column="51" selection-start-line="147" selection-start-column="51" selection-end-line="147" selection-end-column="51" />
+        <state relative-caret-position="167">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

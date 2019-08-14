@@ -84,8 +84,8 @@ def road_list(request):
         updateSet = RoadInfoManager.objects.filter(citypid=pid).values("up_date")
         ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
         up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
-        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values("citypid", "roadname", "speed", "direction",
-                                                                             "roadpid")
+        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values( "roadname", "speed", "direction",
+                                                                             "roadpid","rate")
         response = {
             "data":
                 {
