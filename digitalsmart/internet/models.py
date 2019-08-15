@@ -28,6 +28,7 @@ class MobileModel(models.Model):
 
 
 class BrandShare(models.Model):
+    #品牌占有情况
     pid = models.ForeignKey(to="MobileBrand", to_field="id", on_delete=models.CASCADE, db_column="pid", db_index=True,
                             verbose_name="品牌标识外键")
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
@@ -59,7 +60,7 @@ class OperatorRate(models.Model):
 
 
 class MobileSystemVersion(models.Model):
-    #
+    #手机系统
     id = models.SmallIntegerField(db_column="id", primary_key=True, verbose_name="系统版本标识id")
     version = models.CharField(max_length=18, db_column="version", verbose_name="系统版本")
     category = models.CharField(max_length=5, db_column="category", verbose_name="系统归属（苹果，安卓）")
@@ -69,6 +70,7 @@ class MobileSystemVersion(models.Model):
 
 
 class MobileSystemRate(models.Model):
+    #手机系统占用情况
     pid = models.ForeignKey(to="MobileSystemVersion", to_field="id", db_column="pid", verbose_name="系统版本标识",
                             on_delete=models.CASCADE, db_index=True, )
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
@@ -79,6 +81,7 @@ class MobileSystemRate(models.Model):
 
 
 class Network(models.Model):
+    # 网络种类
     id = models.SmallIntegerField(db_column="id", primary_key=True, verbose_name="网络标识")
     name = models.CharField(max_length=4, db_column="name", verbose_name="网络名（3G,4G.5G,WIFI..）")
 
@@ -87,6 +90,7 @@ class Network(models.Model):
 
 
 class NetworkShare(models.Model):
+    #网络占有情况
     pid = models.ForeignKey(to="Network", to_field="id", db_column="pid", verbose_name="网络标识", db_index=True,
                             on_delete=models.CASCADE)
 
@@ -98,6 +102,7 @@ class NetworkShare(models.Model):
 
 
 class UserHabit(models.Model):
+    #用户整体画像
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
     installnum = models.SmallIntegerField(db_column="installnum", verbose_name="人均安装应用")
     activenum = models.SmallIntegerField(db_column="activenum", verbose_name="人均安装应用")
@@ -107,17 +112,17 @@ class UserHabit(models.Model):
 
 
 class AppInfo(models.Model):
+    #app种类
     id = models.IntegerField(db_column="id",primary_key=True)
     appname = models.CharField(max_length=32, db_column="name", verbose_name="app名字")
-    boy = models.FloatField(db_column="boy", verbose_name="男生占有率")
-    girl = models.FloatField(db_column="girl", verbose_name="女生占有率")
+
 
     class Meta:
         db_table = "appinfo"
 
 
 class AppActive(models.Model):
-    #创建无效果
+    #app活跃信息
     pid = models.ForeignKey(to="AppInfo", to_field="id", db_column="pid", verbose_name="app标识", db_index=True,
                             on_delete=models.CASCADE)
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
@@ -131,10 +136,21 @@ class AppActive(models.Model):
     class Meta:
         db_table = "appactive"
 
-
-class AgeShare(models.Model):
+class SexShare(models.Model):
+    #app男女比例
     pid = models.ForeignKey(to="AppInfo", to_field="id", db_column="pid", verbose_name="app标识", db_index=True,
                             on_delete=models.CASCADE)
+    ddate = models.DateField(db_column="ddate", verbose_name="日期")
+    boy=models.FloatField(db_column="boy",verbose_name="男生占比")
+    girl=models.FloatField(db_column="girl",verbose_name="男生占比")
+
+
+class AgeShare(models.Model):
+    #app年龄比例
+    pid = models.ForeignKey(to="AppInfo", to_field="id", db_column="pid", verbose_name="app标识", db_index=True,
+                            on_delete=models.CASCADE)
+    ddate = models.DateField(db_column="ddate", verbose_name="日期")
+
     under_nineth = models.FloatField(db_column="under_nineth", verbose_name="19岁以下占比")
     nin_twen = models.FloatField(db_column="nin_twen", verbose_name="19-25岁占比")
     twe_thir = models.FloatField(db_column="twe_thir", verbose_name="26-35岁占比")
@@ -148,16 +164,22 @@ class AgeShare(models.Model):
         db_table = "ageshare"
 
 class AppLike(models.Model):
+    #app应用偏好
     pid = models.ForeignKey(to="AppInfo", to_field="id", db_column="pid", verbose_name="app标识", db_index=True,
                             on_delete=models.CASCADE)
+    ddate = models.DateField(db_column="ddate", verbose_name="日期")
+
     keyword =models.CharField(max_length=32,verbose_name="keyword")
     rate = models.FloatField(db_column="rate", verbose_name="应用偏好占有率")
     class Meta:
         db_table="applike"
 
 class AppProvinceShare(models.Model):
+    #app省份占有率
     pid = models.ForeignKey(to="AppInfo", to_field="id", db_column="pid", verbose_name="app标识", db_index=True,
                             on_delete=models.CASCADE)
+    ddate = models.DateField(db_column="ddate", verbose_name="日期")
+
     province =models.CharField(max_length=16,verbose_name="province")
     rate = models.FloatField(db_column="rate", verbose_name="省份占有率")
     class Meta:
