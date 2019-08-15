@@ -4,11 +4,13 @@ import time
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+from django.db.models import Max
 from .models import AppInfo, SexShare, AgeShare, AppActive, AppProvinceShare, AppLike
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
 
 
 class AppInfoView():
+    #记得把applike和app_province_share改为myisam引擎
     def get_app_list(self, request):
         name = request.GET.get("app")
 
@@ -18,6 +20,7 @@ class AppInfoView():
         return response
 
     def get_page_all_data(self, request):
+
         appanme = request.GET.get("appname")
         appid = request.GET.get("appid")
         sex_result = SexShare.objects.filter(pid=appid).values("ddate", "boy", "girl").iterator()  # 性别分布
@@ -28,7 +31,9 @@ class AppInfoView():
                                                                    "base_activerate",
                                                                    "aver_activerate").iterator()  # app活跃度
         area_result = AppProvinceShare.objects.filter(pid=appid).values("ddate", "province", "rate").iterator()  # 省份热度
-        like_keyword = AppLike.objects.filter(pid=appid).values("ddate", "keyword", "rate").iterator()  # 应用偏好关键词
+        #下面这句应该选中最新的一条数据，而不是全部数据
+        lastdate = AppLike.objects.aggregate(ddate=Max("ddate"))['ddate']
+        like_keyword = AppLike.objects.filter(pid=appid,ddate=lastdate).values("ddate", "keyword", "rate").iterator() # 应用偏好关键词
         result = {
             "sex": list(sex_result),
             "age": list(age_result),
