@@ -143,6 +143,8 @@ class SexShare(models.Model):
     ddate = models.DateField(db_column="ddate", verbose_name="日期")
     boy=models.FloatField(db_column="boy",verbose_name="男生占比")
     girl=models.FloatField(db_column="girl",verbose_name="男生占比")
+    class Meta:
+        db_table="sexshare"
 
 
 class AgeShare(models.Model):
