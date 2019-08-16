@@ -4,6 +4,7 @@
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internet/app_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/internet/app_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/intruction/开发文档.docx" beforeDir="false" afterPath="$PROJECT_DIR$/intruction/开发文档.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,9 +59,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="120">
               <caret line="9" column="53" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -68,8 +66,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/internet/app_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="33" column="32" lean-forward="true" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+            <state relative-caret-position="109">
+              <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -80,7 +78,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/internet/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
+            <state relative-caret-position="2565">
               <caret line="171" column="9" selection-start-line="171" selection-start-column="4" selection-end-line="171" selection-end-column="9" />
             </state>
           </provider>
@@ -89,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attractions/comment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
+            <state relative-caret-position="915">
               <caret line="67" column="40" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="40" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -474,18 +472,21 @@
       <workItem from="1565831781876" duration="4085000" />
       <workItem from="1565847791288" duration="8558000" />
       <workItem from="1565857688717" duration="28000" />
-      <workItem from="1565860704919" duration="3070000" />
+      <workItem from="1565860704919" duration="3666000" />
+      <workItem from="1565917305209" duration="1177000" />
+      <workItem from="1565938973626" duration="498000" />
+      <workItem from="1565940641655" duration="2584000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="249221000" />
+    <option name="totallyTimeSpent" value="254076000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16235864" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16962843" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -498,7 +499,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Statistic" order="10" />
+      <window_info anchor="bottom" id="Statistic" order="10" weight="0.3289689" />
       <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.34042552" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
@@ -762,16 +763,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/internet/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="9" column="53" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/scencestate">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -786,9 +777,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/internet/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="9" column="53" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/internet/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2565">
+          <caret line="171" column="9" selection-start-line="171" selection-start-column="4" selection-end-line="171" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/comment.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
+        <state relative-caret-position="915">
           <caret line="67" column="40" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="40" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
@@ -796,17 +801,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/internet/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="171" column="9" selection-start-line="171" selection-start-column="4" selection-end-line="171" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/internet/app_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="33" column="32" lean-forward="true" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+        <state relative-caret-position="109">
+          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

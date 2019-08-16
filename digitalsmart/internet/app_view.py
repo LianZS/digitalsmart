@@ -12,8 +12,9 @@ from tool.access_control_allow_origin import Access_Control_Allow_Origin
 class AppInfoView():
     #记得把applike和app_province_share改为myisam引擎
     def get_app_list(self, request):
-        name = request.GET.get("app")
-
+        name = request.GET.get("keyword")
+        if name=="":
+            return HttpResponse("error")
         applist = AppInfo.objects.filter(appname__contains=name).values("id", "appname").iterator()
         response = JsonResponse({"applist": list(applist)})
         response = Access_Control_Allow_Origin(response)
