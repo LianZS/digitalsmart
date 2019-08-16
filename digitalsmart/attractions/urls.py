@@ -24,6 +24,7 @@ urlpatterns = {
         path("getState", comment.get_state),  # 获取景区状况
         path("upload", upload_photo),  # 上传照片
         path("getImage", get_photo_url),  # 获取图片链接
+        path("getScenceInfo", areainfo.scence_map),  # 获取图片链接
 
     ])),
 

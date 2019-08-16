@@ -3,13 +3,14 @@ from django.http import JsonResponse
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
 from attractions.models import ScenceManager
 from django.db import connection
+
+
 class AreaInfo():
-    #景区地理基本信息
+    # 景区地理基本信息
     # http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
     @staticmethod
     @cache_page(timeout=None)  # 永久缓存
     def citylist(request):
-        print("test")
         # 城市列表
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:# 反爬虫
         #
@@ -28,10 +29,9 @@ class AreaInfo():
 
     ## http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
     @staticmethod
-
     @cache_page(timeout=None)
     def scencelist(request):
-        # 景区数据
+        # 景区数据---flag=1的景点暂时不公开
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
         province = request.GET.get("province")
@@ -39,10 +39,12 @@ class AreaInfo():
         citypid = request.GET.get("citypid")  # 123
         if not len(city) or not len(province) or not citypid:
             return JsonResponse({"status": 0})
-        result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid).values("area", "pid",
-                                                                                                        "flag",
-                                                                                                        "longitude",
-                                                                                                        "latitude")
+
+        result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid, flag=0).values("area",
+                                                                                                                "pid",
+                                                                                                                "flag",
+                                                                                                                "longitude",
+                                                                                                                "latitude")
         response = {"city": city, "area": list(result)}
         # 站点跨域请求的问题
         response = JsonResponse(response)
@@ -69,5 +71,13 @@ class AreaInfo():
                            [pid, flag])
             rows = cursor.fetchall()
         response = JsonResponse({"bounds": rows})
+        response = Access_Control_Allow_Origin(response)
+        return response
+
+    def scence_map(self, request):
+        scence_info = ScenceManager.objects.filter(flag=0).values("area", "longitude", "latitude", "province",
+                                                                  "loaction").iterator()
+        result = {"data": list(scence_info)}
+        response = JsonResponse(result)
         response = Access_Control_Allow_Origin(response)
         return response

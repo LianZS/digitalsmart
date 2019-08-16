@@ -37,6 +37,7 @@ class Comment():
                 sougou.append(item)
             else:
                 baidu.append(item)
+        print(pid)
         response = {"wechat": wechat, "sougou": sougou, "baidu": baidu}
         response = JsonResponse(response)
         response = Access_Control_Allow_Origin(response)
@@ -66,7 +67,10 @@ class Comment():
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
-        obj = ScenceState.objects.get(pid=pid)
+        try:
+            obj = ScenceState.objects.get(pid=pid)
+        except Exception:
+            return JsonResponse({"statue":0})
         response={"trafficstate":obj.trafficstate,"weatherstate":obj.weatherstate,"coststate":obj.coststate,
                   "environmentstate":obj.environmentstate}
         # response = serializers.serialize("json",[obj]) #序列化对象
