@@ -75,6 +75,7 @@ class AreaInfo():
         return response
 
     def scence_map(self, request):
+        #获取景区数据
         scence_info = ScenceManager.objects.filter(flag=0).values("area", "longitude", "latitude", "province",
                                                                   "loaction").iterator()
         result = {"data": list(scence_info)}

@@ -161,6 +161,7 @@ def yeartraffic(request):
 
 
 def get_city_air(request):
+    #获取城市空气状况
     pid = request.GET.get("cityCode")
     try:
         obj = AirState.objects.get(citypid=pid, flag=True)
@@ -189,5 +190,15 @@ def get_city_air(request):
         }
     }
     response = JsonResponse(response)
+    response = Access_Control_Allow_Origin(response)
+    return response
+
+def get_city_map(request):
+    info = CityInfoManager.objects.all().values("pid","cityname","longitude","latitude").iterator()
+    result ={
+        "data":
+            list(info)
+    }
+    response =JsonResponse(result)
     response = Access_Control_Allow_Origin(response)
     return response

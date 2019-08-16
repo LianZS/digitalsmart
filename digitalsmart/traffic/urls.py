@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import citylist, daily_index, road_list, detail_road, yeartraffic,get_city_air
+from .views import citylist, daily_index, road_list, detail_road, yeartraffic,get_city_air,get_city_map
 
 urlpatterns = {
     path("api/", include([
@@ -13,6 +13,7 @@ urlpatterns = {
             ])),
 
         ])),
+        path("getCityInfo",get_city_map),
         path("airstate",get_city_air)
 
     ])),
