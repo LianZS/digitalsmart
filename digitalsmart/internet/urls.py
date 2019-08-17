@@ -22,7 +22,7 @@ urlpatterns = {
 
             path("brandShare", share.get_public_brand_share),  # 公开的品牌数据接口
             path("systemShare", share.get_mobile_system_rate),  # 系统占有率接口
-            path("operatorShare", share.get_operator_rate),  # 系统占有率接口
+            path("operatorShare", share.get_operator_rate),  # 运营商占有率接口
             path("networkShare", share.get_network_rate),  # 网络占有率接口
 
         ])),
