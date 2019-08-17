@@ -7,7 +7,7 @@ class MobileBrand(models.Model):
     # 品牌概况表
     id = models.SmallIntegerField(db_column="id", verbose_name="品牌标识主键", primary_key=True)
     name = models.CharField(max_length=32, db_column="name", verbose_name="品牌名")
-
+    flag =models.BooleanField(db_column="flag",verbose_name="是否公开")
     class Meta:
         db_table = "mobilebrand"
 
