@@ -23,9 +23,11 @@ class MobileShare:
 
     def get_public_brand_share(self, reuqest):
         # 获取固定的公开数据
-        brandshare= BrandShare.objects.filter(pid__flag=1).values("pid__name","ddate","rate").iterator()
-        result ={"share":list(brandshare)}
+        brandshare = BrandShare.objects.filter(pid__flag=1).values("pid__name", "ddate", "rate").order_by(
+            "ddate").iterator()
+        result = {"share": list(brandshare)}
         return self.deal_response(result)
+
     def get_mobile_type(self, request):
         # 获取机型数据
         brand_pid = request.GET.get("bpid")
