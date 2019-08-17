@@ -21,7 +21,7 @@ urlpatterns = {
             path("mobileshare", share.get_mobiletype_share),  # 获取某机型占有率
 
             path("publicBrandshare", share.get_public_brand_share),  # 公开的品牌数据接口
-
+            path("systemShare", share.get_mobile_system_rate),  # 系统占有率接口
         ])),
 
     ])),

@@ -3,7 +3,7 @@ from django.db.models import Q
 
 from django.http import JsonResponse, HttpResponse
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
-from .models import MobileBrand, BrandShare, MobileModel
+from .models import MobileBrand, BrandShare, MobileModel, MobileSystemRate
 
 
 # Create your views here.
@@ -42,6 +42,15 @@ class MobileShare:
         mobileshare = MobileModel.objects.filter(pid=brand_pid, mpid=mobile_pid).values("mmodel", "ddate",
                                                                                         "rate").iterator()
         result = {"share": list(mobileshare)}
+        return self.deal_response(result)
+
+    def get_mobile_system_rate(self, request):
+        android = MobileSystemRate.objects.filter(pid__category="安卓").values("ddate", "rate").iterator()
+        apple = MobileSystemRate.objects.filter(pid__category="苹果").values("ddate", "rate").iterator()
+        result = {
+            "android": list(android),
+            "apple": list(apple)
+        }
         return self.deal_response(result)
 
     def deal_response(self, result):
