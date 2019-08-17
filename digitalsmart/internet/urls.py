@@ -14,14 +14,17 @@ urlpatterns = {
         path("mobile/", include([
             path("brand", share.get_brand_list),  # # 获取品牌数据
 
-            path("brandshare", share.get_brand_share),  # 获取某品牌占有率
+            path("allbrandshare", share.get_brand_share),  # 获取某品牌占有率
 
             path("mobiletype", share.get_mobile_type),  # 获取机型数据
 
-            path("mobileshare", share.get_mobiletype_share),  # 获取某机型占有率
+            path("mobileShare", share.get_mobiletype_share),  # 获取某机型占有率
 
-            path("publicBrandshare", share.get_public_brand_share),  # 公开的品牌数据接口
+            path("brandShare", share.get_public_brand_share),  # 公开的品牌数据接口
             path("systemShare", share.get_mobile_system_rate),  # 系统占有率接口
+            path("operatorShare", share.get_operator_rate),  # 系统占有率接口
+            path("networkShare", share.get_network_rate),  # 网络占有率接口
+
         ])),
 
     ])),

@@ -1,9 +1,6 @@
-from django.shortcuts import render
-from django.db.models import Q
-
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from tool.access_control_allow_origin import Access_Control_Allow_Origin
-from .models import MobileBrand, BrandShare, MobileModel, MobileSystemRate
+from .models import MobileBrand, BrandShare, MobileModel, MobileSystemRate, OperatorRate, NetworkShare
 
 
 # Create your views here.
@@ -45,11 +42,30 @@ class MobileShare:
         return self.deal_response(result)
 
     def get_mobile_system_rate(self, request):
-        android = MobileSystemRate.objects.filter(pid__category="安卓").values("ddate", "rate").iterator()
-        apple = MobileSystemRate.objects.filter(pid__category="苹果").values("ddate", "rate").iterator()
+        # 获取手机系统数据
+        android = MobileSystemRate.objects.filter(pid__category="安卓").values("pid__version", "ddate", "rate").order_by(
+            "ddate").iterator()
+        apple = MobileSystemRate.objects.filter(pid__category="苹果").values("pid__version", "ddate", "rate").order_by(
+            "ddate").iterator()
         result = {
             "android": list(android),
             "apple": list(apple)
+        }
+        return self.deal_response(result)
+
+    def get_operator_rate(self, request):
+        # 获取运营商数据
+        operator = OperatorRate.objects.all().values("pid__name", "ddate", "rate").order_by("ddate").iterator()
+        result = {
+            "share": list(operator)
+        }
+        return self.deal_response(result)
+
+    def get_network_rate(self, request):
+        # 获取网络数据
+        network = NetworkShare.objects.all().values("pid__name", "ddate", "rate").order_by("ddate").iterator()
+        result = {
+            "share": list(network)
         }
         return self.deal_response(result)
 
