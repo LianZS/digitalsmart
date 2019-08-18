@@ -1,8 +1,8 @@
 from django.urls import path, include
 from .admin_views import Admin
-from .areainfomation import AreaInfo
-from .peopleflow import PeopleFlow
-from .comment import Comment
+from .areainfomation_view import AreaInfo
+from .peopleflow_view import PeopleFlow
+from .comment_view import Comment
 from .views import upload_photo, get_photo_url
 
 admin = Admin()

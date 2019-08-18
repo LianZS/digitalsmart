@@ -11,7 +11,9 @@ class Comment():
     @cache_page(timeout=60 * 60 * 12)
     def search_heat(
             request):  # 搜索热度
+        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
 
+            return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         flag =request.GET.get("flag")
         sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
@@ -37,33 +39,35 @@ class Comment():
                 sougou.append(item)
             else:
                 baidu.append(item)
-        print(pid)
         response = {"wechat": wechat, "sougou": sougou, "baidu": baidu}
-        response = JsonResponse(response)
-        response = Access_Control_Allow_Origin(response)
-        return response
+        return Comment.deal_response(response)
     @staticmethod
     # @cache_page(timeout=60 * 60 * 24)
     def get_comment_rate(request):
+        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+
+            return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
         all = CommentRate.objects.filter(pid=pid).values('pk',"adjectives", "rate").iterator()
         response = {"comment": list(all)}
-        response = JsonResponse(response)
-        response = Access_Control_Allow_Origin(response)
-        return response
+        return Comment.deal_response(response)
 
     def get_comment(self,request):
+        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+
+            return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
         all = NetComment.objects.filter(pid=pid).values("pk","commentuser","comment","commenttime","commentlike","userphoto").iterator()
         response={"comment":list(all)}
-        response=JsonResponse(response)
-        response=Access_Control_Allow_Origin(response)
-        return response
+        return Comment.deal_response(response)
     def get_state(self,request):
+        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+
+            return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
@@ -74,7 +78,13 @@ class Comment():
         response={"trafficstate":obj.trafficstate,"weatherstate":obj.weatherstate,"coststate":obj.coststate,
                   "environmentstate":obj.environmentstate}
         # response = serializers.serialize("json",[obj]) #序列化对象
-        response=JsonResponse({"state":response})
-        response=Access_Control_Allow_Origin(response)
-        return response
+        response = {"state": response}
+        return Comment.deal_response(response)
 
+    @staticmethod
+    def deal_response(response):
+        response = JsonResponse(response)
+
+        response = Access_Control_Allow_Origin(response)
+
+        return response

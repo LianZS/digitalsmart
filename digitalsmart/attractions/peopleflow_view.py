@@ -11,31 +11,33 @@ from tool.access_control_allow_origin import Access_Control_Allow_Origin
 class PeopleFlow():
 
     # http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
-    # predict
+    # predict=true&sub_domain=
     @staticmethod
 
     @cache_page(timeout=60 * 5)
     def scenceflow_data(
             request):
         # 景区实时人流
-        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-        #     return JsonResponse({"status": 0})
+        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+            return JsonResponse({"status": 0})
 
         pid = request.GET.get("pid")
-        date_begin = request.GET.get("date_begin")  # 20190722
-        date_end = request.GET.get("date_end")  # 20190723
+        date_begin = int(request.GET.get("date_begin"))  # 20190722
+        date_end = int(request.GET.get("date_end"))  # 20190723
         predict = request.GET.get("predict")  # 是否预测,true,false
         sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+        inv =date_end-date_begin
+        if inv>1:
+            return JsonResponse({"status": 0,"message":"参数有误"})
 
-        if not (pid and date_begin and date_end and predict):
-            return JsonResponse({"status": 0})
+        if not (pid and date_begin and date_end and predict)  :
+            return JsonResponse({"status": 0,"message":"参数有误"})
         try:
             pid = int(pid)
             date_begin = int(date_begin)
             date_end = int(date_end)
         except Exception:
             return JsonResponse({"status": 0})
-
         with connection.cursor() as cursor:
             cursor.execute("select ttime,num from digitalsmart.scenceflow "
                            "where pid= %s and ddate=%s ", [pid, date_begin])
@@ -43,9 +45,7 @@ class PeopleFlow():
             result = sorted(rows, key=lambda x: str(x[0]))  # 排序
 
         response = {"data": result}
-        response = JsonResponse(response)
-        response = Access_Control_Allow_Origin(response)
-        return response
+        return  PeopleFlow.deal_response(response)
 
     # http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723
     # &predict=true&sub_domain=
@@ -55,6 +55,9 @@ class PeopleFlow():
     def scenceflow_trend(
             request):
         # 景区人流趋势
+        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+            return JsonResponse({"status": 0})
+
         pid = request.GET.get("pid")
         date_begin = request.GET.get("date_begin")
         date_end = request.GET.get("date_end")
@@ -76,9 +79,7 @@ class PeopleFlow():
             result = sorted(rows, key=lambda x: str(x[0]))  # 排序
 
         response = {"data": result}
-        response = JsonResponse(response)
-        response = Access_Control_Allow_Origin(response)
-        return response
+        return PeopleFlow.deal_response(response)
 
     # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&flag=0&sub_domain=
     @staticmethod
@@ -86,6 +87,9 @@ class PeopleFlow():
     @cache_page(timeout=60 * 5)
     def scence_people_distribution(request):
         # 人流分布数据
+        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+            return JsonResponse({"status": 0})
+
         pid = request.GET.get("pid")
         flag = request.GET.get("flag")
         if not (pid and flag):
@@ -131,6 +135,12 @@ class PeopleFlow():
                 lon = item[1]
                 num = item[2]
                 data.append({"lat": lat, "lng": lon, "count": num})
-        response = JsonResponse({"data": data})
+        response={"data": data}
+        return PeopleFlow.deal_response(response)
+    @staticmethod
+    def deal_response(response):
+        response = JsonResponse(response)
+
         response = Access_Control_Allow_Origin(response)
+
         return response
