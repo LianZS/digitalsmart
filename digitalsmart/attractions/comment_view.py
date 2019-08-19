@@ -11,9 +11,9 @@ class Comment():
     @cache_page(timeout=60 * 60 * 12)
     def search_heat(
             request):  # 搜索热度
-        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-
-            return JsonResponse({"status": 0})
+        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+        #
+        #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         flag =request.GET.get("flag")
         sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
@@ -44,9 +44,9 @@ class Comment():
     @staticmethod
     # @cache_page(timeout=60 * 60 * 24)
     def get_comment_rate(request):
-        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-
-            return JsonResponse({"status": 0})
+        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+        #
+        #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
@@ -65,9 +65,9 @@ class Comment():
         response={"comment":list(all)}
         return Comment.deal_response(response)
     def get_state(self,request):
-        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-
-            return JsonResponse({"status": 0})
+        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+        #
+        #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
