@@ -14,9 +14,9 @@ class ScenceManager(models.Model):
     loaction = models.CharField(db_column="loaction", max_length=18, verbose_name="所处城市")
     citypid = models.IntegerField(db_column="citypid", verbose_name="所处城市标识")
     weatherpid = models.TextField(db_column="weatherpid", verbose_name="对应的天气标识")
-    flag = models.SmallIntegerField(db_column="flag", verbose_name="类别标识,百度数据为1，腾讯为0")
+    flag = models.SmallIntegerField(db_column="flag", verbose_name="是否公开，0表示公开")
     province = models.CharField(db_column="province", max_length=18, verbose_name="省份")
-
+    type_flag =models.SmallIntegerField(db_column="type_flag",verbose_name="类别标识,百度数据为1，腾讯为0")
     class Meta:
         db_table = "scencemanager"
 

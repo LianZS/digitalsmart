@@ -67,7 +67,7 @@ class WebDriver(TestCase):
         self.drive.find_element_by_id("btn").click()
         time.sleep(5)
 
-def send_comment_data():
+def send_comment_data():# 传到了商丘古文化旅游区
     db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
                          database="digitalsmart", port=3306)
     cur = db.cursor()
@@ -99,7 +99,7 @@ def send_comment_data():
                 except Exception:
                     print("error:{0}".format(filedir))
 
-def send_scence_pic():
+def send_scence_pic():#传到了晋城市皇城相府生态文化旅游区
     db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
                          database="digitalsmart", port=3306)
     cur = db.cursor()

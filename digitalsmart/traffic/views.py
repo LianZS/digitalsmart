@@ -9,7 +9,7 @@ from tool.access_control_allow_origin import Access_Control_Allow_Origin
 
 ## http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
 
-@cache_page(timeout=None)
+@cache_page(timeout=60 * 23)
 def citylist(
         request):
     now = datetime.datetime.now().timestamp()
@@ -26,7 +26,7 @@ def citylist(
 
 
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
-
+@cache_page(timeout=60 * 5)
 def daily_index(request):
     pid = request.GET.get("cityCode")
     ddate = request.GET.get("ddate")
@@ -58,7 +58,6 @@ def daily_index(request):
                 "message": None,
             }
         }
-        cache.set(pid, response, 60 * 30)
 
     return JsonResponse(response)
 
@@ -96,7 +95,6 @@ def road_list(request):
 
                 }
         }
-        cache.set(pid, response, timeout=60 * 10)  # 缓存10分钟
     return JsonResponse(response)
 
 
@@ -106,38 +104,39 @@ def detail_road(request):
     pid = request.GET.get("cityCode")
     roadid = request.GET.get("id")
     up_date = request.GET.get("up_date")  # 重要参数，最近道路更新时间
+
     if not (pid and roadid and up_date):  # 反爬虫
         return JsonResponse({"status": 0})
+
     try:
         pid = int(pid)
         roadid = int(roadid)
         up_date = int(up_date)
     except Exception:
         return JsonResponse({"status": 0})
-    key = pid * 1000 + roadid
-    response = cache.get(key, default=None)
-    if not response:
-        result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds", "data")
-        if len(result) > 0:
-            bounds = result[0]['bounds']
-            data = result[0]['data']
-            response = {
-                "data":
-                    {
-                        "detail":
-                            {
-                                "bounds": json.loads(bounds),
-                                "data": json.loads(data),
-                            }
-                    }
-            }
-            cache.set(key, response, 60 * 10)
 
-    return JsonResponse(response)
+    result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds", "data")
+
+    if len(result) > 0:
+        bounds = result[0]['bounds']
+        data = result[0]['data']
+        response = {
+            "data":
+                {
+                    "detail":
+                        {
+                            "bounds": json.loads(bounds),
+                            "data": json.loads(data),
+                        }
+                }
+        }
+
+        return JsonResponse(response)
+    return HttpResponse("none")
 
 
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=130300
-@cache_page(60 * 25)
+@cache_page(60 * 60*15)
 def yeartraffic(request):
     pid = request.GET.get("cityCode")
     if not pid:
@@ -160,21 +159,25 @@ def yeartraffic(request):
     return JsonResponse(response)
 
 
+# http://scenicmonitor.top/traffic/api/airstate?&cityCode=810000
+@cache_page(60*60)
 def get_city_air(request):
-    #获取城市空气状况
+    # 获取城市空气状况
     pid = request.GET.get("cityCode")
     try:
-        obj = AirState.objects.get(citypid=pid, flag=True)
+        obj = AirState.objects.filter(citypid=pid, flag=True).order_by("-lasttime"). \
+            values("lasttime", 'aqi', 'pm2', 'pm10', 'co', 'no2', 'o3', 'so2')[0]
     except Exception as e:
-        return JsonResponse({"status": 0, "message": "不好意思，数据不公开"})
-    lasttime = obj.lasttime
-    aqi = obj.aqi
-    pm2 = obj.pm2
-    pm10 = obj.pm10
-    co = obj.co
-    no2 = obj.no2
-    o3 = obj.o3
-    so2 = obj.so2
+        print(e)
+        return JsonResponse({"status": 0, "message": "不好意思，最新数据还未采集成功"})
+    lasttime = obj['lasttime']
+    aqi = obj['aqi']
+    pm2 = obj['pm2']
+    pm10 = obj['pm10']
+    co = obj['co']
+    no2 = obj['no2']
+    o3 = obj['o3']
+    so2 = obj['so2']
     response = {
         "pid": pid,
         "lasttime": lasttime,
@@ -193,12 +196,13 @@ def get_city_air(request):
     response = Access_Control_Allow_Origin(response)
     return response
 
+@cache_page(60*60*15)
 def get_city_map(request):
-    info = CityInfoManager.objects.all().values("pid","cityname","longitude","latitude").iterator()
-    result ={
+    info = CityInfoManager.objects.all().values("pid", "cityname", "longitude", "latitude").iterator()
+    result = {
         "data":
             list(info)
     }
-    response =JsonResponse(result)
+    response = JsonResponse(result)
     response = Access_Control_Allow_Origin(response)
     return response
