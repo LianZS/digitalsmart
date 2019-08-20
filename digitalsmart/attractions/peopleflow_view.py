@@ -84,12 +84,11 @@ class PeopleFlow():
     # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&flag=0&sub_domain=
     @staticmethod
 
-    # @cache_page(timeout=60 * 5)
+    @cache_page(timeout=60 * 5)
     def scence_people_distribution(request):
         # 人流分布数据
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
-
         pid = request.GET.get("pid")
         flag = request.GET.get("flag")
         if not (pid and flag):

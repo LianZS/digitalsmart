@@ -1,6 +1,4 @@
-import datetime
-from django.views.decorators.cache import cache_page
-from django.core import serializers
+import random
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from attractions.models import ScenceManager, ScenceImage, CommentRate,NetComment
@@ -9,7 +7,7 @@ from attractions.models import ScenceManager, ScenceImage, CommentRate,NetCommen
 class Admin():
 
     def get_all_provinces(self, request):
-        all = ScenceManager.objects.all().values("province", "loaction", "citypid").distinct().iterator()
+        all = ScenceManager.objects.filter(flag=0).values("province", "loaction", "citypid").distinct().iterator()
         response = {"data": list(all)}
         response = JsonResponse(response)
         return response
@@ -58,28 +56,35 @@ class Admin():
     @csrf_exempt
 
     def up_comment(self, request):
-        '''post内容为{'data': ['[{"pk":18,"commentuser":"","comment":"","commenttime":"","commentlike":2}]'], 'pid': ['6']}
-            当pk为整数时，表示要输出的评论，当为-1时表示增加的评论
+        '''post内容为{'data': ['[{"pk":18,"commentuser":"","comment":"","commenttime":"yyyy-mm-dd","commentlike":2}]'], 'pid': ['6']}
+            当pk为整数时，表示要删除的评论，当为-1时表示增加的评论
         '''
-        #
         data = request.POST.get("data")  # '[{"pk": 1, "adjectives": "", "rate": -1},,,,,]'序列化数组对象
         pid = request.POST.get("pid")
         data = eval(data)
         for item in data:
             pk = item['pk'] # 数据库id
             commentuser = item['commentuser']  # 形容词
-            comment = item['comment']  # 评分
-            commenttime=item['commenttime']
+            comment = item['comment']  # 评论
+            commenttime=item['commenttime']#评论时间---yyyy-mm-dd
+            commentlike =item['commentlike'] #评分
             if pk>0:
 
-                CommentRate.objects.filter(pk=pk).delete()
+                NetComment.objects.filter(pk=pk).delete()
 
             else:
                 if pk == -1:  # 插入
-                    nc = NetComment()
-                    nc.pid=pid
-                    nc.userphoto="photo/2.jpg"
-                    nc.commentuser=commentuser
-                    nc.commenttime=commenttime
+                    try:
+                        pic = random.randint(1,31)
+                        nc = NetComment()
+                        nc.pid=pid
+                        nc.userphoto=''.join(["photo/",str(pic),".jpg"])
+                        nc.comment=comment
+                        nc.commentuser=commentuser
+                        nc.commenttime=commenttime
+                        nc.commentlike=commentlike
+                        nc.save()
+                    except Exception :
+                        return HttpResponse("参数格式有误！！")
 
         return HttpResponse("success")

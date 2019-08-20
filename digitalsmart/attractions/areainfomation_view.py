@@ -9,7 +9,7 @@ class AreaInfo():
     # 景区地理基本信息
     # http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
     @staticmethod
-    # @cache_page(timeout=None)  # 永久缓存
+    @cache_page(timeout=None)  # 永久缓存
     def citylist(request):
         # 城市列表
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫

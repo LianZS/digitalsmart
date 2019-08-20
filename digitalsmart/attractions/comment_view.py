@@ -55,9 +55,9 @@ class Comment():
         return Comment.deal_response(response)
 
     def get_comment(self,request):
-        if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-
-            return JsonResponse({"status": 0})
+        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
+        #
+        #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if pid is None:
             return JsonResponse({"status": 0})
