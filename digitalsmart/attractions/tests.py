@@ -1,45 +1,146 @@
 from django.test import TestCase
 
 # Create your tests here.
-import requests
 import csv
 import time
+import os
+import pymysql
 from selenium import webdriver
 
-post_url = "http://scenicmonitor.top/attractions/admin/uploadComment"
 
-f = open("/Volumes/Tigo/finished/深圳欢乐谷/评价.csv", 'r', encoding="gbk")
-read = csv.reader(f)
-read.__next__()
-headers = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
-}
-drive = webdriver.Chrome()
-drive.get(
-    'http://127.0.0.1:8020/DigitalSmart/manager/scencedata.html?area=%E6%B7%B1%E5%9C%B3%E6%AC%A2%E4%B9%90%E8%B0%B7&pid=6')
-count = 2
-for item in read:
-    drive.find_element_by_id('add-comment-tr').click()
+class WebDriver(TestCase):
+    def __init__(self):
+        self.drive = webdriver.Chrome()
 
-    username = item[0]
-    commment = item[1]
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.drive.close()
 
-    month, day, year = item[2].split('/', maxsplit=3)
-    date = "{0}-{1}-{2}".format(year, month, day)
-    commmentlike = int(item[3])
+    def send_comment(self, url, filepath):
+        # "/Volumes/Tigo/finished/深圳欢乐谷/评价.csv"
+        f = open(filepath, 'r', encoding="gbk")
+        read = csv.reader(f)
+        read.__next__()
 
-    element_xpath = "//td[@id='{0}']".format('user-' + str(count))
-    username_element = drive.find_element_by_xpath(element_xpath)  # 用户节点
-    username_element.send_keys(username)
-    commment_element = drive.find_element_by_xpath(element_xpath + "/../td[2]")  # 评论节点
-    commment_element.send_keys(commment)
-    commmentlike_element = drive.find_element_by_xpath(element_xpath + "/../td[3]")  # 评分节点
-    commmentlike_element.send_keys(commmentlike)
-    date_element = drive.find_element_by_xpath(element_xpath + "/../td[4]")  # 时间节点
-    date_element.send_keys(date)
+        self.drive.get(url)
+        count = 1
+        for item in read:
+            self.drive.find_element_by_id('add-comment-tr').click()
+
+            username = item[0]
+            commment = item[1]
+            try:
+                month, day, year = item[2].split('/', maxsplit=3)
+                date = "{0}-{1}-{2}".format(year, month, day)
+
+            except ValueError:
+                date = item[2]
+            commmentlike = int(item[3])
+            element_xpath = "//td[@id='{0}']".format('user-' + str(count))
+            try:
+                username_element = self.drive.find_element_by_xpath(element_xpath)  # 用户节点
+            except Exception:  # 因为速度太快导致节点还没生成
+                self.drive.find_element_by_id('add-comment-tr').click()
+
+                time.sleep(1)
+                username_element = self.drive.find_element_by_xpath(element_xpath)  # 用户节点
+
+            username_element.send_keys(username)
+            commment_element = self.drive.find_element_by_xpath(element_xpath + "/../td[2]")  # 评论节点
+            commment_element.send_keys(commment)
+            commmentlike_element = self.drive.find_element_by_xpath(element_xpath + "/../td[3]")  # 评分节点
+            commmentlike_element.send_keys(commmentlike)
+            date_element = self.drive.find_element_by_xpath(element_xpath + "/../td[4]")  # 时间节点
+            date_element.send_keys(date)
+
+            count += 1
+
+        self.drive.find_element_by_id('send2').click()
+
+    def load_html(self, url):
+        self.drive.get(url)
+
+    def send_pic(self, filepath):
+        elemetn_xpath = "//div[@class='{0}']".format("card-panel")
+        self.drive.find_element_by_xpath(elemetn_xpath + "/li[1]").click()
+
+        self.drive.find_element_by_id("fileinp").send_keys(filepath)
+        self.drive.find_element_by_id("btn").click()
+        time.sleep(5)
+
+def send_comment_data():
+    db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
+                         database="digitalsmart", port=3306)
+    cur = db.cursor()
+    sql = "select area,pid from digitalsmart.scencemanager"
+    cur.execute(sql)
+    result = cur.fetchall()
+    web = WebDriver()
+    rootpath = "/Volumes/Tigo/finished/"
+    area_map = dict()
+    for item in result:
+        area = item[0]
+        pid = item[1]
+        area_map[area] = pid
+    for filedir in os.listdir(rootpath):
+
+        try:
+            pid = area_map[filedir]
+        except KeyError:
+            continue
+        for file in os.listdir(rootpath + filedir):
+            file_type = file.split(".")[1]
+            if file_type == "csv":
+                filepath = rootpath + filedir + "/" + file
+                url = "http://127.0.0.1:8020/DigitalSmart/manager/scencedata.html?area={0}&pid={1}".format(filedir, pid)
+                try:
+                    web.send_comment(url=url, filepath=filepath)
+                    print("send:{0}".format(filedir))
+
+                except Exception:
+                    print("error:{0}".format(filedir))
+
+def send_scence_pic():
+    db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
+                         database="digitalsmart", port=3306)
+    cur = db.cursor()
+    sql = "select area,pid from digitalsmart.scencemanager"
+    cur.execute(sql)
+    result = cur.fetchall()
+    web = WebDriver()
+    rootpath = "/Volumes/Tigo/易班项目数据/景区/景区/"
+
+    area_map = dict()
+    for item in result:
+        area = item[0]
+        pid = item[1]
+        area_map[area] = pid
+    for filedir in os.listdir(rootpath):
+        key = get_pid(area_map, filedir)
+        if key is not None:
+            pid = area_map[key]
+            url = "http://127.0.0.1:8020/DigitalSmart/manager/scencedata.html?area={0}&pid={1}".format(filedir,
+                                                                                                       pid)
+            web.load_html(url=url)
+
+            for file in os.listdir(rootpath + filedir):
+                file_type = file.split(".")[1]
+
+                if file_type == "png" or file_type =="jpg" or file_type =="jpeg":
+                    filepath = rootpath + filedir + "/" + file
+                    try:
+                        web.send_pic(filepath)
+
+                        print("send:{0}".format(filedir))
+
+                    except Exception:
+                        print("error:{0}".format(filedir))
+def get_pid(map, longkey):
+    for key in map.keys():
+        if key in longkey:
+            return key
+    else:
+        return None
 
 
-    count += 1
-
-drive.find_element_by_id('send2').click()
-drive.close()
+if __name__ == "__main__":
+    send_scence_pic()
