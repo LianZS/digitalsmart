@@ -9,7 +9,7 @@ class AreaInfo():
     # 景区地理基本信息
     # http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
     @staticmethod
-    @cache_page(timeout=None)  # 永久缓存
+    @cache_page(60*60)
     def citylist(request):
         # 城市列表
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
@@ -25,7 +25,7 @@ class AreaInfo():
 
     ## http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
     @staticmethod
-    @cache_page(timeout=None)
+    @cache_page(60*60)
     def scencelist(request):
         # 景区数据---flag=1的景点暂时不公开
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫

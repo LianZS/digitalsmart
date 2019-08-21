@@ -3,8 +3,12 @@ from django.test import TestCase
 # Create your tests here.
 import csv
 import time
+import random
 import os
 import pymysql
+import json
+import requests
+from threading import Thread
 from selenium import webdriver
 
 
@@ -16,14 +20,16 @@ class WebDriver(TestCase):
         self.drive.close()
 
     def send_comment(self, url, filepath):
-        # "/Volumes/Tigo/finished/深圳欢乐谷/评价.csv"
         f = open(filepath, 'r', encoding="gbk")
         read = csv.reader(f)
         read.__next__()
 
         self.drive.get(url)
+
         count = 1
+
         for item in read:
+
             self.drive.find_element_by_id('add-comment-tr').click()
 
             username = item[0]
@@ -35,6 +41,8 @@ class WebDriver(TestCase):
             except ValueError:
                 date = item[2]
             commmentlike = int(item[3])
+            if commmentlike==0:
+                commmentlike=random.randint(1,5)
             element_xpath = "//td[@id='{0}']".format('user-' + str(count))
             try:
                 username_element = self.drive.find_element_by_xpath(element_xpath)  # 用户节点
@@ -54,7 +62,7 @@ class WebDriver(TestCase):
 
             count += 1
 
-        self.drive.find_element_by_id('send2').click()
+        # self.drive.find_element_by_id('send2').click()
 
     def load_html(self, url):
         self.drive.get(url)
@@ -67,7 +75,8 @@ class WebDriver(TestCase):
         self.drive.find_element_by_id("btn").click()
         time.sleep(5)
 
-def send_comment_data():# 传到了商丘古文化旅游区
+
+def send_comment_data():  # 传到了商丘古文化旅游区
     db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
                          database="digitalsmart", port=3306)
     cur = db.cursor()
@@ -87,6 +96,10 @@ def send_comment_data():# 传到了商丘古文化旅游区
             pid = area_map[filedir]
         except KeyError:
             continue
+        response = requests.get(url="http://scenicmonitor.top/attractions/api/getComment?&pid={0}".format(pid))
+        g = json.loads(response.text)
+        if len(g["comment"])>0:
+            continue
         for file in os.listdir(rootpath + filedir):
             file_type = file.split(".")[1]
             if file_type == "csv":
@@ -98,8 +111,10 @@ def send_comment_data():# 传到了商丘古文化旅游区
 
                 except Exception:
                     print("error:{0}".format(filedir))
+            time.sleep(2)
 
-def send_scence_pic():#传到了晋城市皇城相府生态文化旅游区
+
+def send_scence_pic():  # 传到了晋城市皇城相府生态文化旅游区
     db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
                          database="digitalsmart", port=3306)
     cur = db.cursor()
@@ -114,7 +129,13 @@ def send_scence_pic():#传到了晋城市皇城相府生态文化旅游区
         area = item[0]
         pid = item[1]
         area_map[area] = pid
+    flag = 0
     for filedir in os.listdir(rootpath):
+        if filedir == "晋城市皇城相府生态文化旅游区":
+            flag = 1
+            continue
+        if flag == 0:
+            continue
         key = get_pid(area_map, filedir)
         if key is not None:
             pid = area_map[key]
@@ -125,7 +146,7 @@ def send_scence_pic():#传到了晋城市皇城相府生态文化旅游区
             for file in os.listdir(rootpath + filedir):
                 file_type = file.split(".")[1]
 
-                if file_type == "png" or file_type =="jpg" or file_type =="jpeg":
+                if file_type == "png" or file_type == "jpg" or file_type == "jpeg":
                     filepath = rootpath + filedir + "/" + file
                     try:
                         web.send_pic(filepath)
@@ -134,6 +155,8 @@ def send_scence_pic():#传到了晋城市皇城相府生态文化旅游区
 
                     except Exception:
                         print("error:{0}".format(filedir))
+
+
 def get_pid(map, longkey):
     for key in map.keys():
         if key in longkey:
@@ -143,4 +166,5 @@ def get_pid(map, longkey):
 
 
 if __name__ == "__main__":
-    send_scence_pic()
+    Thread(target=send_scence_pic,args=()).start()
+
