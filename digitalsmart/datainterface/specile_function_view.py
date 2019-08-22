@@ -1,4 +1,5 @@
 import json
+import time
 from django.http import StreamingHttpResponse, JsonResponse
 
 from .tasks import NetWorker
@@ -25,11 +26,11 @@ class Crack:
         first = iter_down_info.__next__()  # 获取第一首
         dowun_url = first['url']
         strem = net.down_music_content(url=dowun_url)
-        reponse = StreamingHttpResponse(strem)
-        reponse['Content-Type'] = 'application/octet-stream'
-        reponse['Content-Disposition'] = 'attachment;filename="example.mp3"'
+        response = StreamingHttpResponse(strem)
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Disposition'] = 'attachment;filename="example.mp3"'
 
-        return reponse
+        return response
 
     def identity_authentication(self, request):
         """
@@ -53,5 +54,21 @@ class Crack:
             '当地经纬度': person_info.latlon
         }
         return JsonResponse(response)
-    def down_baidu_doc(self,request):
+
+    def down_baidu_doc(self, request):
+        """
+        下载百度文档
+
+        """
+        url = request.GET.get("url")
+        file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
+        net = NetWorker()
+        iter_doc = net.down_baidu_doc(url, file_type)
+        response = StreamingHttpResponse(iter_doc)
+        response['Content-Type'] = 'application/octet-stream'
+
+        response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(),file_type)
+        return response
+    def get_goods_info(self,request):
+        pass
 

@@ -158,8 +158,31 @@ class NetWorker(object):
         for fragment in response.iter_content(chunk_size=1024):
             yield fragment
 
-    def down_baidu_doc(self, url, filetype):
-        url = "http://wenku.baiduvvv.com/ds.php?url=http%3A%2F%2Fwenku.baidu.com%2Fview%2Febc073d384254b35eefd34d5.html&type=doc&t=1566474872000&sign=c2ab55222ed516ef66767d0bbfc62c07"
-        response = requests.get(url=url, stream=True)
+    def down_baidu_doc(self, url, filetype) -> Iterator[ByteString]:
+        """
+        下载百度文档
+        :param url: 文档链接
+        :param filetype: 下载类型，可选doc，pdf，ppt
+        :return:
+        """
+        paramer = {
+            "url": url,
+            "type": filetype,
+        }
+        url = "http://wenku.baiduvvv.com/ds.php?" + urlencode(paramer)
+        response = requests.get(url=url, headers=self.headers)  # 获取域名
+        g = json.loads(response.text)
+        domain = g['s']  # 域名
+        paramer = {
+            "url": url,
+            "type": filetype,
+            "btype": "down"
+
+        }
+
+        url = domain + "/wkc.php?" + urlencode(paramer)  # 下载链接
+        response = requests.get(url=url, stream=True, headers=self.headers)
         for fragment in response.iter_content(chunk_size=1024):
             yield fragment
+    # def get_goods_info(self,url):
+    #     pass

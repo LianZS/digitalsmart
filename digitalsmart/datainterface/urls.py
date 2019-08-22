@@ -12,5 +12,6 @@ urlpatterns = {
         path("getScenceHeatmapDataByTime", scence.interface_hisroty_scence_distribution_data),  # 获取景区某时刻人流分布情况
         path("downWYYMusic", crack.down_music),  # 下载音乐
         path("validation", crack.identity_authentication),  # 身份认证
+        path("baidudoc", crack.down_baidu_doc),  # 百度文档下载
     ])),
 }
