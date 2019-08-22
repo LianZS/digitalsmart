@@ -117,7 +117,7 @@ class Crack:
         """
         pre_path = request.path + "?url="
         href = request.get_full_path()
-        url = href.replace(pre_path, "")#防止url后带有各类特殊符号导致与目标链接不匹配
+        url = href.replace(pre_path, "")  # 防止url后带有各类特殊符号导致与目标链接不匹配
 
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})
@@ -130,4 +130,13 @@ class Crack:
             "data": info
         }
         return JsonResponse(response)
-    def webpage_to_pdf(self,request):
+
+    # def webpage_to_pdf(self, request):
+    #     pre_path = request.path + "?url="
+    #     href = request.get_full_path()
+    #     url = href.replace(pre_path, "")  # 防止url后带有各类特殊符号导致与目标链接不匹配
+    #
+    #     if url is None:
+    #         return JsonResponse({"status": 0, "message": "error"})
+    #     net = NetWorker()
+

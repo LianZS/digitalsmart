@@ -262,3 +262,31 @@ class NetWorker(object):
             "images": images
         }
         }
+
+    # def webpage_to_pdf(self, url):
+    #     """
+    #     将网页转为pdf
+    #     :param url:
+    #     :return:
+    #     """
+    #     self.headers['Sec-Fetch-Mode'] = "cors"
+    #     self.headers['Referer']="https://tools.pdf24.org/zh/webpage-to-pdf"
+    #     self.headers['Content-Type'] ='application/json; charset=UTF-8'
+    #     paramer = {
+    #
+    #         "action":"webpageToPdf",
+    #         "url": "https://v.qq.com/x/cover/v2098lbuihuqs11.html"
+    #
+    #     }
+    #     domainurl = "https://filetools1.pdf24.org/client.php"
+    #     response = requests.post(url=domainurl, data=json.dumps(paramer), headers=self.headers)
+    #     g = json.loads(response.text)
+    #     file_id = g['jobId']
+    #     paramer ={
+    #         "jobId":file_id
+    #     }
+    #     url ="https://filetools1.pdf24.org/download.php?"+urlencode(paramer)
+    #     response =requests.get(url,stream=True)
+    #     for i in response.iter_content(chunk_size=1024):
+    #         print(i)
+
