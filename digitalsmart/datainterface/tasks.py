@@ -1,7 +1,9 @@
 import json
 import requests
+from typing import Dict, Iterator, ByteString
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
+
 from digitalsmart.celeryconfig import app
 
 
@@ -29,9 +31,11 @@ class NetWorker(object):
 
     def __new__(cls, *args, **kwargs):
         if NetWorker.instance is None:
-            super().__new__(cls)
+            NetWorker.instance = super().__new__(cls)
+        return NetWorker.instance
 
     def __init__(self):
+
         if not NetWorker.instanceflag:
             self.headers = dict()  # 网络爬虫请求头
             self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
@@ -60,7 +64,7 @@ class NetWorker(object):
 
     def get_idcard_info(self, idcard) -> Person:
         """
-
+         身份证认证
         :param idcard:
         :return: {'身份证号码': '440514199804220817'}, {'发证地区': '广东省  汕头市 潮南区'}, {'电话区号': '0754'},
         {'出生日期': '1998年04月22日'}, {'农历': '一九九八年三月廿六'}, {'性别/生肖': '男 (21岁)  属虎'},
@@ -115,6 +119,47 @@ class NetWorker(object):
         person = Person(idcard, area, phone, bir, lunar, gender, latlon)
         return person
 
-    def get_music_conent(self, name):
-        self.headers['Host'] = 'music.cccyun.cc'
+    def get_music_list(self, name, soft_type='netease') -> Iterator[Dict]:
+        """
+        获所有与之相关的音乐
+        :param name: 音乐名
+        :param soft_type:软件类型，默认网易云，
+                                netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
+                                xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
+                                qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
+                                5singfc：5sing翻唱
 
+        :return:
+        """
+        self.headers['X-Requested-With'] = 'XMLHttpRequest'
+        url = "http://music.cccyun.cc/"
+        paramer = {
+            "input": name,
+            "filter": 'name',
+            'type': soft_type,
+            'page': 1
+        }
+        response = requests.post(url=url, data=paramer, headers=self.headers)
+        g = json.loads(response.text)
+        music_list = g['data']
+        for item in music_list:
+            author = item['author']
+            url = item['url']
+            title = item['title']
+            yield {"author": author, "url": url, "title": title}
+
+    def down_music_content(self, url) -> Iterator[ByteString]:
+        """
+        下载音乐
+        :param url:下载音乐链接
+        :return:
+        """
+        response = requests.get(url=url, stream=True)
+        for fragment in response.iter_content(chunk_size=1024):
+            yield fragment
+
+    def down_baidu_doc(self, url, filetype):
+        url = "http://wenku.baiduvvv.com/ds.php?url=http%3A%2F%2Fwenku.baidu.com%2Fview%2Febc073d384254b35eefd34d5.html&type=doc&t=1566474872000&sign=c2ab55222ed516ef66767d0bbfc62c07"
+        response = requests.get(url=url, stream=True)
+        for fragment in response.iter_content(chunk_size=1024):
+            yield fragment
