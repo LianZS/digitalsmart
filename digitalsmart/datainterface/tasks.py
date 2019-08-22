@@ -218,3 +218,20 @@ class NetWorker(object):
             date = item[0]  # 时间
             price = item[1]  # 价格
             yield (date, price)
+
+    def get_goods_info(self, url):
+        self.headers['X-Requested-With'] = "XMLHttpRequest"
+        paramer = {
+            "checkCode": "ccd99af476ce8db82fc8d65f2464fa55",
+            "con": url
+        }
+        url = "http://detail.tmallvvv.com/dm/ptinfo.php"
+        response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
+        g = json.loads(response.text)
+        url  = g['taoInfoUrl']
+        response = requests.get(url,headers=self.headers)
+
+        result = response.text[11:-1]
+        g = json.loads(result)
+
+NetWorker().get_goods_info("https://detail.tmall.com/item.htm?spm=a220m.1000858.1000725.11.3cfd44cdc2Fpze&id=598106121408&skuId=4165327688897&user_id=454291526&cat_id=2&is_b=1&rn=811d06ac2e4acb1d0f1752aec5fcccac")

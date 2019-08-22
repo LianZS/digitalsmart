@@ -62,6 +62,7 @@ class Crack:
 
         """
         url = request.GET.get("url")
+
         file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
         if not (url and file_type):
             return JsonResponse({"status": 0, "message": "error"})
