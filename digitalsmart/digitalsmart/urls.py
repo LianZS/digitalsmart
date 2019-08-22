@@ -33,7 +33,7 @@ urlpatterns = [
     path('attractions/', include("attractions.urls")),
     path('traffic/', include("traffic.urls")),
     path('internet/', include("internet.urls")),
-
+    path('interface/', include("datainterface.urls")),
     re_path(r'^media/(?P<path>.*)$',  serve, {"document_root":MEDIA_ROOT}), #图片下载路径
 
 ]

@@ -42,7 +42,7 @@ class Comment():
         response = {"wechat": wechat, "sougou": sougou, "baidu": baidu}
         return Comment.deal_response(response)
     @staticmethod
-    # @cache_page(timeout=60 * 60 * 24)
+    @cache_page(timeout=60 * 60 * 12)
     def get_comment_rate(request):
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
@@ -77,7 +77,6 @@ class Comment():
             return JsonResponse({"statue":0})
         response={"trafficstate":obj.trafficstate,"weatherstate":obj.weatherstate,"coststate":obj.coststate,
                   "environmentstate":obj.environmentstate}
-        # response = serializers.serialize("json",[obj]) #序列化对象
         response = {"state": response}
         return Comment.deal_response(response)
 

@@ -136,7 +136,7 @@ def detail_road(request):
 
 
 # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=130300
-@cache_page(60 * 60*15)
+# @cache_page(60 * 60*15)
 def yeartraffic(request):
     pid = request.GET.get("cityCode")
     if not pid:

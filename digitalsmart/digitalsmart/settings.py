@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'attractions.apps.AttractionsConfig',
     'traffic.apps.TrafficConfig',
     'internet.apps.InternetConfig',
+    'datainterface.apps.DatainterfaceConfig',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,6 @@ WSGI_APPLICATION = 'digitalsmart.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     'default': {

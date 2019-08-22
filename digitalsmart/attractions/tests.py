@@ -41,8 +41,8 @@ class WebDriver(TestCase):
             except ValueError:
                 date = item[2]
             commmentlike = int(item[3])
-            if commmentlike==0:
-                commmentlike=random.randint(1,5)
+            if commmentlike == 0:
+                commmentlike = random.randint(1, 5)
             element_xpath = "//td[@id='{0}']".format('user-' + str(count))
             try:
                 username_element = self.drive.find_element_by_xpath(element_xpath)  # 用户节点
@@ -62,7 +62,7 @@ class WebDriver(TestCase):
 
             count += 1
 
-        # self.drive.find_element_by_id('send2').click()
+        self.drive.find_element_by_id('send2').click()
 
     def load_html(self, url):
         self.drive.get(url)
@@ -80,11 +80,11 @@ def send_comment_data():  # 传到了商丘古文化旅游区
     db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
                          database="digitalsmart", port=3306)
     cur = db.cursor()
-    sql = "select area,pid from digitalsmart.scencemanager"
+    sql = "select area,pid from digitalsmart.scencemanager where flag=0"
     cur.execute(sql)
     result = cur.fetchall()
     web = WebDriver()
-    rootpath = "/Volumes/Tigo/finished/"
+    rootpath = "/Volumes/Tigo/易班项目数据/评论/"
     area_map = dict()
     for item in result:
         area = item[0]
@@ -98,7 +98,7 @@ def send_comment_data():  # 传到了商丘古文化旅游区
             continue
         response = requests.get(url="http://scenicmonitor.top/attractions/api/getComment?&pid={0}".format(pid))
         g = json.loads(response.text)
-        if len(g["comment"])>0:
+        if len(g["comment"]) > 0:
             continue
         for file in os.listdir(rootpath + filedir):
             file_type = file.split(".")[1]
@@ -118,7 +118,7 @@ def send_scence_pic():  # 传到了晋城市皇城相府生态文化旅游区
     db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
                          database="digitalsmart", port=3306)
     cur = db.cursor()
-    sql = "select area,pid from digitalsmart.scencemanager"
+    sql = "select area,pid from digitalsmart.scencemanager where flag=0 "
     cur.execute(sql)
     result = cur.fetchall()
     web = WebDriver()
@@ -129,13 +129,9 @@ def send_scence_pic():  # 传到了晋城市皇城相府生态文化旅游区
         area = item[0]
         pid = item[1]
         area_map[area] = pid
-    flag = 0
     for filedir in os.listdir(rootpath):
-        if filedir == "晋城市皇城相府生态文化旅游区":
-            flag = 1
-            continue
-        if flag == 0:
-            continue
+
+
         key = get_pid(area_map, filedir)
         if key is not None:
             pid = area_map[key]
@@ -166,5 +162,5 @@ def get_pid(map, longkey):
 
 
 if __name__ == "__main__":
-    Thread(target=send_scence_pic,args=()).start()
-
+    Thread(target=send_scence_pic, args=()).start()
+    # send_comment_data()
