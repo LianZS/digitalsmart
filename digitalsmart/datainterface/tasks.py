@@ -219,7 +219,12 @@ class NetWorker(object):
             price = item[1]  # 价格
             yield (date, price)
 
-    def get_goods_info(self, url):
+    def get_goods_info(self, url) -> Dict:
+        """
+        获取商品卖家画像
+        :param url:商品链接
+        :return:
+        """
         self.headers['X-Requested-With'] = "XMLHttpRequest"
         paramer = {
             "checkCode": "ccd99af476ce8db82fc8d65f2464fa55",
@@ -228,10 +233,32 @@ class NetWorker(object):
         url = "http://detail.tmallvvv.com/dm/ptinfo.php"
         response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
         g = json.loads(response.text)
-        url  = g['taoInfoUrl']
-        response = requests.get(url,headers=self.headers)
+        url = g['taoInfoUrl']
+        response = requests.get(url, headers=self.headers)
 
         result = response.text[11:-1]
         g = json.loads(result)
-
-NetWorker().get_goods_info("https://detail.tmall.com/item.htm?spm=a220m.1000858.1000725.11.3cfd44cdc2Fpze&id=598106121408&skuId=4165327688897&user_id=454291526&cat_id=2&is_b=1&rn=811d06ac2e4acb1d0f1752aec5fcccac")
+        data = g['data']
+        title = data['item']["title"]
+        images = data['item']['images']  # 商品图片链接列表
+        baseinfo = data['props']['groupProps'][0]['基本信息']  # 商品基本信息
+        seller = data['seller']['evaluates']  # 卖家信息
+        seller_info = list()
+        for item in seller:
+            """level: "1"
+            levelBackgroundColor: "#EEEEEE"
+            levelText: "高"
+            levelTextColor: "#999999"
+            score: "4.8 "
+            title: "宝贝描述"
+            tmallLevelBackgroundColor: "#EEEEEE"
+            tmallLevelTextColor: "#999999"
+            type: "desc"""
+            seller_info.append(item)
+        return {"data": {
+            "title": title,
+            "baseinfo": baseinfo,
+            "seller": seller_info,
+            "images": images
+        }
+        }

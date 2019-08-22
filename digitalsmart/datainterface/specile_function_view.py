@@ -33,6 +33,8 @@ class Crack:
 
         return response
 
+    # http://127.0.0.1:8000/interface/api/validation?card=440514199804220817
+
     def identity_authentication(self, request):
         """
         身份认证
@@ -56,6 +58,8 @@ class Crack:
         }
         return JsonResponse(response)
 
+    # http://127.0.0.1:8000/interface/api/baidudoc?url=目标文档链接
+
     def down_baidu_doc(self, request):
         """
         下载百度文档
@@ -74,6 +78,8 @@ class Crack:
         response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
         return response
 
+    # http://127.0.0.1:8000/interface/api/goodsprice?url=目标商品链接
+
     def get_goods_price_change(self, request):
         """
         获取某商品的价格变化情况
@@ -83,9 +89,9 @@ class Crack:
         商品详情的历史价格查询。
 
         """
-        pre_path = request.path+"?url="
+        pre_path = request.path + "?url="
         href = request.get_full_path()
-        url = href.replace(pre_path,"")
+        url = href.replace(pre_path, "")
 
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})
@@ -93,8 +99,35 @@ class Crack:
         try:
             iter_conten = net.get_goods_price_change(url)  # 获取价格变化情况
         except Exception:
-            iter_conten=[]
+            iter_conten = []
         response = {
             "data": list(iter_conten)
         }
         return JsonResponse(response)
+
+    def get_goods_info(self, request):
+        """
+        获取商品卖家画像
+        支持天猫(detail.tmall.com、detail.m.tmall.com)、淘宝(item.taobao.com、h5.m.taobao.com)、
+        京东(item.jd.com、item.m.jd.com)、一号店(item.yhd.com）、苏宁易购(product.suning.com)、
+        网易考拉(goods.kaola.com)、当当网(product.dangdang.com)、亚马逊中国(www.amazon.cn)、国美(item.gome.com.cn)等电商
+        商品详情的历史价格查询。
+        :param request:
+        :return:
+        """
+        pre_path = request.path + "?url="
+        href = request.get_full_path()
+        url = href.replace(pre_path, "")#防止url后带有各类特殊符号导致与目标链接不匹配
+
+        if url is None:
+            return JsonResponse({"status": 0, "message": "error"})
+        net = NetWorker()
+        try:
+            info = net.get_goods_info(url)  # 获取商品卖家画像
+        except Exception:
+            info = []
+        response = {
+            "data": info
+        }
+        return JsonResponse(response)
+    def webpage_to_pdf(self,request):
