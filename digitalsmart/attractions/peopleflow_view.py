@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.db import connection
 
 from .models import TableManager
-from tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 """
 人流数据
 """

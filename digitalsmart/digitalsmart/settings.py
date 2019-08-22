@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = '-klvpr8w1u(kef&+*gvkxozyamwek9vb#0mczvni2=8=3pu2a-'
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -54,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
-CORS_ORIGIN_ALLOW_ALL = True # 添加并设置忽略为TRUE
+CORS_ORIGIN_ALLOW_ALL = True  # 添加并设置忽略为TRUE
 
 ROOT_URLCONF = 'digitalsmart.urls'
 
@@ -77,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'digitalsmart.wsgi.application'
 
-
 # Database
 
 DATABASES = {
@@ -90,9 +87,7 @@ DATABASES = {
         'PORT': '3306',  # 数据库端口
     },
 
-
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -112,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -127,7 +121,7 @@ USE_L10N = True
 USE_TZ = True
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

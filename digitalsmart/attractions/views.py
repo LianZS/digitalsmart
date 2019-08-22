@@ -1,10 +1,9 @@
 import datetime
 from django.http import JsonResponse, HttpResponse
-from django.views.decorators.cache import cache_page
 
 from django.views.decorators.csrf import csrf_exempt
-from tool.access_control_allow_origin import Access_Control_Allow_Origin
-from attractions.models import  ScenceImage,ScenceManager
+from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.models import  ScenceImage
 
 
 @csrf_exempt

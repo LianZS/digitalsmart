@@ -1,9 +1,8 @@
 import datetime
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
-from django.core import serializers
 
-from tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 from attractions.models import SearchRate,CommentRate,NetComment,ScenceState
 class Comment():
     # http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=

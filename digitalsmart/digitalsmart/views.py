@@ -1,13 +1,13 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, Http404, HttpResponse, StreamingHttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, Http404, HttpResponse
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from tool.identity_authentication import IdentityAuthentication
+from attractions.tool.identity_authentication import IdentityAuthentication
 from attractions.models import UserProfile
 from django.shortcuts import render
 from django.contrib.auth.forms import PasswordChangeForm
-from tool.file_hander import Hander_File
+from attractions.tool.file_hander import Hander_File
 
 
 @csrf_exempt

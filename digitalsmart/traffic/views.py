@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from .models import CityInfoManager, CityTraffic, RoadTraffic, YearTraffic, RoadInfoManager, AirState
-from tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 
 
 ## http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`

@@ -1,6 +1,6 @@
 from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
-from tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 from attractions.models import ScenceManager
 from django.db import connection
 

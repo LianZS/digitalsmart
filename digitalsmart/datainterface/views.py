@@ -1,15 +1,18 @@
 import re
 import datetime
+
 from django.db import connection
 from django.http import JsonResponse
-
-from attractions.models import TableManager, ScenceFlow
+from attractions.models import TableManager, ScenceManager
+from .tasks import NetWorker
 
 
 class ScenceData(object):
 
     # Create your views here.
+
     # http://127.0.0.1:8000/interface/api/getScenceDataByTime?pid=6&ddate=20170916&ttime=22:00:00&token=5j1znBVAsnSf5xQyNQyq
+
     def interface_historytime_scence_data(self, request):
         """
         获取历史某个具体时刻的人流量
@@ -87,7 +90,6 @@ class ScenceData(object):
         return JsonResponse({"num": num, "pid": pid, "area": area})
 
     # http://127.0.0.1:8000/interface/api/getScenceDataByDate?pid=6&ddate=20170121&token=5j1znBVAsnSf5xQyNQyq
-
     def interface_historydate_scence_data(self, request):
         """
         查询某天人流情况
@@ -146,15 +148,16 @@ class ScenceData(object):
             cursor.execute(sql, [pid, ddate])
             rows = cursor.fetchall()
             return JsonResponse({"num": rows, "pid": pid, "area": area})
+
     @staticmethod
     def check_paramer(request, flag=1):
         """参数检查
         flag为1时表示要检查ttime格式，0表示不需要
         """
         pid = request.GET.get("pid")
-        token = request.GET.get("token")  # 密钥
+        token: str = request.GET.get("token")  # 密钥
         ddate = request.GET.get("ddate")  # 日期
-        ttime = request.GET.get("ttime")  # 时间
+        ttime: str = request.GET.get("ttime")  # 时间
 
         if not (pid and token and ddate):
             return None, None, None, None
@@ -171,3 +174,28 @@ class ScenceData(object):
             return None, None, None, None
         return pid, ddate, ttime, token
 
+    # http://127.0.0.1:8000/interface/api/getScenceHeatmapDataByTime?pid=6&ddate=20170121&ttime=12:00:00&token=5j1znBVAsnSf5xQyNQyq
+    def interface_hisroty_scence_distribution_data(self, request):
+        """
+        获取历史景区人流分布数据
+        :param request:
+        :return:
+        """
+        pid, ddate, ttime, token = self.check_paramer(request)
+        year, month, day = str(ddate)[0:4], str(ddate)[4:6], str(ddate)[6:]
+        ddate = '-'.join([year, month, day])
+
+        try:
+            obj = ScenceManager.objects.get(pid=pid, flag=0)  # 检查是否存在
+        except Exception:
+            return JsonResponse({"status": 0, "message": "error"})
+        area = obj.area
+
+        longitude = obj.longitude  # 中心经度
+        latitude = obj.latitude  # 中心维度
+        data = NetWorker().get_scence_distribution_data(pid, ddate, ttime)
+
+        response = {"pid": pid, "area": area, "data": data, "longitude": longitude, "latitude": latitude,
+                    "multiple": 10000}
+        return JsonResponse(response)
+    

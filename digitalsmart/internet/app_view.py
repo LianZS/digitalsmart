@@ -1,12 +1,7 @@
-import datetime
-import json
-import time
 from django.http import JsonResponse, HttpResponse
-from django.views.decorators.cache import cache_page
-from django.core.cache import cache
 from django.db.models import Max
 from .models import AppInfo, SexShare, AgeShare, AppActive, AppProvinceShare, AppLike
-from tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 
 
 class AppInfoView():

@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 from .models import MobileBrand, BrandShare, MobileModel, MobileSystemRate, OperatorRate, NetworkShare
 
 
