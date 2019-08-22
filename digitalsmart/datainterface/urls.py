@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import ScenceData
+from .scence_data_view import ScenceData
 
 scence = ScenceData()
 
@@ -11,5 +11,4 @@ urlpatterns = {
         path("getScenceHeatmapDataByTime", scence.interface_hisroty_scence_distribution_data),
 
     ])),
-
 }
