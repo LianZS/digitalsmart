@@ -1,4 +1,5 @@
 import json
+import re
 import time
 from django.http import StreamingHttpResponse, JsonResponse
 
@@ -62,13 +63,37 @@ class Crack:
         """
         url = request.GET.get("url")
         file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
+        if not (url and file_type):
+            return JsonResponse({"status": 0, "message": "error"})
         net = NetWorker()
         iter_doc = net.down_baidu_doc(url, file_type)
         response = StreamingHttpResponse(iter_doc)
         response['Content-Type'] = 'application/octet-stream'
 
-        response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(),file_type)
+        response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
         return response
-    def get_goods_info(self,request):
-        pass
 
+    def get_goods_price_change(self, request):
+        """
+        获取某商品的价格变化情况
+        支持天猫(detail.tmall.com、detail.m.tmall.com)、淘宝(item.taobao.com、h5.m.taobao.com)、
+        京东(item.jd.com、item.m.jd.com)、一号店(item.yhd.com）、苏宁易购(product.suning.com)、
+        网易考拉(goods.kaola.com)、当当网(product.dangdang.com)、亚马逊中国(www.amazon.cn)、国美(item.gome.com.cn)等电商
+        商品详情的历史价格查询。
+
+        """
+        pre_path = request.path+"?url="
+        href = request.get_full_path()
+        url = href.replace(pre_path,"")
+
+        if url is None:
+            return JsonResponse({"status": 0, "message": "error"})
+        net = NetWorker()
+        try:
+            iter_conten = net.get_goods_price_change(url)  # 获取价格变化情况
+        except Exception:
+            iter_conten=[]
+        response = {
+            "data": list(iter_conten)
+        }
+        return JsonResponse(response)

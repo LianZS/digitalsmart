@@ -13,5 +13,7 @@ urlpatterns = {
         path("downWYYMusic", crack.down_music),  # 下载音乐
         path("validation", crack.identity_authentication),  # 身份认证
         path("baidudoc", crack.down_baidu_doc),  # 百度文档下载
+        path("goodsprice", crack.get_goods_price_change),  # 获取商品价格变化
+
     ])),
 }

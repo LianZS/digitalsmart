@@ -1,6 +1,7 @@
 import json
 import requests
-from typing import Dict, Iterator, ByteString
+import re
+from typing import Dict, Iterator, ByteString, Set
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
 
@@ -184,5 +185,36 @@ class NetWorker(object):
         response = requests.get(url=url, stream=True, headers=self.headers)
         for fragment in response.iter_content(chunk_size=1024):
             yield fragment
-    # def get_goods_info(self,url):
-    #     pass
+
+    def get_goods_price_change(self, url) -> Iterator[Set]:
+        """
+        获取某商品的价格变化情况
+        支持天猫(detail.tmall.com、detail.m.tmall.com)、淘宝(item.taobao.com、h5.m.taobao.com)、
+        京东(item.jd.com、item.m.jd.com)、一号店(item.yhd.com）、苏宁易购(product.suning.com)、
+        网易考拉(goods.kaola.com)、当当网(product.dangdang.com)、亚马逊中国(www.amazon.cn)、国美(item.gome.com.cn)等电商
+        商品详情的历史价格查询。
+
+        :param url: 商品链接
+        :return:
+        """
+        self.headers['X-Requested-With'] = "XMLHttpRequest"
+        paramer = {
+            "checkCode": "ccd99af476ce8db82fc8d65f2464fa55",
+            "con": url
+        }
+        url = "http://detail.tmallvvv.com/dm/ptinfo.php"
+        response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
+        g = json.loads(response.text)
+        code = g['code']
+        url = "http://182.61.13.46/vv/dm/historynew.php?code=" + code
+        response = requests.get(url=url, headers=self.headers)
+
+        match_result = re.search("chart\(\"(.*?)\",", response.text)
+        try:
+            all = re.findall("\((\d{4},\d{1,2},\d{1,2})\),(\d{1,})", match_result.group(1))  # ('2019,1,21', '399')
+        except Exception:
+            return iter([1])
+        for item in all:
+            date = item[0]  # 时间
+            price = item[1]  # 价格
+            yield (date, price)
