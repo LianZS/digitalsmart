@@ -1,13 +1,14 @@
 from django.urls import path, include
 
-from .views import interface_scence_data
+from .views import ScenceData
+
+scence = ScenceData()
 
 urlpatterns = {
     path("api/", include([
-       path("getScenceDataByTime",interface_scence_data),
+        path("getScenceDataByTime", scence.interface_historytime_scence_data),
+        path("getScenceDataByDate", scence.interface_historydate_scence_data),
 
     ])),
-
-
 
 }
