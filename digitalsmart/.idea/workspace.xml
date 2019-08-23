@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/specile_function_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/specile_function_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datainterface/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,10 +16,10 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/digitalsmart$identity_authentication.coverage" NAME="identity_authentication Coverage Results" MODIFIED="1564035663154" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tool" />
     <SUITE FILE_PATH="coverage/digitalsmart$views__1_.coverage" NAME="views (1) Coverage Results" MODIFIED="1566308943403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/traffic" />
-    <SUITE FILE_PATH="coverage/digitalsmart$specile_function_view.coverage" NAME="specile_function_view Coverage Results" MODIFIED="1566476100480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
+    <SUITE FILE_PATH="coverage/digitalsmart$specile_function_view.coverage" NAME="specile_function_view Coverage Results" MODIFIED="1566528827806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
     <SUITE FILE_PATH="coverage/digitalsmart$__init____1_.coverage" NAME="__init__ (1) Coverage Results" MODIFIED="1566352026621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/attractions" />
     <SUITE FILE_PATH="coverage/digitalsmart$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1566479573460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
-    <SUITE FILE_PATH="coverage/digitalsmart$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1566497908421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
+    <SUITE FILE_PATH="coverage/digitalsmart$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1566533258182" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
     <SUITE FILE_PATH="coverage/digitalsmart$app_view.coverage" NAME="app_view Coverage Results" MODIFIED="1565851377213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/internet" />
     <SUITE FILE_PATH="coverage/digitalsmart$tests.coverage" NAME="tests Coverage Results" MODIFIED="1566455520803" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/attractions" />
   </component>
@@ -59,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datainterface/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="16" column="23" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="23" />
+            <state relative-caret-position="195">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -68,23 +70,40 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="133" column="3" selection-start-line="133" selection-start-column="3" selection-end-line="140" selection-end-column="27" />
+            <state relative-caret-position="152">
+              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#1293#1866#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="149" column="35" selection-start-line="149" selection-start-column="35" selection-end-line="149" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#5333#5549#0" />
+                <element signature="e#5628#6383#0" />
+                <element signature="e#6453#7718#0" />
+                <element signature="e#7771#9170#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
+        <entry file="file://$PROJECT_DIR$/datainterface/scence_data_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="265" column="2" lean-forward="true" selection-start-line="265" selection-start-column="2" selection-end-line="291" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="102">
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
         </entry>
@@ -192,8 +211,8 @@
         <option value="$PROJECT_DIR$/digitalsmart/settings.py" />
         <option value="$PROJECT_DIR$/datainterface/__init__.py" />
         <option value="$PROJECT_DIR$/datainterface/urls.py" />
-        <option value="$PROJECT_DIR$/datainterface/tasks.py" />
         <option value="$PROJECT_DIR$/datainterface/specile_function_view.py" />
+        <option value="$PROJECT_DIR$/datainterface/tasks.py" />
       </list>
     </option>
   </component>
@@ -405,8 +424,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.tasks" />
-        <item itemvalue="Python.__init__" />
         <item itemvalue="Python.specile_function_view" />
+        <item itemvalue="Python.__init__" />
         <item itemvalue="Python.tests" />
         <item itemvalue="Python.__init__ (1)" />
       </list>
@@ -495,23 +514,24 @@
       <workItem from="1566392772187" duration="1591000" />
       <workItem from="1566434221721" duration="8258000" />
       <workItem from="1566451755211" duration="30384000" />
-      <workItem from="1566490731481" duration="6366000" />
+      <workItem from="1566490731481" duration="6380000" />
+      <workItem from="1566523456087" duration="5766000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="383078000" />
+    <option name="totallyTimeSpent" value="388858000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.226979" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23021002" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.8247173" visible="true" weight="0.47135842" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8247173" weight="0.47135842" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -520,7 +540,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Statistic" order="10" weight="0.3289689" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" weight="0.43535188" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" visible="true" weight="0.43535188" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.17528272" side_tool="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.3289689" />
@@ -528,7 +548,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32956383" />
-      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.17689823" />
+      <window_info anchor="right" id="Database" order="4" weight="0.17689823" />
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" />
     </layout>
   </component>
@@ -835,19 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datainterface/scence_data_view.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <element signature="e#3047#3592#0" />
-            <element signature="e#3770#6066#0" />
-            <element signature="e#6153#6438#0" />
-            <element signature="e#6506#7197#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/tool/file_hander.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -904,28 +911,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/datainterface/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="23" />
+        <state relative-caret-position="195">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
+    <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="265" column="2" lean-forward="true" selection-start-line="265" selection-start-column="2" selection-end-line="291" />
+        <state relative-caret-position="152">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#1293#1866#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
+    <entry file="file://$PROJECT_DIR$/datainterface/scence_data_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="133" column="3" selection-start-line="133" selection-start-column="3" selection-end-line="140" selection-end-column="27" />
+        <state relative-caret-position="102">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="149" column="35" selection-start-line="149" selection-start-column="35" selection-end-line="149" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#5333#5549#0" />
+            <element signature="e#5628#6383#0" />
+            <element signature="e#6453#7718#0" />
+            <element signature="e#7771#9170#0" />
+          </folding>
         </state>
       </provider>
     </entry>

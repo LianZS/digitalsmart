@@ -1,16 +1,18 @@
 import json
 import re
 import time
-from django.http import StreamingHttpResponse, JsonResponse
+from django.http import StreamingHttpResponse, JsonResponse,HttpResponse
+
 
 from .tasks import NetWorker
 
 
 class Crack:
-    # http://127.0.0.1:8000/interface/api/downWYYMusic?name=听不见晚安
-    def down_music(self, request):
+    # http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
+    def get_music(self, request):
         """
-            下载音乐
+        获取音乐列表
+        返回{'author': '作者', 'url': '下载链接', 'title': '歌名'}
         :param request:
         :return:
         """
@@ -23,7 +25,26 @@ class Crack:
         if not musicname:
             return JsonResponse({"status": 0, "message": "error"})
         net = NetWorker()
-        iter_down_info = net.get_music_list(musicname)  # 获取所有与之相关的音乐
+        iter_music_info = net.get_music_list(musicname, soft_type)  # 获取所有与之相关的音乐
+        return JsonResponse({"data":list(iter_music_info)})
+
+    # http://127.0.0.1:8000/interface/api/downMusic?name=听不见晚安&type=kugou
+    def down_music(self, request):
+        """
+            下载音乐
+        :param request:
+        :return:
+        """
+        musicname = request.GET.get("name")  # 音乐名
+        soft_type = request.GET.get("type")  # 软件类型
+        # netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
+        # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
+        # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
+        # 5singfc：5sing翻唱
+        if not musicname:
+            return JsonResponse({"status": 0, "message": "error"})
+        net = NetWorker()
+        iter_down_info = net.get_music_list(musicname, soft_type)  # 获取所有与之相关的音乐
         first = iter_down_info.__next__()  # 获取第一首
         dowun_url = first['url']
         strem = net.down_music_content(url=dowun_url)
@@ -105,6 +126,8 @@ class Crack:
         }
         return JsonResponse(response)
 
+    # http://127.0.0.1:8000/interface/api/goodsinfo?url=目标商品链接
+
     def get_goods_info(self, request):
         """
         获取商品卖家画像
@@ -139,4 +162,3 @@ class Crack:
     #     if url is None:
     #         return JsonResponse({"status": 0, "message": "error"})
     #     net = NetWorker()
-

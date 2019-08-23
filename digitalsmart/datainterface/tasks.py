@@ -1,6 +1,7 @@
 import json
 import requests
 import re
+import base64
 from typing import Dict, Iterator, ByteString, Set
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
@@ -145,9 +146,11 @@ class NetWorker(object):
         music_list = g['data']
         for item in music_list:
             author = item['author']
-            url = item['url']
+            url = item['url']  # 对url进行加密
+            #字符串 -> 二进制 -> base64编码
+            url = base64.b64encode(url.encode())
             title = item['title']
-            yield {"author": author, "url": url, "title": title}
+            yield {"author": author, "url": str(url), "title": title}
 
     def down_music_content(self, url) -> Iterator[ByteString]:
         """
@@ -289,4 +292,3 @@ class NetWorker(object):
     #     response =requests.get(url,stream=True)
     #     for i in response.iter_content(chunk_size=1024):
     #         print(i)
-
