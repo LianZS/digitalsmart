@@ -1,14 +1,21 @@
-import time
-import random
-from threading  import  Thread
+import uuid
+
+from threading import Thread
+from attractions.tool.file_hander import Hander_File
+from django.core.cache import cache
+
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core.exceptions import ValidationError
 from django.http import StreamingHttpResponse, JsonResponse
-
+from .models import PDFFile
 from .tasks import NetWorker
 
 
 class Crack:
+    """
+    下面是付费音乐下载功能
+    """
+
     # http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
     def get_music(self, request):
         """
@@ -64,6 +71,9 @@ class Crack:
         return response
 
     # http://127.0.0.1:8000/interface/api/validation?card=440514199804220817
+    """
+    身份证认证
+    """
 
     def identity_authentication(self, request):
         """
@@ -75,8 +85,6 @@ class Crack:
         idcard = request.GET.get("card")
 
         person_info = NetWorker().get_idcard_info(idcard)
-        if person_info is None:
-            return JsonResponse({"status": 0, "message": "身份证号有问题"})
 
         response = {
             "发证地区": person_info.area,
@@ -126,9 +134,12 @@ class Crack:
     #
     #     response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
     #     return response
+    """
+    下面是获取商品历史信息
+    """
 
     # http://127.0.0.1:8000/interface/api/goodsprice?url=目标商品链接
-
+    @csrf_exempt
     def get_goods_price_change(self, request):
         """
         获取某商品的价格变化情况
@@ -138,9 +149,8 @@ class Crack:
         商品详情的历史价格查询。
 
         """
-        pre_path = request.path + "?url="
-        href = request.get_full_path()
-        url = href.replace(pre_path, "")
+
+        url = request.POST.get("url")
 
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})
@@ -190,12 +200,90 @@ class Crack:
     #     if url is None:
     #         return JsonResponse({"status": 0, "message": "error"})
     #     net = NetWorker()
+
+    """
+    下面是pdf转为doc功能
+    """
+
+    # http://127.0.0.1:8000/interface/api/uploadPDF
     @csrf_exempt
     def upload_pdf(self, request):
+        """
+        上传pdf文件，将其转为doc格式，并存在pdfdb数据库中
+        :param request:
+        :return:
+        """
         pdf_file = request.FILES.get('pdf')
-        # 产生一个用户访问凭证，并且用来下载解析好的文件
-        rid = int(time.time()) + random.randint(11, 1111111)
-        # 解析pdf
-        Thread(target=NetWorker().parse,args=(pdf_file,rid,)).start()
+        filename = pdf_file.name
+        if pdf_file.content_type == "application/pdf":
+            uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
+            # 产生一个用户访问凭证，并且用来下载解析好的文件
+            # 解析pdf
+            Thread(target=NetWorker().parse, args=(pdf_file, uid,)).start()
 
-        return JsonResponse({"message": "success", "code": 1, "id": rid})
+            return JsonResponse({"message": "success", "code": 1, "id": uid})
+        return JsonResponse({"code": 0, "message": "error"})
+
+    # http://127.0.0.1:8000/interface/api/getDocLink?id=7ca7ab45061b554c928ff45c2f5baa2f
+    def get_doc_down_url(self, request):
+        """获取转后的doc文件"""
+        # 只有p为100，且code为1时表示可以下载咯
+        uid = request.GET.get("id")
+        try:
+            val = PDFFile.objects.get(id=uid)
+        except ValidationError:
+            return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以下载咯
+
+        return JsonResponse({"code": 1, "p": 100})  # 通知可以下载咯
+
+    # http://127.0.0.1:8000/interface/api/downDocLink?id=7ca7ab45061b554c928ff45c2f5baa2f
+    def down_doc(self, request):
+        """下载doc文件"""
+
+        uid = request.GET.get("id")
+        try:
+            val = PDFFile.objects.get(id=uid)
+        except ValidationError:
+            return JsonResponse({"code": 0, "p": "不存在该文件"})  # 只有p为100，且code为1时表示可以下载咯
+        doc = val.file
+        iter_chuncks = Hander_File().hander_file(doc)
+        response = StreamingHttpResponse(iter_chuncks)
+        response['Content-Type'] = 'application/octet-stream'
+
+        response['Content-Disposition'] = 'attachment;filename={0}.doc'.format(uid)
+        return response
+#http://127.0.0.1:8000/interface/api/analyse?allowPos=a&url=https://blog.csdn.net/hhtnan/article/details/76586693
+    @csrf_exempt
+    def analyse_url(self, request):
+        """
+        提取中文文本关键词以及频率
+        :param url:请求链接
+        :param allowpos:词性
+        :return:
+        Ag 形语素
+        a 形容词
+        m 数词
+        n 名词
+        nr 人名
+        ns 地名
+        t 时间词
+        v 动词
+        z 状态词
+        :param request:
+        :return:
+        """
+        allowpos = request.POST.get("allowPos")  # 获取词性
+        url = request.POST.get("url")
+        uid = uuid.uuid5(uuid.NAMESPACE_URL, url)  # 作为下载获取数据请求的凭证
+        if url is None or allowpos is None:
+            return JsonResponse({"status": 0, "message": "error"})
+        net = NetWorker()
+        Thread(target=net.analyse_word(url, allowpos, uid)).start()
+        return JsonResponse({"code": 1, "p": 1, "id": uid})
+
+    def get_analyse_result(self, request):
+        uid = request.GET.get("id")
+        if uid is None:
+            return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
+        data = cache.get(uid)
+        return JsonResponse({"data": data})

@@ -17,7 +17,11 @@ urlpatterns = {
         # path("baidudoc", crack.down_baidu_doc),  # 百度文档下载
         path("goodsprice", crack.get_goods_price_change),  # 获取商品价格变化
         path("goodsinfo", crack.get_goods_info),  # 获取商品卖家画像
-        path("test",crack.upload_pdf),
+        path("uploadPDF", crack.upload_pdf),  # 上传pdf文件，解析成doc
+        path("getDocLink", crack.get_doc_down_url),  # 获取转换后的doc下载链接
+        path("downDocLink", crack.down_doc),  # 获取转换后的doc下载链接
+        path("analyse", crack.analyse_url),  # 请求分析链接里的中文文本关键词以及频率
+        path("analyseResult", crack.get_analyse_result),  #  文本分析结果
 
     ])),
 }

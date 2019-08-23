@@ -2,6 +2,9 @@ import json
 import requests
 import re
 import base64
+from jieba import analyse
+from django.core.cache import cache
+
 from typing import Dict, Iterator, ByteString, Set
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
@@ -21,7 +24,7 @@ from .models import PDFFile
 class Person:
     __slots__ = ["idcard", "area", "phone", "bir", "lunar", "gender", "latlon"]
 
-    def __init__(self, idcard, area, phone, bir, lunar, gender, latlon):
+    def __init__(self, idcard: int, area: str, phone: str, bir: str, lunar: str, gender: str, latlon: tuple):
         self.idcard: int = idcard  # 身份证号码
         self.area: str = area  # 发证地区
         self.phone: str = phone  # 电话区号
@@ -83,6 +86,8 @@ class NetWorker(object):
         """
         href = 'http://www.gpsspg.com/sfz/?q=' + str(idcard)
         response = requests.get(url=href, headers=self.headers)
+        if response.status_code != 200:
+            return Person(idcard, '', '', '', '', '', ())
         soup = BeautifulSoup(response.text, 'lxml')
         info = soup.find_all(name='tr')
         data = list()
@@ -98,7 +103,7 @@ class NetWorker(object):
                 if flag == 1:
                     value = itemdic.string
                     if not value:
-                        return None
+                        return Person(idcard, '', '', '', '', '', ())
                     flag = 0
 
                     data.append({key: value})
@@ -112,8 +117,8 @@ class NetWorker(object):
             if i == 0:
                 try:
                     idcard = int(data[i].get("身份证号码"))  # 假身份证
-                except Exception:
-                    return None
+                except ValueError:
+                    return Person(idcard, '', '', '', '', '', ())
 
             if i == 1:
                 area = str(data[i].get("发证地区"))
@@ -153,6 +158,8 @@ class NetWorker(object):
 
         }
         response = requests.post(url=url, data=paramer, headers=self.headers)
+        if response.status_code != 200:
+            return {"author": '', "url": '', "title": '', "lrc": '', "img": ''}
         g = json.loads(response.text)
         music_list = g['data']
         for item in music_list:
@@ -235,15 +242,18 @@ class NetWorker(object):
         }
         url = "http://detail.tmallvvv.com/dm/ptinfo.php"
         response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
+        if response.status_code != 200:
+            return ('', 0)
         g = json.loads(response.text)
         code = g['code']
         url = "http://182.61.13.46/vv/dm/historynew.php?code=" + code
         response = requests.get(url=url, headers=self.headers)
-
+        if response.status_code != 200:
+            return ('', 0)
         match_result = re.search("chart\(\"(.*?)\",", response.text)
         try:
             all = re.findall("\((\d{4},\d{1,2},\d{1,2})\),(\d{1,})", match_result.group(1))  # ('2019,1,21', '399')
-        except Exception:
+        except AttributeError:
             return iter([1])
         for item in all:
             date = item[0]  # 时间
@@ -263,9 +273,25 @@ class NetWorker(object):
         }
         url = "http://detail.tmallvvv.com/dm/ptinfo.php"
         response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
+        if response.status_code != 200:
+            return {"data": {
+                "title": '',
+                "baseinfo": '',
+                "seller": '',
+                "images": ''
+            }
+            }
         g = json.loads(response.text)
         url = g['taoInfoUrl']
         response = requests.get(url, headers=self.headers)
+        if response.status_code != 200:
+            return {"data": {
+                "title": '',
+                "baseinfo": '',
+                "seller": '',
+                "images": ''
+            }
+            }
 
         result = response.text[11:-1]
         g = json.loads(result)
@@ -324,13 +350,13 @@ class NetWorker(object):
     # @app.task(queue="distribution",bind=True)
     def parse(self, fp, rid):
         """
-
+        将pdf转为doc格式
         :param fp: 文件流
         :param rid: 用户访问唯一标识
         :return:
         """
         writepath = "./media/pdf/" + str(rid) + ".doc"
-        f = open(writepath,"a+")
+        f = open(writepath, "a+")
         # fp = open(filepath, 'rb')  # 以二进制读模式打开
 
         # 用文件对象来创建一个pdf文档分析器
@@ -410,16 +436,48 @@ class NetWorker(object):
 
                         # 保存文本内容
 
-
                         results = x.get_text()
 
                         f.write(results + '\n')
         pdf = PDFFile()
-        pdf.request_id=rid
-        pdf.file="pdf/"+str(rid)+".doc"
-        # pdf.save()
+        pdf.id = rid
+        pdf.file = "pdf/" + str(rid) + ".doc"
+        pdf.save()
         f.close()
 
-            # print('对象数量：\n', '页面数：%s\n' % num_page, '图片数：%s\n' % num_image, '曲线数：%s\n' % num_curve, '水平文本框：%s\n'
-            #
-            #       % num_TextBoxHorizontal)
+        # print('对象数量：\n', '页面数：%s\n' % num_page, '图片数：%s\n' % num_image, '曲线数：%s\n' % num_curve, '水平文本框：%s\n'
+        #
+        #       % num_TextBoxHorizontal)
+
+    def analyse_word(self, url, allowpos,uid):
+        """
+        提取中文文本关键词以及频率
+        :param url:请求链接
+        :param allowpos:词性
+        :return:
+        Ag 形语素
+        a 形容词
+        m 数词
+        n 名词
+        nr 人名
+        ns 地名
+        t 时间词
+        v 动词
+        z 状态词
+        """
+
+        # 引入TextRank关键词抽取接口
+        textrank = analyse.textrank
+        response = requests.get(url=url, headers=self.headers)
+        if response.status_code != 200:
+            return None
+        text = response.text
+        # 保留中文文本
+        text = re.sub("[^\u4E00-\u9FA5]", "", text)
+
+        # 基于TextRank算法进行关键词抽取
+        keywords = textrank(sentence=text, allowPOS=(allowpos), withWeight=True)
+        data = list()
+        for keyword, rate in keywords:
+            data.append({keyword: rate})
+        cache.set(uid,data,60*3) #uid作为key，有效期3分钟
