@@ -5,8 +5,17 @@ import base64
 from typing import Dict, Iterator, ByteString, Set
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
+from pdfminer.pdfparser import PDFParser, PDFDocument
 
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+
+from pdfminer.converter import PDFPageAggregator
+
+from pdfminer.layout import *
+
+from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
 from digitalsmart.celeryconfig import app
+from .models import PDFFile
 
 
 class Person:
@@ -166,32 +175,47 @@ class NetWorker(object):
         for fragment in response.iter_content(chunk_size=1024):
             yield fragment
 
-    def down_baidu_doc(self, url, filetype) -> Iterator[ByteString]:
-        """
-        下载百度文档
-        :param url: 文档链接
-        :param filetype: 下载类型，可选doc，pdf，ppt
-        :return:
-        """
-        paramer = {
-            "url": url,
-            "type": filetype,
-        }
-        url = "http://wenku.baiduvvv.com/ds.php?" + urlencode(paramer)
-        response = requests.get(url=url, headers=self.headers)  # 获取域名
-        g = json.loads(response.text)
-        domain = g['s']  # 域名
-        paramer = {
-            "url": url,
-            "type": filetype,
-            "btype": "down"
-
-        }
-
-        url = domain + "/wkc.php?" + urlencode(paramer)  # 下载链接
-        response = requests.get(url=url, stream=True, headers=self.headers)
-        for fragment in response.iter_content(chunk_size=1024):
-            yield fragment
+    # def get_baidu_doc(self, url, filetype):
+    #     """
+    #     解析下载链接
+    #     :param url: 文档链接
+    #     :param filetype: 文件类型，doc，ppt，pdf
+    #     :return:
+    #     """
+    #     paramer = {
+    #         "url": url,
+    #         "type": filetype,
+    #     }
+    #     parase_url = "http://wenku.baiduvvv.com/ds.php?" + urlencode(paramer)
+    #     response = requests.get(url=parase_url, headers=self.headers)  # 获取域名重要参数
+    #     g = json.loads(response.text)
+    #     domain = g['s']  # 域名
+    #     f = g['f']
+    #     h = g['h']
+    #     paramer = {
+    #         "url": url,
+    #         "type": filetype,
+    #         'f': f,
+    #         'h': h,
+    #         "sign": "1fb806c9fbd5b10c5fad7230a3f21ba5",
+    #         "btype": "start",
+    #         "callback": "callback2"
+    #
+    #     }
+    #     url = domain + "/wkc.php?" + urlencode(paramer)  # 下载链接
+    #     response = requests.get(url=url, headers=self.headers)
+    #
+    #     return {"url": url}
+    #
+    # def down_baidu_doc(self, url) -> Iterator[ByteString]:
+    #     """
+    #     下载百度文档
+    #     :param url: 文档下载链接
+    #     :return:
+    #     """
+    #     response = requests.get(url=url, stream=True, headers=self.headers)
+    #     for fragment in response.iter_content(chunk_size=1024):
+    #         yield fragment
 
     def get_goods_price_change(self, url) -> Iterator[Set]:
         """
@@ -296,3 +320,106 @@ class NetWorker(object):
     #     response =requests.get(url,stream=True)
     #     for i in response.iter_content(chunk_size=1024):
     #         print(i)
+
+    # @app.task(queue="distribution",bind=True)
+    def parse(self, fp, rid):
+        """
+
+        :param fp: 文件流
+        :param rid: 用户访问唯一标识
+        :return:
+        """
+        writepath = "./media/pdf/" + str(rid) + ".doc"
+        f = open(writepath,"a+")
+        # fp = open(filepath, 'rb')  # 以二进制读模式打开
+
+        # 用文件对象来创建一个pdf文档分析器
+
+        parser = PDFParser(fp)
+
+        # 创建一个PDF文档
+
+        doc = PDFDocument()
+
+        # 连接分析器 与文档对象
+
+        parser.set_document(doc)
+
+        doc.set_parser(parser)
+
+        # 提供初始化密码
+
+        # 如果没有密码 就创建一个空的字符串
+
+        doc.initialize()
+
+        # 检测文档是否提供txt转换，不提供就忽略
+
+        if not doc.is_extractable:
+
+            raise PDFTextExtractionNotAllowed
+
+        else:
+
+            # 创建PDf 资源管理器 来管理共享资源
+
+            rsrcmgr = PDFResourceManager()
+
+            # 创建一个PDF设备对象
+
+            laparams = LAParams()
+
+            device = PDFPageAggregator(rsrcmgr, laparams=laparams)
+
+            # 创建一个PDF解释器对象
+
+            interpreter = PDFPageInterpreter(rsrcmgr, device)
+
+            # 用来计数页面，图片，曲线，figure，水平文本框等对象的数量
+
+            num_page, num_image, num_curve, num_figure, num_TextBoxHorizontal = 0, 0, 0, 0, 0
+
+            # 循环遍历列表，每次处理一个page的内容
+
+            for page in doc.get_pages():  # doc.get_pages() 获取page列表
+
+                num_page += 1  # 页面增一
+
+                interpreter.process_page(page)
+
+                # 接受该页面的LTPage对象
+
+                layout = device.get_result()
+
+                for x in layout:
+                    if isinstance(x, LTImage):  # 图片对象
+
+                        num_image += 1
+
+                    if isinstance(x, LTCurve):  # 曲线对象
+
+                        num_curve += 1
+
+                    if isinstance(x, LTFigure):  # figure对象
+
+                        num_figure += 1
+
+                    if isinstance(x, LTTextBoxHorizontal):  # 获取文本内容
+
+                        num_TextBoxHorizontal += 1  # 水平文本框对象增一
+
+                        # 保存文本内容
+
+
+                        results = x.get_text()
+
+                        f.write(results + '\n')
+        pdf = PDFFile()
+        pdf.request_id=rid
+        pdf.file="pdf/"+str(rid)+".doc"
+        # pdf.save()
+        f.close()
+
+            # print('对象数量：\n', '页面数：%s\n' % num_page, '图片数：%s\n' % num_image, '曲线数：%s\n' % num_curve, '水平文本框：%s\n'
+            #
+            #       % num_TextBoxHorizontal)

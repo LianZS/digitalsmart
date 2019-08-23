@@ -1,7 +1,9 @@
-import json
-import re
 import time
-from django.http import StreamingHttpResponse, JsonResponse, HttpResponse
+import random
+from threading  import  Thread
+from django.views.decorators.csrf import csrf_exempt
+
+from django.http import StreamingHttpResponse, JsonResponse
 
 from .tasks import NetWorker
 
@@ -31,7 +33,7 @@ class Crack:
         if not musicname:
             return JsonResponse({"status": 0, "message": "error"})
         net = NetWorker()
-        iter_music_info = net.get_music_list(musicname, soft_type,page)  # 获取所有与之相关的音乐，包括下载链接
+        iter_music_info = net.get_music_list(musicname, soft_type, page)  # 获取所有与之相关的音乐，包括下载链接
         return JsonResponse({"data": list(iter_music_info)})
 
     # http://127.0.0.1:8000/interface/api/downMusic?url=下载链接
@@ -86,25 +88,44 @@ class Crack:
         }
         return JsonResponse(response)
 
-    # http://127.0.0.1:8000/interface/api/baidudoc?url=目标文档链接
-
-    def down_baidu_doc(self, request):
-        """
-        下载百度文档
-
-        """
-        url = request.GET.get("url")
-
-        file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
-        if not (url and file_type):
-            return JsonResponse({"status": 0, "message": "error"})
-        net = NetWorker()
-        iter_doc = net.down_baidu_doc(url, file_type)
-        response = StreamingHttpResponse(iter_doc)
-        response['Content-Type'] = 'application/octet-stream'
-
-        response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
-        return response
+    # def parse_baidudoc(self, request):
+    #     """
+    #     解析百度文档链接，并提供可下载链接
+    #     :param request:
+    #     :return:
+    #     """
+    #     pre_path = request.path + "?url="
+    #     href = request.get_full_path()
+    #     parse_url = href.replace(pre_path, "")
+    #     # url = request.GET.get("url")
+    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
+    #     if not (parse_url and file_type):
+    #         return JsonResponse({"status": 0, "message": "error"})
+    #     net = NetWorker()
+    #     doc_url = net.get_baidu_doc(parse_url, file_type)
+    #     return JsonResponse(doc_url)
+    #
+    # # http://127.0.0.1:8000/interface/api/baidudoc?url=目标文档链接
+    #
+    # def down_baidu_doc(self, request):
+    #     """
+    #     下载百度文档
+    #
+    #     """
+    #     pre_path = request.path + "?url="
+    #     href = request.get_full_path()
+    #     dowun_url = href.replace(pre_path, "")
+    #
+    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
+    #     if not (dowun_url):
+    #         return JsonResponse({"status": 0, "message": "error"})
+    #     net = NetWorker()
+    #     iter_doc = net.down_baidu_doc(dowun_url)
+    #     response = StreamingHttpResponse(iter_doc)
+    #     response['Content-Type'] = 'application/octet-stream'
+    #
+    #     response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
+    #     return response
 
     # http://127.0.0.1:8000/interface/api/goodsprice?url=目标商品链接
 
@@ -169,3 +190,12 @@ class Crack:
     #     if url is None:
     #         return JsonResponse({"status": 0, "message": "error"})
     #     net = NetWorker()
+    @csrf_exempt
+    def upload_pdf(self, request):
+        pdf_file = request.FILES.get('pdf')
+        # 产生一个用户访问凭证，并且用来下载解析好的文件
+        rid = int(time.time()) + random.randint(11, 1111111)
+        # 解析pdf
+        Thread(target=NetWorker().parse,args=(pdf_file,rid,)).start()
+
+        return JsonResponse({"message": "success", "code": 1, "id": rid})
