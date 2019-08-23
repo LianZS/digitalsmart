@@ -121,7 +121,7 @@ class NetWorker(object):
         person = Person(idcard, area, phone, bir, lunar, gender, latlon)
         return person
 
-    def get_music_list(self, name, soft_type='netease') -> Iterator[Dict]:
+    def get_music_list(self, name, soft_type='netease', page=1) -> Iterator[Dict]:
         """
         获所有与之相关的音乐
         :param name: 音乐名
@@ -134,12 +134,14 @@ class NetWorker(object):
         :return:
         """
         self.headers['X-Requested-With'] = 'XMLHttpRequest'
-        url = "http://music.cccyun.cc/"
+        url = "http://music.wandhi.com/"
+
         paramer = {
             "input": name,
             "filter": 'name',
             'type': soft_type,
-            'page': 1
+            'page': page,
+
         }
         response = requests.post(url=url, data=paramer, headers=self.headers)
         g = json.loads(response.text)
@@ -147,10 +149,12 @@ class NetWorker(object):
         for item in music_list:
             author = item['author']
             url = item['url']  # 对url进行加密
-            #字符串 -> 二进制 -> base64编码
+            # 字符串 -> 二进制 -> base64编码
             url = base64.b64encode(url.encode())
             title = item['title']
-            yield {"author": author, "url": str(url), "title": title}
+            imgurl = item['pic']
+            song_word = item['lrc']
+            yield {"author": author, "url": url.decode(), "title": title, "lrc": song_word, "img": imgurl}
 
     def down_music_content(self, url) -> Iterator[ByteString]:
         """
