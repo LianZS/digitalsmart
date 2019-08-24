@@ -348,14 +348,58 @@ class NetWorker(object):
     #         print(i)
 
     # @app.task(queue="distribution",bind=True)
-    def parse(self, fp, rid):
+    def parse(self, fp, rid, page_type, exchange_type, page):
         """
         将pdf转为doc格式
+        :param     pagetype：   every：转换每一页
+        :param     singular：转换奇数页
+        :param     even：转换偶数页
+        :param     specified：指定页转换,若为此选项，需要分析要转换哪些页，页码或者用逗号分隔的页码范围（例如：1,3-5，8,9表示要转换1,
+                                                                                                3,4,5,8,9）
+        :param type 转换类型有:  docx,doc
+        page   如1,3-5，8,9表示要转换1,3,4,5,8,9这几页
         :param fp: 文件流
         :param rid: 用户访问唯一标识
         :return:
         """
-        writepath = "./media/pdf/" + str(rid) + ".doc"
+
+        # 存放需要指定解析的页码
+        page_list = list()
+        # 用来判断是用户想要哪种页面转换类型，1表示转换所有页，2表示偶数，3偶数页，4表示特定页码
+
+        judge_pagetype = 0
+        if page_type == "every":
+            judge_pagetype = 1
+        if page_type == "even":
+            judge_pagetype = 2
+        if page_type == "singular":
+            judge_pagetype = 3
+
+        if page_type == "specified":
+            judge_pagetype = 4
+            page_set = page.split(",")
+            for page in page_set:
+                try:
+                    # 不是数字类型的话说明可能是3-8这类类型的
+                    page = int(page)
+                    page_list.append(page)
+                except ValueError:
+                    # "3-5类型的页面范围"
+                    page_range = page.split("-")
+                    if len(page_range) == 2:
+                        try:
+                            start_page = int(page_range[0])
+                            end_page = int(page_range[1])
+                            # 都是数字的情况下继续
+                            # 起始必须小于等于结束页
+                            if start_page <= end_page:
+                                for page in range(start_page, end_page + 1):  # 右闭
+                                    page = int(page)
+
+                                    page_list.append(page)
+                        except ValueError:
+                            judge_pagetype = 1
+        writepath = "./media/pdf/" + str(rid) + "." + exchange_type
         f = open(writepath, "a+")
         # fp = open(filepath, 'rb')  # 以二进制读模式打开
 
@@ -406,9 +450,32 @@ class NetWorker(object):
             num_page, num_image, num_curve, num_figure, num_TextBoxHorizontal = 0, 0, 0, 0, 0
 
             # 循环遍历列表，每次处理一个page的内容
-
+            count = 1  # 计算第几页
             for page in doc.get_pages():  # doc.get_pages() 获取page列表
-
+                print("test")
+                if judge_pagetype == 1:
+                    pass
+                if judge_pagetype == 2:
+                    if count % 2 != 0:
+                        count += 1
+                        continue
+                if judge_pagetype == 3:
+                    if count % 2 == 0:
+                        count += 1
+                        continue
+                if judge_pagetype == 4:
+                    # 长度为0时可以自动break结束
+                    if len(page_list) == 0:
+                        break
+                    if count not in page_list:
+                        count += 1
+                        continue
+                    # 页面所在列表的索引
+                    element_index = page_list.index(count)
+                    # 将解析了的页面索引pop掉，从而在列表长度为0时可以自动break结束
+                    page_list.pop(element_index)
+                print(count)
+                count += 1
                 num_page += 1  # 页面增一
 
                 interpreter.process_page(page)
@@ -441,7 +508,7 @@ class NetWorker(object):
                         f.write(results + '\n')
         pdf = PDFFile()
         pdf.id = rid
-        pdf.file = "pdf/" + str(rid) + ".doc"
+        pdf.file = "pdf/" + str(rid) + "." + exchange_type
         pdf.save()
         f.close()
 
@@ -449,7 +516,7 @@ class NetWorker(object):
         #
         #       % num_TextBoxHorizontal)
 
-    def analyse_word(self, url, allowpos,uid):
+    def analyse_word(self, url, allowpos, uid):
         """
         提取中文文本关键词以及频率
         :param url:请求链接
@@ -480,4 +547,4 @@ class NetWorker(object):
         data = list()
         for keyword, rate in keywords:
             data.append({keyword: rate})
-        cache.set(uid,data,60*3) #uid作为key，有效期3分钟
+        cache.set(uid, data, 60 * 3)  # uid作为key，有效期3分钟

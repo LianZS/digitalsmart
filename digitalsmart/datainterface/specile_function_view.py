@@ -10,7 +10,6 @@ from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
 from .tasks import NetWorker
 
-
 class Crack:
     """
     下面是付费音乐下载功能
@@ -205,22 +204,36 @@ class Crack:
     下面是pdf转为doc功能
     """
 
-    # http://127.0.0.1:8000/interface/api/uploadPDF
+    # http://127.0.0.1:8000/interface/api/uploadPDF?pdf=文件&pagetype=页码选择类型&type=转换格式&page=需要转换的页面
     @csrf_exempt
     def upload_pdf(self, request):
         """
         上传pdf文件，将其转为doc格式，并存在pdfdb数据库中
+        pagetype：   every：转换每一页
+                    singular：转换奇数页
+                    even：转换偶数页
+                    specified：指定页转换,若为此选项，需要分析要转换哪些页，页码或者用逗号分隔的页码范围（例如：1,3-5，8,9表示要转换1,
+                                                                                                3,4,5,8,9）
+        type转换类型有:  docx,doc
+        page   如1,3-5，8,9表示要转换1,3,4,5,8,9这几页
+
         :param request:
         :return:
         """
+        page_type = request.POST.get("pagetype")
+        exchange_type = request.POST.get("type")
+
+        page = request.POST.get('page')
+
         pdf_file = request.FILES.get('pdf')
         filename = pdf_file.name
+        # 文件类型是否符合要求
         if pdf_file.content_type == "application/pdf":
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
             # 产生一个用户访问凭证，并且用来下载解析好的文件
             # 解析pdf
-            Thread(target=NetWorker().parse, args=(pdf_file, uid,)).start()
-
+            Thread(target=NetWorker().parse, args=(pdf_file, uid,page_type,exchange_type,page,)).start()
+            #code为1表示正常，0表示文件类型有误
             return JsonResponse({"message": "success", "code": 1, "id": uid})
         return JsonResponse({"code": 0, "message": "error"})
 
@@ -231,7 +244,7 @@ class Crack:
         uid = request.GET.get("id")
         try:
             val = PDFFile.objects.get(id=uid)
-        except ValidationError:
+        except Exception:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以下载咯
 
         return JsonResponse({"code": 1, "p": 100})  # 通知可以下载咯
@@ -252,7 +265,8 @@ class Crack:
 
         response['Content-Disposition'] = 'attachment;filename={0}.doc'.format(uid)
         return response
-#http://127.0.0.1:8000/interface/api/analyse?allowPos=a&url=https://blog.csdn.net/hhtnan/article/details/76586693
+
+    # http://127.0.0.1:8000/interface/api/analyse?allowPos=a&url=https://blog.csdn.net/hhtnan/article/details/76586693
     @csrf_exempt
     def analyse_url(self, request):
         """
