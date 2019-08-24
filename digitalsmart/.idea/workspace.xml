@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/specile_function_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/specile_function_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/tasks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dump.rdb" beforeDir="false" afterPath="$PROJECT_DIR$/dump.rdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/pdf/a.txt" beforeDir="false" afterPath="$PROJECT_DIR$/media/pdf/a.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/pdf/7ca7ab45-061b-554c-928f-f45c2f5baa2f.docx" beforeDir="false" afterPath="$PROJECT_DIR$/media/pdf/7ca7ab45-061b-554c-928f-f45c2f5baa2f.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,42 +72,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datainterface/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
+            <state relative-caret-position="219">
               <caret line="23" column="27" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="291" column="43" lean-forward="true" selection-start-line="291" selection-start-column="43" selection-end-line="291" selection-end-column="43" />
+            <state relative-caret-position="75">
+              <caret line="249" lean-forward="true" selection-start-line="249" selection-end-line="249" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#8077#8398#0" />
-                <element signature="e#7948#8479#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="577" selection-start-line="577" selection-end-line="577" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#1401#1519#0" />
-                <element signature="e#1554#1840#0" />
-                <element signature="e#1961#2612#0" />
-                <element signature="e#2671#4771#0" />
-                <element signature="e#4864#6178#0" />
-                <element signature="e#6251#6467#0" />
-                <element signature="e#7859#9262#0" />
-                <element signature="e#9315#11150#0" />
-                <element signature="e#12259#17145#0" />
               </folding>
             </state>
           </provider>
@@ -115,7 +93,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/django/core/handlers/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
+            <state relative-caret-position="1515">
               <caret line="112" selection-start-line="112" selection-end-line="112" />
             </state>
           </provider>
@@ -223,9 +201,9 @@
         <option value="$PROJECT_DIR$/datainterface/urls.py" />
         <option value="$PROJECT_DIR$/templates/upload.html" />
         <option value="$PROJECT_DIR$/datainterface/__init__.py" />
-        <option value="$PROJECT_DIR$/datainterface/specile_function_view.py" />
         <option value="$PROJECT_DIR$/media/pdf/a.txt" />
         <option value="$PROJECT_DIR$/datainterface/tasks.py" />
+        <option value="$PROJECT_DIR$/datainterface/specile_function_view.py" />
       </list>
     </option>
   </component>
@@ -240,7 +218,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -268,6 +245,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -541,18 +519,19 @@
       <workItem from="1566576021435" duration="10330000" />
       <workItem from="1566614104097" duration="1429000" />
       <workItem from="1566617604310" duration="1040000" />
-      <workItem from="1566625930163" duration="19684000" />
+      <workItem from="1566625930163" duration="19730000" />
+      <workItem from="1566663043695" duration="5640000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="438584000" />
+    <option name="totallyTimeSpent" value="444270000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="703" extended-state="0" />
+    <frame x="0" y="22" width="1280" height="703" extended-state="1" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.25605816" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.26009694" />
       <window_info id="Structure" order="1" sideWeight="0.5043478" side_tool="true" weight="0.24394184" />
       <window_info id="Favorites" order="2" sideWeight="0.5014493" side_tool="true" weight="0.23990306" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -566,7 +545,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Statistic" order="10" weight="0.3289689" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" visible="true" weight="0.492635" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" visible="true" weight="0.492635" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.17528272" side_tool="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.3289689" />
@@ -910,13 +889,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/pdfdb">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
@@ -941,13 +913,6 @@
     <entry file="file://$PROJECT_DIR$/datainterface/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/datainterface/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="23" column="27" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/bs4/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -962,25 +927,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="291" column="43" lean-forward="true" selection-start-line="291" selection-start-column="43" selection-end-line="291" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#8077#8398#0" />
-            <element signature="e#7948#8479#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="112" selection-start-line="112" selection-end-line="112" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/jieba/analyse/textrank.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -988,21 +934,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1515">
+          <caret line="112" selection-start-line="112" selection-end-line="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datainterface/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="23" column="27" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/pdfdb">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="577" selection-start-line="577" selection-end-line="577" />
+        <state relative-caret-position="294">
+          <caret line="575" column="28" lean-forward="true" selection-start-line="575" selection-start-column="28" selection-end-line="575" selection-end-column="28" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#1401#1519#0" />
-            <element signature="e#1554#1840#0" />
-            <element signature="e#1961#2612#0" />
-            <element signature="e#2671#4771#0" />
-            <element signature="e#4864#6178#0" />
-            <element signature="e#6251#6467#0" />
-            <element signature="e#7859#9262#0" />
-            <element signature="e#9315#11150#0" />
-            <element signature="e#12259#17145#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="249" lean-forward="true" selection-start-line="249" selection-end-line="249" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -575,4 +575,5 @@ class NetWorker(object):
         data = list()
         for keyword, rate in keywords:
             data.append({keyword: rate})
+        print(data)
         cache.set(uid, data, 60 * 3)  # uid作为key，有效期3分钟

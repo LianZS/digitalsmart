@@ -1,5 +1,5 @@
 import uuid
-
+import time
 from threading import Thread
 from attractions.tool.file_hander import Hander_File
 from django.core.cache import cache
@@ -226,7 +226,8 @@ class Crack:
         page = request.POST.get('page')
 
         pdf_file = request.FILES.get('pdf')
-        filename = pdf_file.name
+        #预防同一个文件不同操作导致IO出错
+        filename = pdf_file.name+str(time.time())
         # 文件类型是否符合要求
         if pdf_file.content_type == "application/pdf":
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
