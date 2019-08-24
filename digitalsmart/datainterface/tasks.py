@@ -3,11 +3,12 @@ import requests
 import re
 import base64
 import jieba
+
 from jieba import analyse
 from django.core.cache import cache
 
 from typing import Dict, Iterator, ByteString, Set
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 from bs4 import BeautifulSoup
 from pdfminer.pdfparser import PDFParser, PDFDocument
 
@@ -532,18 +533,45 @@ class NetWorker(object):
         z 状态词
         ......详细见文档
         """
-
         # 引入TextRank关键词抽取接口
         textrank = analyse.textrank
+        # 解析获取域名
+        domain = urlparse(url)
+        netloc = domain.netloc
+
+        self.headers['Host'] = netloc
+        self.headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
         response = requests.get(url=url, headers=self.headers)
         if response.status_code != 200:
             return None
         text = response.text
+        # 解析获取该网页编码方式
+        soup = BeautifulSoup(text, 'lxml')
+        # 默认编码gbk
+        charset = "utf-8"
+        #找出该链接所用的编码方式
+        try:
+            charset = soup.find(name="meta", attrs={"charset": True})
+            # 编码方式
+            charset = charset.attrs["charset"]
+        except AttributeError as e:
+            meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
+            # 带有charset的字符串
+            content = meta.attrs['content']
+            # 以;分割,分出带有charset的字符串段
+            content_set = content.split(";")
+
+            for word in content_set:
+                if "charset" in word.lower():
+                    # 编码
+                    charset = word.split("=")[1]
+
+        response.encoding = charset
+        text = response.text
         # 保留中文文本
         text = re.sub("[^\u4E00-\u9FA5]", "", text)
-
         # 基于TextRank算法进行关键词抽取
-        keywords = textrank(sentence=text, allowPOS=(allowpos), withWeight=True)
+        keywords = textrank(sentence=text, allowPOS=(allowpos,allowpos,allowpos,allowpos), withWeight=True)
         data = list()
         for keyword, rate in keywords:
             data.append({keyword: rate})

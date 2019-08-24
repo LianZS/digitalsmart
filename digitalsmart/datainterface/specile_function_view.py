@@ -301,5 +301,5 @@ class Crack:
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
         data = cache.get(uid)
-        
+
         return JsonResponse({"data": data})
