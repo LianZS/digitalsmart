@@ -283,6 +283,7 @@ class Crack:
         t 时间词
         v 动词
         z 状态词
+        .....
         :param request:
         :return:
         """
@@ -290,7 +291,7 @@ class Crack:
         url = request.POST.get("url")
         uid = uuid.uuid5(uuid.NAMESPACE_URL, url)  # 作为下载获取数据请求的凭证
         if url is None or allowpos is None:
-            return JsonResponse({"status": 0, "message": "error"})
+            return JsonResponse({"p": 0, "id": "","code":0})
         net = NetWorker()
         Thread(target=net.analyse_word(url, allowpos, uid)).start()
         return JsonResponse({"code": 1, "p": 1, "id": uid})
@@ -300,4 +301,5 @@ class Crack:
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
         data = cache.get(uid)
+        
         return JsonResponse({"data": data})

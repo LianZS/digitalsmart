@@ -2,6 +2,7 @@ import json
 import requests
 import re
 import base64
+import jieba
 from jieba import analyse
 from django.core.cache import cache
 
@@ -452,7 +453,6 @@ class NetWorker(object):
             # 循环遍历列表，每次处理一个page的内容
             count = 1  # 计算第几页
             for page in doc.get_pages():  # doc.get_pages() 获取page列表
-                print("test")
                 if judge_pagetype == 1:
                     pass
                 if judge_pagetype == 2:
@@ -474,7 +474,6 @@ class NetWorker(object):
                     element_index = page_list.index(count)
                     # 将解析了的页面索引pop掉，从而在列表长度为0时可以自动break结束
                     page_list.pop(element_index)
-                print(count)
                 count += 1
                 num_page += 1  # 页面增一
 
@@ -531,6 +530,7 @@ class NetWorker(object):
         t 时间词
         v 动词
         z 状态词
+        ......详细见文档
         """
 
         # 引入TextRank关键词抽取接口
