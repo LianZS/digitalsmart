@@ -1,6 +1,7 @@
 import uuid
 import time
 from threading import Thread
+from multiprocessing import  Process
 from attractions.tool.file_hander import Hander_File
 from django.core.cache import cache
 
@@ -230,10 +231,18 @@ class Crack:
         filename = pdf_file.name+str(time.time())
         # 文件类型是否符合要求
         if pdf_file.content_type == "application/pdf":
-            uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
             # 产生一个用户访问凭证，并且用来下载解析好的文件
+
+            uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
+            #保存pdf文件
+            filepath = "./media/pdf/"+str(uid)+".pdf"
+            f = open(filepath,"wb+")
+            for line in pdf_file.chunks():
+                f.write(line)
+            f.close()
             # 解析pdf
-            Thread(target=NetWorker().parse, args=(pdf_file, uid,page_type,exchange_type,page,)).start()
+
+            Thread(target=NetWorker().parse, args=(filepath,uid,page_type,exchange_type,page,)).start()
             #code为1表示正常，0表示文件类型有误
             return JsonResponse({"message": "success", "code": 1, "id": uid})
         return JsonResponse({"code": 0, "message": "error"})
@@ -294,7 +303,8 @@ class Crack:
         if url is None or allowpos is None:
             return JsonResponse({"p": 0, "id": "","code":0})
         net = NetWorker()
-        Thread(target=net.analyse_word(url, allowpos, uid)).start()
+        Process(target=net.parse,args=(url, allowpos, uid)).start()
+        # Thread(target=net.analyse_word(url, allowpos, uid)).start()
         return JsonResponse({"code": 1, "p": 1, "id": uid})
 
     def get_analyse_result(self, request):

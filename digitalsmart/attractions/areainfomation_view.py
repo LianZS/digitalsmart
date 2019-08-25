@@ -68,7 +68,9 @@ class AreaInfo():
         return AreaInfo.deal_response(response)
 
     # http://127.0.0.1:8000/attractions/api/getScenceInfo
-    def scence_map(self, request):
+    @staticmethod
+    @cache_page(60*60*12)
+    def scence_map( request):
         # 获取景区数据,用于绘制地图
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})

@@ -6,7 +6,9 @@ import os
 # This will make sure the app is always imported when
 # Django starts so that shared_task will use this app.
 import pymysql
+
+pymysql.install_as_MySQLdb()
+
 from .celeryconfig import app as share_app
 
 share_app.config_from_object(celeryconfig)
-pymysql.install_as_MySQLdb()

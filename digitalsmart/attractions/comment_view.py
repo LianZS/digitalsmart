@@ -52,8 +52,9 @@ class Comment():
         all = CommentRate.objects.filter(pid=pid).values('pk',"adjectives", "rate").iterator()
         response = {"comment": list(all)}
         return Comment.deal_response(response)
-
-    def get_comment(self,request):
+    @staticmethod
+    @cache_page(60*60*12)
+    def get_comment(request):
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
         #     return JsonResponse({"status": 0})
