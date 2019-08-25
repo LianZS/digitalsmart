@@ -227,8 +227,8 @@ class Crack:
         page = request.POST.get('page')
 
         pdf_file = request.FILES.get('pdf')
-        #预防同一个文件不同操作导致IO出错
-        filename = pdf_file.name+str(time.time())
+        #预防同一个文件不同操作导致IO出错,只要其中一个参数不同就会导致新文件产生，如果存在了该uuid，则说明解析完了
+        filename = pdf_file.name+str(page_type)+str(exchange_type)+str(page)
         # 文件类型是否符合要求
         if pdf_file.content_type == "application/pdf":
             # 产生一个用户访问凭证，并且用来下载解析好的文件
@@ -242,7 +242,7 @@ class Crack:
             f.close()
             # 解析pdf
 
-            Thread(target=NetWorker().parse, args=(filepath,uid,page_type,exchange_type,page,)).start()
+            Process(target=NetWorker().parse, args=(filepath,uid,page_type,exchange_type,page,)).start()
             #code为1表示正常，0表示文件类型有误
             return JsonResponse({"message": "success", "code": 1, "id": uid})
         return JsonResponse({"code": 0, "message": "error"})
@@ -303,8 +303,7 @@ class Crack:
         if url is None or allowpos is None:
             return JsonResponse({"p": 0, "id": "","code":0})
         net = NetWorker()
-        Process(target=net.parse,args=(url, allowpos, uid)).start()
-        # Thread(target=net.analyse_word(url, allowpos, uid)).start()
+        Thread(target=net.analyse_word,args=(url, allowpos, uid,)).start()
         return JsonResponse({"code": 1, "p": 1, "id": uid})
 
     def get_analyse_result(self, request):
@@ -312,5 +311,4 @@ class Crack:
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
         data = cache.get(uid)
-
         return JsonResponse({"data": data})

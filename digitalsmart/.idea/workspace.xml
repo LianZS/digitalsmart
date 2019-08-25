@@ -2,27 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../digitalsmart.zip" beforeDir="false" afterPath="$PROJECT_DIR$/../digitalsmart.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/areainfomation_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/areainfomation_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/comment_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/comment_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datainterface/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/specile_function_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/specile_function_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/digitalsmart/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/digitalsmart/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/digitalsmart/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/digitalsmart/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dump.rdb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/pdf/7ca7ab45-061b-554c-928f-f45c2f5baa2f.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/pdf/a.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/pdf/bc3dd9ce-3781-529b-8bfd-4a651adfa850.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/pdf/d9c53ac0-9b21-5fc7-9028-b0b7499381fd.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/pdf/df0281eb-ca77-5a40-ba9b-3511639e7208.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/pdf/e43b1034-3e31-59aa-8a2b-63d9e0f4bcc9.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/logout.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registered.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/upload.html" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="305" column="67" lean-forward="true" selection-start-line="305" selection-start-column="67" selection-end-line="305" selection-end-column="67" />
+            <state relative-caret-position="77">
+              <caret line="229" column="65" selection-start-line="229" selection-start-column="65" selection-end-line="229" selection-end-column="65" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -102,13 +83,24 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="517" column="31" selection-start-line="517" selection-start-column="31" selection-end-line="517" selection-end-column="31" />
+            <state relative-caret-position="160">
+              <caret line="613" column="19" lean-forward="true" selection-start-line="613" selection-start-column="19" selection-end-line="613" selection-end-column="19" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
                 <element signature="e#7897#9300#0" />
                 <element signature="e#9353#11188#0" />
-                <element signature="e#17241#19068#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/traffic/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="197" lean-forward="true" selection-start-line="197" selection-end-line="197" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -222,8 +214,8 @@
         <option value="$PROJECT_DIR$/datainterface/models.py" />
         <option value="$PROJECT_DIR$/digitalsmart/celeryconfig.py" />
         <option value="$PROJECT_DIR$/digitalsmart/settings.py" />
-        <option value="$PROJECT_DIR$/datainterface/specile_function_view.py" />
         <option value="$PROJECT_DIR$/datainterface/__init__.py" />
+        <option value="$PROJECT_DIR$/datainterface/specile_function_view.py" />
         <option value="$PROJECT_DIR$/datainterface/tasks.py" />
       </list>
     </option>
@@ -250,17 +242,6 @@
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
               <item name="datainterface" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="media" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
-              <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="media" type="462c0819:PsiDirectoryNode" />
-              <item name="pdf" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -542,12 +523,12 @@
       <workItem from="1566617604310" duration="1040000" />
       <workItem from="1566625930163" duration="19730000" />
       <workItem from="1566663043695" duration="6318000" />
-      <workItem from="1566701150552" duration="12915000" />
+      <workItem from="1566701150552" duration="16435000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="457863000" />
+    <option name="totallyTimeSpent" value="461383000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
@@ -609,13 +590,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/scenceflow">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/peopleposition0">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -941,16 +915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="305" column="67" lean-forward="true" selection-start-line="305" selection-start-column="67" selection-end-line="305" selection-end-column="67" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/datainterface/scence_data_view.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-10">
@@ -967,15 +931,34 @@
     <entry file="file://$PROJECT_DIR$/datainterface/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/traffic/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="197" lean-forward="true" selection-start-line="197" selection-end-line="197" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datainterface/specile_function_view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="229" column="65" selection-start-line="229" selection-start-column="65" selection-end-line="229" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/datainterface/tasks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="517" column="31" selection-start-line="517" selection-start-column="31" selection-end-line="517" selection-end-column="31" />
+        <state relative-caret-position="160">
+          <caret line="613" column="19" lean-forward="true" selection-start-line="613" selection-start-column="19" selection-end-line="613" selection-end-column="19" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
             <element signature="e#7897#9300#0" />
             <element signature="e#9353#11188#0" />
-            <element signature="e#17241#19068#0" />
           </folding>
         </state>
       </provider>
