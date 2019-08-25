@@ -2,8 +2,7 @@ import json
 import requests
 import re
 import base64
-import jieba
-import time
+
 import heapq
 from threading import Thread, Semaphore
 from queue import Queue
@@ -554,6 +553,8 @@ class NetWorker(object):
 
     def analyse_word(self, url, allowpos, uid):
         """
+          这个接口已经独立成一个程序了，加在这里效率太低下了。
+
         提取中文文本关键词以及频率
         :param url:请求链接
         :param allowpos:词性
@@ -569,7 +570,6 @@ class NetWorker(object):
         z 状态词
         ......详细见文档
         """
-
         # 解析获取域名
         domain = urlparse(url)
         netloc = domain.netloc
@@ -592,14 +592,17 @@ class NetWorker(object):
         except AttributeError as e:
             meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
             # 带有charset的字符串
-            content = meta.attrs['content']
-            # 以;分割,分出带有charset的字符串段
-            content_set = content.split(";")
+            try:
+                content = meta.attrs['content']
+                content_set = content.split(";")
 
-            for word in content_set:
-                if "charset" in word.lower():
-                    # 编码
-                    charset = word.split("=")[1]
+                for word in content_set:
+                    if "charset" in word.lower():
+                        # 编码
+                        charset = word.split("=")[1]
+            except AttributeError:
+                charset = "utf-8"
+            # 以;分割,分出带有charset的字符串段
 
         response.encoding = charset
         text = response.text
@@ -609,8 +612,4 @@ class NetWorker(object):
         textrank = analyse.textrank
         # 基于TextRank算法进行关键词抽取
         keywords = textrank(sentence=text, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
-        data = list()
-        for keyword, rate in keywords:
-            data.append({keyword: rate})
-        print(data)
-        cache.set(uid, data, 60 * 60)  # uid作为key，有效期60分钟
+        cache.set(uid, keywords, 60 * 60)  # uid作为key，有效期60分钟

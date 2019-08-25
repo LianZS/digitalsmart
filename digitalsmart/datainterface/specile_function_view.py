@@ -1,9 +1,9 @@
 import uuid
-import time
-from threading import Thread
-from multiprocessing import  Process
+
+import os
+import redis
+from multiprocessing import Process
 from attractions.tool.file_hander import Hander_File
-from django.core.cache import cache
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
@@ -11,6 +11,8 @@ from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
 from .tasks import NetWorker
 
+r = redis.Redis(host='127.0.0.1', port=6379,
+                        decode_responses=True)  # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
 class Crack:
     """
     下面是付费音乐下载功能
@@ -227,8 +229,8 @@ class Crack:
         page = request.POST.get('page')
 
         pdf_file = request.FILES.get('pdf')
-        #预防同一个文件不同操作导致IO出错,只要其中一个参数不同就会导致新文件产生，如果存在了该uuid，则说明解析完了
-        filename = pdf_file.name+str(page_type)+str(exchange_type)+str(page)
+        # 预防同一个文件不同操作导致IO出错,只要其中一个参数不同就会导致新文件产生，如果存在了该uuid，则说明解析完了
+        filename = pdf_file.name + str(page_type) + str(exchange_type) + str(page)
 
         # 文件类型是否符合要求
         if pdf_file.content_type == "application/pdf":
@@ -236,22 +238,22 @@ class Crack:
 
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
             try:
-                #已经存在该文件了
+                # 已经存在该文件了
                 PDFFile.objects.get(uid)
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
 
             except Exception:
                 pass
-            #保存pdf文件
-            filepath = "./media/pdf/"+str(uid)+".pdf"
-            f = open(filepath,"wb+")
+            # 保存pdf文件
+            filepath = "./media/pdf/" + str(uid) + ".pdf"
+            f = open(filepath, "wb+")
             for line in pdf_file.chunks():
                 f.write(line)
             f.close()
             # 解析pdf
 
-            Process(target=NetWorker().parse, args=(filepath,uid,page_type,exchange_type,page,)).start()
-            #code为1表示正常，0表示文件类型有误
+            Process(target=NetWorker().parse, args=(filepath, uid, page_type, exchange_type, page,)).start()
+            # code为1表示正常，0表示文件类型有误
             return JsonResponse({"message": "success", "code": 1, "id": uid})
         return JsonResponse({"code": 0, "message": "error"})
 
@@ -305,18 +307,29 @@ class Crack:
         :param request:
         :return:
         """
+
         allowpos = request.POST.get("allowPos")  # 获取词性
         url = request.POST.get("url")
-        uid = uuid.uuid5(uuid.NAMESPACE_URL, url)  # 作为下载获取数据请求的凭证
-        if url is None or allowpos is None:
-            return JsonResponse({"p": 0, "id": "","code":0})
-        net = NetWorker()
-        Thread(target=net.analyse_word,args=(url, allowpos, uid,)).start()
-        return JsonResponse({"code": 1, "p": 1, "id": uid})
+        uid = uuid.uuid5(uuid.NAMESPACE_URL, url+allowpos)  # 作为下载获取数据请求的凭证
+        #下面之所以不用cache来取，是因为不知为何没有数据
+        data = r.get(str(uid))
+        if data is None:
+
+            if url is None or allowpos is None:
+                return JsonResponse({"p": 0, "id": "", "code": 0})
+            net = NetWorker()
+            cmd = "python datainterface/analyse.py {url} {allowpos} {uid}".format(url=url, allowpos=allowpos, uid=uid)
+            os.system(cmd)
+            # Thread(target=net.analyse_word,args=(url, allowpos, uid,)).start()
+            return JsonResponse({"code": 1, "p": 1, "id": uid})
+        else:
+            return JsonResponse({"code": 1, "p": 1, "id": uid})
 
     def get_analyse_result(self, request):
         uid = request.GET.get("id")
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
-        data = cache.get(uid)
+        data =r.get(uid)
+        if data is not  None:
+            data = eval(data)
         return JsonResponse({"data": data})
