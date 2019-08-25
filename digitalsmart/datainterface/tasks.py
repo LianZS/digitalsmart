@@ -569,8 +569,7 @@ class NetWorker(object):
         z 状态词
         ......详细见文档
         """
-        # 引入TextRank关键词抽取接口
-        textrank = analyse.textrank
+
         # 解析获取域名
         domain = urlparse(url)
         netloc = domain.netloc
@@ -606,6 +605,8 @@ class NetWorker(object):
         text = response.text
         # 保留中文文本
         text = re.sub("[^\u4E00-\u9FA5]", "", text)
+        # 引入TextRank关键词抽取接口
+        textrank = analyse.textrank
         # 基于TextRank算法进行关键词抽取
         keywords = textrank(sentence=text, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
         data = list()

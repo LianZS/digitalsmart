@@ -229,11 +229,19 @@ class Crack:
         pdf_file = request.FILES.get('pdf')
         #预防同一个文件不同操作导致IO出错,只要其中一个参数不同就会导致新文件产生，如果存在了该uuid，则说明解析完了
         filename = pdf_file.name+str(page_type)+str(exchange_type)+str(page)
+
         # 文件类型是否符合要求
         if pdf_file.content_type == "application/pdf":
             # 产生一个用户访问凭证，并且用来下载解析好的文件
 
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
+            try:
+                #已经存在该文件了
+                PDFFile.objects.get(uid)
+                return JsonResponse({"message": "success", "code": 1, "id": uid})
+
+            except Exception:
+                pass
             #保存pdf文件
             filepath = "./media/pdf/"+str(uid)+".pdf"
             f = open(filepath,"wb+")
