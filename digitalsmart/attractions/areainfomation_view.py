@@ -37,8 +37,8 @@ class AreaInfo():
         city = request.GET.get("location")  # 深圳市
         citypid = request.GET.get("citypid")  # 123
         if not len(city) or not len(province) or not citypid:
-            return JsonResponse({"status": 0})
-        # 作为缓存key
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+        # 作为城市唯一缓存key
         key = uuid.uuid5(uuid.NAMESPACE_OID, province + city + citypid)
         response = cache.get(key)
 
@@ -53,40 +53,48 @@ class AreaInfo():
         # 站点跨域请求的问题
         return AreaInfo.deal_response(response)
 
-    # http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&flag=1
+    # http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&type_flag=1
     @staticmethod
     def scence_geographic(request):
         # 景区地理数据
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
-        flag = request.GET.get("flag")  # 避免同pid冲突
+        type_flag = request.GET.get("type_flag")  # 避免同pid冲突
         if not pid:
-            return JsonResponse({"status": "标识有误"})
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         try:
             pid = int(pid)
-            flag = int(flag)
+            flag = int(type_flag)
         except Exception:
-            return JsonResponse({"status": 0})
-        key = uuid.uuid5(uuid.NAMESPACE_X500, str(pid * 1111))
-        with connection.cursor() as cursor:
-            cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s",
-                           [pid, flag])
-            rows = cursor.fetchall()
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+        # 生产该景点的唯一key
+        key = uuid.uuid5(uuid.NAMESPACE_OID, str(pid * 1111 + flag))
+        response = cache.get(key)
+        if response is None:
+            with connection.cursor() as cursor:
+                cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s",
+                               [pid, flag])
+                rows = cursor.fetchall()
 
-        response = {"bounds": rows}
+            response = {"bounds": rows}
+            cache.set(key, response, 60 * 60 * 10)
         return AreaInfo.deal_response(response)
 
     # http://127.0.0.1:8000/attractions/api/getScenceInfo
     @staticmethod
-    @cache_page(60 * 60 * 12)
     def scence_map(request):
         # 获取景区数据,用于绘制地图
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
-        scence_info = ScenceManager.objects.filter(flag=0).values("area", "longitude", "latitude", "province",
-                                                                  "loaction").iterator()
-        response = {"data": list(scence_info)}
+        key = "scence_map"
+        response = cache.get(key)
+
+        if response is None:
+            scence_info = ScenceManager.objects.filter(flag=0).values("area", "longitude", "latitude", "province",
+                                                                      "loaction").iterator()
+            response = {"data": list(scence_info)}
+            cache.set(key, response,60*60*10)
         return AreaInfo.deal_response(response)
 
     @staticmethod
