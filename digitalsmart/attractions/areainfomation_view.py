@@ -38,7 +38,7 @@ class AreaInfo():
         citypid = request.GET.get("citypid")  # 123
         if not len(city) or not len(province) or not citypid:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        # 作为城市唯一缓存key
+        # 作为城市唯一缓存key---province + city + citypid
         key = uuid.uuid5(uuid.NAMESPACE_OID, province + city + citypid)
         response = cache.get(key)
 
@@ -69,9 +69,10 @@ class AreaInfo():
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         # 生产该景点的唯一key
-        key = uuid.uuid5(uuid.NAMESPACE_OID, str(pid * 1111 + flag))
+        key = uuid.uuid5(uuid.NAMESPACE_OID, "geographic"+str(pid * 1111 + flag))
         response = cache.get(key)
         if response is None:
+
             with connection.cursor() as cursor:
                 cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s",
                                [pid, flag])
