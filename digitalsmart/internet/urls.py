@@ -14,9 +14,9 @@ urlpatterns = {
         path("mobile/", include([
             path("brand", share.get_brand_list),  # # 获取品牌数据
 
-            path("allbrandshare", share.get_brand_share),  # 获取某品牌占有率
+            path("allBrandShare", share.get_brand_share),  # 获取某品牌占有率
 
-            path("mobiletype", share.get_mobile_type),  # 获取机型数据
+            path("mobileType", share.get_mobile_type),  # 获取机型数据
 
             path("mobileShare", share.get_mobiletype_share),  # 获取某机型占有率
 
