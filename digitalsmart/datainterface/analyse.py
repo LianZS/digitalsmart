@@ -32,19 +32,17 @@ def analyse_word(url, allowpos, uid):
     headers = dict()  # 网络爬虫请求头
     headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-    starttime = time.time()
     q = Queue()
 
     def request():
 
         # 解析获取域名
-        start = time.time()
         domain = urlparse(url)
         netloc = domain.netloc
 
         headers['Host'] = netloc
         headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
-        response = requests.get(url=url, headers=headers)
+        response = requests.get(url=url, headers=headers,timeout=5)
         if response.status_code != 200:
             return None
         text = response.text
@@ -69,7 +67,6 @@ def analyse_word(url, allowpos, uid):
                         charset = word.split("=")[1]
             except AttributeError:
                 charset = "gbk"
-
         response.encoding = charset
         text = response.text
         # 保留中文文本
@@ -83,6 +80,7 @@ def analyse_word(url, allowpos, uid):
         # 基于TextRank算法进行关键词抽取
         keywords = textrank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
         r.set(uid,str(keywords),ex=3600)
+
         print(keywords)
     Thread(target=request, args=()).start()
     Thread(target=rank, args=()).start()

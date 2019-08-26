@@ -1,4 +1,6 @@
+import uuid
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from django.http import JsonResponse
 from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 from attractions.models import ScenceManager
@@ -9,23 +11,24 @@ class AreaInfo():
     # 景区地理基本信息
     # http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
     @staticmethod
-    @cache_page(60*60)
     def citylist(request):
         # 城市列表
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
         #     return JsonResponse({"status": 0})
         province = request.GET.get('province')  # 广东省
-        if not province:
-            return JsonResponse({"status": 0})
-        result = ScenceManager.objects.filter(province=province).values("loaction", "citypid").distinct()
-        response = {"province": province, "city": list(result)}
+        if province is None:
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+        response = cache.get(province)
+        if response is None:
+            result = ScenceManager.objects.filter(province=province).values("loaction", "citypid").distinct()
+            response = {"province": province, "city": list(result)}
+            cache.set(province, response, 60 * 60 * 10)
         # 站点跨域请求的问题
         return AreaInfo.deal_response(response)
 
     ## http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
     @staticmethod
-    @cache_page(60*60)
     def scencelist(request):
         # 景区数据---flag=1的景点暂时不公开
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
@@ -35,18 +38,23 @@ class AreaInfo():
         citypid = request.GET.get("citypid")  # 123
         if not len(city) or not len(province) or not citypid:
             return JsonResponse({"status": 0})
+        # 作为缓存key
+        key = uuid.uuid5(uuid.NAMESPACE_OID, province + city + citypid)
+        response = cache.get(key)
 
-        result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid, flag=0).values("area",
-                                                                                                                "pid",
-                                                                                                                'longitude',
-                                                                                                                "latitude")
-        response = {"city": city, "area": list(result)}
+        if response is None:
+            result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid, flag=0).values(
+                "area",
+                "pid",
+                "longitude",
+                "latitude", "type_flag")
+            response = {"city": city, "area": list(result)}
+            cache.set(key, response, 60 * 60 * 10)
         # 站点跨域请求的问题
         return AreaInfo.deal_response(response)
 
     # http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&flag=1
     @staticmethod
-    @cache_page(timeout=60 * 60 * 12)
     def scence_geographic(request):
         # 景区地理数据
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
@@ -60,17 +68,19 @@ class AreaInfo():
             flag = int(flag)
         except Exception:
             return JsonResponse({"status": 0})
+        key = uuid.uuid5(uuid.NAMESPACE_X500, str(pid * 1111))
         with connection.cursor() as cursor:
             cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s",
                            [pid, flag])
             rows = cursor.fetchall()
+
         response = {"bounds": rows}
         return AreaInfo.deal_response(response)
 
     # http://127.0.0.1:8000/attractions/api/getScenceInfo
     @staticmethod
-    @cache_page(60*60*12)
-    def scence_map( request):
+    @cache_page(60 * 60 * 12)
+    def scence_map(request):
         # 获取景区数据,用于绘制地图
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
