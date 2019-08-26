@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/areainfomation_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/areainfomation_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/attractions/comment_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/comment_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attractions/peopleflow_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/peopleflow_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/开发文档.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/开发文档.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -78,8 +74,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/attractions/peopleflow_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="42" column="34" lean-forward="true" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
+            <state relative-caret-position="372">
+              <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
               <folding>
                 <element signature="e#0#4#0" expanded="true" />
               </folding>
@@ -516,18 +512,18 @@
       <workItem from="1566701150552" duration="25440000" />
       <workItem from="1566791505309" duration="504000" />
       <workItem from="1566796904530" duration="7443000" />
-      <workItem from="1566819373494" duration="3241000" />
+      <workItem from="1566819373494" duration="4369000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="481576000" />
+    <option name="totallyTimeSpent" value="482704000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.1558966" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.1558966" />
       <window_info id="Structure" order="1" sideWeight="0.5043478" side_tool="true" weight="0.24394184" />
       <window_info id="Favorites" order="2" sideWeight="0.5014493" side_tool="true" weight="0.23990306" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -541,7 +537,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Statistic" order="10" weight="0.3289689" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" visible="true" weight="0.43535188" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" visible="true" weight="0.43535188" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.17528272" side_tool="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.3289689" />
@@ -549,7 +545,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32956383" />
-      <window_info anchor="right" id="Database" order="4" weight="0.17689823" />
+      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.17689823" />
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" />
     </layout>
     <layout-to-restore>
@@ -583,13 +579,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/reportlab/pdfgen/canvas.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2326">
-          <caret line="1780" column="56" lean-forward="true" selection-start-line="1780" selection-start-column="56" selection-end-line="1780" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/pdfminer/pdfparser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="106">
@@ -928,10 +917,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/tablemanager">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/peopleflow_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="42" column="34" lean-forward="true" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
+        <state relative-caret-position="372">
+          <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
           <folding>
             <element signature="e#0#4#0" expanded="true" />
           </folding>
