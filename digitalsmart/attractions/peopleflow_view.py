@@ -1,5 +1,5 @@
+import uuid
 from django.core.cache import cache
-from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
 from django.db import connection
 
@@ -42,6 +42,7 @@ class PeopleFlow():
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         #  缓存key构造规则
         key = "flow" + str(pid * 1111 + inv)
+        key = uuid.uuid5(uuid.NAMESPACE_OID,key)
         response = cache.get(key)
         if response is None:
             with connection.cursor() as cursor:
@@ -78,7 +79,11 @@ class PeopleFlow():
             date_end = int(date_end)
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+        #  缓存key构造规则
+
         key = "trend" + str(pid * 1111 + date_end - date_begin)
+        key = uuid.uuid5(uuid.NAMESPACE_OID,key)
+
         response = cache.get(key)
         if response is None:
             with connection.cursor() as cursor:
@@ -107,7 +112,11 @@ class PeopleFlow():
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+        #  缓存key构造规则
+
         key = "distribution" + str(pid * 1111 + type_flag)
+        key = uuid.uuid5(uuid.NAMESPACE_OID,key)
+
         response = cache.get(key)
         if response is None:
             obj = TableManager.objects.get(pid=pid, flag=type_flag)  # 避免重复冲突
