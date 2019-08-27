@@ -131,7 +131,6 @@ def send_scence_pic():  # 传到了晋城市皇城相府生态文化旅游区
         area_map[area] = pid
     for filedir in os.listdir(rootpath):
 
-
         key = get_pid(area_map, filedir)
         if key is not None:
             pid = area_map[key]
@@ -162,5 +161,6 @@ def get_pid(map, longkey):
 
 
 if __name__ == "__main__":
-    Thread(target=send_scence_pic, args=()).start()
+    send_scence_pic()
+    # Thread(target=send_scence_pic, args=()).start()
     # send_comment_data()

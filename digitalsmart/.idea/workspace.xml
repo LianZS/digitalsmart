@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attractions/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/开发文档.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/开发文档.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internet/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/internet/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internet/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/internet/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traffic/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/traffic/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/traffic/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dump.rdb" beforeDir="false" afterPath="$PROJECT_DIR$/dump.rdb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +15,8 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/digitalsmart$identity_authentication.coverage" NAME="identity_authentication Coverage Results" MODIFIED="1564035663154" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tool" />
-    <SUITE FILE_PATH="coverage/digitalsmart$tool.coverage" NAME="tool Coverage Results" MODIFIED="1566798686537" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
+    <SUITE FILE_PATH="coverage/digitalsmart$tool.coverage" NAME="tool Coverage Results" MODIFIED="1566919996908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
+    <SUITE FILE_PATH="coverage/digitalsmart$Test__attractions_tests.coverage" NAME="Test: attractions.tests Coverage Results" MODIFIED="1566920110429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/digitalsmart$views__1_.coverage" NAME="views (1) Coverage Results" MODIFIED="1566308943403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/traffic" />
     <SUITE FILE_PATH="coverage/digitalsmart$specile_function_view.coverage" NAME="specile_function_view Coverage Results" MODIFIED="1566528827806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
     <SUITE FILE_PATH="coverage/digitalsmart$__init____1_.coverage" NAME="__init__ (1) Coverage Results" MODIFIED="1566825378497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/attractions/tool" />
@@ -25,6 +24,8 @@
     <SUITE FILE_PATH="coverage/digitalsmart$tasks.coverage" NAME="tasks Coverage Results" MODIFIED="1566703395630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/datainterface" />
     <SUITE FILE_PATH="coverage/digitalsmart$app_view.coverage" NAME="app_view Coverage Results" MODIFIED="1565851377213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/internet" />
     <SUITE FILE_PATH="coverage/digitalsmart$tests.coverage" NAME="tests Coverage Results" MODIFIED="1566455520803" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/attractions" />
+    <SUITE FILE_PATH="coverage/digitalsmart$__init____2_.coverage" NAME="__init__ (2) Coverage Results" MODIFIED="1566920137698" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/attractions" />
+    <SUITE FILE_PATH="coverage/digitalsmart$Test__attractions_a.coverage" NAME="Test: attractions.a Coverage Results" MODIFIED="1566920077304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -64,25 +65,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/internet/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
-              <folding>
-                <element signature="e#0#6#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="129">
+              <caret line="140" column="28" selection-start-line="140" selection-start-column="28" selection-end-line="140" selection-end-column="28" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/internet/urls.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/attractions/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="25" column="30" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="30" />
+            <state relative-caret-position="180">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
               <folding>
-                <element signature="e#0#37#0" expanded="true" />
+                <element signature="e#0#32#0" expanded="true" />
+                <element signature="e#243#2453#0" />
               </folding>
             </state>
           </provider>
@@ -143,7 +142,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/login.html" />
         <option value="$PROJECT_DIR$/templates/logout.html" />
         <option value="$PROJECT_DIR$/templates/change_password.html" />
         <option value="$PROJECT_DIR$/templates/index.html" />
@@ -165,9 +163,7 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/attractions/admin_views.py" />
         <option value="$PROJECT_DIR$/digitalsmart/views.py" />
-        <option value="$PROJECT_DIR$/attractions/__init__.py" />
         <option value="$PROJECT_DIR$/attractions/models.py" />
-        <option value="$PROJECT_DIR$/attractions/tests.py" />
         <option value="0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/historyscenceflow0.sql" />
         <option value="$PROJECT_DIR$/digitalsmart/celery.py" />
         <option value="$PROJECT_DIR$/datainterface/scence_data_view.py" />
@@ -194,6 +190,9 @@
         <option value="$PROJECT_DIR$/traffic/views.py" />
         <option value="$PROJECT_DIR$/internet/urls.py" />
         <option value="$PROJECT_DIR$/internet/views.py" />
+        <option value="$PROJECT_DIR$/attractions/a.py" />
+        <option value="$PROJECT_DIR$/attractions/tests.py" />
+        <option value="$PROJECT_DIR$/attractions/__init__.py" />
       </list>
     </option>
   </component>
@@ -218,7 +217,7 @@
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="traffic" type="462c0819:PsiDirectoryNode" />
+              <item name="attractions" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -263,7 +262,47 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.__init__ (1)">
+  <component name="RunManager" selected="Python.__init__ (2)">
+    <configuration name="Test: attractions.a" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="digitalsmart" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="attractions.a" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test: attractions.tests" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="digitalsmart" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="attractions.tests" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="__init__ (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="digitalsmart" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -286,7 +325,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="__init__ (2)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="digitalsmart" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -294,56 +333,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datainterface" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/attractions" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datainterface/__init__.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="specile_function_view" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="digitalsmart" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datainterface" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datainterface/specile_function_view.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="tasks" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="digitalsmart" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/datainterface" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/datainterface/tasks.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/attractions/__init__.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -399,11 +394,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.__init__ (1)" />
+        <item itemvalue="Python.__init__ (2)" />
+        <item itemvalue="Django tests.Test: attractions.tests" />
+        <item itemvalue="Django tests.Test: attractions.a" />
         <item itemvalue="Python.tool" />
-        <item itemvalue="Python.__init__" />
-        <item itemvalue="Python.tasks" />
-        <item itemvalue="Python.specile_function_view" />
+        <item itemvalue="Python.__init__ (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -504,18 +499,51 @@
       <workItem from="1566791505309" duration="504000" />
       <workItem from="1566796904530" duration="7443000" />
       <workItem from="1566819373494" duration="8162000" />
-      <workItem from="1566836243703" duration="2826000" />
+      <workItem from="1566836243703" duration="3032000" />
+      <workItem from="1566919699673" duration="1502000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 31m 08s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 31m 15s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 31m 34s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 31m 49s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 32m 41s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 32m 59s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 33m 43s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 34m 02s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_a - 2019.08.27 at 23h 34m 40s.xml">
+      <configuration name="Test: attractions.a" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__attractions_tests - 2019.08.27 at 23h 35m 14s.xml">
+      <configuration name="Test: attractions.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="489323000" />
+    <option name="totallyTimeSpent" value="491031000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="703" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.15831988" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.16074313" />
       <window_info id="Structure" order="1" sideWeight="0.5043478" side_tool="true" weight="0.24394184" />
       <window_info id="Favorites" order="2" sideWeight="0.5014493" side_tool="true" weight="0.23990306" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -529,7 +557,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Statistic" order="10" weight="0.3289689" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" visible="true" weight="0.43535188" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" visible="true" weight="0.43535188" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.17528272" side_tool="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.3289689" />
@@ -537,15 +565,15 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32956383" />
-      <window_info active="true" anchor="right" id="Database" order="4" visible="true" weight="0.17689823" />
+      <window_info anchor="right" id="Database" order="4" weight="0.17689823" />
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.25605816" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.16074313" />
       <window_info id="Structure" order="1" sideWeight="0.5043478" side_tool="true" weight="0.24394184" />
       <window_info id="Favorites" order="2" sideWeight="0.5014493" side_tool="true" weight="0.23990306" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.8247173" visible="true" weight="0.47135842" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -555,7 +583,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Statistic" order="10" weight="0.3289689" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" weight="0.31587562" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.819063" weight="0.43535188" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.17528272" side_tool="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.3289689" />
@@ -571,23 +599,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="112" selection-start-line="112" selection-end-line="112" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attractions/tool/identity_authentication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="4" selection-start-line="4" selection-end-line="101" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-252">
@@ -608,9 +619,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/datainterface/views.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attractions/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/attractions/apps.py">
@@ -813,13 +821,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datainterface/analyse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" selection-start-line="9" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -925,9 +926,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/internet/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="140" column="28" selection-start-line="140" selection-start-column="28" selection-end-line="140" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/internet/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
+        <state relative-caret-position="345">
           <caret line="25" column="30" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="30" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
@@ -935,12 +943,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/internet/views.py">
+    <entry file="file://$PROJECT_DIR$/datainterface/analyse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
+        <state relative-caret-position="-770">
+          <caret line="13" lean-forward="true" selection-start-line="9" selection-end-line="13" />
           <folding>
-            <element signature="e#0#6#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attractions/a.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attractions/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/attractions/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#243#2453#0" />
           </folding>
         </state>
       </provider>
