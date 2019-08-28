@@ -5,6 +5,7 @@ from django.db import connection
 from django.http import JsonResponse
 
 from attractions.models import TableManager, ScenceManager
+from .models import WeatherDB
 from .tasks import NetWorker
 
 
@@ -99,7 +100,7 @@ class ScenceData(object):
         """
         pid, ddate, ttime, token = self.check_paramer(request, 0)  # ttime默认为None
         if not (pid and ddate and token):
-            return JsonResponse({"status": 0, "message": "参数格式有误"})
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
 
         today: int = int(str(datetime.datetime.today().date()).replace("-", ""))
 
@@ -107,7 +108,7 @@ class ScenceData(object):
             obj = TableManager.objects.get(pid=pid, flag=0)  # 查询目标所在的表位置
 
         except Exception:
-            return JsonResponse({"status": 0, "message": "error"})
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
 
         area = obj.area
         if ddate == today:  # 查询今天的数据的话
@@ -189,7 +190,7 @@ class ScenceData(object):
         try:
             obj = ScenceManager.objects.get(pid=pid, flag=0)  # 检查是否存在
         except Exception:
-            return JsonResponse({"status": 0, "message": "error"})
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         area = obj.area
 
         longitude = obj.longitude  # 中心经度
@@ -200,3 +201,17 @@ class ScenceData(object):
                     "multiple": 10000}
         return JsonResponse(response)
 
+    def interface_hisroty_weather(self, request):
+        pid = request.GET.get("pid")
+        ddate = request.GET.get("ddate")
+        if not (pid and ddate):
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+        try:
+            pid = int(pid)
+            ddate = int(ddate)
+        except Exception:
+            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+        result = WeatherDB.objects.filter(pid=pid, ddate=ddate).values("ddate", "weatherstate", "template",
+                                                                       "wind").iterator()
+        response = {"data": list(result)}
+        return JsonResponse(response)
