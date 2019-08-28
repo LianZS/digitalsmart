@@ -3,6 +3,7 @@ import uuid
 import os
 import redis
 from multiprocessing import Process
+from threading import Thread
 from attractions.tool.file_hander import Hander_File
 
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +13,9 @@ from .models import PDFFile
 from .tasks import NetWorker
 
 r = redis.Redis(host='127.0.0.1', port=6379,
-                        decode_responses=True)  # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
+                decode_responses=True)  # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
+
+
 class Crack:
     """
     下面是付费音乐下载功能
@@ -310,8 +313,8 @@ class Crack:
 
         allowpos = request.POST.get("allowPos")  # 获取词性
         url = request.POST.get("url")
-        uid = uuid.uuid5(uuid.NAMESPACE_URL, url+allowpos)  # 作为下载获取数据请求的凭证
-        #下面之所以不用cache来取，是因为不知为何没有数据
+        uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
+        # 下面之所以不用cache来取，是因为不知为何没有数据
         data = r.get(str(uid))
         if data is None:
 
@@ -319,7 +322,7 @@ class Crack:
                 return JsonResponse({"p": 0, "id": "", "code": 0})
             net = NetWorker()
             cmd = "python datainterface/analyse.py {url} {allowpos} {uid}".format(url=url, allowpos=allowpos, uid=uid)
-            os.system(cmd)
+            Thread(target=os.system, args=(cmd,)).start()
             # Thread(target=net.analyse_word,args=(url, allowpos, uid,)).start()
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
@@ -329,7 +332,7 @@ class Crack:
         uid = request.GET.get("id")
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
-        data =r.get(uid)
-        if data is not  None:
+        data = r.get(uid)
+        if data is not None:
             data = eval(data)
         return JsonResponse({"data": data})

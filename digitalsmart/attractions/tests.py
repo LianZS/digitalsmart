@@ -114,7 +114,7 @@ def send_comment_data():  # 传到了商丘古文化旅游区
             time.sleep(2)
 
 
-def send_scence_pic():  # 传到了晋城市皇城相府生态文化旅游区
+def send_scence_pic():
     db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
                          database="digitalsmart", port=3306)
     cur = db.cursor()
@@ -129,8 +129,13 @@ def send_scence_pic():  # 传到了晋城市皇城相府生态文化旅游区
         area = item[0]
         pid = item[1]
         area_map[area] = pid
+    flag = 0
     for filedir in os.listdir(rootpath):
-
+        if filedir == "信阳市南湾湖风景旅游区":
+            flag = 1
+            continue
+        if flag != 1:
+            continue
         key = get_pid(area_map, filedir)
         if key is not None:
             pid = area_map[key]
@@ -160,7 +165,7 @@ def get_pid(map, longkey):
         return None
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # send:吉安市井冈山风景名胜区
     send_scence_pic()
     # Thread(target=send_scence_pic, args=()).start()
     # send_comment_data()
