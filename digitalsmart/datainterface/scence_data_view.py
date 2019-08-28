@@ -199,3 +199,4 @@ class ScenceData(object):
         response = {"pid": pid, "area": area, "data": data, "longitude": longitude, "latitude": latitude,
                     "multiple": 10000}
         return JsonResponse(response)
+
