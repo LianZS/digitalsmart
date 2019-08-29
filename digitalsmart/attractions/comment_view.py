@@ -128,8 +128,6 @@ class Comment():
 
     @staticmethod
     def deal_response(response):
-        response = JsonResponse(response)
-
         response = Access_Control_Allow_Origin(response)
 
         return response

@@ -5,6 +5,7 @@ from django.db import connection
 
 from .models import TableManager
 from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
+from .predict import Predict
 
 """
 人流数据
@@ -42,7 +43,7 @@ class PeopleFlow():
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         #  缓存key构造规则
         key = "flow" + str(pid * 1111 + inv)
-        key = uuid.uuid5(uuid.NAMESPACE_OID,key)
+        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
         response = cache.get(key)
         if response is None:
             with connection.cursor() as cursor:
@@ -50,8 +51,10 @@ class PeopleFlow():
                                "where pid= %s and ddate=%s ", [pid, date_begin])
                 rows = cursor.fetchall()
                 result = sorted(rows, key=lambda x: str(x[0]))  # 排序
-                response = {"data": result}
-
+                predict_data = Predict().predict(pid)
+                response = {"data": result, "future_time": predict_data['future_time'],
+                            "future_data": predict_data['future_data']}
+                print(response)
             cache.set(key, response, 60 * 5)
 
         return PeopleFlow.deal_response(response)
@@ -82,7 +85,7 @@ class PeopleFlow():
         #  缓存key构造规则
 
         key = "trend" + str(pid * 1111 + date_end - date_begin)
-        key = uuid.uuid5(uuid.NAMESPACE_OID,key)
+        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
 
         response = cache.get(key)
         if response is None:
@@ -115,7 +118,7 @@ class PeopleFlow():
         #  缓存key构造规则
 
         key = "distribution" + str(pid * 1111 + type_flag)
-        key = uuid.uuid5(uuid.NAMESPACE_OID,key)
+        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
 
         response = cache.get(key)
         if response is None:
@@ -160,7 +163,6 @@ class PeopleFlow():
 
     @staticmethod
     def deal_response(response):
-        response = JsonResponse(response)
 
         response = Access_Control_Allow_Origin(response)
 

@@ -144,6 +144,17 @@ class CityDemo():
                 }
                 cache.set(key, response, 60 * 10)
 
+            else:
+                response = {
+                    "data":
+                        {
+                            "detail":
+                                {
+                                    "bounds": None,
+                                    "data": None,
+                                }
+                        }
+                }
         return Access_Control_Allow_Origin(response)
 
     # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=235
