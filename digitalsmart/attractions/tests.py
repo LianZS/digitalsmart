@@ -73,7 +73,7 @@ class WebDriver(TestCase):
 
         self.drive.find_element_by_id("fileinp").send_keys(filepath)
         self.drive.find_element_by_id("btn").click()
-        time.sleep(5)
+        time.sleep(4)
 
 
 def send_comment_data():  # 传到了商丘古文化旅游区
@@ -111,7 +111,7 @@ def send_comment_data():  # 传到了商丘古文化旅游区
 
                 except Exception:
                     print("error:{0}".format(filedir))
-            time.sleep(2)
+            time.sleep(3)
 
 
 def send_scence_pic():
@@ -131,7 +131,7 @@ def send_scence_pic():
         area_map[area] = pid
     flag = 0
     for filedir in os.listdir(rootpath):
-        if filedir == "信阳市南湾湖风景旅游区":
+        if filedir == "北京市颐和园":
             flag = 1
             continue
         if flag != 1:
@@ -155,7 +155,7 @@ def send_scence_pic():
 
                     except Exception:
                         print("error:{0}".format(filedir))
-
+            time.sleep(8)
 
 def get_pid(map, longkey):
     for key in map.keys():

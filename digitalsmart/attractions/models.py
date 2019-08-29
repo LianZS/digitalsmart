@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 class ScenceManager(models.Model):
@@ -16,7 +17,8 @@ class ScenceManager(models.Model):
     weatherpid = models.TextField(db_column="weatherpid", verbose_name="对应的天气标识")
     flag = models.SmallIntegerField(db_column="flag", verbose_name="是否公开，0表示公开")
     province = models.CharField(db_column="province", max_length=18, verbose_name="省份")
-    type_flag =models.SmallIntegerField(db_column="type_flag",verbose_name="类别标识,百度数据为1，腾讯为0")
+    type_flag = models.SmallIntegerField(db_column="type_flag", verbose_name="类别标识,百度数据为1，腾讯为0")
+
     class Meta:
         db_table = "scencemanager"
 
@@ -47,7 +49,8 @@ class SearchRate(models.Model):
     area = models.CharField(db_column="area", max_length=32, verbose_name="地名")
     rate = models.IntegerField(db_column="rate", verbose_name="频率")
     name = models.CharField(max_length=16, db_column="name", verbose_name="搜索引擎，包括微信-wechat，百度-baidu，搜狗-sougou")
-    flag = models.SmallIntegerField(db_column="flag",verbose_name="是否公开",default=0)
+    flag = models.SmallIntegerField(db_column="flag", verbose_name="是否公开", default=0)
+
     class Meta:
         db_table = "searchrate"
 
@@ -153,53 +156,74 @@ class PeoplePosition8(PeoplePositionN):
         db_table = "peopleposition9"
 
 
-
-
 class UserProfile(models.Model):  # 存放用户信息
     user = models.OneToOneField(User, unique=True, verbose_name="用户", on_delete=models.CASCADE)
     idcard = models.BigIntegerField(db_column="idcard", verbose_name="身份证", null=False)
-    photo = models.ImageField(upload_to="user",null=True)#头像
+    photo = models.ImageField(upload_to="user", null=True)  # 头像
+
     class Meta:
         db_table = "userdb"
 
+
 class ScenceImage(models.Model):
-    #景区图片
+    # 景区图片
     pid = models.SmallIntegerField(db_column="pid", verbose_name="标识")
     photo = models.ImageField(upload_to="photo")
+
     class Meta:
-        db_table="photodb"
+        db_table = "photodb"
+
 
 class CommentRate(models.Model):
-    #景区评价关键词指数
+    # 景区评价关键词指数
     pid = models.IntegerField(db_column="pid")
 
-    adjectives = models.CharField(max_length=16,db_column="adjectives",verbose_name="形容词")
-    rate = models.FloatField(db_column="rate",verbose_name="评分")
+    adjectives = models.CharField(max_length=16, db_column="adjectives", verbose_name="形容词")
+    rate = models.FloatField(db_column="rate", verbose_name="评分")
+
     # num = models.SmallIntegerField(db_column="num",verbose_name="第几条")
     class Meta:
-        db_table="comment_rate"
+        db_table = "comment_rate"
+
 
 class NetComment(models.Model):
-    #网友评论
-    pid = models.IntegerField(db_column="pid",db_index=True)
-    commentuser =models.CharField(max_length=32,db_column="commentuser",verbose_name="网友")
-    comment=models.TextField(db_column="comment",verbose_name="评论")
-    commenttime=models.DateField(db_column="commenttime",verbose_name="评论时间")
-    commentlike=models.SmallIntegerField(db_column="commentlike",verbose_name="星级好感数（1-5）")
-    userphoto=models.ImageField(upload_to="user",db_column="userphoto",verbose_name="网友头像")
+    # 网友评论
+    pid = models.IntegerField(db_column="pid", db_index=True)
+    commentuser = models.CharField(max_length=32, db_column="commentuser", verbose_name="网友")
+    comment = models.TextField(db_column="comment", verbose_name="评论")
+    commenttime = models.DateField(db_column="commenttime", verbose_name="评论时间")
+    commentlike = models.SmallIntegerField(db_column="commentlike", verbose_name="星级好感数（1-5）")
+    userphoto = models.ImageField(upload_to="user", db_column="userphoto", verbose_name="网友头像")
 
     class Meta:
-        db_table="comment"
+        db_table = "comment"
 
-class  ScenceState(models.Model):
-    #景区总状况
+
+class ScenceState(models.Model):
+    """景区总状况"""
     pid = models.IntegerField(db_column="pid")
-    trafficstate=models.CharField(max_length=16,db_column="trafficstate",verbose_name="交通状况")
-    weatherstate=models.CharField(max_length=16,db_column="weatherstate",verbose_name="天气状况")
-    coststate=models.CharField(max_length=16,db_column="coststate",verbose_name="性价比状况")
-    environmentstate=models.CharField(max_length=16,db_column="environmentstate",verbose_name="环境状况")
+    trafficstate = models.CharField(max_length=16, db_column="trafficstate", verbose_name="交通状况")
+    weatherstate = models.CharField(max_length=16, db_column="weatherstate", verbose_name="天气状况")
+    coststate = models.CharField(max_length=16, db_column="coststate", verbose_name="性价比状况")
+    environmentstate = models.CharField(max_length=16, db_column="environmentstate", verbose_name="环境状况")
+
     class Meta:
-        db_table="scencestate"
+        db_table = "scencestate"
 
 
+class PredictParamer(models.Model):
+    """
+    景区预测模型
+    """
+    pid = models.IntegerField(db_column="pid", verbose_name="景区标识")
+    flag = models.BooleanField(db_column="flag", verbose_name="是否为重大节假日，是的话为1")
+    hconstant = models.FloatField(db_column="hconstant", verbose_name="最高项系数")
+    hpower = models.SmallIntegerField(db_column="hpower", verbose_name="最高次幂")
+    sconstant = models.FloatField(db_column="sconstant", verbose_name="二次项系数")
+    spower = models.SmallIntegerField(db_column="spower", verbose_name="二次次幂")
+    lconstant = models.FloatField(db_column="lconstant", verbose_name="一次项系数")
+    lpower = models.SmallIntegerField(db_column="lpower", verbose_name="一次次幂")
+    mconstant = models.FloatField(db_column="mconstant", verbose_name=" 常数项")
 
+    class Meta:
+        db_table = "predictmodel"
