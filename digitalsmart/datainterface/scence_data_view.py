@@ -13,7 +13,7 @@ class ScenceData(object):
 
     # Create your views here.
 
-    # http://127.0.0.1:8000/interface/api/getScenceDataByTime?pid=6&ddate=20170916&ttime=22:00:00&token=5j1znBVAsnSf5xQyNQyq
+    # http://127.0.0.1:8000/interface/api/getScenceDataByTime?pid=6&ddate=20170916&ttime=22:00:00&flag=0&token=bGlhbnpvbmdzaGVuZw==
 
     def interface_historytime_scence_data(self, request):
         """
@@ -68,7 +68,7 @@ class ScenceData(object):
             except Exception:
                 num = None
 
-        return JsonResponse({"num": num, "pid": pid, "area": area})
+        return JsonResponse({"num": num, "pid": pid, "area": area,"date":ddate,"ttime":ttime})
 
     @staticmethod
     def interface_todaytime_scence_data(pid, ddate, ttime, area):

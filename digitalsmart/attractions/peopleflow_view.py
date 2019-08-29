@@ -54,7 +54,6 @@ class PeopleFlow():
                 predict_data = Predict().predict(pid)
                 response = {"data": result, "future_time": predict_data['future_time'],
                             "future_data": predict_data['future_data']}
-                print(response)
             cache.set(key, response, 60 * 5)
 
         return PeopleFlow.deal_response(response)

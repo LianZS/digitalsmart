@@ -14,8 +14,9 @@ class Predict():
     def predict(self, pid) -> Dict:
 
         try:
-            paramer = PredictParamer.objects.get(pid=pid)
-        except Exception:
+            # 非节假日
+            paramer = PredictParamer.objects.get(pid=pid, flag=0)
+        except Exception as e:
             return {
                 "future_time": [],  # 未来时间序列
                 "future_data": []  # 预测值
