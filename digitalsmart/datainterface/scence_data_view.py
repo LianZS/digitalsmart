@@ -20,9 +20,14 @@ class ScenceData(object):
         获取历史某个具体时刻的人流量
         :param request:
         :return:
+
         """
+        flag = request.GET.get("flag")
+
         pid, ddate, ttime, token = self.check_paramer(request)
-        if not (pid and ddate and ttime and token):
+        if token != "bGlhbnpvbmdzaGVuZw==":
+            return JsonResponse({"status": 0, "message": "appkey错误"})
+        if not (pid and ddate and ttime and token and flag):
             return JsonResponse({"status": 0, "message": "参数格式有误"})
         today: int = int(str(datetime.datetime.today().date()).replace("-", ""))
 
@@ -30,7 +35,7 @@ class ScenceData(object):
             obj = TableManager.objects.get(pid=pid, flag=0)  # 查询目标所在的表位置
 
         except Exception:
-            return JsonResponse({"status": 0, "message": "error"})
+            return JsonResponse({"status": 0, "message": "无目标数据"})
 
         area = obj.area
         if ddate == today:  # 查询今天的数据的话
@@ -68,7 +73,7 @@ class ScenceData(object):
             except Exception:
                 num = None
 
-        return JsonResponse({"num": num, "pid": pid, "area": area,"date":ddate,"ttime":ttime})
+        return JsonResponse({"num": num, "pid": pid, "area": area, "date": ddate, "ttime": ttime})
 
     @staticmethod
     def interface_todaytime_scence_data(pid, ddate, ttime, area):
@@ -89,18 +94,22 @@ class ScenceData(object):
             except Exception:
                 num = None
 
-        return JsonResponse({"num": num, "pid": pid, "area": area})
+        return JsonResponse({"num": num, "pid": pid, "area": area, "date": ddate, "ttime": ttime})
 
-    # http://127.0.0.1:8000/interface/api/getScenceDataByDate?pid=6&ddate=20170121&token=5j1znBVAsnSf5xQyNQyq
+    # http://127.0.0.1:8000/interface/api/getScenceDataByDate?pid=6&ddate=20170121&flag=0&token=bGlhbnpvbmdzaGVuZw==
     def interface_historydate_scence_data(self, request):
         """
         查询某天人流情况
         :param request:
         :return:
         """
+        flag = request.GET.get("flag")
+
         pid, ddate, ttime, token = self.check_paramer(request, 0)  # ttime默认为None
-        if not (pid and ddate and token):
-            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+        if token != "bGlhbnpvbmdzaGVuZw==":
+            return JsonResponse({"status": 0, "message": "appkey错误"})
+        if not (pid and ddate  and token and flag):
+            return JsonResponse({"status": 0, "message": "参数格式有误"})
 
         today: int = int(str(datetime.datetime.today().date()).replace("-", ""))
 
@@ -141,7 +150,7 @@ class ScenceData(object):
             cursor.execute(sql,
                            [pid, ddate])
             rows = cursor.fetchall()
-            return JsonResponse({"area": area, "pid": pid, "datalist": rows})
+            return JsonResponse({"area": area, "pid": pid, "datalist": rows,"date":ddate})
 
     @staticmethod
     def interface_todaydate_scence_data(pid, ddate, area):
@@ -149,7 +158,7 @@ class ScenceData(object):
             sql = "select ttime,num from digitalsmart.scenceflow where pid=%s and ddate=%s  "
             cursor.execute(sql, [pid, ddate])
             rows = cursor.fetchall()
-            return JsonResponse({"num": rows, "pid": pid, "area": area})
+            return JsonResponse({"num": rows, "pid": pid, "area": area, 'date': ddate})
 
     @staticmethod
     def check_paramer(request, flag=1):
@@ -176,14 +185,18 @@ class ScenceData(object):
             return None, None, None, None
         return pid, ddate, ttime, token
 
-    # http://127.0.0.1:8000/interface/api/getScenceHeatmapDataByTime?pid=6&ddate=20170121&ttime=12:00:00&token=5j1znBVAsnSf5xQyNQyq
+    # http://127.0.0.1:8000/interface/api/getScenceHeatmapDataByTime?pid=6&ddate=20170121&ttime=12:00:00&flag =0&token=bGlhbnpvbmdzaGVuZw==
     def interface_hisroty_scence_distribution_data(self, request):
         """
         获取历史景区人流分布数据
         :param request:
         :return:
         """
+        flag = request.GET.get("flag")
+
         pid, ddate, ttime, token = self.check_paramer(request)
+        if token != "bGlhbnpvbmdzaGVuZw==":
+            return JsonResponse({"status": 0, "message": "appkey错误"})
         year, month, day = str(ddate)[0:4], str(ddate)[4:6], str(ddate)[6:]
         ddate = '-'.join([year, month, day])
 
@@ -196,7 +209,8 @@ class ScenceData(object):
         longitude = obj.longitude  # 中心经度
         latitude = obj.latitude  # 中心维度
         data = NetWorker().get_scence_distribution_data(pid, ddate, ttime)
-
+        if data is None:
+            return JsonResponse({"status": 0, "message": "本次请求失败，请重试"})
         response = {"pid": pid, "area": area, "data": data, "longitude": longitude, "latitude": latitude,
                     "multiple": 10000}
         return JsonResponse(response)
@@ -215,3 +229,4 @@ class ScenceData(object):
                                                                        "wind").iterator()
         response = {"data": list(result)}
         return JsonResponse(response)
+    

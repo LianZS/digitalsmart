@@ -61,7 +61,7 @@ class NetWorker(object):
                                          '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
 
     # @app.task(queue="distribution",bind=True)
-    def get_scence_distribution_data(self, pid, ddate, ttime):
+    def get_scence_distribution_data(self, pid, ddate, ttime) -> Dict:
         self.headers['Host'] = 'heat.qq.com'
         paramer = {
             'region_id': pid,
@@ -73,13 +73,13 @@ class NetWorker(object):
 
         try:
             response = requests.get(url=url, headers=self.headers)
-        except requests.exceptions.ConnectionError as e:
-            return {"status": 0, "message": "本次请求失败，请重试"}
+        except requests.exceptions.ConnectionError :
+            return None
         if response.status_code == 200:
             data = json.loads(response.text)
             return data
         else:
-            return {"status": 0, "message": "本次请求失败，请重试"}
+            return None
 
     def get_idcard_info(self, idcard) -> Person:
         """
