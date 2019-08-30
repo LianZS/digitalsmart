@@ -4,11 +4,12 @@ from .scence_data_view import ScenceData
 from .traffic_data_view import CityTrafficView
 from .internet_data_view import MobileData
 from .specile_function_view import Crack
-
+from .weather_data_view import WeatherData
 scence = ScenceData()
 crack = Crack()
 city = CityTrafficView()
 mobile =MobileData()
+weather = WeatherData()
 urlpatterns = {
     path("api/", include([
         path("getScenceDataByTime", scence.interface_historytime_scence_data),  # 获取景区某时刻人流
@@ -19,7 +20,7 @@ urlpatterns = {
         path("downMusic", crack.down_music),  # 下载音乐
         path("validation", crack.identity_authentication),  # 身份认证
         # path("baidudoc", crack.down_baidu_doc),  # 百度文档下载
-        path("goodsprice", crack.get_goods_price_change),  # 获取商品价格变化
+        path("getGoodsPrice", crack.get_goods_price_change),  # 获取商品价格变化
         path("goodsinfo", crack.get_goods_info),  # 获取商品卖家画像
         path("uploadPDF", crack.upload_pdf),  # 上传pdf文件，解析成doc
         path("getDocLink", crack.get_doc_down_url),  # 获取转换后的doc下载链接
@@ -34,6 +35,8 @@ urlpatterns = {
         path("getMobileSystemShare", mobile.get_mobile_system_rate),  # 获取手机系统占有率数据
         path("getOperatorShare", mobile.get_operator_rate),  # 获取运营商占有率数据
         path("getNetShare", mobile.get_network_rate),  # 获取网络占有率数据
+        path("getWeather", weather.get_hisroty_day_weather),  # 获取某天历史天气数据
+        path("getMonthWeather", weather.get_hisroty_month_weather),  # 获取某月历史天气数据
 
     ])),
 }

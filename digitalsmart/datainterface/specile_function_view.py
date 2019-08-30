@@ -143,8 +143,8 @@ class Crack:
     下面是获取商品历史信息
     """
 
-    # http://127.0.0.1:8000/interface/api/goodsprice?url=目标商品链接
-    @csrf_exempt
+    # http://127.0.0.1:8000/interface/api/getGoodsPrice?url=目标商品链接
+
     def get_goods_price_change(self, request):
         """
         获取某商品的价格变化情况
@@ -154,8 +154,12 @@ class Crack:
         商品详情的历史价格查询。
 
         """
-
-        url = request.POST.get("url")
+        token = request.GET.get("token")
+        if token != "bGlhbnpvbmdzaGVuZw==":
+            return JsonResponse({"status": 0, "message": "appkey错误"})
+        pre_path = request.path + "?url="
+        href = request.get_full_path()
+        url = href.replace(pre_path, "")
 
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})

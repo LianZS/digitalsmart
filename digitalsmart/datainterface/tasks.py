@@ -73,7 +73,7 @@ class NetWorker(object):
 
         try:
             response = requests.get(url=url, headers=self.headers)
-        except requests.exceptions.ConnectionError :
+        except requests.exceptions.ConnectionError:
             return None
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -242,14 +242,19 @@ class NetWorker(object):
         """
         self.headers['X-Requested-With'] = "XMLHttpRequest"
         paramer = {
-            "checkCode": "ccd99af476ce8db82fc8d65f2464fa55",
+            "checkCode": "ccd99af476ce8db8b96ca3a82ec77cfa",
+
             "con": url
         }
         url = "http://detail.tmallvvv.com/dm/ptinfo.php"
         response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
         if response.status_code != 200:
             return ('', 0)
-        g = json.loads(response.text)
+        response.encoding = "utf-8"
+        try:
+            g = json.loads(response.text)
+        except Exception:
+            return ("", 0)
         code = g['code']
         url = "http://182.61.13.46/vv/dm/historynew.php?code=" + code
         response = requests.get(url=url, headers=self.headers)
