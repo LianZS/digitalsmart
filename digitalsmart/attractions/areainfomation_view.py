@@ -96,6 +96,7 @@ class AreaInfo():
                                                                       "loaction").iterator()
             response = {"data": list(scence_info)}
             cache.set(key, response,60*60*10)
+        print(response)
         return AreaInfo.deal_response(response)
 
     @staticmethod
