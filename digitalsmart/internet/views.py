@@ -120,7 +120,7 @@ class MobileShare:
     # http://127.0.0.1:8000/internet/api/mobile/operatorShare
     def get_operator_rate(self, request):
         # 获取运营商数据
-        key = "mobile_system_rate"
+        key = "operator_rate"
         key = uuid.uuid5(uuid.NAMESPACE_OID, key)
         response = cache.get(key)
         if response is None:

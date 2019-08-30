@@ -33,7 +33,6 @@ def analyse_word(url, allowpos, uid):
     headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
                             '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
     q = Queue()
-
     def request():
 
         # 解析获取域名

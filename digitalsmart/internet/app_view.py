@@ -11,7 +11,7 @@ class AppInfoView():
         if name=="":
             return HttpResponse("error")
         applist = AppInfo.objects.filter(appname__contains=name).values("id", "appname").iterator()
-        response = JsonResponse({"applist": list(applist)})
+        response = {"applist": list(applist)}
         response = Access_Control_Allow_Origin(response)
         return response
 
@@ -37,7 +37,6 @@ class AppInfoView():
             "area": list(area_result),
             "like": list(like_keyword)
         }
-        response = JsonResponse(result)
 
-        response = Access_Control_Allow_Origin(response)
+        response = Access_Control_Allow_Origin(result)
         return response
