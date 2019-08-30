@@ -7,9 +7,9 @@ from queue import Queue
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from jieba import analyse
-import redis   # 导入redis模块，通过python操作redis 也可以直接在redis主机的服务端操作缓存数据库
+import redis  # 导入redis模块，通过python操作redis 也可以直接在redis主机的服务端操作缓存数据库
 
-r = redis.Redis(host='127.0.0.1', port=6379, decode_responses=True)   # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
+r = redis.Redis(host='127.0.0.1', port=6379, decode_responses=True)  # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
 
 
 def analyse_word(url, allowpos, uid):
@@ -42,7 +42,7 @@ def analyse_word(url, allowpos, uid):
 
         headers['Host'] = netloc
         headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
-        response = requests.get(url=url, headers=headers,timeout=5)
+        response = requests.get(url=url, headers=headers, timeout=5)
         if response.status_code != 200:
             return None
         text = response.text
@@ -79,17 +79,19 @@ def analyse_word(url, allowpos, uid):
         text = q.get()
         # 基于TextRank算法进行关键词抽取
         keywords = textrank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
-        r.set(uid,str(keywords),ex=3600)
-
+        r.set(uid, str(keywords), ex=3600)
         print(keywords)
+        return keywords
+
     Thread(target=request, args=()).start()
-    Thread(target=rank, args=()).start()
+    return rank()
 
 
 if __name__ == "__main__":
 
     try:
         url, allowPos, uid = sys.argv[1:4]
-        analyse_word(url,allowPos,uid)
+        analyse_word(url, allowPos, uid)
+
     except Exception as e:
         print(sys.argv)

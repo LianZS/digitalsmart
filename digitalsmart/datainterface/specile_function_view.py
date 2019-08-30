@@ -154,13 +154,13 @@ class Crack:
         商品详情的历史价格查询。
 
         """
-        token = request.GET.get("token")
+        token = request.POST.get("token")
         if token != "bGlhbnpvbmdzaGVuZw==":
             return JsonResponse({"status": 0, "message": "appkey错误"})
-        pre_path = request.path + "?url="
-        href = request.get_full_path()
-        url = href.replace(pre_path, "")
-
+        # pre_path = request.path + "?url="
+        # href = request.get_full_path()
+        # url = href.replace(pre_path, "")
+        url = request.POST.get("url")
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})
         net = NetWorker()
@@ -324,7 +324,6 @@ class Crack:
 
             if url is None or allowpos is None:
                 return JsonResponse({"p": 0, "id": "", "code": 0})
-            net = NetWorker()
             cmd = "python datainterface/analyse.py {url} {allowpos} {uid}".format(url=url, allowpos=allowpos, uid=uid)
             Thread(target=os.system, args=(cmd,)).start()
             # Thread(target=net.analyse_word,args=(url, allowpos, uid,)).start()
@@ -340,3 +339,22 @@ class Crack:
         if data is not None:
             data = eval(data)
         return JsonResponse({"data": data})
+
+    def get_keyword(self, request):
+        """
+        文本提取接口
+        :param request:
+        :return:
+        """
+        allowpos = request.POST.get("allowPos")  # 获取词性
+        url = request.POST.get("url")
+        token = request.POST.get("token")  # 密钥
+        if token != "bGlhbnpvbmdzaGVuZw==":
+            return JsonResponse({"status": 0, "message": "appkey错误"})
+        uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
+
+        from datainterface.analyse import analyse_word
+        response = r.get(str(uid))
+        if response is None:
+            response = analyse_word(url, allowpos, str(uid))
+        return JsonResponse({"data": response})
