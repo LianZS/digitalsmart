@@ -73,7 +73,7 @@ class WebDriver(TestCase):
 
         self.drive.find_element_by_id("fileinp").send_keys(filepath)
         self.drive.find_element_by_id("btn").click()
-        time.sleep(4)
+        time.sleep(1)
 
 
 def send_comment_data():  # 传到了商丘古文化旅游区
@@ -122,7 +122,7 @@ def send_scence_pic():
     cur.execute(sql)
     result = cur.fetchall()
     web = WebDriver()
-    rootpath = "/Volumes/Tigo/易班项目数据/景区/景区/"
+    rootpath = "/Volumes/Tigo/易班项目数据/景区评论及图片/景区/"
 
     area_map = dict()
     for item in result:
@@ -131,11 +131,12 @@ def send_scence_pic():
         area_map[area] = pid
     flag = 0
     for filedir in os.listdir(rootpath):
-        if filedir == "北京市颐和园":
-            flag = 1
-            continue
-        if flag != 1:
-            continue
+        # if filedir == "北京市颐和园":
+        #     flag = 1
+        #     continue
+        # if flag != 1:
+        #     continue
+
         key = get_pid(area_map, filedir)
         if key is not None:
             pid = area_map[key]
@@ -155,7 +156,7 @@ def send_scence_pic():
 
                     except Exception:
                         print("error:{0}".format(filedir))
-            time.sleep(8)
+            time.sleep(15)
 
 def get_pid(map, longkey):
     for key in map.keys():

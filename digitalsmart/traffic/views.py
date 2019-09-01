@@ -189,7 +189,7 @@ class CityDemo():
     def get_city_air(self, request):
         # 获取城市空气状况
         pid = request.GET.get("cityCode")
-        key = "year" + str(pid)
+        key = "air" + str(pid)
         key = uuid.uuid5(uuid.NAMESPACE_OID, key)
         response = cache.get(key)
         if response is None:

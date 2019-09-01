@@ -35,6 +35,8 @@ class Predict():
         today = int(str(ddate.date()).replace("-", ""))
         # 最近的时间
         lasttime = ScenceFlow.objects.filter(pid=pid, ddate=today).values("ttime").aggregate(Max("ttime"))['ttime__max']
+        if lasttime is None:
+            lasttime = ddate.time()
         if type_flag == 0:
             # 预测起始时间
             start_future_time = datetime.datetime(ddate.year, ddate.month, ddate.day, lasttime.hour,
