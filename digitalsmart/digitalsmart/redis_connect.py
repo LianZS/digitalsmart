@@ -1,6 +1,6 @@
 import redis
 from threading import Semaphore
-from types import Dict
+from typing import Dict
 
 
 def check_state(func):
