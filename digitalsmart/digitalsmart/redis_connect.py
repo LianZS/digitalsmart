@@ -1,6 +1,6 @@
 import redis
 from threading import Semaphore
-from typing import Dict
+from typing import Dict, Iterator
 
 
 def check_state(func):
@@ -71,34 +71,6 @@ class RedisCache(object):
         return result
 
     @check_state
-    def set(self, name, value, ex=None, px=None, nx=False, xx=False) -> bool:
-        """
-        String类型设置
-
-        :param name: 键名
-        :param value: 键值
-        :param ex: 秒时间
-        :param px: 毫秒时间
-        :param nx:if set to True, set the value at key ``name`` to ``value`` only
-            if it does not exist.
-        :param xx:if set to True, set the value at key ``name`` to ``value`` only
-            if it already exists.
-        :return:
-        """
-
-        with self._redis_pool.pipeline() as pipe:
-            try:
-
-                pipe.watch(name)
-                pipe.multi()
-                resuslt: bool = pipe.set(name, value, ex=ex, px=px, nx=nx, xx=xx)
-                pipe.execute()
-                return resuslt
-
-            except redis.exceptions.WatchError:
-                print("%s --WatchError" % name)
-
-    @check_state
     def ttl(self, name) -> int:
         """
         查看剩余有效期
@@ -142,39 +114,20 @@ class RedisCache(object):
         return length
 
     @check_state
-    def hashset(self, name, mapping: dict) -> bool:
+    def hashget(self, key, data_key_name: str, data_value_name: str) -> Iterator[Dict]:
         """
-        哈希添加
-        :param name:key
-        :param mapping: 键值对
-        :return:
-        """
-        with self._redis_pool.pipeline() as pipe:
-            try:
-                pipe.watch(name)
-                pipe.multi()
-                resuslt: bool = pipe.hmset(name, mapping)
-                pipe.execute()
-                return resuslt
+          哈希查询
+          :param key: 缓存键
+          :param data_key_name: 数据的键名
+          :param data_value_name: 数据的键值名
+          :return:
+          """
 
-            except redis.exceptions.WatchError:
-                print("%s --WatchError" % name)
-
-    @check_state
-    def hashget(self, key) -> Dict:
-        """
-        哈希查询
-        :param name:
-        :param keys:
-        :return:
-        """
-        cache_data = dict()
         result = self._redis_pool.hgetall(name=key)
         for k in result.keys():
             value = result[k].decode()
             k = k.decode()
-            cache_data[k] = value
-        return cache_data
+            yield {data_key_name: k, data_value_name: value}
 
     @check_state
     def hashkeys(self, name) -> list:
