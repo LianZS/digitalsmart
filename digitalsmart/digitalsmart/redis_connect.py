@@ -1,6 +1,7 @@
 import redis
+import json
 from threading import Semaphore
-from typing import Dict, Iterator
+from typing import Dict, Iterator, List
 
 
 def check_state(func):
@@ -82,25 +83,37 @@ class RedisCache(object):
         return result
 
     @check_state
-    def get(self, name: str, start: int = None, end: int = None):
+    def get(self, name: str, *args):
         """
 
         :param name:键值
         :param start:起始索引
         :param end:结束索引
-        :return:
-        """
-
-        if isinstance(start, int) and isinstance(end, int):
-
-            if start >= 0 and start <= end:
-                result = self._redis_pool.getrange(name, start, end)
-            else:
-                raise AttributeError("索引错误")
+        :return:"""
+        if isinstance(name, list):
+            for key in name:
+                if isinstance(key, bytes):
+                    key = key.decode()
+                result = self._redis_pool.get(key).decode()
+                result = eval(result)
+                if len(args) > 0:
+                    data = dict()
+                    for parem in args:
+                        data[parem] = result[parem]
+                    yield data
         else:
-            result = self._redis_pool.get(name)
+            result = self._redis_pool.get(name).decode()
+            result = eval(result)
+            if len(args) > 0:
+                data = dict()
+                for parem in args:
+                    data[parem] = result[parem]
+                yield data
 
-        return result
+    @check_state
+    def keys(self, pattern) -> List:
+        keys = self._redis_pool.keys(pattern)
+        return keys
 
     @check_state
     def strlen(self, name) -> int:
