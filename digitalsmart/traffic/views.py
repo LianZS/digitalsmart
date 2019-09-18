@@ -3,19 +3,27 @@ import json
 import uuid
 from django.http import JsonResponse
 from django.core.cache import cache
+from digitalsmart.settings import redis_cache
 from .models import CityInfoManager, CityTraffic, RoadTraffic, YearTraffic, RoadInfoManager, AirState
 from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 
 
-class CityDemo():
-    ## http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
+class CityDemo:
 
     def citylist(self,
                  request):
+
+        """
+        获取城市列表- http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=
+        15432721&callback=jsonp_1563933175006`
+
+        :param request:
+        :return:
+        """
         key = "city"
 
-        response = cache.get(key)
-        if response is None:
+        response = cache.get(key)  # 查看是否有缓存
+        if response is None:  # 没有的话查询
             now = datetime.datetime.now().timestamp()
 
             result = CityInfoManager.objects.all().values("pid", "cityname").iterator()
@@ -30,6 +38,11 @@ class CityDemo():
 
     # http://127.0.0.1:8000/traffic/api/trafficindex/city/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
     def daily_index(self, request):
+        """
+        获取实时交通拥堵延迟指数
+        :param request:
+        :return:
+        """
         pid = request.GET.get("cityCode")
         ddate = request.GET.get("ddate")
         ttype = request.GET.get("type")
@@ -44,28 +57,27 @@ class CityDemo():
         except ValueError:
 
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        key = "daily" + str(pid * 1111 + ddate)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
-
+        key = "traffic:{0}".format(pid)
         response = cache.get(key)
-        if response is None:
-
+        if response is None or len(response.keys()) == 0:
             now = datetime.datetime.now().timestamp()
             # if now - request_datetime > 10:  # 反爬虫
             #     return JsonResponse({"status": 0})
-            if not response:
-                name = CityInfoManager.objects.get(pid=pid).cityname
+            name = CityInfoManager.objects.get(pid=pid).cityname
+            result = list(redis_cache.hashget(key, data_key_name="ttime", data_value_name="rate"))  # 直接从内存里获取数据，减轻数据库压力
+            if len(result) == 0:
                 result = CityTraffic.objects.filter(pid=pid, ddate=ddate).values("ttime", "rate").iterator()
-                response = {"data":
-                    {
-                        "city": name,
-                        "now": int(now),
-                        "indexlist": list(result),
-                        "message": None,
-                    }
+                result = list(result)
+            response = {"data":
+                {
+                    "city": name,
+                    "now": int(now),
+                    "indexlist": result,
+                    "message": None,
                 }
+            }
 
-                cache.set(key, response, 60 * 30)
+            cache.set(key, response, 60 * 30)
 
         return Access_Control_Allow_Origin(response)
 
@@ -86,20 +98,27 @@ class CityDemo():
 
         # if now - request_datetime > 10:  ## 反爬虫
         #     return JsonResponse({"status": 0})
-        key = "roadlist" + str(pid)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
+        key = "road:{0}".format(pid)
 
         response = cache.get(key)
-        if response is None:
-            updateSet = RoadInfoManager.objects.filter(citypid=pid).values("up_date")
-            ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
-            up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
-            result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values("roadname", "speed", "direction",
-                                                                                     "roadpid", "rate")
+        if response is None or len(response.keys()) == 0:
+            keys: list = redis_cache.keys(pattern=key + ":*")  # 找出该key下所有的key
+            result = redis_cache.get(keys, "roadname", "speed", "direction",
+                                     "roadpid", "rate", "up_date")
+            result = list(result)
+            if len(result) == 0:
+                updateSet = RoadInfoManager.objects.filter(citypid=pid).values("up_date")
+                ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
+                up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
+                result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values("roadname", "speed",
+                                                                                         "direction",
+                                                                                         "roadpid", "rate")
+                result = list(result)
+            up_date = result[0]['up_date']  # 道路最近更新时间
             response = {
                 "data":
                     {
-                        "roadlist": list(result),
+                        "roadlist": result,
                         "message": None,
                         'up_date': up_date  # 道路更新时间，非常重要
 
@@ -123,12 +142,16 @@ class CityDemo():
             up_date = int(up_date)
         except ValueError:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        key = "road" + str(pid * 1111 + roadid * 1000 + up_date)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
+        key = "road:{pid}:{roadpid}".format(pid=pid, roadpid=roadid)
         response = cache.get(key)
-        if response is None:
-            result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds", "data")
-
+        response = None
+        if response is None or len(response.keys()) == 0:
+            result = redis_cache.get(key, "bounds", "data")
+            result = list(result)
+            if len(result) == 0:
+                result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds",
+                                                                                                         "data")
+                result = list(result)
             if len(result) > 0:
                 bounds = result[0]['bounds']
                 data = result[0]['data']
