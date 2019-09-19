@@ -127,7 +127,7 @@ class RedisCache(object):
         return length
 
     @check_state
-    def hashget(self, key, data_key_name: str, data_value_name: str) -> Iterator[Dict]:
+    def hashget(self, key, data_key_name: str = None, data_value_name: str = None) -> Iterator[Dict]:
         """
           哈希查询
           :param key: 缓存键
@@ -137,10 +137,19 @@ class RedisCache(object):
           """
 
         result = self._redis_pool.hgetall(name=key)
-        for k in result.keys():
-            value = result[k].decode()
-            k = k.decode()
-            yield {data_key_name: k, data_value_name: value}
+        if data_key_name and data_value_name:
+            for k in result.keys():  # 针对给原先的数据字典的键值添加名字的操作
+                value = result[k].decode()
+                k = k.decode()
+                yield {data_key_name: k, data_value_name: value}
+        else:
+            data = dict()
+            for k in result.keys():  #
+                value = result[k].decode()
+                k = k.decode()
+                data[k] = value
+
+            yield data
 
     @check_state
     def hashkeys(self, name) -> list:
