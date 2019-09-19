@@ -18,7 +18,11 @@ class CityDemo:
         http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
 
         :param request:
-        :return:
+        :return:response = {"data":
+                            {"datetime": int(now),
+                             "citylist": list(result),
+                             "message": None}
+                        }
         """
         key = "city"
 
@@ -42,7 +46,14 @@ class CityDemo:
         http://127.0.0.1:8000/traffic/api/trafficindex/city/curve?cityCode=340&type=hour&ddate=20190722&
         callback=jsonp_1563933175006
         :param request:
-        :return:
+        :return:response = {"data":
+                {
+                    "city": name,
+                    "now": int(now),
+                    "indexlist": result,
+                    "message": None,
+                }
+            }
         """
         pid = request.GET.get("cityCode")
         ddate = request.GET.get("ddate")
@@ -90,7 +101,15 @@ class CityDemo:
         http://127.0.0.1:8000/traffic/api/trafficindex/city/road?cityCode=148&request_datetime=1568867086&
         callback=jsonp_1563933175
         :param request:
-        :return:
+        :return: response = {
+                "data":
+                    {
+                        "roadlist": result,
+                        "message": None,
+                        'up_date': up_date  # 道路更新时间
+
+                    }
+            }
         """
         pid = request.GET.get("cityCode")
         callback = request.GET.get("callback")  # jsonp_1563933175006
@@ -142,7 +161,16 @@ class CityDemo:
         获取城市某条道路的拥堵延迟数据--链接格式：
         http://127.0.0.1:8000/traffic/api/trafficindex/city/detailroad?cityCode=100&id=4&up_date=1563968622
         :param request:
-        :return:
+        :return: response = {
+                    "data":
+                        {
+                            "detail":
+                                {
+                                    "bounds": json.loads(bounds),
+                                    "data": json.loads(data),
+                                }
+                        }
+                }
         """
         pid = request.GET.get("cityCode")
         roadid = request.GET.get("id")
@@ -201,7 +229,15 @@ class CityDemo:
         获取城市季度交通拥堵延迟数据--链接格式 ：
         http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=235
         :param request:
-        :return:
+        :return:response = {
+                "data":
+                    {
+                        "detail":
+                            {
+                                "indexSet": list(result),
+                            }
+                    }
+            }
         """
         pid = request.GET.get("cityCode")
         if not pid:
@@ -233,18 +269,29 @@ class CityDemo:
         获取城市空气状况--链接格式：
         http://scenicmonitor.top/traffic/api/airstate?&cityCode=810000
         :param request:
-        :return:
+        :return: response = {
+                "pid": pid,
+                "lasttime": lasttime,
+                "data": {
+                    "aqi": aqi,
+                    "pm2": pm2,
+                    "pm10": pm10,
+                    "co": co,
+                    "no2": no2,
+                    "o3": o3,
+                    "so2": so2
+
+                }
+            }
         """
 
         pid = request.GET.get("cityCode")
         key = "air:{0}".format(pid)
         response = cache.get(key)
-        response = None
         if response is None or len(response.keys()) == 0:
-            result = redis_cache.hashget(key=key)
+            result = redis_cache.hashget(key=key)  # 先从内存获取数据
             result = list(result)[0]
-            print(result)
-            if len(result.keys()) == 0:
+            if len(result.keys()) == 0:  # 当内存没有数据时从数据库获取
 
                 try:
                     result = AirState.objects.filter(citypid=pid, flag=True).order_by("-lasttime"). \
@@ -274,12 +321,16 @@ class CityDemo:
 
                 }
             }
-            cache.set(key, response, 60 * 60)
+            cache.set(key, response, 60 * 60)  # 缓存数据
         return Access_Control_Allow_Origin(response)
 
-    # http://127.0.0.1:8000/traffic/api/getCityInfo
-
     def get_city_map(self, request):
+        """
+        获取城市地图信息--链接格式：
+        http://127.0.0.1:8000/traffic/api/getCityInfo
+        :param request:
+        :return:
+        """
         key = "city_map"
         response = cache.get(key)
         if response is None:
