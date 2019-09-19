@@ -50,11 +50,10 @@ class PeopleFlow():
         key = "scence:{0}:{1}".format(pid, type_flag)
         # 获取缓存数据
         response = cache.get(key)
-        response = None
-        if response is None or len(response.keys()) == 0:
-            result = redis_cache.hashget(key=key)
+        if response is None or len(response.keys()) == 0:  # 没有缓存数据
+            result = redis_cache.hashget(key=key)  # 先从内存获取数据
             result = list(result)
-            if len(result) == 0:
+            if len(result) == 0:  # 内存没有数据，查询数据库
                 # 获取该景区数据位于哪张表
                 table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
                 with connection.cursor() as cursor:
@@ -62,18 +61,17 @@ class PeopleFlow():
                     sql = "select ttime,num from digitalsmart.historyscenceflow{0} where pid= %s and ddate=%s".format(
                         table_id)
                     cursor.execute(sql, [pid, date_begin])
-                    rows = cursor.fetchall()
-                    result = sorted(rows, key=lambda x: str(x[0]))  # 排序
-                    # 预测数据
+                    result = cursor.fetchall()
             else:
                 temp_result = list()
-                for item in result:
-                    print(item)
-                    k = list(item.keys())[0]
-                    v = list(item.values())[0]
+                data = result[0]
+                for k in data.keys():
+                    v = data[k]
                     temp_result.append([k, v])
                 result = temp_result
-            # 预测
+            # 按时间排序
+            result = sorted(result, key=lambda x: str(x[0]))
+            # 预测客流量数据
             predict_data = Predict().predict(pid)
             response = {"data": result, "future_time": predict_data['future_time'],
                         "future_data": predict_data['future_data']}
@@ -81,12 +79,18 @@ class PeopleFlow():
 
         return PeopleFlow.deal_response(response)
 
-    # http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723
-    # &predict=true&sub_domain=
     @staticmethod
     def scenceflow_trend(
             request):
-        # 景区人流趋势
+        """
+        获取景区人流趋势--链接格式：
+        http://127.0.0.1:8000/attractions/api/getLocation_trend_percent_new?&pid=18346&date_begin=20190722&&date_end=20190723
+        &predict=true&sub_domain=
+        :param request:
+        :return: response = {"data": result}
+
+        """
+        #
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
 
