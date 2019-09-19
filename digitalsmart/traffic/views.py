@@ -14,8 +14,8 @@ class CityDemo:
                  request):
 
         """
-        获取城市列表- http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=
-        15432721&callback=jsonp_1563933175006`
+        获取城市列表- 链接格式：
+        http://127.0.0.1:8000/traffic/api/trafficindex/city/list?request_datetime=15432721&callback=jsonp_1563933175006`
 
         :param request:
         :return:
@@ -36,10 +36,11 @@ class CityDemo:
 
         return Access_Control_Allow_Origin(response)
 
-    # http://127.0.0.1:8000/traffic/api/trafficindex/city/curve?cityCode=340&type=hour&ddate=20190722&callback=jsonp_1563933175006
     def daily_index(self, request):
         """
-        获取实时交通拥堵延迟指数
+        获取实时交通拥堵延迟指数--链接格式：
+        http://127.0.0.1:8000/traffic/api/trafficindex/city/curve?cityCode=340&type=hour&ddate=20190722&
+        callback=jsonp_1563933175006
         :param request:
         :return:
         """
@@ -60,12 +61,14 @@ class CityDemo:
         key = "traffic:{0}".format(pid)
         response = cache.get(key)
         if response is None or len(response.keys()) == 0:
-            now = datetime.datetime.now().timestamp()
+            now = datetime.datetime.now().timestamp()  # 当前时间戳
             # if now - request_datetime > 10:  # 反爬虫
             #     return JsonResponse({"status": 0})
-            name = CityInfoManager.objects.get(pid=pid).cityname
-            result = list(redis_cache.hashget(key, data_key_name="ttime", data_value_name="rate"))  # 直接从内存里获取数据，减轻数据库压力
-            if len(result) == 0:
+            # 先从内存读取数据
+            name = CityInfoManager.objects.get(pid=pid).cityname  # 获取城市名字
+            result = redis_cache.hashget(key, data_key_name="ttime", data_value_name="rate")  # 直接从内存里获取数据，减轻数据库压力
+            result = list(result)
+            if len(result) == 0:  # 当内存没有数据时从数据库读取
                 result = CityTraffic.objects.filter(pid=pid, ddate=ddate).values("ttime", "rate").iterator()
                 result = list(result)
             response = {"data":
@@ -77,12 +80,18 @@ class CityDemo:
                 }
             }
 
-            cache.set(key, response, 60 * 30)
+            cache.set(key, response, 60 * 30)  # 缓存
 
         return Access_Control_Allow_Origin(response)
 
-    # http://127.0.0.1:8000/traffic/api/trafficindex/city/road?cityCode=100&request_datetime=1563475647&callback=jsonp_1563933175
     def road_list(self, request):
+        """
+        获取城市拥堵道路基本信息--链接格式：
+        http://127.0.0.1:8000/traffic/api/trafficindex/city/road?cityCode=148&request_datetime=1568867086&
+        callback=jsonp_1563933175
+        :param request:
+        :return:
+        """
         pid = request.GET.get("cityCode")
         callback = request.GET.get("callback")  # jsonp_1563933175006
         request_datetime = request.GET.get("request_datetime")
@@ -102,11 +111,12 @@ class CityDemo:
 
         response = cache.get(key)
         if response is None or len(response.keys()) == 0:
+            # 先从内存读取数据
             keys: list = redis_cache.keys(pattern=key + ":*")  # 找出该key下所有的key
             result = redis_cache.get(keys, "roadname", "speed", "direction",
                                      "roadpid", "rate", "up_date")
             result = list(result)
-            if len(result) == 0:
+            if len(result) == 0:  # 当内存没有数据时从数据库读取
                 updateSet = RoadInfoManager.objects.filter(citypid=pid).values("up_date")
                 ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
                 up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
@@ -127,8 +137,13 @@ class CityDemo:
             cache.set(key, response, 60 * 10)
         return Access_Control_Allow_Origin(response)
 
-    # http://127.0.0.1:8000/traffic/api/trafficindex/city/detailroad?cityCode=100&id=4&up_date=1563968622
     def detail_road(self, request):
+        """
+        获取城市某条道路的拥堵延迟数据--链接格式：
+        http://127.0.0.1:8000/traffic/api/trafficindex/city/detailroad?cityCode=100&id=4&up_date=1563968622
+        :param request:
+        :return:
+        """
         pid = request.GET.get("cityCode")
         roadid = request.GET.get("id")
         up_date = request.GET.get("up_date")  # 重要参数，最近道路更新时间
@@ -144,11 +159,12 @@ class CityDemo:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         key = "road:{pid}:{roadpid}".format(pid=pid, roadpid=roadid)
         response = cache.get(key)
-        response = None
         if response is None or len(response.keys()) == 0:
+            # 先从内存读取数据
+
             result = redis_cache.get(key, "bounds", "data")
             result = list(result)
-            if len(result) == 0:
+            if len(result) == 0:  # 当内存没有数据时从数据库读取
                 result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds",
                                                                                                          "data")
                 result = list(result)
@@ -165,7 +181,7 @@ class CityDemo:
                                 }
                         }
                 }
-                cache.set(key, response, 60 * 10)
+                cache.set(key, response, 60 * 11)  # 缓存数据
 
             else:
                 response = {
@@ -180,8 +196,13 @@ class CityDemo:
                 }
         return Access_Control_Allow_Origin(response)
 
-    # http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=235
     def yeartraffic(self, request):
+        """
+        获取城市季度交通拥堵延迟数据--链接格式 ：
+        http://127.0.0.1:8000/traffic/api/trafficindex/city/year?cityCode=235
+        :param request:
+        :return:
+        """
         pid = request.GET.get("cityCode")
         if not pid:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
@@ -189,8 +210,7 @@ class CityDemo:
             pid = int(pid)
         except ValueError:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        key = "year" + str(pid)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
+        key = "yeartraffic:{0}".format(pid)
         response = cache.get(key)
         if response is None:
             yearpid = CityInfoManager.objects.get(pid=pid).yearpid
@@ -205,30 +225,41 @@ class CityDemo:
                             }
                     }
             }
-            cache.set(key, response, 60 * 60 * 10)
+            cache.set(key, response, 60 * 60 * 20)  # 缓存数据
         return Access_Control_Allow_Origin(response)
 
-    # http://scenicmonitor.top/traffic/api/airstate?&cityCode=810000
     def get_city_air(self, request):
-        # 获取城市空气状况
+        """
+        获取城市空气状况--链接格式：
+        http://scenicmonitor.top/traffic/api/airstate?&cityCode=810000
+        :param request:
+        :return:
+        """
+
         pid = request.GET.get("cityCode")
-        key = "air" + str(pid)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
+        key = "air:{0}".format(pid)
         response = cache.get(key)
-        if response is None:
-            try:
-                obj = AirState.objects.filter(citypid=pid, flag=True).order_by("-lasttime"). \
-                    values("lasttime", 'aqi', 'pm2', 'pm10', 'co', 'no2', 'o3', 'so2')[0]
-            except IndexError:
-                return JsonResponse({"status": 0, "message": "不好意思，最新数据还未采集成功"})
-            lasttime = obj['lasttime']
-            aqi = obj['aqi']
-            pm2 = obj['pm2']
-            pm10 = obj['pm10']
-            co = obj['co']
-            no2 = obj['no2']
-            o3 = obj['o3']
-            so2 = obj['so2']
+        response = None
+        if response is None or len(response.keys()) == 0:
+            result = redis_cache.hashget(key=key)
+            result = list(result)[0]
+            print(result)
+            if len(result.keys()) == 0:
+
+                try:
+                    result = AirState.objects.filter(citypid=pid, flag=True).order_by("-lasttime"). \
+                        values("lasttime", 'aqi', 'pm2', 'pm10', 'co', 'no2', 'o3', 'so2')[0]
+                    print("e")
+                except IndexError:
+                    return JsonResponse({"status": 0, "message": "不好意思，最新数据还未采集成功"})
+            lasttime = result['lasttime']
+            aqi = result['aqi']
+            pm2 = result['pm2']
+            pm10 = result['pm10']
+            co = result['co']
+            no2 = result['no2']
+            o3 = result['o3']
+            so2 = result['so2']
             response = {
                 "pid": pid,
                 "lasttime": lasttime,
