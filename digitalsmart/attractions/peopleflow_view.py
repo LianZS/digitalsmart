@@ -2,7 +2,7 @@ import uuid
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.db import connection
-
+from digitalsmart.settings import redis_cache
 from .models import TableManager
 from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 from .predict import Predict
@@ -14,15 +14,20 @@ from .predict import Predict
 
 class PeopleFlow():
 
-    # http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
-    # predict=true&sub_domain=
     @staticmethod
     def scenceflow_data(
             request):
-        # 景区实时人流
+        """
+        获取景区客流量(暂时不公开type_flag =1 的数据源的景区数据)--链接格式：
+        http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
+        predict=true&sub_domain=
+        :param request:
+        :return:response = {"data": result, "future_time": predict_data['future_time'],
+                        "future_data": predict_data['future_data']}
+        """
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
-
+        type_flag = 0
         pid = request.GET.get("pid")
         date_begin = request.GET.get("date_begin")
         date_end = request.GET.get("date_end")
@@ -41,19 +46,37 @@ class PeopleFlow():
 
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        #  缓存key构造规则
-        key = "flow" + str(pid * 1111 + inv)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
+        #  缓存key
+        key = "scence:{0}:{1}".format(pid, type_flag)
+        # 获取缓存数据
         response = cache.get(key)
-        if response is None:
-            with connection.cursor() as cursor:
-                cursor.execute("select ttime,num from digitalsmart.scenceflow "
-                               "where pid= %s and ddate=%s ", [pid, date_begin])
-                rows = cursor.fetchall()
-                result = sorted(rows, key=lambda x: str(x[0]))  # 排序
-                predict_data = Predict().predict(pid)
-                response = {"data": result, "future_time": predict_data['future_time'],
-                            "future_data": predict_data['future_data']}
+        response = None
+        if response is None or len(response.keys()) == 0:
+            result = redis_cache.hashget(key=key)
+            result = list(result)
+            if len(result) == 0:
+                # 获取该景区数据位于哪张表
+                table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
+                with connection.cursor() as cursor:
+                    # 确定要查询哪张表
+                    sql = "select ttime,num from digitalsmart.historyscenceflow{0} where pid= %s and ddate=%s".format(
+                        table_id)
+                    cursor.execute(sql, [pid, date_begin])
+                    rows = cursor.fetchall()
+                    result = sorted(rows, key=lambda x: str(x[0]))  # 排序
+                    # 预测数据
+            else:
+                temp_result = list()
+                for item in result:
+                    print(item)
+                    k = list(item.keys())[0]
+                    v = list(item.values())[0]
+                    temp_result.append([k, v])
+                result = temp_result
+            # 预测
+            predict_data = Predict().predict(pid)
+            response = {"data": result, "future_time": predict_data['future_time'],
+                        "future_data": predict_data['future_data']}
             cache.set(key, response, 60 * 5)
 
         return PeopleFlow.deal_response(response)
