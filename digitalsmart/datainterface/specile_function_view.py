@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
 from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
-from .tasks import NetWorker
+from datainterface.tasks import NetWorker
 
 r = redis.Redis(host='127.0.0.1', port=6379,
                 decode_responses=True)  # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
