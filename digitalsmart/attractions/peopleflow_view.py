@@ -140,7 +140,8 @@ class PeopleFlow():
         获取景区实时客流分布情况--链接格式：
         # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&type_flag=0&sub_domain=
         :param request:
-        :return:
+        :return:{"data": result}
+
         """
         # 人流分布数据
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
@@ -160,7 +161,6 @@ class PeopleFlow():
         key = "distribution:{0}".format(pid)
 
         response = cache.get(key)
-        response = None
         if response is None or len(response.keys()) == 0:
             result = redis_cache.get(key)
             result = list(result)
