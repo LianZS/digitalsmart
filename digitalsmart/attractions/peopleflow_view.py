@@ -62,7 +62,7 @@ class PeopleFlow():
                         table_id)
                     cursor.execute(sql, [pid, date_begin])
                     result = cursor.fetchall()
-            else:
+            else:  # 数据统一格式
                 temp_result = list()
                 data = result[0]
                 for k in data.keys():
@@ -113,8 +113,7 @@ class PeopleFlow():
         key = "trend:{0}".format(pid)
 
         response = cache.get(key)
-        response =None
-        if response is None or len(response.keys() == 0):
+        if response is None or len(response.keys()) == 0:
             result = redis_cache.hashget(key=key)
             result = list(result)
             if len(result) == 0:
@@ -122,7 +121,7 @@ class PeopleFlow():
                     cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s",
                                    [pid, date_begin])
                     result = cursor.fetchall()
-            else:
+            else:  # 数据统一格式
                 temp_result = list()
                 data = result[0]
                 for k in data.keys():
@@ -132,12 +131,17 @@ class PeopleFlow():
             result = sorted(result, key=lambda x: str(x[0]))  # 排序
 
             response = {"data": result}
-            cache.set(key, response, 60 * 5)
+            cache.set(key, response, 60 * 6)
         return PeopleFlow.deal_response(response)
 
-    # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&type_flag=0&sub_domain=
     @staticmethod
     def scence_people_distribution(request):
+        """
+        获取景区实时客流分布情况--链接格式：
+        # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&type_flag=0&sub_domain=
+        :param request:
+        :return:
+        """
         # 人流分布数据
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
@@ -153,47 +157,37 @@ class PeopleFlow():
         sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
         #  缓存key构造规则
 
-        key = "distribution" + str(pid * 1111 + type_flag)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
+        key = "distribution:{0}".format(pid)
 
         response = cache.get(key)
-        if response is None:
-            obj = TableManager.objects.get(pid=pid, flag=type_flag)  # 避免重复冲突
-            last_up: int = obj.last_date  # 最近更新时间
-            table_id: int = obj.table_id  # 表位置
-            # 下面之所以不格式化字符串，是预防注入
-            sql = None
-            if table_id == 0:
-                sql = "select lat,lon,num from digitalsmart.peopleposition0 where pid=%s and tmp_date=%s"
-            elif table_id == 1:
-                sql = "select lat,lon,num from digitalsmart.peopleposition1 where pid=%s and tmp_date=%s"
-            elif table_id == 2:
-                sql = "select lat,lon,num from digitalsmart.peopleposition2 where pid=%s and tmp_date=%s"
-            elif table_id == 3:
-                sql = "select lat,lon,num from digitalsmart.peopleposition3 where pid=%s and tmp_date=%s"
-            elif table_id == 4:
-                sql = "select lat,lon,num from digitalsmart.peopleposition4 where pid=%s and tmp_date=%s"
-            elif table_id == 5:
-                sql = "select lat,lon,num from digitalsmart.peopleposition5 where pid=%s and tmp_date=%s"
-            elif table_id == 6:
-                sql = "select lat,lon,num from digitalsmart.peopleposition6 where pid=%s and tmp_date=%s"
-            elif table_id == 7:
-                sql = "select lat,lon,num from digitalsmart.peopleposition7 where pid=%s and tmp_date=%s"
-            elif table_id == 8:
-                sql = "select lat,lon,num from digitalsmart.peopleposition8 where pid=%s and tmp_date=%s"
-            elif table_id == 9:
-                sql = "select lat,lon,num from digitalsmart.peopleposition9 where pid=%s and tmp_date=%s"
-            with connection.cursor() as cursor:
-                cursor.execute(sql,
-                               [pid, last_up])
-                rows = cursor.fetchall()
-                data = list()
-                for item in rows:
-                    lat = item[0]
-                    lon = item[1]
-                    num = item[2]
-                    data.append({"lat": lat, "lng": lon, "count": num})
-            response = {"data": data}
+        response = None
+        if response is None or len(response.keys()) == 0:
+            result = redis_cache.get(key)
+            result = list(result)
+            if len(result) == 0 or result[0] == None:
+                try:
+                    obj = TableManager.objects.get(pid=pid, flag=type_flag)  # 避免重复冲突
+                except Exception:
+                    return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+                last_up: int = obj.last_date  # 最近更新时间
+                table_id: int = obj.table_id  # 表位置
+                # 下面之所以不格式化字符串，是预防注入
+                sql = "select lat,lon,num from digitalsmart.peopleposition{0} where pid=%s and tmp_date=%s".format(
+                    table_id)
+
+                with connection.cursor() as cursor:
+                    cursor.execute(sql,
+                                   [pid, last_up])
+                    rows = cursor.fetchall()
+                    result = list()
+                    for item in rows:
+                        lat = item[0]
+                        lon = item[1]
+                        num = item[2]
+                        result.append({"lat": lat, "lng": lon, "count": num})
+            else:
+                result = result[0]
+            response = {"data": result}
             cache.set(key, response, 60 * 5)
         return PeopleFlow.deal_response(response)
 
