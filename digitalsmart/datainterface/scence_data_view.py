@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 from attractions.models import TableManager, ScenceManager
 from .models import WeatherDB
-from .tasks import NetWorker
+from datainterface.tasks import NetWorker
 
 
 class ScenceData(object):
