@@ -102,13 +102,21 @@ class RedisCache(object):
                         data[parem] = result[parem]
                     yield data
         else:
-            result = self._redis_pool.get(name).decode()
-            result = eval(result)
-            if len(args) > 0:
-                data = dict()
-                for parem in args:
-                    data[parem] = result[parem]
-                yield data
+            result = self._redis_pool.get(name)
+            if result is None:  # 不存在该key
+                yield None
+
+
+            else:
+                result = result.decode()
+                result = eval(result)
+                if len(args) > 0:
+                    data = dict()
+                    for parem in args:
+                        data[parem] = result[parem]
+                    yield data
+                else:
+                    yield result
 
     @check_state
     def keys(self, pattern) -> List:
