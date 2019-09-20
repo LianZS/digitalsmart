@@ -110,16 +110,26 @@ class PeopleFlow():
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         #  缓存key构造规则
 
-        key = "trend" + str(pid * 1111 + date_end - date_begin)
-        key = uuid.uuid5(uuid.NAMESPACE_OID, key)
+        key = "trend:{0}".format(pid)
 
         response = cache.get(key)
-        if response is None:
-            with connection.cursor() as cursor:
-                cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s",
-                               [pid, date_begin])
-                rows = cursor.fetchall()
-                result = sorted(rows, key=lambda x: str(x[0]))  # 排序
+        response =None
+        if response is None or len(response.keys() == 0):
+            result = redis_cache.hashget(key=key)
+            result = list(result)
+            if len(result) == 0:
+                with connection.cursor() as cursor:
+                    cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s",
+                                   [pid, date_begin])
+                    result = cursor.fetchall()
+            else:
+                temp_result = list()
+                data = result[0]
+                for k in data.keys():
+                    v = data[k]
+                    temp_result.append([k, v])
+                result = temp_result
+            result = sorted(result, key=lambda x: str(x[0]))  # 排序
 
             response = {"data": result}
             cache.set(key, response, 60 * 5)
