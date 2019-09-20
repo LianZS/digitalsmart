@@ -23,7 +23,6 @@ from pdfminer.layout import *
 from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
 from datainterface.models import PDFFile
 
-from digitalsmart.celeryconfig import app
 
 
 class Person:
