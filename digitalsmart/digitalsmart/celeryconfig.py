@@ -1,7 +1,8 @@
 import os
 from celery import Celery
-from django.conf import settings
 from kombu import Queue, Exchange
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'digitalsmart.settings')  # 将celery加载到全局-----非常重要的一步
 
 BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/2"
@@ -22,6 +23,4 @@ CELERY_ACCEPT_CONTENT = ['application/json', ]
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_ENABLE_UTC = True
-app = Celery("celry")
-
-
+app = Celery("celery")
