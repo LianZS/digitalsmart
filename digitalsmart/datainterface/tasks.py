@@ -57,9 +57,11 @@ class NetWorker(object):
         if not NetWorker.instanceflag:
             NetWorker.instanceflag = True
 
-    @app.task(queue="distribution", bind=True)
     def get_scence_distribution_data(self, pid, ddate, ttime) -> Dict:
-        self.headers['Host'] = 'heat.qq.com'
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        headers['Host'] = 'heat.qq.com'
         paramer = {
             'region_id': pid,
             'datetime': "".join([str(ddate), ' ', str(ttime)]),
@@ -69,7 +71,7 @@ class NetWorker(object):
         url = "https://heat.qq.com/api/getHeatDataByTime.php?" + urlencode(paramer)
 
         try:
-            response = requests.get(url=url, headers=self.headers)
+            response = requests.get(url=url, headers=headers)
         except requests.exceptions.ConnectionError:
             return None
         if response.status_code == 200:
@@ -78,7 +80,7 @@ class NetWorker(object):
         else:
             return None
 
-    def get_idcard_info(self, idcard) -> Person:
+    def get_idcard_info(self, idcard):
         """
          身份证认证
         :param idcard:
@@ -86,8 +88,11 @@ class NetWorker(object):
         {'出生日期': '1998年04月22日'}, {'农历': '一九九八年三月廿六'}, {'性别/生肖': '男 (21岁)  属虎'},
         {'当地经纬度': '23.366860,116.542328'}
         """
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
         href = 'http://www.gpsspg.com/sfz/?q=' + str(idcard)
-        response = requests.get(url=href, headers=self.headers)
+        response = requests.get(url=href, headers=headers)
         if response.status_code != 200:
             return Person(idcard, '', '', '', '', '', ())
         soup = BeautifulSoup(response.text, 'lxml')
@@ -96,7 +101,6 @@ class NetWorker(object):
         for item in info:
             flag = 0
             key = None
-            value = None
             for itemdic in item.find_all(name='td'):
                 if flag == 0:
                     key = itemdic.string
@@ -110,7 +114,6 @@ class NetWorker(object):
 
                     data.append({key: value})
                     key = None
-                    value = None
                     continue
 
                 flag += 1
@@ -195,47 +198,6 @@ class NetWorker(object):
         for fragment in response.iter_content(chunk_size=1024):
             yield fragment
 
-    # def get_baidu_doc(self, url, filetype):
-    #     """
-    #     解析下载链接
-    #     :param url: 文档链接
-    #     :param filetype: 文件类型，doc，ppt，pdf
-    #     :return:
-    #     """
-    #     paramer = {
-    #         "url": url,
-    #         "type": filetype,
-    #     }
-    #     parase_url = "http://wenku.baiduvvv.com/ds.php?" + urlencode(paramer)
-    #     response = requests.get(url=parase_url, headers=self.headers)  # 获取域名重要参数
-    #     g = json.loads(response.text)
-    #     domain = g['s']  # 域名
-    #     f = g['f']
-    #     h = g['h']
-    #     paramer = {
-    #         "url": url,
-    #         "type": filetype,
-    #         'f': f,
-    #         'h': h,
-    #         "sign": "1fb806c9fbd5b10c5fad7230a3f21ba5",
-    #         "btype": "start",
-    #         "callback": "callback2"
-    #
-    #     }
-    #     url = domain + "/wkc.php?" + urlencode(paramer)  # 下载链接
-    #     response = requests.get(url=url, headers=self.headers)
-    #
-    #     return {"url": url}
-    #
-    # def down_baidu_doc(self, url) -> Iterator[ByteString]:
-    #     """
-    #     下载百度文档
-    #     :param url: 文档下载链接
-    #     :return:
-    #     """
-    #     response = requests.get(url=url, stream=True, headers=self.headers)
-    #     for fragment in response.iter_content(chunk_size=1024):
-    #         yield fragment
     @app.task(queue="distribution", bind=True)
     def get_goods_price_change(self, url):
         """
@@ -283,8 +245,10 @@ class NetWorker(object):
                 date = item[0]  # 时间
                 price = item[1]  # 价格
                 data.append((date, price))
-            redis_key = uuid.uuid5(uuid.NAMESPACE_URL, url)
+            # 缓存
+            redis_key = str(uuid.uuid5(uuid.NAMESPACE_URL, url))
             redis_cache.set(name=redis_key, value=str(data))
+            redis_cache.expire(name=redis_key, time_interval=datetime.timedelta(minutes=5))
 
     def get_goods_info(self, url) -> Dict:
         """
@@ -345,33 +309,6 @@ class NetWorker(object):
             "images": images
         }
         }
-
-    # def webpage_to_pdf(self, url):
-    #     """
-    #     将网页转为pdf
-    #     :param url:
-    #     :return:
-    #     """
-    #     self.headers['Sec-Fetch-Mode'] = "cors"
-    #     self.headers['Referer']="https://tools.pdf24.org/zh/webpage-to-pdf"
-    #     self.headers['Content-Type'] ='application/json; charset=UTF-8'
-    #     paramer = {
-    #
-    #         "action":"webpageToPdf",
-    #         "url": "https://v.qq.com/x/cover/v2098lbuihuqs11.html"
-    #
-    #     }
-    #     domainurl = "https://filetools1.pdf24.org/client.php"
-    #     response = requests.post(url=domainurl, data=json.dumps(paramer), headers=self.headers)
-    #     g = json.loads(response.text)
-    #     file_id = g['jobId']
-    #     paramer ={
-    #         "jobId":file_id
-    #     }
-    #     url ="https://filetools1.pdf24.org/download.php?"+urlencode(paramer)
-    #     response =requests.get(url,stream=True)
-    #     for i in response.iter_content(chunk_size=1024):
-    #         print(i)
 
     @app.task(queue="distribution", bind=True)
     def parse(self, filepath, uid, page_type, exchange_type, page):
@@ -634,3 +571,44 @@ def analyse_word(self, url, allowpos, uid):
     # 基于TextRank算法进行关键词抽取
     keywords = textrank(sentence=text, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
     cache.set(uid, keywords, 60 * 60)  # uid作为key，有效期60分钟
+    # def get_baidu_doc(self, url, filetype):
+    #     """
+    #     解析下载链接
+    #     :param url: 文档链接
+    #     :param filetype: 文件类型，doc，ppt，pdf
+    #     :return:
+    #     """
+    #     paramer = {
+    #         "url": url,
+    #         "type": filetype,
+    #     }
+    #     parase_url = "http://wenku.baiduvvv.com/ds.php?" + urlencode(paramer)
+    #     response = requests.get(url=parase_url, headers=self.headers)  # 获取域名重要参数
+    #     g = json.loads(response.text)
+    #     domain = g['s']  # 域名
+    #     f = g['f']
+    #     h = g['h']
+    #     paramer = {
+    #         "url": url,
+    #         "type": filetype,
+    #         'f': f,
+    #         'h': h,
+    #         "sign": "1fb806c9fbd5b10c5fad7230a3f21ba5",
+    #         "btype": "start",
+    #         "callback": "callback2"
+    #
+    #     }
+    #     url = domain + "/wkc.php?" + urlencode(paramer)  # 下载链接
+    #     response = requests.get(url=url, headers=self.headers)
+    #
+    #     return {"url": url}
+    #
+    # def down_baidu_doc(self, url) -> Iterator[ByteString]:
+    #     """
+    #     下载百度文档
+    #     :param url: 文档下载链接
+    #     :return:
+    #     """
+    #     response = requests.get(url=url, stream=True, headers=self.headers)
+    #     for fragment in response.iter_content(chunk_size=1024):
+    #         yield fragment
