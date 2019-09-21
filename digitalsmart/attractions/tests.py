@@ -8,7 +8,7 @@ import os
 import pymysql
 import json
 import requests
-from threading import Thread
+from concurrent.futures import ThreadPoolExecutor
 from selenium import webdriver
 
 
@@ -158,6 +158,7 @@ def send_scence_pic():
                         print("error:{0}".format(filedir))
             time.sleep(15)
 
+
 def get_pid(map, longkey):
     for key in map.keys():
         if key in longkey:
@@ -166,7 +167,27 @@ def get_pid(map, longkey):
         return None
 
 
+def test_api():
+    db = pymysql.connect(host='localhost', user="root", password="lzs87724158",
+                         database="digitalsmart", port=3306)
+    cur = db.cursor()
+    sql = "select pid from digitalsmart.scencemanager"
+    cur.execute(sql)
+    thread_pool = ThreadPoolExecutor(20)
+    for item in cur.fetchall():
+        pid = item[0]
+        url = "http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid={0}&type_flag=0&sub_domain=".format(
+            pid)
+
+        def fast(r_url):
+            response = requests.get(r_url)
+            print(len(response.text))
+
+        thread_pool.submit(fast, url)
+
+
 if __name__ == "__main__":  # send:吉安市井冈山风景名胜区
-    send_scence_pic()
+    # send_scence_pic()
     # Thread(target=send_scence_pic, args=()).start()
     # send_comment_data()
+    test_api()
