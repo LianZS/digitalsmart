@@ -108,7 +108,7 @@ class ScenceData(object):
         pid, ddate, ttime, token = self.check_paramer(request, 0)  # ttime默认为None
         if token != "bGlhbnpvbmdzaGVuZw==":
             return JsonResponse({"status": 0, "message": "appkey错误"})
-        if not (pid and ddate  and token and flag):
+        if not (pid and ddate and token and flag):
             return JsonResponse({"status": 0, "message": "参数格式有误"})
 
         today: int = int(str(datetime.datetime.today().date()).replace("-", ""))
@@ -150,7 +150,7 @@ class ScenceData(object):
             cursor.execute(sql,
                            [pid, ddate])
             rows = cursor.fetchall()
-            return JsonResponse({"area": area, "pid": pid, "datalist": rows,"date":ddate})
+            return JsonResponse({"area": area, "pid": pid, "datalist": rows, "date": ddate})
 
     @staticmethod
     def interface_todaydate_scence_data(pid, ddate, area):
@@ -209,7 +209,7 @@ class ScenceData(object):
         longitude = obj.longitude  # 中心经度
         latitude = obj.latitude  # 中心维度
         data = NetWorker().get_scence_distribution_data(pid, ddate, ttime)
-        if data is None:
+        if data == {}:
             return JsonResponse({"status": 0, "message": "本次请求失败，请重试"})
         response = {"pid": pid, "area": area, "data": data, "longitude": longitude, "latitude": latitude,
                     "multiple": 10000}
@@ -229,4 +229,3 @@ class ScenceData(object):
                                                                        "wind").iterator()
         response = {"data": list(result)}
         return JsonResponse(response)
-    
