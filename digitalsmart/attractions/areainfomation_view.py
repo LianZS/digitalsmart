@@ -95,7 +95,6 @@ class AreaInfo():
             cache.set(key, response, 60 * 60 * 10)
         return AreaInfo.deal_response(response)
 
-
     @staticmethod
     def scence_map(request):
         """
