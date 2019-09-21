@@ -58,9 +58,9 @@ class PeopleFlow():
                 table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
                 with connection.cursor() as cursor:
                     # 确定要查询哪张表
-                    sql = "select ttime,num from digitalsmart.historyscenceflow{0} where pid= %s and ddate=%s".format(
+                    sql = "select ttime,num from digitalsmart.historyscenceflow{0} where  ddate=%s".format(
                         table_id)
-                    cursor.execute(sql, [pid, date_begin])
+                    cursor.execute(sql, [date_begin])
                     result = cursor.fetchall()
             else:  # 数据统一格式
                 temp_result = list()
@@ -172,12 +172,12 @@ class PeopleFlow():
                 last_up: int = obj.last_date  # 最近更新时间
                 table_id: int = obj.table_id  # 表位置
                 # 下面之所以不格式化字符串，是预防注入
-                sql = "select lat,lon,num from digitalsmart.peopleposition{0} where pid=%s and tmp_date=%s".format(
+                sql = "select lat,lon,num from digitalsmart.peopleposition{0} where  tmp_date=%s".format(
                     table_id)
 
                 with connection.cursor() as cursor:
                     cursor.execute(sql,
-                                   [pid, last_up])
+                                   [last_up])
                     rows = cursor.fetchall()
                     result = list()
                     for item in rows:
