@@ -1,10 +1,9 @@
 import uuid
-import base64
 import os
-import redis
 from multiprocessing import Process
 from threading import Thread
 from attractions.tool.file_hander import Hander_File
+from datainterface.analyse import analyse_word
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
@@ -12,9 +11,6 @@ from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
 from digitalsmart.settings import redis_cache
 from datainterface.tasks import NetWorker
-
-r = redis.Redis(host='127.0.0.1', port=6379,
-                decode_responses=True)  # host是redis主机，需要redis服务端和客户端都启动 redis默认端口是6379
 
 
 class Crack:
@@ -56,7 +52,8 @@ class Crack:
 
     def get_result_music_list(self, request):
         """
-        获取搜索音乐列表
+        获取搜索音乐列表 ---链接格式：
+        http://127.0.0.1:8000/interface/api/getMusicResult?name=%E6%8A%A4%E8%8A%B1%E4%BD%BF%E8%80%85&type=netease
         :param request:
         :return:
         """
@@ -73,25 +70,20 @@ class Crack:
         response = redis_cache.get(name=redis_key)
         return JsonResponse({"data": list(response)[0]})
 
-    # http://127.0.0.1:8000/interface/api/downMusic?url=下载链接
     def down_music(self, request):
         """
-            下载音乐，根据上面get_music的链接下载
+            下载音乐，根据上面get_result_music_list的链接下载 ---链接格式：
+         http://127.0.0.1:8000/interface/api/downMusic?url=下载链接
+
         :param request:
         :return:
         """
-
-        dowun_url = request.GET.get("url")
-        pre_path = request.path + "?url="
-        href = request.get_full_path()
-        dowun_url = href.replace(pre_path, "")
+        # 解析获取下载链接
+        dowun_url = request.POST.get("url")
 
         if dowun_url is None:
             return JsonResponse({"status": 0, "message": "error"})
-        # netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
-        # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
-        # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
-        # 5singfc：5sing翻唱
+
         net = NetWorker()
         strem = net.down_music_content(url=dowun_url)
         response = StreamingHttpResponse(strem)
@@ -126,53 +118,15 @@ class Crack:
         }
         return JsonResponse(response)
 
-    # def parse_baidudoc(self, request):
-    #     """
-    #     解析百度文档链接，并提供可下载链接
-    #     :param request:
-    #     :return:
-    #     """
-    #     pre_path = request.path + "?url="
-    #     href = request.get_full_path()
-    #     parse_url = href.replace(pre_path, "")
-    #     # url = request.GET.get("url")
-    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
-    #     if not (parse_url and file_type):
-    #         return JsonResponse({"status": 0, "message": "error"})
-    #     net = NetWorker()
-    #     doc_url = net.get_baidu_doc(parse_url, file_type)
-    #     return JsonResponse(doc_url)
-    #
-    # # http://127.0.0.1:8000/interface/api/baidudoc?url=目标文档链接
-    #
-    # def down_baidu_doc(self, request):
-    #     """
-    #     下载百度文档
-    #
-    #     """
-    #     pre_path = request.path + "?url="
-    #     href = request.get_full_path()
-    #     dowun_url = href.replace(pre_path, "")
-    #
-    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
-    #     if not (dowun_url):
-    #         return JsonResponse({"status": 0, "message": "error"})
-    #     net = NetWorker()
-    #     iter_doc = net.down_baidu_doc(dowun_url)
-    #     response = StreamingHttpResponse(iter_doc)
-    #     response['Content-Type'] = 'application/octet-stream'
-    #
-    #     response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
-    #     return response
     """
     下面是获取商品历史信息
     """
 
-    # http://127.0.0.1:8000/interface/api/getGoodsPrice?url=目标商品链接
-
+    @csrf_exempt
     def get_goods_price_change(self, request):
         """
-        获取某商品的价格变化情况
+        获取某商品的价格变化情况--链接格式：
+        http://127.0.0.1:8000/interface/api/getGoodsPrice?url=目标商品链接&token=bGlhbnpvbmdzaGVuZw==
         支持天猫(detail.tmall.com、detail.m.tmall.com)、淘宝(item.taobao.com、h5.m.taobao.com)、
         京东(item.jd.com、item.m.jd.com)、一号店(item.yhd.com）、苏宁易购(product.suning.com)、
         网易考拉(goods.kaola.com)、当当网(product.dangdang.com)、亚马逊中国(www.amazon.cn)、国美(item.gome.com.cn)等电商
@@ -182,21 +136,14 @@ class Crack:
         token = request.POST.get("token")
         if token != "bGlhbnpvbmdzaGVuZw==":
             return JsonResponse({"status": 0, "message": "appkey错误"})
-        # pre_path = request.path + "?url="
-        # href = request.get_full_path()
-        # url = href.replace(pre_path, "")
+
         url = request.POST.get("url")
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})
         net = NetWorker()
-        try:
-            iter_conten = net.get_goods_price_change(url)  # 获取价格变化情况
-        except Exception:
-            iter_conten = []
-        response = {
-            "data": list(iter_conten)
-        }
-        return JsonResponse(response)
+        net.get_goods_price_change.delay(url)  # 获取价格变化情况
+
+        return JsonResponse({"result": "success"})
 
     # http://127.0.0.1:8000/interface/api/goodsinfo?url=目标商品链接
 
@@ -344,7 +291,7 @@ class Crack:
         url = request.POST.get("url")
         uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
         # 下面之所以不用cache来取，是因为不知为何没有数据
-        data = r.get(str(uid))
+        data = redis_cache.get(str(uid)).__next__()
         if data is None:
 
             if url is None or allowpos is None:
@@ -360,7 +307,7 @@ class Crack:
         uid = request.GET.get("id")
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
-        data = r.get(uid)
+        data = redis_cache.get(uid).__next__()
         if data is not None:
             data = eval(data)
         return JsonResponse({"data": data})
@@ -378,8 +325,45 @@ class Crack:
             return JsonResponse({"status": 0, "message": "appkey错误"})
         uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
 
-        from datainterface.analyse import analyse_word
-        response = r.get(str(uid))
+        response = redis_cache.get(str(uid)).__next__()
         if response is None:
             response = analyse_word(url, allowpos, str(uid))
         return JsonResponse({"data": response})
+    # def parse_baidudoc(self, request):
+    #     """
+    #     解析百度文档链接，并提供可下载链接
+    #     :param request:
+    #     :return:
+    #     """
+    #     pre_path = request.path + "?url="
+    #     href = request.get_full_path()
+    #     parse_url = href.replace(pre_path, "")
+    #     # url = request.GET.get("url")
+    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
+    #     if not (parse_url and file_type):
+    #         return JsonResponse({"status": 0, "message": "error"})
+    #     net = NetWorker()
+    #     doc_url = net.get_baidu_doc(parse_url, file_type)
+    #     return JsonResponse(doc_url)
+    #
+    # # http://127.0.0.1:8000/interface/api/baidudoc?url=目标文档链接
+    #
+    # def down_baidu_doc(self, request):
+    #     """
+    #     下载百度文档
+    #
+    #     """
+    #     pre_path = request.path + "?url="
+    #     href = request.get_full_path()
+    #     dowun_url = href.replace(pre_path, "")
+    #
+    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
+    #     if not (dowun_url):
+    #         return JsonResponse({"status": 0, "message": "error"})
+    #     net = NetWorker()
+    #     iter_doc = net.down_baidu_doc(dowun_url)
+    #     response = StreamingHttpResponse(iter_doc)
+    #     response['Content-Type'] = 'application/octet-stream'
+    #
+    #     response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
+    #     return response
