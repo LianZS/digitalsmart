@@ -83,6 +83,11 @@ class RedisCache(object):
         return result
 
     @check_state
+    def exit_key(self, key):
+        result = self._redis_pool.exists(key)
+        print(result)
+
+    @check_state
     def get(self, name: str, *args):
         """
 
@@ -260,3 +265,5 @@ class RedisCache(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._redis_pool.connection_pool.disconnect()
+
+
