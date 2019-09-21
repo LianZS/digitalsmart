@@ -3,7 +3,7 @@ import os
 from multiprocessing import Process
 from threading import Thread
 from attractions.tool.file_hander import Hander_File
-from datainterface.analyse import analyse_word
+from datainterface.analyse import URL_DOC_Analyse
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
@@ -17,7 +17,6 @@ class Crack:
     """
     下面是付费音乐下载功能
     """
-
 
     def get_music(self, request):
         """
@@ -161,8 +160,6 @@ class Crack:
         data = redis_cache.get(name=redis_key).__next__()
         return JsonResponse({'data': data})
 
-
-
     def get_goods_info(self, request):
         """
         获取商品卖家画像---链接格式：
@@ -193,7 +190,6 @@ class Crack:
     """
     下面是pdf转为doc功能
     """
-
 
     @csrf_exempt
     def upload_pdf(self, request):
@@ -274,11 +270,11 @@ class Crack:
         response['Content-Disposition'] = 'attachment;filename={0}.doc'.format(uid)
         return response
 
-    # http://127.0.0.1:8000/interface/api/analyse?allowPos=a&url=https://blog.csdn.net/hhtnan/article/details/76586693
     @csrf_exempt
     def analyse_url(self, request):
         """
-        提取中文文本关键词以及频率
+        提取中文文本关键词以及频率---链接格式：
+        http://127.0.0.1:8000/interface/api/analyse?allowPos=a&url=https://blog.csdn.net/hhtnan/article/details/76586693
         :param url:请求链接
         :param allowpos:词性
         :return:
@@ -299,45 +295,48 @@ class Crack:
         allowpos = request.POST.get("allowPos")  # 获取词性
         url = request.POST.get("url")
         uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
-        # 下面之所以不用cache来取，是因为不知为何没有数据
         data = redis_cache.get(str(uid)).__next__()
         if data is None:
 
             if url is None or allowpos is None:
                 return JsonResponse({"p": 0, "id": "", "code": 0})
-            cmd = "python datainterface/analyse.py {url} {allowpos} {uid}".format(url=url, allowpos=allowpos, uid=uid)
-            Thread(target=os.system, args=(cmd,)).start()
-            # Thread(target=net.analyse_word,args=(url, allowpos, uid,)).start()
+            ad = URL_DOC_Analyse()
+            ad.analyse_word.delay(url, allowpos, uid)
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
             return JsonResponse({"code": 1, "p": 1, "id": uid})
 
     def get_analyse_result(self, request):
+        """
+        获取文本解析结果
+        http://127.0.0.1:8000/interface/api/analyseResult?id=68813627-8234-5a1b-8449-4945a1c75bf5
+        :param request:
+        :return:
+        """
         uid = request.GET.get("id")
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
         data = redis_cache.get(uid).__next__()
-        if data is not None:
-            data = eval(data)
+
         return JsonResponse({"data": data})
 
-    def get_keyword(self, request):
-        """
-        文本提取接口
-        :param request:
-        :return:
-        """
-        allowpos = request.POST.get("allowPos")  # 获取词性
-        url = request.POST.get("url")
-        token = request.POST.get("token")  # 密钥
-        if token != "bGlhbnpvbmdzaGVuZw==":
-            return JsonResponse({"status": 0, "message": "appkey错误"})
-        uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
-
-        response = redis_cache.get(str(uid)).__next__()
-        if response is None:
-            response = analyse_word(url, allowpos, str(uid))
-        return JsonResponse({"data": response})
+    # def get_keyword(self, request):
+    #     """
+    #     文本提取接口
+    #     :param request:
+    #     :return:
+    #     """
+    #     allowpos = request.POST.get("allowPos")  # 获取词性
+    #     url = request.POST.get("url")
+    #     token = request.POST.get("token")  # 密钥
+    #     if token != "bGlhbnpvbmdzaGVuZw==":
+    #         return JsonResponse({"status": 0, "message": "appkey错误"})
+    #     uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
+    #
+    #     response = redis_cache.get(str(uid)).__next__()
+    #     if response is None:
+    #         response = analyse_word(url, allowpos, str(uid))
+    #     return JsonResponse({"data": response})
     # def parse_baidudoc(self, request):
     #     """
     #     解析百度文档链接，并提供可下载链接
