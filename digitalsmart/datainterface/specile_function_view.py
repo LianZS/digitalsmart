@@ -46,9 +46,15 @@ class Crack:
 
         if not music_name:
             return JsonResponse({"status": 0, "message": "error"})
-        net = NetWorker()
-        net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
-        return JsonResponse({"result": "success"})
+
+        redis_key = "{soft_type}:{name}:{page}".format(soft_type=soft_type, name=music_name, page=page)
+        check_redis = redis_cache.exit_key(key=redis_key)  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
+        if check_redis:
+            return JsonResponse({"result": "success"})
+        else:
+            net = NetWorker()
+            net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
+            return JsonResponse({"result": "success"})
 
     def get_result_music_list(self, request):
         """
@@ -136,10 +142,15 @@ class Crack:
         url = request.POST.get("url")
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})
-        net = NetWorker()
-        net.get_goods_price_change.delay(url)  # 获取价格变化情况
+        redis_key = str(uuid.uuid5(uuid.NAMESPACE_URL, url))
+        check_redis = redis_cache.exit_key(redis_key)  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
+        if check_redis:
+            return JsonResponse({"result": "success"})
+        else:
+            net = NetWorker()
+            net.get_goods_price_change.delay(url)  # 获取价格变化情况
 
-        return JsonResponse({"result": "success"})
+            return JsonResponse({"result": "success"})
 
     @csrf_exempt
     def get_goods_price_change_result(self, request):
@@ -275,8 +286,8 @@ class Crack:
         """
         提取中文文本关键词以及频率---链接格式：
         http://127.0.0.1:8000/interface/api/analyse?allowPos=a&url=https://blog.csdn.net/hhtnan/article/details/76586693
-        :param url:请求链接
-        :param allowpos:词性
+         url:请求链接
+         allowpos:词性
         :return:
         Ag 形语素
         a 形容词
@@ -295,16 +306,20 @@ class Crack:
         allowpos = request.POST.get("allowPos")  # 获取词性
         url = request.POST.get("url")
         uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
-        data = redis_cache.get(str(uid)).__next__()
-        if data is None:
-
-            if url is None or allowpos is None:
-                return JsonResponse({"p": 0, "id": "", "code": 0})
-            ad = URL_DOC_Analyse()
-            ad.analyse_word.delay(url, allowpos, uid)
+        check_redis = redis_cache.exit_key(str(uid))  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
+        if check_redis:
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
-            return JsonResponse({"code": 1, "p": 1, "id": uid})
+            data = redis_cache.get(str(uid)).__next__()
+            if data is None:
+
+                if url is None or allowpos is None:
+                    return JsonResponse({"p": 0, "id": "", "code": 0})
+                ad = URL_DOC_Analyse()
+                ad.analyse_word.delay(url, allowpos, uid)
+                return JsonResponse({"code": 1, "p": 1, "id": uid})
+            else:
+                return JsonResponse({"code": 1, "p": 1, "id": uid})
 
     def get_analyse_result(self, request):
         """
