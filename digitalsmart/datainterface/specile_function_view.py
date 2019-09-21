@@ -232,24 +232,23 @@ class Crack:
             # 产生一个用户访问凭证，并且用来下载解析好的文件
 
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
-            try:
-                # 已经存在该文件了
-                PDFFile.objects.get(uid)
-                return JsonResponse({"message": "success", "code": 1, "id": uid})
-
-            except Exception:
-                pass
-            # 保存pdf文件
+            # 保存pdf文件路径
             filepath = "./media/pdf/" + str(uid) + ".pdf"
-            f = open(filepath, "wb+")
-            for line in pdf_file.chunks():
-                f.write(line)
-            f.close()
-            # 解析pdf
+            check_redis = redis_cache.exit_key(filepath)
+            if check_redis:  # 已经存在该文件了
+                return JsonResponse({"message": "success", "code": 1, "id": uid})
+            else:
 
-            Process(target=NetWorker().parse, args=(filepath, uid, page_type, exchange_type, page,)).start()
-            # code为1表示正常，0表示文件类型有误
-            return JsonResponse({"message": "success", "code": 1, "id": uid})
+                f = open(filepath, "wb+")
+                for line in pdf_file.chunks():
+                    f.write(line)
+                f.close()
+                # 解析pdf
+                net = NetWorker()
+                # Process(target=NetWorker().parse, args=(filepath, uid, page_type, exchange_type, page,)).start()
+                net.parse.delay(filepath, uid, page_type, exchange_type, page)
+                # code为1表示正常，0表示文件类型有误
+                return JsonResponse({"message": "success", "code": 1, "id": uid})
         return JsonResponse({"code": 0, "message": "error"})
 
     # http://127.0.0.1:8000/interface/api/getDocLink?id=7ca7ab45061b554c928ff45c2f5baa2f
