@@ -18,10 +18,11 @@ class Crack:
     下面是付费音乐下载功能
     """
 
-    # http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
+
     def get_music(self, request):
         """
-        提交搜索音乐列表请求
+        提交搜索音乐列表请求--链接格式：
+        http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
         #netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
         # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
         # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
@@ -92,14 +93,10 @@ class Crack:
 
         return response
 
-    # http://127.0.0.1:8000/interface/api/validation?card=440514199804220817
-    """
-    身份证认证
-    """
-
     def identity_authentication(self, request):
         """
-        身份认证
+        身份认证---链接格式：
+        # http://127.0.0.1:8000/interface/api/validation?card=440514199804220817
         :param request:
         :return:
         """
@@ -125,7 +122,7 @@ class Crack:
     @csrf_exempt
     def get_goods_price_change(self, request):
         """
-        获取某商品的价格变化情况--链接格式：
+        请求某商品的价格变化情况--链接格式：
         http://127.0.0.1:8000/interface/api/getGoodsPrice?url=目标商品链接&token=bGlhbnpvbmdzaGVuZw==
         支持天猫(detail.tmall.com、detail.m.tmall.com)、淘宝(item.taobao.com、h5.m.taobao.com)、
         京东(item.jd.com、item.m.jd.com)、一号店(item.yhd.com）、苏宁易购(product.suning.com)、
@@ -145,11 +142,31 @@ class Crack:
 
         return JsonResponse({"result": "success"})
 
-    # http://127.0.0.1:8000/interface/api/goodsinfo?url=目标商品链接
+    @csrf_exempt
+    def get_goods_price_change_result(self, request):
+        """
+        获取取得的请求某商品的价格变化情况结果---链接格式：
+        http://127.0.0.1:8000/interface/api/getGoodsPriceResult?url=目标商品链接&token=bGlhbnpvbmdzaGVuZw==
+        :param request:
+        :return:
+        """
+        token = request.POST.get("token")
+        if token != "bGlhbnpvbmdzaGVuZw==":
+            return JsonResponse({"status": 0, "message": "appkey错误"})
+
+        url = request.POST.get("url")
+        if url is None:
+            return JsonResponse({"status": 0, "message": "error"})
+        redis_key = str(uuid.uuid5(uuid.NAMESPACE_URL, url))
+        data = redis_cache.get(name=redis_key).__next__()
+        return JsonResponse({'data': data})
+
+
 
     def get_goods_info(self, request):
         """
-        获取商品卖家画像
+        获取商品卖家画像---链接格式：
+        http://127.0.0.1:8000/interface/api/goodsinfo?url=目标商品链接
         支持天猫(detail.tmall.com、detail.m.tmall.com)、淘宝(item.taobao.com、h5.m.taobao.com)、
         京东(item.jd.com、item.m.jd.com)、一号店(item.yhd.com）、苏宁易购(product.suning.com)、
         网易考拉(goods.kaola.com)、当当网(product.dangdang.com)、亚马逊中国(www.amazon.cn)、国美(item.gome.com.cn)等电商
@@ -173,24 +190,16 @@ class Crack:
         }
         return JsonResponse(response)
 
-    # def webpage_to_pdf(self, request):
-    #     pre_path = request.path + "?url="
-    #     href = request.get_full_path()
-    #     url = href.replace(pre_path, "")  # 防止url后带有各类特殊符号导致与目标链接不匹配
-    #
-    #     if url is None:
-    #         return JsonResponse({"status": 0, "message": "error"})
-    #     net = NetWorker()
-
     """
     下面是pdf转为doc功能
     """
 
-    # http://127.0.0.1:8000/interface/api/uploadPDF?pdf=文件&pagetype=页码选择类型&type=转换格式&page=需要转换的页面
+
     @csrf_exempt
     def upload_pdf(self, request):
         """
-        上传pdf文件，将其转为doc格式，并存在pdfdb数据库中
+        上传pdf文件，将其转为doc格式，并存在pdfdb数据库中--链接格式：
+        http://127.0.0.1:8000/interface/api/uploadPDF?pdf=文件&pagetype=页码选择类型&type=转换格式&page=需要转换的页面
         pagetype：   every：转换每一页
                     singular：转换奇数页
                     even：转换偶数页
