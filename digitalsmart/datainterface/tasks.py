@@ -10,7 +10,7 @@ from queue import Queue
 from jieba import analyse
 from django.core.cache import cache
 from digitalsmart.settings import redis_cache
-from typing import Dict, Iterator, ByteString, Set
+from typing import Dict, Iterator, ByteString
 from urllib.parse import urlencode, urlparse
 from bs4 import BeautifulSoup
 from pdfminer.pdfparser import PDFParser, PDFDocument
@@ -141,9 +141,10 @@ class NetWorker(object):
         return person
 
     @app.task(queue="distribution", bind=True)
-    def get_music_list(self, name, soft_type='netease', page=1):
+    def get_music_list(self, name, soft_type='netease', page: int = 1):
         """
         获所有与之相关的音乐
+        :param page:
         :param name: 音乐名
         :param soft_type:软件类型，默认网易云，
                                 netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
@@ -188,7 +189,8 @@ class NetWorker(object):
         redis_cache.set(redis_key, value=str(data))
         redis_cache.expire(name=redis_key, time_interval=datetime.timedelta(minutes=5))
 
-    def down_music_content(self, url) -> Iterator[ByteString]:
+    @staticmethod
+    def down_music_content(url) -> Iterator[ByteString]:
         """
         下载音乐
         :param url:下载音乐链接
@@ -223,25 +225,26 @@ class NetWorker(object):
         url = "http://detail.tmallvvv.com/dm/ptinfo.php"
         response = requests.post(url=url, data=paramer, headers=headers)  # 获取code标识
         if response.status_code != 200:
-            return ('', 0)
+            return
         response.encoding = "utf-8"
         try:
             g = json.loads(response.text)
         except Exception:
-            return ("", 0)
+            return
         code = g['code']
         url = "http://182.61.13.46/vv/dm/historynew.php?code=" + code
         response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
-            return ('', 0)
+            return
         else:
             match_result = re.search("chart\(\"(.*?)\",", response.text)
             try:
-                all = re.findall("\((\d{4},\d{1,2},\d{1,2})\),(\d{1,})", match_result.group(1))  # ('2019,1,21', '399')
+                all_data = re.findall("\((\d{4},\d{1,2},\d{1,2})\),(\d{1,})",
+                                      match_result.group(1))  # ('2019,1,21', '399')
             except AttributeError:
-                all = []
+                all_data = []
 
-            for item in all:
+            for item in all_data:
                 date = item[0]  # 时间
                 price = item[1]  # 价格
                 data.append((date, price))
@@ -250,7 +253,8 @@ class NetWorker(object):
             redis_cache.set(name=redis_key, value=str(data))
             redis_cache.expire(name=redis_key, time_interval=datetime.timedelta(minutes=5))
 
-    def get_goods_info(self, url) -> Dict:
+    @staticmethod
+    def get_goods_info(url) -> Dict:
         """
         获取商品卖家画像
         :param url:商品链接
@@ -321,7 +325,9 @@ class NetWorker(object):
 
        :param filepath: 上传魏文件路径
        :param uid: 用户访问唯一标识
-       :param page_type:  every---转换每一页;singular--转换奇数页;even--转换偶数页;specified--指定页转换,若为此选项，需要分析要转换哪些页，页码或者用逗号分隔的页码范围（例如：1,3-5，8,9表示要转换1,
+       :param page_type:  every---转换每一页;singular--转换奇数页;
+       even--转换偶数页;specified--指定页转换,若为此选项，需要分析要转换哪些页，页码或者用逗号分隔的页码范围
+       （例如：1,3-5，8,9表示要转换1,
         3,4,5,8,9）
        :param exchange_type: 转换类型有:  docx,doc
        :param page:  如1,3-5，8,9表示要转换1,3,4,5,8,9这几页
@@ -514,11 +520,13 @@ class NetWorker(object):
         #
         #       % num_TextBoxHorizontal)
 
-    def analyse_word(self, url, allowpos, uid):
+    @staticmethod
+    def analyse_word(url, allowpos, uid):
         """
           这个接口已经独立成一个程序了，加在这里效率太低下了。
 
         提取中文文本关键词以及频率
+        :param uid: 混存key
         :param url:请求链接
         :param allowpos:词性
         :return:
@@ -536,10 +544,12 @@ class NetWorker(object):
         # 解析获取域名
         domain = urlparse(url)
         netloc = domain.netloc
-
-        self.headers['Host'] = netloc
-        self.headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
-        response = requests.get(url=url, headers=self.headers)
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        headers['Host'] = netloc
+        headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
+        response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
             return None
         text = response.text
@@ -552,7 +562,7 @@ class NetWorker(object):
             charset = soup.find(name="meta", attrs={"charset": True})
             # 编码方式
             charset = charset.attrs["charset"]
-        except AttributeError as e:
+        except AttributeError:
             meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
             # 带有charset的字符串
             try:
