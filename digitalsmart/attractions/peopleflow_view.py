@@ -6,6 +6,7 @@ from digitalsmart.settings import redis_cache
 from .models import TableManager
 from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 from .predict import Predict
+from .model_choice import ModelChoice
 
 """
 人流数据
@@ -19,7 +20,7 @@ class PeopleFlow():
             request):
         """
         获取景区客流量(暂时不公开type_flag =1 的数据源的景区数据)--链接格式：
-        http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=2&date_begin=20190722&&date_end=20190723&
+        http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=6&date_begin=20190921&&date_end=20190723&
         predict=true&sub_domain=
         :param request:
         :return:response = {"data": result, "future_time": predict_data['future_time'],
@@ -56,12 +57,12 @@ class PeopleFlow():
             if len(result) == 0:  # 内存没有数据，查询数据库
                 # 获取该景区数据位于哪张表
                 table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
-                with connection.cursor() as cursor:
-                    # 确定要查询哪张表
-                    sql = "select ttime,num from digitalsmart.historyscenceflow{0} where  ddate=%s".format(
-                        table_id)
-                    cursor.execute(sql, [date_begin])
-                    result = cursor.fetchall()
+                result = ModelChoice.historyscenceflow(table_id).objects.filter(ddate=date_begin).values("ttime", "num")
+
+                temp_result = list()
+                for item in result:
+                    temp_result.append([item['ttime'], item['num']])
+                result = temp_result
             else:  # 数据统一格式
                 temp_result = list()
                 data = result[0]
