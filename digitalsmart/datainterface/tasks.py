@@ -1,14 +1,15 @@
 import json
 import requests
 import re
+import datetime
+import uuid
 import base64
-
 import heapq
 from threading import Thread, Semaphore
 from queue import Queue
 from jieba import analyse
 from django.core.cache import cache
-
+from digitalsmart.settings import redis_cache
 from typing import Dict, Iterator, ByteString, Set
 from urllib.parse import urlencode, urlparse
 from bs4 import BeautifulSoup
@@ -22,7 +23,7 @@ from pdfminer.layout import *
 
 from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
 from datainterface.models import PDFFile
-
+from digitalsmart.celeryconfig import app
 
 
 class Person:
@@ -44,7 +45,7 @@ class Person:
 
 
 class NetWorker(object):
-    instanceflag = 0
+    instanceflag = False
     instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -53,13 +54,10 @@ class NetWorker(object):
         return NetWorker.instance
 
     def __init__(self):
-
         if not NetWorker.instanceflag:
-            self.headers = dict()  # 网络爬虫请求头
-            self.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
-                                         '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+            NetWorker.instanceflag = True
 
-    # @app.task(queue="distribution",bind=True)
+    @app.task(queue="distribution", bind=True)
     def get_scence_distribution_data(self, pid, ddate, ttime) -> Dict:
         self.headers['Host'] = 'heat.qq.com'
         paramer = {
@@ -139,7 +137,8 @@ class NetWorker(object):
         person = Person(idcard, area, phone, bir, lunar, gender, latlon)
         return person
 
-    def get_music_list(self, name, soft_type='netease', page=1) -> Iterator[Dict]:
+    @app.task(queue="distribution", bind=True)
+    def get_music_list(self, name, soft_type='netease', page=1):
         """
         获所有与之相关的音乐
         :param name: 音乐名
@@ -151,7 +150,10 @@ class NetWorker(object):
 
         :return:
         """
-        self.headers['X-Requested-With'] = 'XMLHttpRequest'
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        headers['X-Requested-With'] = 'XMLHttpRequest'
         url = "http://music.wandhi.com/"
 
         paramer = {
@@ -161,20 +163,27 @@ class NetWorker(object):
             'page': page,
 
         }
-        response = requests.post(url=url, data=paramer, headers=self.headers)
+        response = requests.post(url=url, data=paramer, headers=headers)
+        data = list()
         if response.status_code != 200:
-            return {"author": '', "url": '', "title": '', "lrc": '', "img": ''}
-        g = json.loads(response.text)
-        music_list = g['data']
-        for item in music_list:
-            author = item['author']
-            url = item['url']  # 对url进行加密
-            # 字符串 -> 二进制 -> base64编码
-            url = base64.b64encode(url.encode())
-            title = item['title']
-            imgurl = item['pic']
-            song_word = item['lrc']
-            yield {"author": author, "url": url.decode(), "title": title, "lrc": song_word, "img": imgurl}
+            data.append({"author": '', "url": '', "title": '', "lrc": '', "img": ''})
+        else:
+            g = json.loads(response.text)
+            music_list = g['data']
+
+            for item in music_list:
+                author = item['author']
+                url = item['url']  # 对url进行加密
+                # 字符串 -> 二进制 -> base64编码
+                url = base64.b64encode(url.encode())
+                title = item['title']
+                imgurl = item['pic']
+                song_word = item['lrc']
+                data.append({"author": author, "url": url.decode(), "title": title, "lrc": song_word, "img": imgurl})
+                # yield {"author": author, "url": url.decode(), "title": title, "lrc": song_word, "img": imgurl}
+        redis_key = "{soft_type}:{name}:{page}".format(soft_type=soft_type, name=name, page=page)  # 原型缓存key
+        redis_cache.set(redis_key, value=str(data))
+        redis_cache.expire(name=redis_key, time_interval=datetime.timedelta(minutes=5))
 
     def down_music_content(self, url) -> Iterator[ByteString]:
         """
@@ -356,21 +365,20 @@ class NetWorker(object):
     #     for i in response.iter_content(chunk_size=1024):
     #         print(i)
 
-    # @app.task(queue="distribution",bind=True)
+    @app.task(queue="distribution", bind=True)
     def parse(self, filepath, uid, page_type, exchange_type, page):
         """
+
         将pdf转为doc格式
-        :param     pagetype：   every：转换每一页
-        :param     singular：转换奇数页
-        :param     even：转换偶数页
-        :param     specified：指定页转换,若为此选项，需要分析要转换哪些页，页码或者用逗号分隔的页码范围（例如：1,3-5，8,9表示要转换1,
-                                                                                                3,4,5,8,9）
-        :param type 转换类型有:  docx,doc
-        page   如1,3-5，8,9表示要转换1,3,4,5,8,9这几页
-        :param fp: 文件流
-        :param uid: 用户访问唯一标识
-        :return:
-        """
+
+       :param filepath: 上传魏文件路径
+       :param uid: 用户访问唯一标识
+       :param page_type:  every---转换每一页;singular--转换奇数页;even--转换偶数页;specified--指定页转换,若为此选项，需要分析要转换哪些页，页码或者用逗号分隔的页码范围（例如：1,3-5，8,9表示要转换1,
+        3,4,5,8,9）
+       :param exchange_type: 转换类型有:  docx,doc
+       :param page:  如1,3-5，8,9表示要转换1,3,4,5,8,9这几页
+       :return:
+       """
 
         # 存放需要指定解析的页码
         page_list = list()
@@ -555,65 +563,66 @@ class NetWorker(object):
         #
         #       % num_TextBoxHorizontal)
 
-    def analyse_word(self, url, allowpos, uid):
-        """
-          这个接口已经独立成一个程序了，加在这里效率太低下了。
 
-        提取中文文本关键词以及频率
-        :param url:请求链接
-        :param allowpos:词性
-        :return:
-        Ag 形语素
-        a 形容词
-        m 数词
-        n 名词
-        nr 人名
-        ns 地名
-        t 时间词
-        v 动词
-        z 状态词
-        ......详细见文档
-        """
-        # 解析获取域名
-        domain = urlparse(url)
-        netloc = domain.netloc
+def analyse_word(self, url, allowpos, uid):
+    """
+      这个接口已经独立成一个程序了，加在这里效率太低下了。
 
-        self.headers['Host'] = netloc
-        self.headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
-        response = requests.get(url=url, headers=self.headers)
-        if response.status_code != 200:
-            return None
-        text = response.text
-        # 解析获取该网页编码方式
-        soup = BeautifulSoup(text, 'lxml')
-        # 默认编码gbk
-        charset = "utf-8"
-        # 找出该链接所用的编码方式
+    提取中文文本关键词以及频率
+    :param url:请求链接
+    :param allowpos:词性
+    :return:
+    Ag 形语素
+    a 形容词
+    m 数词
+    n 名词
+    nr 人名
+    ns 地名
+    t 时间词
+    v 动词
+    z 状态词
+    ......详细见文档
+    """
+    # 解析获取域名
+    domain = urlparse(url)
+    netloc = domain.netloc
+
+    self.headers['Host'] = netloc
+    self.headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
+    response = requests.get(url=url, headers=self.headers)
+    if response.status_code != 200:
+        return None
+    text = response.text
+    # 解析获取该网页编码方式
+    soup = BeautifulSoup(text, 'lxml')
+    # 默认编码gbk
+    charset = "utf-8"
+    # 找出该链接所用的编码方式
+    try:
+        charset = soup.find(name="meta", attrs={"charset": True})
+        # 编码方式
+        charset = charset.attrs["charset"]
+    except AttributeError as e:
+        meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
+        # 带有charset的字符串
         try:
-            charset = soup.find(name="meta", attrs={"charset": True})
-            # 编码方式
-            charset = charset.attrs["charset"]
-        except AttributeError as e:
-            meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
-            # 带有charset的字符串
-            try:
-                content = meta.attrs['content']
-                content_set = content.split(";")
+            content = meta.attrs['content']
+            content_set = content.split(";")
 
-                for word in content_set:
-                    if "charset" in word.lower():
-                        # 编码
-                        charset = word.split("=")[1]
-            except AttributeError:
-                charset = "utf-8"
-            # 以;分割,分出带有charset的字符串段
+            for word in content_set:
+                if "charset" in word.lower():
+                    # 编码
+                    charset = word.split("=")[1]
+        except AttributeError:
+            charset = "utf-8"
+        # 以;分割,分出带有charset的字符串段
 
-        response.encoding = charset
-        text = response.text
-        # 保留中文文本
-        text = re.sub("[^\u4E00-\u9FA5]", "", text)
-        # 引入TextRank关键词抽取接口
-        textrank = analyse.textrank
-        # 基于TextRank算法进行关键词抽取
-        keywords = textrank(sentence=text, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
-        cache.set(uid, keywords, 60 * 60)  # uid作为key，有效期60分钟
+    response.encoding = charset
+    text = response.text
+    # 保留中文文本
+    text = re.sub("[^\u4E00-\u9FA5]", "", text)
+    # 引入TextRank关键词抽取接口
+    textrank = analyse.textrank
+    # 基于TextRank算法进行关键词抽取
+    keywords = textrank(sentence=text, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
+    cache.set(uid, keywords, 60 * 60)  # uid作为key，有效期60分钟
