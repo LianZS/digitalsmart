@@ -236,8 +236,8 @@ class NetWorker(object):
     #     response = requests.get(url=url, stream=True, headers=self.headers)
     #     for fragment in response.iter_content(chunk_size=1024):
     #         yield fragment
-
-    def get_goods_price_change(self, url) -> Iterator[Set]:
+    @app.task(queue="distribution", bind=True)
+    def get_goods_price_change(self, url):
         """
         获取某商品的价格变化情况
         支持天猫(detail.tmall.com、detail.m.tmall.com)、淘宝(item.taobao.com、h5.m.taobao.com)、
@@ -248,14 +248,18 @@ class NetWorker(object):
         :param url: 商品链接
         :return:
         """
-        self.headers['X-Requested-With'] = "XMLHttpRequest"
+        data = list()  # 缓存数据容器
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        headers['X-Requested-With'] = "XMLHttpRequest"
         paramer = {
-            "checkCode": "ccd99af476ce8db8b96ca3a82ec77cfa",
+            "checkCode": "ccd99af476ce8db8746203d0ce47781b",  # 需要每天换一次
 
             "con": url
         }
         url = "http://detail.tmallvvv.com/dm/ptinfo.php"
-        response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
+        response = requests.post(url=url, data=paramer, headers=headers)  # 获取code标识
         if response.status_code != 200:
             return ('', 0)
         response.encoding = "utf-8"
@@ -265,18 +269,22 @@ class NetWorker(object):
             return ("", 0)
         code = g['code']
         url = "http://182.61.13.46/vv/dm/historynew.php?code=" + code
-        response = requests.get(url=url, headers=self.headers)
+        response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
             return ('', 0)
-        match_result = re.search("chart\(\"(.*?)\",", response.text)
-        try:
-            all = re.findall("\((\d{4},\d{1,2},\d{1,2})\),(\d{1,})", match_result.group(1))  # ('2019,1,21', '399')
-        except AttributeError:
-            return iter([1])
-        for item in all:
-            date = item[0]  # 时间
-            price = item[1]  # 价格
-            yield (date, price)
+        else:
+            match_result = re.search("chart\(\"(.*?)\",", response.text)
+            try:
+                all = re.findall("\((\d{4},\d{1,2},\d{1,2})\),(\d{1,})", match_result.group(1))  # ('2019,1,21', '399')
+            except AttributeError:
+                all = []
+
+            for item in all:
+                date = item[0]  # 时间
+                price = item[1]  # 价格
+                data.append((date, price))
+            redis_key = uuid.uuid5(uuid.NAMESPACE_URL, url)
+            redis_cache.set(name=redis_key, value=str(data))
 
     def get_goods_info(self, url) -> Dict:
         """
