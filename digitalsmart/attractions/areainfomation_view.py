@@ -8,10 +8,15 @@ from django.db import connection
 
 
 class AreaInfo():
-    # 景区地理基本信息
-    # http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
+
     @staticmethod
     def citylist(request):
+        """
+        景区地理基本信息--链接格式：
+        http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
+        :param request:
+        :return:
+        """
         # 城市列表
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
@@ -27,10 +32,14 @@ class AreaInfo():
         # 站点跨域请求的问题
         return AreaInfo.deal_response(response)
 
-    ## http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
     @staticmethod
     def scencelist(request):
-        # 景区数据---flag=1的景点暂时不公开
+        """
+        景区数据---flag=1的景点暂时不公开--链接格式：
+        http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
+        :param request:
+        :return:
+        """
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
         province = request.GET.get("province")
@@ -53,10 +62,15 @@ class AreaInfo():
         # 站点跨域请求的问题
         return AreaInfo.deal_response(response)
 
-    # http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&type_flag=1
     @staticmethod
     def scence_geographic(request):
-        # 景区地理数据
+        """
+         景区地理数据--链接格式：
+         http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&type_flag=1
+        :param request:
+        :return:
+        """
+
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
@@ -69,10 +83,9 @@ class AreaInfo():
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         # 生产该景点的唯一key
-        key = uuid.uuid5(uuid.NAMESPACE_OID, "geographic"+str(pid * 1111 + flag))
+        key = uuid.uuid5(uuid.NAMESPACE_OID, "geographic" + str(pid * 1111 + flag))
         response = cache.get(key)
         if response is None:
-
             with connection.cursor() as cursor:
                 cursor.execute("select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s",
                                [pid, flag])
@@ -82,10 +95,16 @@ class AreaInfo():
             cache.set(key, response, 60 * 60 * 10)
         return AreaInfo.deal_response(response)
 
-    # http://127.0.0.1:8000/attractions/api/getScenceInfo
+
     @staticmethod
     def scence_map(request):
-        # 获取景区数据,用于绘制地图
+        """
+        获取景区数据,用于绘制地图--链接格式：
+        http://127.0.0.1:8000/attractions/api/getScenceInfo
+        :param request:
+        :return:
+        """
+        #
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
         key = "scence_map"
@@ -95,7 +114,7 @@ class AreaInfo():
             scence_info = ScenceManager.objects.filter(flag=0).values("area", "longitude", "latitude", "province",
                                                                       "loaction").iterator()
             response = {"data": list(scence_info)}
-            cache.set(key, response,60*60*10)
+            cache.set(key, response, 60 * 60 * 10)
 
         return AreaInfo.deal_response(response)
 
