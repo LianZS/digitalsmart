@@ -41,7 +41,7 @@ urlpatterns = {
         path("getNetShare", mobile.get_network_rate),  # 获取网络占有率数据
         path("getWeather", weather.get_hisroty_day_weather),  # 获取某天历史天气数据
         path("getMonthWeather", weather.get_hisroty_month_weather),  # 获取某月历史天气数据
-        path("getUrlKeyword", crack.get_keyword),  # 获取链接关键词
+        # path("getUrlKeyword", crack.get_keyword),  # 获取链接关键词
 
     ])),
 }
