@@ -9,16 +9,23 @@ from attractions.models import SearchRate, CommentRate, NetComment, ScenceState
 
 
 class Comment():
-    # http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=&type_flag=0
+
     @staticmethod
     def search_heat(
-            request):  # 搜索热度
+            request):
+        """
+        景区搜索热度---链接格式：
+        http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=&type_flag=0
+        :param request:
+        :return:
+        """
+
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
         #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         type_flag = request.GET.get("type_flag")
-        sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+        # sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
         if not pid and not type_flag:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         try:
@@ -52,9 +59,14 @@ class Comment():
             cache.set(key, response, 60 * 60 * 10)
         return Comment.deal_response(response)
 
-    # http://127.0.0.1:8000/attractions/api/getCommentRate?pid=6
     @staticmethod
     def get_comment_rate(request):
+        """
+        获取评论指数--链接格式 ：
+        http://127.0.0.1:8000/attractions/api/getCommentRate?pid=6
+        :param request:
+        :return:
+        """
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
         #     return JsonResponse({"status": 0})
@@ -74,10 +86,13 @@ class Comment():
             cache.set(key, response, 60 * 60 * 10)
         return Comment.deal_response(response)
 
-    # http://127.0.0.1:8000/attractions/api/getComment?pid=6
-
     @staticmethod
     def get_comment(request):
+        """
+        获取评论---链接格式http://127.0.0.1:8000/attractions/api/getComment?pid=6
+        :param request:
+        :return:
+        """
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
         #     return JsonResponse({"status": 0})
@@ -99,8 +114,13 @@ class Comment():
 
         return Comment.deal_response(response)
 
-    #:http://127.0.0.1:8000/attractions/api/getState?pid=6
     def get_state(self, request):
+        """
+        获取景区状态---链接格式：
+        http://127.0.0.1:8000/attractions/api/getState?pid=6
+        :param request:
+        :return:
+        """
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #
         #     return JsonResponse({"status": 0})
