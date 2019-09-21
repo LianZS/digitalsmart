@@ -156,8 +156,15 @@ class RedisCache(object):
                 value = result[k].decode()
                 k = k.decode()
                 data[k] = value
+            if len(data.keys()) == 0:
+                yield None
+            else:
+                yield data
 
-            yield data
+    @check_state
+    def set(self, name, value) -> int:
+        result = self._redis_pool.set(name=name, value=value)
+        return result
 
     @check_state
     def hashkeys(self, name) -> list:
