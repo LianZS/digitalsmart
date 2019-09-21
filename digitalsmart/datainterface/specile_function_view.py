@@ -90,8 +90,7 @@ class Crack:
         if dowun_url is None:
             return JsonResponse({"status": 0, "message": "error"})
 
-        net = NetWorker()
-        strem = net.down_music_content(url=dowun_url)
+        strem = NetWorker.down_music_content(url=dowun_url)
         response = StreamingHttpResponse(strem)
         response['Content-Type'] = 'application/octet-stream'
         response['Content-Disposition'] = 'attachment;filename="example.mp3"'
@@ -192,9 +191,8 @@ class Crack:
 
         if url is None:
             return JsonResponse({"status": 0, "message": "error"})
-        net = NetWorker()
         try:
-            info = net.get_goods_info(url)  # 获取商品卖家画像
+            info = NetWorker.get_goods_info(url)  # 获取商品卖家画像
         except Exception:
             info = []
         response = {
