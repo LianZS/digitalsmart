@@ -33,7 +33,7 @@ class PeopleFlow():
         date_begin = request.GET.get("date_begin")
         date_end = request.GET.get("date_end")
         predict = request.GET.get("predict")  # 是否预测,true,false
-        sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+        # sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
 
         if not (pid and date_begin and date_end and predict):
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
@@ -57,7 +57,7 @@ class PeopleFlow():
             # 获取该景区数据位于哪张表
             table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
 
-            if len(result) == 0 or result[0] == None:  # 内存没有数据，查询数据库
+            if len(result) == 0 or result[0] is None:  # 内存没有数据，查询数据库
                 result = ModelChoice.historyscenceflow(table_id).objects.filter(ddate=date_begin).values('ttime', 'num')
                 temp_result = list()
                 for item in result:
@@ -99,14 +99,14 @@ class PeopleFlow():
         date_begin = request.GET.get("date_begin")
         date_end = request.GET.get("date_end")
         predict = request.GET.get("predict")  # 是否预测
-        sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+        # sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
 
         if not pid or not date_begin or not date_end or not predict:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         try:
             pid = int(pid)
             date_begin = int(date_begin)
-            date_end = int(date_end)
+            # date_end = int(date_end)
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
         #  缓存key构造规则
@@ -114,11 +114,10 @@ class PeopleFlow():
         key = "trend:{0}".format(pid)
 
         response = cache.get(key)
-        response=None
         if response is None or len(response.keys()) == 0:
             result = redis_cache.hashget(key=key)
             result = list(result)
-            if len(result) == 0 or result[0] == None:
+            if len(result) == 0 or result[0] is None:
                 with connection.cursor() as cursor:
                     cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s",
                                    [pid, date_begin])
@@ -157,7 +156,7 @@ class PeopleFlow():
             type_flag = int(type_flag)
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+        # sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
         #  缓存key构造规则
 
         key = "distribution:{0}".format(pid)
@@ -166,7 +165,7 @@ class PeopleFlow():
         if response is None or len(response.keys()) == 0:
             result = redis_cache.get(key)
             result = list(result)
-            if len(result) == 0 or result[0] == None:
+            if len(result) == 0 or result[0] is None:
                 try:
                     obj = TableManager.objects.get(pid=pid, flag=type_flag)  # 避免重复冲突
                 except Exception:
