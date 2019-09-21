@@ -54,11 +54,11 @@ class PeopleFlow():
         if response is None or len(response.keys()) == 0:  # 没有缓存数据
             result = redis_cache.hashget(key=key)  # 先从内存获取数据
             result = list(result)
-            if len(result) == 0:  # 内存没有数据，查询数据库
-                # 获取该景区数据位于哪张表
-                table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
-                result = ModelChoice.historyscenceflow(table_id).objects.filter(ddate=date_begin).values("ttime", "num")
+            # 获取该景区数据位于哪张表
+            table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
 
+            if len(result) == 0 or result[0] == None:  # 内存没有数据，查询数据库
+                result = ModelChoice.historyscenceflow(table_id).objects.filter(ddate=date_begin).values('ttime', 'num')
                 temp_result = list()
                 for item in result:
                     temp_result.append([item['ttime'], item['num']])
@@ -73,7 +73,7 @@ class PeopleFlow():
             # 按时间排序
             result = sorted(result, key=lambda x: str(x[0]))
             # 预测客流量数据
-            predict_data = Predict().predict(pid)
+            predict_data = Predict().predict(pid, table_id)
             response = {"data": result, "future_time": predict_data['future_time'],
                         "future_data": predict_data['future_data']}
             cache.set(key, response, 60 * 5)
@@ -114,10 +114,11 @@ class PeopleFlow():
         key = "trend:{0}".format(pid)
 
         response = cache.get(key)
+        response=None
         if response is None or len(response.keys()) == 0:
             result = redis_cache.hashget(key=key)
             result = list(result)
-            if len(result) == 0:
+            if len(result) == 0 or result[0] == None:
                 with connection.cursor() as cursor:
                     cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s",
                                    [pid, date_begin])
