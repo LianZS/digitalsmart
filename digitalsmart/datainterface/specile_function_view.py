@@ -1,7 +1,4 @@
 import uuid
-import os
-from multiprocessing import Process
-from threading import Thread
 from attractions.tool.file_hander import Hander_File
 from datainterface.analyse import URL_DOC_Analyse
 
@@ -18,7 +15,8 @@ class Crack:
     下面是付费音乐下载功能
     """
 
-    def get_music(self, request):
+    @staticmethod
+    def get_music(request):
         """
         提交搜索音乐列表请求--链接格式：
         http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
@@ -56,7 +54,8 @@ class Crack:
             net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
             return JsonResponse({"result": "success"})
 
-    def get_result_music_list(self, request):
+    @staticmethod
+    def get_result_music_list(request):
         """
         获取搜索音乐列表 ---链接格式：
         http://127.0.0.1:8000/interface/api/getMusicResult?name=%E6%8A%A4%E8%8A%B1%E4%BD%BF%E8%80%85&type=netease
@@ -76,7 +75,8 @@ class Crack:
         response = redis_cache.get(name=redis_key)
         return JsonResponse({"data": list(response)[0]})
 
-    def down_music(self, request):
+    @staticmethod
+    def down_music(request):
         """
             下载音乐，根据上面get_result_music_list的链接下载 ---链接格式：
          http://127.0.0.1:8000/interface/api/downMusic?url=下载链接
@@ -98,7 +98,8 @@ class Crack:
 
         return response
 
-    def identity_authentication(self, request):
+    @staticmethod
+    def identity_authentication(request):
         """
         身份认证---链接格式：
         # http://127.0.0.1:8000/interface/api/validation?card=440514199804220817
@@ -124,8 +125,9 @@ class Crack:
     下面是获取商品历史信息
     """
 
+    @staticmethod
     @csrf_exempt
-    def get_goods_price_change(self, request):
+    def get_goods_price_change(request):
         """
         请求某商品的价格变化情况--链接格式：
         http://127.0.0.1:8000/interface/api/getGoodsPrice?url=目标商品链接&token=bGlhbnpvbmdzaGVuZw==
@@ -152,8 +154,9 @@ class Crack:
 
             return JsonResponse({"result": "success"})
 
+    @staticmethod
     @csrf_exempt
-    def get_goods_price_change_result(self, request):
+    def get_goods_price_change_result(request):
         """
         获取取得的请求某商品的价格变化情况结果---链接格式：
         http://127.0.0.1:8000/interface/api/getGoodsPriceResult?url=目标商品链接&token=bGlhbnpvbmdzaGVuZw==
@@ -171,7 +174,8 @@ class Crack:
         data = redis_cache.get(name=redis_key).__next__()
         return JsonResponse({'data': data})
 
-    def get_goods_info(self, request):
+    @staticmethod
+    def get_goods_info(request):
         """
         获取商品卖家画像---链接格式：
         http://127.0.0.1:8000/interface/api/goodsinfo?url=目标商品链接
@@ -202,8 +206,9 @@ class Crack:
     下面是pdf转为doc功能
     """
 
+    @staticmethod
     @csrf_exempt
-    def upload_pdf(self, request):
+    def upload_pdf(request):
         """
         上传pdf文件，将其转为doc格式，并存在pdfdb数据库中--链接格式：
         http://127.0.0.1:8000/interface/api/uploadPDF?pdf=文件&pagetype=页码选择类型&type=转换格式&page=需要转换的页面
@@ -234,7 +239,7 @@ class Crack:
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
             # 保存pdf文件路径
             filepath = "./media/pdf/" + str(uid) + ".pdf"
-            check_redis = redis_cache.exit_key(filepath)
+            check_redis = redis_cache.exit_key(str(uid))
             if check_redis:  # 已经存在该文件了
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
             else:
@@ -245,27 +250,28 @@ class Crack:
                 f.close()
                 # 解析pdf
                 net = NetWorker()
-                # Process(target=NetWorker().parse, args=(filepath, uid, page_type, exchange_type, page,)).start()
                 net.parse.delay(filepath, uid, page_type, exchange_type, page)
                 # code为1表示正常，0表示文件类型有误
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
         return JsonResponse({"code": 0, "message": "error"})
 
-    # http://127.0.0.1:8000/interface/api/getDocLink?id=7ca7ab45061b554c928ff45c2f5baa2f
-    def get_doc_down_url(self, request):
-        """获取转后的doc文件"""
+    @staticmethod
+    def get_doc_down_url(request):
+        """获取转后的doc文件---链接格式：
+        http://127.0.0.1:8000/interface/api/getDocLink?id=7ca7ab45061b554c928ff45c2f5baa2f"""
         # 只有p为100，且code为1时表示可以下载咯
         uid = request.GET.get("id")
-        try:
-            val = PDFFile.objects.get(id=uid)
-        except Exception:
+        check_redis = redis_cache.exit_key(key=uid)
+        if check_redis:
+            return JsonResponse({"code": 1, "p": 100})  # 通知可以下载咯
+
+        else:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以下载咯
 
-        return JsonResponse({"code": 1, "p": 100})  # 通知可以下载咯
-
-    # http://127.0.0.1:8000/interface/api/downDocLink?id=7ca7ab45061b554c928ff45c2f5baa2f
-    def down_doc(self, request):
-        """下载doc文件"""
+    @staticmethod
+    def down_doc(request):
+        """下载doc文件  --链接格式：
+        http://127.0.0.1:8000/interface/api/downDocLink?id=7ca7ab45061b554c928ff45c2f5baa2f"""
 
         uid = request.GET.get("id")
         try:
@@ -280,8 +286,9 @@ class Crack:
         response['Content-Disposition'] = 'attachment;filename={0}.doc'.format(uid)
         return response
 
+    @staticmethod
     @csrf_exempt
-    def analyse_url(self, request):
+    def analyse_url(request):
         """
         提取中文文本关键词以及频率---链接格式：
         http://127.0.0.1:8000/interface/api/analyse?allowPos=a&url=https://blog.csdn.net/hhtnan/article/details/76586693
@@ -309,18 +316,15 @@ class Crack:
         if check_redis:
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
-            data = redis_cache.get(str(uid)).__next__()
-            if data is None:
 
-                if url is None or allowpos is None:
-                    return JsonResponse({"p": 0, "id": "", "code": 0})
-                ad = URL_DOC_Analyse()
-                ad.analyse_word.delay(url, allowpos, uid)
-                return JsonResponse({"code": 1, "p": 1, "id": uid})
-            else:
-                return JsonResponse({"code": 1, "p": 1, "id": uid})
+            if url is None or allowpos is None:
+                return JsonResponse({"p": 0, "id": "", "code": 0})
+            ad = URL_DOC_Analyse()
+            ad.analyse_word.delay(url, allowpos, uid)
+            return JsonResponse({"code": 1, "p": 1, "id": uid})
 
-    def get_analyse_result(self, request):
+    @staticmethod
+    def get_analyse_result(request):
         """
         获取文本解析结果
         http://127.0.0.1:8000/interface/api/analyseResult?id=68813627-8234-5a1b-8449-4945a1c75bf5
