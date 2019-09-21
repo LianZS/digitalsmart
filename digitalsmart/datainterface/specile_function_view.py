@@ -1,5 +1,5 @@
 import uuid
-
+import base64
 import os
 import redis
 from multiprocessing import Process
@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
 from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
+from digitalsmart.settings import redis_cache
 from datainterface.tasks import NetWorker
 
 r = redis.Redis(host='127.0.0.1', port=6379,
@@ -24,12 +25,42 @@ class Crack:
     # http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
     def get_music(self, request):
         """
-        获取音乐列表
-        返回{'author': '作者', 'url': '下载链接', 'title': '歌名'}
+        提交搜索音乐列表请求
+        #netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
+        # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
+        # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
+        # 5singfc：5sing翻唱
+        返回{"result": "success"}
+        {'author': '作者', 'url': '下载链接', 'title': '歌名'}
         :param request:
         :return:
         """
-        musicname = request.GET.get("name")  # 音乐名
+        music_name = request.GET.get("name")  # 音乐名
+        soft_type = request.GET.get("type")  # 软件类型，netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
+        # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
+        # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
+        # 5singfc：5sing翻唱
+        page = request.GET.get("page")  # 第几页
+        if page is None:
+            page = 1
+        try:
+            page = int(page)
+        except Exception:
+            return JsonResponse({"status": 0, "message": "error"})
+
+        if not music_name:
+            return JsonResponse({"status": 0, "message": "error"})
+        net = NetWorker()
+        net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
+        return JsonResponse({"result": "success"})
+
+    def get_result_music_list(self, request):
+        """
+        获取搜索音乐列表
+        :param request:
+        :return:
+        """
+        music_name = request.GET.get("name")  # 音乐名
         soft_type = request.GET.get("type")  # 软件类型，
         page = request.GET.get("page")  # 第几页
         if page is None:
@@ -38,15 +69,9 @@ class Crack:
             page = int(page)
         except Exception:
             return JsonResponse({"status": 0, "message": "error"})
-        # netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
-        # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
-        # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
-        # 5singfc：5sing翻唱
-        if not musicname:
-            return JsonResponse({"status": 0, "message": "error"})
-        net = NetWorker()
-        iter_music_info = net.get_music_list(musicname, soft_type, page)  # 获取所有与之相关的音乐，包括下载链接
-        return JsonResponse({"data": list(iter_music_info)})
+        redis_key = "{soft_type}:{name}:{page}".format(soft_type=soft_type, name=music_name, page=page)
+        response = redis_cache.get(name=redis_key)
+        return JsonResponse({"data": list(response)[0]})
 
     # http://127.0.0.1:8000/interface/api/downMusic?url=下载链接
     def down_music(self, request):
