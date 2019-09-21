@@ -73,12 +73,12 @@ class NetWorker(object):
         try:
             response = requests.get(url=url, headers=headers)
         except requests.exceptions.ConnectionError:
-            return None
+            return {}
         if response.status_code == 200:
             data = json.loads(response.text)
             return data
         else:
-            return None
+            return {}
 
     def get_idcard_info(self, idcard):
         """
@@ -256,13 +256,16 @@ class NetWorker(object):
         :param url:商品链接
         :return:
         """
-        self.headers['X-Requested-With'] = "XMLHttpRequest"
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        headers['X-Requested-With'] = "XMLHttpRequest"
         paramer = {
             "checkCode": "ccd99af476ce8db82fc8d65f2464fa55",
             "con": url
         }
         url = "http://detail.tmallvvv.com/dm/ptinfo.php"
-        response = requests.post(url=url, data=paramer, headers=self.headers)  # 获取code标识
+        response = requests.post(url=url, data=paramer, headers=headers)  # 获取code标识
         if response.status_code != 200:
             return {"data": {
                 "title": '',
@@ -273,7 +276,7 @@ class NetWorker(object):
             }
         g = json.loads(response.text)
         url = g['taoInfoUrl']
-        response = requests.get(url, headers=self.headers)
+        response = requests.get(url, headers=headers)
         if response.status_code != 200:
             return {"data": {
                 "title": '',
@@ -498,79 +501,81 @@ class NetWorker(object):
                         f.write(results + '\n')
 
         fp.close()
+        # 保存到数据库
         pdf = PDFFile()
         pdf.id = uid
         pdf.file = "pdf/" + str(uid) + "." + exchange_type
         pdf.save()
         f.close()
-
+        redis_cache.set(filepath, 1)  # 将转化状态写入内存，用户再次请求相同文件时直接取文件，不用再转换一边
+        redis_cache.expire(filepath, time_interval=datetime.timedelta(minutes=60))
+        print("success")
         # print('对象数量：\n', '页面数：%s\n' % num_page, '图片数：%s\n' % num_image, '曲线数：%s\n' % num_curve, '水平文本框：%s\n'
         #
         #       % num_TextBoxHorizontal)
 
+    def analyse_word(self, url, allowpos, uid):
+        """
+          这个接口已经独立成一个程序了，加在这里效率太低下了。
 
-def analyse_word(self, url, allowpos, uid):
-    """
-      这个接口已经独立成一个程序了，加在这里效率太低下了。
+        提取中文文本关键词以及频率
+        :param url:请求链接
+        :param allowpos:词性
+        :return:
+        Ag 形语素
+        a 形容词
+        m 数词
+        n 名词
+        nr 人名
+        ns 地名
+        t 时间词
+        v 动词
+        z 状态词
+        ......详细见文档
+        """
+        # 解析获取域名
+        domain = urlparse(url)
+        netloc = domain.netloc
 
-    提取中文文本关键词以及频率
-    :param url:请求链接
-    :param allowpos:词性
-    :return:
-    Ag 形语素
-    a 形容词
-    m 数词
-    n 名词
-    nr 人名
-    ns 地名
-    t 时间词
-    v 动词
-    z 状态词
-    ......详细见文档
-    """
-    # 解析获取域名
-    domain = urlparse(url)
-    netloc = domain.netloc
-
-    self.headers['Host'] = netloc
-    self.headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
-    response = requests.get(url=url, headers=self.headers)
-    if response.status_code != 200:
-        return None
-    text = response.text
-    # 解析获取该网页编码方式
-    soup = BeautifulSoup(text, 'lxml')
-    # 默认编码gbk
-    charset = "utf-8"
-    # 找出该链接所用的编码方式
-    try:
-        charset = soup.find(name="meta", attrs={"charset": True})
-        # 编码方式
-        charset = charset.attrs["charset"]
-    except AttributeError as e:
-        meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
-        # 带有charset的字符串
+        self.headers['Host'] = netloc
+        self.headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
+        response = requests.get(url=url, headers=self.headers)
+        if response.status_code != 200:
+            return None
+        text = response.text
+        # 解析获取该网页编码方式
+        soup = BeautifulSoup(text, 'lxml')
+        # 默认编码gbk
+        charset = "utf-8"
+        # 找出该链接所用的编码方式
         try:
-            content = meta.attrs['content']
-            content_set = content.split(";")
+            charset = soup.find(name="meta", attrs={"charset": True})
+            # 编码方式
+            charset = charset.attrs["charset"]
+        except AttributeError as e:
+            meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
+            # 带有charset的字符串
+            try:
+                content = meta.attrs['content']
+                content_set = content.split(";")
 
-            for word in content_set:
-                if "charset" in word.lower():
-                    # 编码
-                    charset = word.split("=")[1]
-        except AttributeError:
-            charset = "utf-8"
-        # 以;分割,分出带有charset的字符串段
+                for word in content_set:
+                    if "charset" in word.lower():
+                        # 编码
+                        charset = word.split("=")[1]
+            except AttributeError:
+                charset = "utf-8"
+            # 以;分割,分出带有charset的字符串段
 
-    response.encoding = charset
-    text = response.text
-    # 保留中文文本
-    text = re.sub("[^\u4E00-\u9FA5]", "", text)
-    # 引入TextRank关键词抽取接口
-    textrank = analyse.textrank
-    # 基于TextRank算法进行关键词抽取
-    keywords = textrank(sentence=text, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
-    cache.set(uid, keywords, 60 * 60)  # uid作为key，有效期60分钟
+        response.encoding = charset
+        text = response.text
+        # 保留中文文本
+        text = re.sub("[^\u4E00-\u9FA5]", "", text)
+        # 引入TextRank关键词抽取接口
+        textrank = analyse.textrank
+        # 基于TextRank算法进行关键词抽取
+        keywords = textrank(sentence=text, allowPOS=(allowpos, allowpos, allowpos, allowpos), withWeight=True)
+        cache.set(uid, keywords, 60 * 60)  # uid作为key，有效期60分钟
     # def get_baidu_doc(self, url, filetype):
     #     """
     #     解析下载链接
