@@ -507,7 +507,7 @@ class NetWorker(object):
         pdf.file = "pdf/" + str(uid) + "." + exchange_type
         pdf.save()
         f.close()
-        redis_cache.set(filepath, 1)  # 将转化状态写入内存，用户再次请求相同文件时直接取文件，不用再转换一边
+        redis_cache.set(str(uid), 1)  # 将转化状态写入内存，用户再次请求相同文件时直接取文件，不用再转换一边
         redis_cache.expire(filepath, time_interval=datetime.timedelta(minutes=60))
         print("success")
         # print('对象数量：\n', '页面数：%s\n' % num_page, '图片数：%s\n' % num_image, '曲线数：%s\n' % num_curve, '水平文本框：%s\n'
