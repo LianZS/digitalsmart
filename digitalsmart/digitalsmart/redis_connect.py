@@ -83,14 +83,19 @@ class RedisCache(object):
         return result
 
     @check_state
-    def exit_key(self, key):
+    def exit_key(self, key) -> int:
+        """
+        检查内存是否存在key
+        :param key: 目标key
+        :return:
+        """
         result = self._redis_pool.exists(key)
-        print(result)
+        return result
 
     @check_state
     def get(self, name: str, *args):
         """
-
+        获取字符串键值对
         :param name:键值
         :param start:起始索引
         :param end:结束索引
@@ -265,5 +270,3 @@ class RedisCache(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._redis_pool.connection_pool.disconnect()
-
-
