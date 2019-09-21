@@ -1,7 +1,8 @@
 import datetime
 from typing import Dict
 from django.db.models import Max, aggregates
-from .models import PredictParamer, ScenceManager, ScenceFlow
+from .model_choice import ModelChoice
+from .models import PredictParamer, ScenceManager
 
 
 class Predict():
@@ -9,10 +10,8 @@ class Predict():
     人流预测模型
     """
 
-    def __init__(self):
-        pass
-
-    def predict(self, pid) -> Dict:
+    @staticmethod
+    def predict(pid, table_id) -> Dict:
 
         try:
             # 非节假日
@@ -34,7 +33,11 @@ class Predict():
         type_flag = ScenceManager.objects.get(pid=pid).type_flag
         today = int(str(ddate.date()).replace("-", ""))
         # 最近的时间
-        lasttime = ScenceFlow.objects.filter(pid=pid, ddate=today).values("ttime").aggregate(Max("ttime"))['ttime__max']
+        lasttime = None
+        lasttime = \
+            ModelChoice.historyscenceflow(table_id).objects.filter(pid=pid, ddate=today).values("ttime").aggregate(
+                Max("ttime"))[
+                'ttime__max']
         if lasttime is None:
             lasttime = ddate.time()
         if type_flag == 0:
