@@ -7,17 +7,18 @@ from django.http import JsonResponse
 from attractions.models import TableManager, ScenceManager
 from .models import WeatherDB
 from datainterface.tasks import NetWorker
+from attractions.model_choice import ModelChoice
 
 
 class ScenceData(object):
 
     # Create your views here.
 
-    # http://127.0.0.1:8000/interface/api/getScenceDataByTime?pid=6&ddate=20170916&ttime=22:00:00&flag=0&token=bGlhbnpvbmdzaGVuZw==
-
     def interface_historytime_scence_data(self, request):
         """
-        获取历史某个具体时刻的人流量
+        获取历史某个具体时刻的人流量--链接格式：
+         http://127.0.0.1:8000/interface/api/getScenceDataByTime?pid=6&ddate=20170916&
+         ttime=22:00:00&flag=0&token=bGlhbnpvbmdzaGVuZw==
         :param request:
         :return:
 
@@ -29,7 +30,6 @@ class ScenceData(object):
             return JsonResponse({"status": 0, "message": "appkey错误"})
         if not (pid and ddate and ttime and token and flag):
             return JsonResponse({"status": 0, "message": "参数格式有误"})
-        today: int = int(str(datetime.datetime.today().date()).replace("-", ""))
 
         try:
             obj = TableManager.objects.get(pid=pid, flag=0)  # 查询目标所在的表位置
@@ -38,68 +38,22 @@ class ScenceData(object):
             return JsonResponse({"status": 0, "message": "无目标数据"})
 
         area = obj.area
-        if ddate == today:  # 查询今天的数据的话
-            return self.interface_todaytime_scence_data(pid, ddate, ttime, area)
         # 查询历史数据
         table_id: int = obj.table_id  # 表为止
         # 下面之所以不格式化字符串，是预防注入
-        sql = None
-        if table_id == 0:
-            sql = "select num from digitalsmart.historyscenceflow0 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 1:
-            sql = "select num from digitalsmart.historyscenceflow1 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 2:
-            sql = "select num from digitalsmart.historyscenceflow2 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 3:
-            sql = "select num from digitalsmart.historyscenceflow3 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 4:
-            sql = "select num from digitalsmart.historyscenceflow4 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 5:
-            sql = "select num from digitalsmart.historyscenceflow5 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 6:
-            sql = "select num from digitalsmart.historyscenceflow6 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 7:
-            sql = "select num from digitalsmart.historyscenceflow7 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 8:
-            sql = "select num from digitalsmart.historyscenceflow8 where pid=%s and ddate=%s and ttime=%s"
-        elif table_id == 9:
-            sql = "select num from digitalsmart.historyscenceflow9 where pid=%s and ddate=%s and ttime=%s "
-
-        with connection.cursor() as cursor:
-            cursor.execute(sql,
-                           [pid, ddate, ttime])
-            try:
-                num = cursor.fetchone()[0]
-            except Exception:
-                num = None
+        historyscenceflow = ModelChoice.historyscenceflow(table_id)
+        result = historyscenceflow.objects.filter(ddate=ddate, ttime=ttime).values('num')
+        num = None
+        for item in result:
+            num = item['num']
 
         return JsonResponse({"num": num, "pid": pid, "area": area, "date": ddate, "ttime": ttime})
 
-    @staticmethod
-    def interface_todaytime_scence_data(pid, ddate, ttime, area):
-        """
-        查询今天人流数据
-        :param pid:
-        :param ddate:
-        :param ttime:
-        :param area:
-        :return:
-        """
-        with connection.cursor() as cursor:
-            sql = "select num from digitalsmart.scenceflow where pid=%s and ddate=%s and ttime=%s  "
-            cursor.execute(sql,
-                           [pid, ddate, ttime])
-            try:
-                num = cursor.fetchone()[0]
-            except Exception:
-                num = None
-
-        return JsonResponse({"num": num, "pid": pid, "area": area, "date": ddate, "ttime": ttime})
-
-    # http://127.0.0.1:8000/interface/api/getScenceDataByDate?pid=6&ddate=20170121&flag=0&token=bGlhbnpvbmdzaGVuZw==
     def interface_historydate_scence_data(self, request):
         """
-        查询某天人流情况
+        查询某天人流情况---链接格式：
+        http://127.0.0.1:8001/interface/api/getScenceDataByDate?pid=6&ddate=20190921&
+        flag=0&token=bGlhbnpvbmdzaGVuZw==
         :param request:
         :return:
         """
@@ -120,45 +74,19 @@ class ScenceData(object):
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
 
         area = obj.area
-        if ddate == today:  # 查询今天的数据的话
-            return self.interface_todaydate_scence_data(pid, ddate, area)
-        # 查询历史数据
-        table_id: int = obj.table_id  # 表为止
-        # 下面之所以不格式化字符串，是预防注入
-        sql = None
-        if table_id == 0:
-            sql = "select ttime,num from digitalsmart.historyscenceflow0 where pid=%s and ddate=%s "
-        elif table_id == 1:
-            sql = "select ttime,num from digitalsmart.historyscenceflow1 where pid=%s and ddate=%s"
-        elif table_id == 2:
-            sql = "select ttime,num from digitalsmart.historyscenceflow2 where pid=%s and ddate=%s "
-        elif table_id == 3:
-            sql = "select ttime,num from digitalsmart.historyscenceflow3 where pid=%s and ddate=%s "
-        elif table_id == 4:
-            sql = "select ttime,num from digitalsmart.historyscenceflow4 where pid=%s and ddate=%s "
-        elif table_id == 5:
-            sql = "select ttime,num from digitalsmart.historyscenceflow5 where pid=%s and ddate=%s "
-        elif table_id == 6:
-            sql = "select ttime,num from digitalsmart.historyscenceflow6 where pid=%s and ddate=%s "
-        elif table_id == 7:
-            sql = "select ttime,num from digitalsmart.historyscenceflow7 where pid=%s and ddate=%s "
-        elif table_id == 8:
-            sql = "select ttime,num from digitalsmart.historyscenceflow8 where pid=%s and ddate=%s "
-        elif table_id == 9:
-            sql = "select ttime,num from digitalsmart.historyscenceflow9 where pid=%s and ddate=%s "
-        with connection.cursor() as cursor:
-            cursor.execute(sql,
-                           [pid, ddate])
-            rows = cursor.fetchall()
-            return JsonResponse({"area": area, "pid": pid, "datalist": rows, "date": ddate})
 
-    @staticmethod
-    def interface_todaydate_scence_data(pid, ddate, area):
-        with connection.cursor() as cursor:
-            sql = "select ttime,num from digitalsmart.scenceflow where pid=%s and ddate=%s  "
-            cursor.execute(sql, [pid, ddate])
-            rows = cursor.fetchall()
-            return JsonResponse({"num": rows, "pid": pid, "area": area, 'date': ddate})
+        # 查询历史数据
+        table_id: int = obj.table_id  # 表 地址
+        # 下面之所以不格式化字符串，是预防注入
+        historyscenceflow = ModelChoice.historyscenceflow(table_id)
+        result = historyscenceflow.objects.filter(ddate=ddate).values('ttime', 'num')
+        rows = list()
+        for item in result:
+            ttime = item['ttime']
+            num = item['num']
+            rows.append([ttime, num])
+
+        return JsonResponse({"area": area, "pid": pid, "datalist": rows, "date": ddate})
 
     @staticmethod
     def check_paramer(request, flag=1):
