@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import requests
 import re
 import sys
@@ -5,6 +7,7 @@ import datetime
 from threading import Thread
 from queue import Queue
 from urllib.parse import urlparse
+
 from bs4 import BeautifulSoup
 from jieba import analyse
 from digitalsmart.settings import redis_cache
