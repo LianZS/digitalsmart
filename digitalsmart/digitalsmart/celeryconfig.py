@@ -22,11 +22,12 @@ CELERY_ROUTES = {
 }
 CELERYD_CONCURRENCY = 10  # 设置并发的worker数量
 
-CELERYD_MAX_TASKS_PER_CHILD = 150  # 每个worker最多执行100个任务被销毁，可以防止内存泄漏
+CELERYD_MAX_TASKS_PER_CHILD = 2  # 每个worker最多执行100个任务被销毁，可以防止内存泄漏
 CELERY_TASK_ACKS_LATE = True  # 允许重试
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_ACCEPT_CONTENT = ['application/json', ]
+CELERY_ACCEPT_CONTENT = ['application/json' ]
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_ENABLE_UTC = True
 app = Celery("celery")
+# app.config_from_object('django.conf:settings', namespace='CELERY')
