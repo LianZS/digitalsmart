@@ -161,4 +161,4 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
-redis_cache = RedisCache(max_workers=100)
+redis_cache = RedisCache(max_workers=10)
