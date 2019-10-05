@@ -306,7 +306,6 @@ class Crack:
         :param request:
         :return:
         """
-
         allowpos = request.POST.get("allowPos")  # 获取词性
         url = request.POST.get("url")
         uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
