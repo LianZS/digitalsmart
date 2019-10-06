@@ -33,7 +33,6 @@ class Predict():
         type_flag = ScenceManager.objects.get(pid=pid).type_flag
         today = int(str(ddate.date()).replace("-", ""))
         # 最近的时间
-        lasttime = None
         lasttime = \
             ModelChoice.historyscenceflow(table_id).objects.filter(pid=pid, ddate=today).values("ttime").aggregate(
                 Max("ttime"))[
