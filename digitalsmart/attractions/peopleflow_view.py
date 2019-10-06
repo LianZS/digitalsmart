@@ -1,7 +1,8 @@
 import uuid
 from django.core.cache import cache
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.db import connection
+
 from digitalsmart.settings import redis_cache
 from .models import TableManager
 from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
@@ -28,6 +29,7 @@ class PeopleFlow():
         """
         # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
         #     return JsonResponse({"status": 0})
+
         type_flag = 0
         pid = request.GET.get("pid")
         date_begin = request.GET.get("date_begin")
@@ -47,7 +49,7 @@ class PeopleFlow():
 
         except Exception:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        #  缓存key
+            #  缓存key
         key = "scence:{0}:{1}".format(pid, type_flag)
         # 获取缓存数据
         response = cache.get(key)
@@ -194,7 +196,6 @@ class PeopleFlow():
 
     @staticmethod
     def deal_response(response):
-
         response = Access_Control_Allow_Origin(response)
 
         return response
