@@ -24,7 +24,9 @@ SECRET_KEY = '-klvpr8w1u(kef&+*gvkxozyamwek9vb#0mczvni2=8=3pu2a-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+APPID='b9cd0ea5b3b67217'
+APPSECRET='53b27a04d7b6e0aab9672dd720061e10'
+CALLBACK='http://scenicmonitor.top/oauth/check'
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'traffic.apps.TrafficConfig',
     'internet.apps.InternetConfig',
     'datainterface.apps.DatainterfaceConfig',
+    'oauth.apps.OauthConfig',
 
 ]
 
