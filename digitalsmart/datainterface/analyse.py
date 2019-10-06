@@ -1,17 +1,19 @@
 from __future__ import absolute_import
-
-import requests
 import re
 import sys
 import datetime
+import requests
+import redis
 from threading import Thread
 from queue import Queue
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 from jieba import analyse
-from digitalsmart.settings import redis_cache
-from digitalsmart.celeryconfig import app
+
+
+# from digitalsmart.settings import redis_cache
+# from digitalsmart.celeryconfig import app
 
 
 class URL_DOC_Analyse():
@@ -19,7 +21,10 @@ class URL_DOC_Analyse():
     分析网页文本
     """
 
-    @app.task(queue="word", bind=True)
+    def __init__(self):
+        self.redis = redis.Redis(host='localhost', port=6379)
+
+    # @app.task(queue="word", bind=True)
     def analyse_word(self, url, allowpos, uid):
         """
         提取中文文本关键词以及频率
@@ -89,8 +94,8 @@ class URL_DOC_Analyse():
             keywords = textrank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos),
                                 withWeight=True)
             # 缓存
-            redis_cache.set(str(uid), str(keywords))
-            redis_cache.expire(str(uid), time_interval=datetime.timedelta(minutes=60))
+            self.redis.set(str(uid), str(keywords))
+            self.redis.expire(str(uid), datetime.timedelta(minutes=60))
             return keywords
 
         Thread(target=request, args=()).start()
