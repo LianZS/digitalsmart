@@ -1,4 +1,6 @@
 import uuid
+import os
+from threading import Thread
 from attractions.tool.file_hander import Hander_File
 from datainterface.analyse import URL_DOC_Analyse
 
@@ -8,6 +10,7 @@ from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
 from digitalsmart.settings import redis_cache
 from datainterface.tasks import NetWorker
+from datainterface.conversion_file import ConversionFile
 
 
 class Crack:
@@ -46,12 +49,13 @@ class Crack:
             return JsonResponse({"status": 0, "message": "error"})
 
         redis_key = "{soft_type}:{name}:{page}".format(soft_type=soft_type, name=music_name, page=page)
-        check_redis = redis_cache.exit_key(key=redis_key)  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
-        if check_redis:
+        key_exits = redis_cache.exit_key(key=redis_key)  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
+        if key_exits:
             return JsonResponse({"result": "success"})
         else:
             net = NetWorker()
-            net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
+            Thread(target=net.get_music_list, args=(music_name, soft_type, page)).start()
+            # net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
             return JsonResponse({"result": "success"})
 
     @staticmethod
@@ -73,7 +77,8 @@ class Crack:
             return JsonResponse({"status": 0, "message": "error"})
         redis_key = "{soft_type}:{name}:{page}".format(soft_type=soft_type, name=music_name, page=page)
         response = redis_cache.get(name=redis_key)
-        return JsonResponse({"data": list(response)[0]})
+        music_list = list(response)[0]
+        return JsonResponse({"data": music_list})
 
     @staticmethod
     def down_music(request):
@@ -149,7 +154,8 @@ class Crack:
             return JsonResponse({"result": "success"})
         else:
             net = NetWorker()
-            net.get_goods_price_change.delay(url)  # 获取价格变化情况
+            Thread(target=net.get_goods_price_change, args=(url)).start()
+            # net.get_goods_price_change.delay(url)  # 获取价格变化情况
 
             return JsonResponse({"result": "success"})
 
@@ -247,8 +253,10 @@ class Crack:
                     f.write(line)
                 f.close()
                 # 解析pdf
-                net = NetWorker()
-                net.parse.delay(filepath, uid, page_type, exchange_type, page)
+                conversion_file = ConversionFile()
+                Thread(target=conversion_file.pdf_parse_docx,
+                       args=(filepath, uid, page_type, exchange_type, page)).start()
+
                 # code为1表示正常，0表示文件类型有误
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
         return JsonResponse({"code": 0, "message": "error"})
@@ -309,15 +317,18 @@ class Crack:
         allowpos = request.POST.get("allowPos")  # 获取词性
         url = request.POST.get("url")
         uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
-        check_redis = redis_cache.exit_key(str(uid))  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
-        if check_redis:
+        key_exit = redis_cache.exit_key(str(uid))  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
+        if key_exit:
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
 
             if url is None or allowpos is None:
                 return JsonResponse({"p": 0, "id": "", "code": 0})
-            ad = URL_DOC_Analyse()
-            ad.analyse_word.delay(url, allowpos, uid)
+            cmd = " python datainterface/analyse.py  {url}  {allowpos} {uid} ".format(url=url, allowpos=allowpos,
+                                                                                      uid=uid)
+            Thread(target=os.system, args=(cmd)).start()
+            # ad = URL_DOC_Analyse()
+            # ad.analyse_word.delay(url, allowpos, uid)
             return JsonResponse({"code": 1, "p": 1, "id": uid})
 
     @staticmethod
@@ -334,59 +345,3 @@ class Crack:
         data = redis_cache.get(uid).__next__()
 
         return JsonResponse({"data": data})
-
-    # def get_keyword(self, request):
-    #     """
-    #     文本提取接口
-    #     :param request:
-    #     :return:
-    #     """
-    #     allowpos = request.POST.get("allowPos")  # 获取词性
-    #     url = request.POST.get("url")
-    #     token = request.POST.get("token")  # 密钥
-    #     if token != "bGlhbnpvbmdzaGVuZw==":
-    #         return JsonResponse({"status": 0, "message": "appkey错误"})
-    #     uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
-    #
-    #     response = redis_cache.get(str(uid)).__next__()
-    #     if response is None:
-    #         response = analyse_word(url, allowpos, str(uid))
-    #     return JsonResponse({"data": response})
-    # def parse_baidudoc(self, request):
-    #     """
-    #     解析百度文档链接，并提供可下载链接
-    #     :param request:
-    #     :return:
-    #     """
-    #     pre_path = request.path + "?url="
-    #     href = request.get_full_path()
-    #     parse_url = href.replace(pre_path, "")
-    #     # url = request.GET.get("url")
-    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
-    #     if not (parse_url and file_type):
-    #         return JsonResponse({"status": 0, "message": "error"})
-    #     net = NetWorker()
-    #     doc_url = net.get_baidu_doc(parse_url, file_type)
-    #     return JsonResponse(doc_url)
-    #
-    # # http://127.0.0.1:8000/interface/api/baidudoc?url=目标文档链接
-    #
-    # def down_baidu_doc(self, request):
-    #     """
-    #     下载百度文档
-    #
-    #     """
-    #     pre_path = request.path + "?url="
-    #     href = request.get_full_path()
-    #     dowun_url = href.replace(pre_path, "")
-    #
-    #     file_type = request.GET.get("type")  # 类型有doc,pdf,ppt
-    #     if not (dowun_url):
-    #         return JsonResponse({"status": 0, "message": "error"})
-    #     net = NetWorker()
-    #     iter_doc = net.down_baidu_doc(dowun_url)
-    #     response = StreamingHttpResponse(iter_doc)
-    #     response['Content-Type'] = 'application/octet-stream'
-    #
-    #     response['Content-Disposition'] = 'attachment;filename={0}.{1}'.format(time.time(), file_type)
-    #     return response
