@@ -28,7 +28,7 @@ class UrlDocAnalyse:
 
     def analyse_word(self, target_url, pos, redis_key: uuid):
         """
-        提取中文文本关键词以及频率------
+        提取中文文本关键词以及频率------在内存不够调用celery情况下使用的方案
         :param target_url: 需要解析的链接
         :param pos:词性
         :param redis_key:缓存key
@@ -51,24 +51,29 @@ class UrlDocAnalyse:
 
         Thread(target=self.parse_url, args=(target_url,)).start()
         keywords = self.analyse_text(pos)
+        # 缓存
         self.redis.set(str(redis_key), str(keywords))
         self.redis.expire(str(redis_key), datetime.timedelta(minutes=60))
 
     @app.task(queue="word", bind=True)
-    def analyse_url_info(self, target_url: str, allowpos: str) -> List[tuple]:
+    def analyse_url_info(self, target_url: str, pos: str) -> List[tuple]:
         """
-        解析文本链接
-        :param target_url:
-        :param allowpos:
+        提取中文文本关键词以及频率------在内存够调用celery情况下使用的方案
+        :param target_url: 需要解析的链接
+        :param pos:词性
         :return:
         """
         Thread(target=UrlDocAnalyse.parse_url, args=(target_url,)).start()
-        keywords = UrlDocAnalyse.analyse_text(allowpos)
-        print(keywords)
+        keywords = UrlDocAnalyse.analyse_text(pos)
         return keywords
 
     @staticmethod
     def parse_url(target_url: str):
+        """
+        提取链接里面的中文文本
+        :param target_url:
+        :return:
+        """
         # 解析获取域名
         domain = urlparse(target_url)
         netloc = domain.netloc
@@ -117,26 +122,28 @@ class UrlDocAnalyse:
         response.encoding = charset
 
         text = response.text
-        # print(text)
         # 保留中文文本
         zh_text = re.sub("[^\u4E00-\u9FA5]", "", text)
 
         UrlDocAnalyse.doc_queue.put(zh_text)
+
     @staticmethod
     def analyse_text(allowpos) -> List[tuple]:
-
-        textrank = analyse.textrank
+        """
+        提取关键词
+        :param allowpos:
+        :return:
+        """
+        rank = analyse.textrank
         # 基于TextRank算法进行关键词抽取
         text: list = UrlDocAnalyse.doc_queue.get()
-        keywords = textrank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos),
-                            withWeight=True)
+        keywords = rank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos),
+                        withWeight=True)
         return keywords
 
 
 if __name__ == "__main__":
-    """
-    非
-    """
+
     try:
         obj = UrlDocAnalyse()
         url, allowPos, uid = sys.argv[1:4]
