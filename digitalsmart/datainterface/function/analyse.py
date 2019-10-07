@@ -1,37 +1,37 @@
 from __future__ import absolute_import
 import re
+import os
 import sys
+import uuid
 import datetime
 import requests
 import redis
-from typing import List, Dict
+from typing import List
 from threading import Thread
 from queue import Queue
 from urllib.parse import urlparse
-
 from bs4 import BeautifulSoup
 from jieba import analyse
 
-
-# from digitalsmart.settings import redis_cache
-# from digitalsmart.celeryconfig import app
+sys.path[0] = os.path.abspath(os.curdir)
+from digitalsmart.celeryconfig import app
 
 
 class UrlDocAnalyse:
     """
     分析网页文本
     """
+    doc_queue = Queue(1)  # 用来线程通信
 
     def __init__(self):
         self.redis = redis.Redis(host='localhost', port=6379)
-        self.doc_queue = Queue(1)  # 用来线程通信
 
-    # @app.task(queue="word", bind=True)
-    def analyse_word(self, url, allowpos, uid):
+    def analyse_word(self, target_url, pos, redis_key: uuid):
         """
-        提取中文文本关键词以及频率
-        :param url:请求链接
-        :param allowpos:词性
+        提取中文文本关键词以及频率------
+        :param target_url: 需要解析的链接
+        :param pos:词性
+        :param redis_key:缓存key
         :return:
         Ag 形语素
         a 形容词
@@ -47,30 +47,62 @@ class UrlDocAnalyse:
         headers = dict()  # 网络爬虫请求头
         headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
                                 '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-        q = Queue()
+        headers['Accept-Language'] = "zh-CN,zh;q=0.9,be;q=0.8"
 
-        def request():
+        Thread(target=self.parse_url, args=(target_url,)).start()
+        keywords = self.analyse_text(pos)
+        self.redis.set(str(redis_key), str(keywords))
+        self.redis.expire(str(redis_key), datetime.timedelta(minutes=60))
 
-            # 解析获取域名
-            domain = urlparse(url)
-            netloc = domain.netloc
+    @app.task(queue="word", bind=True)
+    def analyse_url_info(self, target_url: str, allowpos: str) -> List[tuple]:
+        """
+        解析文本链接
+        :param target_url:
+        :param allowpos:
+        :return:
+        """
+        Thread(target=UrlDocAnalyse.parse_url, args=(target_url,)).start()
+        keywords = UrlDocAnalyse.analyse_text(allowpos)
+        print(keywords)
+        return keywords
 
-            headers['Host'] = netloc
-            headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
-            response = requests.get(url=url, headers=headers, timeout=5)
-            if response.status_code != 200:
-                return None
+    @staticmethod
+    def parse_url(target_url: str):
+        # 解析获取域名
+        domain = urlparse(target_url)
+        netloc = domain.netloc
+        headers = dict()
+        headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 ' \
+                                '(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        headers['Host'] = netloc
+        headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
+        response = None
+        try:
+            response = requests.get(url=target_url, headers=headers, timeout=5)
+        except requests.exceptions.ReadTimeout:
+            UrlDocAnalyse.doc_queue.put(None)
+
+        if response.status_code != 200:
+            return None
+        content_type = response.headers['Content-Type']  # 网页Content-Type
+        charset = None  # 编码格式
+        try:
+            charset = re.search("charset=(\S+)", content_type).group(1)  # 获取编码格式
+        except AttributeError:
+            # 默认编码gbk
+            charset = "utf-8"
+            # 若Response里找不到编码格式，则从网页里找
             text = response.text
             # 解析获取该网页编码方式
             soup = BeautifulSoup(text, 'lxml')
-            # 默认编码gbk
-            charset = "utf-8"
+
             # 找出该链接所用的编码方式
             try:
                 charset = soup.find(name="meta", attrs={"charset": True})
                 # 编码方式
                 charset = charset.attrs["charset"]
-            except AttributeError as e:
+            except AttributeError:
                 meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
                 try:
                     content = meta.attrs['content']
@@ -82,99 +114,33 @@ class UrlDocAnalyse:
                             charset = word.split("=")[1]
                 except AttributeError:
                     charset = "gbk"
-            response.encoding = charset
-            text = response.text
-            # 保留中文文本
-            text = re.sub("[^\u4E00-\u9FA5]", "", text)
-            q.put(text)
-
-        def rank():
-            # 引入TextRank关键词抽取接口
-            textrank = analyse.textrank
-            text: list = q.get()
-            # 基于TextRank算法进行关键词抽取
-            keywords = textrank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos),
-                                withWeight=True)
-            # 缓存
-            self.redis.set(str(uid), str(keywords))
-            self.redis.expire(str(uid), datetime.timedelta(minutes=60))
-            return keywords
-
-        Thread(target=request, args=()).start()
-        rank()
-
-    # @app.task(queue="word", bind=True)
-    def analyse_url_info(self, target_url: str, allowpos: str) -> List[tuple]:
-        """
-        解析文本链接
-        :param target_url:
-        :param allowpos:
-        :return:
-        """
-        Thread(target=self.parse_url, args=(target_url,)).start()
-        keywords = self.analyse_text(allowpos)
-        return keywords
-
-    def parse_url(self, target_url: str):
-        # 解析获取域名
-        domain = urlparse(target_url)
-        netloc = domain.netloc
-        headers = dict()
-        headers['Host'] = netloc
-        headers['Cookie'] = 'SUB=LianZS;'  # 记住，微博后台只是验证SUB是否为空，只要让他不空就行
-        response = requests.get(url=target_url, headers=headers, timeout=5)
-
-        if response.status_code != 200:
-            return None
-        content_type = response.headers['Content-Type']  # 网页Content-Type
-        charset = re.findall("charset=(.*?)", content_type)  # 获取编码格式
-
-        text = response.text
-        # 解析获取该网页编码方式
-        soup = BeautifulSoup(text, 'lxml')
-        # 默认编码gbk
-        charset = "utf-8"
-        # 找出该链接所用的编码方式
-        try:
-            charset = soup.find(name="meta", attrs={"charset": True})
-            # 编码方式
-            charset = charset.attrs["charset"]
-        except AttributeError as e:
-            meta = soup.find(name="meta", attrs={"content": re.compile("charset")})
-            try:
-                content = meta.attrs['content']
-                content_set = content.split(";")
-
-                for word in content_set:
-                    if "charset" in word.lower():
-                        # 编码
-                        charset = word.split("=")[1]
-            except AttributeError:
-                charset = "gbk"
         response.encoding = charset
+
         text = response.text
+        # print(text)
         # 保留中文文本
         zh_text = re.sub("[^\u4E00-\u9FA5]", "", text)
 
-        self.doc_queue.put(zh_text)
-
-    def analyse_text(self, allowpos) -> List[tuple]:
+        UrlDocAnalyse.doc_queue.put(zh_text)
+    @staticmethod
+    def analyse_text(allowpos) -> List[tuple]:
 
         textrank = analyse.textrank
         # 基于TextRank算法进行关键词抽取
-        text: list = self.doc_queue.get()
+        text: list = UrlDocAnalyse.doc_queue.get()
         keywords = textrank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos),
                             withWeight=True)
         return keywords
 
 
 if __name__ == "__main__":
-
+    """
+    非
+    """
     try:
         obj = UrlDocAnalyse()
-        obj.analyse_url_info("https://www.cnblogs.com/bw13/p/6549248.html", 'n')
-        # url, allowPos, uid = sys.argv[1:4]
-        # obj.analyse_word(url, allowPos, uid)
+        url, allowPos, uid = sys.argv[1:4]
+        obj.analyse_word(url, allowPos, uid)
 
     except Exception as e:
         print(sys.argv)
