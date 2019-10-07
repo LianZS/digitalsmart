@@ -118,7 +118,10 @@ class RedisCache(object):
 
 
             else:
-                result = result.decode()
+                try:
+                    result = result.decode()
+                except UnicodeDecodeError:
+                    yield result
                 result = eval(result)
                 if len(args) > 0:
                     data = dict()
