@@ -1,8 +1,10 @@
 import uuid
 import os
+import pickle
 from threading import Thread
+from typing import List
 from attractions.tool.file_hander import Hander_File
-from datainterface.analyse import URL_DOC_Analyse
+from datainterface.function.analyse import UrlDocAnalyse
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
@@ -11,6 +13,8 @@ from .models import PDFFile
 from digitalsmart.settings import redis_cache
 from datainterface.tasks import NetWorker
 from datainterface.conversion_file import ConversionFile
+from datainterface.function.keyword_weight import KeyWordWeight
+from digitalsmart.celeryconfig import app
 
 
 class Crack:
@@ -314,22 +318,31 @@ class Crack:
         :param request:
         :return:
         """
-        allowpos = request.POST.get("allowPos")  # 获取词性
-        url = request.POST.get("url")
-        uid = uuid.uuid5(uuid.NAMESPACE_URL, url + allowpos)  # 作为下载获取数据请求的凭证
-        key_exit = redis_cache.exit_key(str(uid))  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
-        if key_exit:
+        if request.method == "POST":
+            pos = request.POST.get("allowPos")  # 获取词性
+            url = request.POST.get("url")
+            if not (pos and url):
+                return JsonResponse({"error": "请求参数有问题"})
+            uid = uuid.uuid5(uuid.NAMESPACE_URL, url + pos)  # 作为下载获取数据请求的凭证
+            key_exit = redis_cache.exit_key(str(uid))  # 检测是否是否该key，存在就不用再请求一遍了，直接返回
+            plan = 1  # 觉得要使用那种异步方案，1表示在内存不够时自定义异步，2表示使用celery异步
+            if key_exit:
+                return JsonResponse({"code": 1, "p": 1, "id": uid})
+            else:
+
+                if url is None or pos is None:
+                    return JsonResponse({"p": 0, "id": "", "code": 0})
+                cmd = " python datainterface/function/analyse.py  {url}  {allowpos} {uid} ".format(url=url,
+                                                                                                   allowpos=pos,
+                                                                                                   uid=str(uid))
+                if plan == 1:
+                    Thread(target=os.system, args=(cmd,)).start()
+                elif plan == 2:
+                    ad = UrlDocAnalyse()
+                    ad.analyse_url_info.delay(url, pos)
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
-
-            if url is None or allowpos is None:
-                return JsonResponse({"p": 0, "id": "", "code": 0})
-            cmd = " python datainterface/analyse.py  {url}  {allowpos} {uid} ".format(url=url, allowpos=allowpos,
-                                                                                      uid=uid)
-            Thread(target=os.system, args=(cmd)).start()
-            # ad = URL_DOC_Analyse()
-            # ad.analyse_word.delay(url, allowpos, uid)
-            return JsonResponse({"code": 1, "p": 1, "id": uid})
+            return JsonResponse({"error": "请求方式有问题"})
 
     @staticmethod
     def get_analyse_result(request):
@@ -342,6 +355,9 @@ class Crack:
         uid = request.GET.get("id")
         if uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
-        data = redis_cache.get(uid).__next__()
+        analyse_result: List[KeyWordWeight] = redis_cache.get(uid).__next__()
+        analyse_result_data_list = list()
+        for keyword_weight in pickle.loads(analyse_result):
+            analyse_result_data_list.append([keyword_weight.word, keyword_weight.weight])
 
-        return JsonResponse({"data": data})
+        return JsonResponse({"data": analyse_result_data_list})
