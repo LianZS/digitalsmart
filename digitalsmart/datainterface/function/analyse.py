@@ -1,12 +1,11 @@
-from __future__ import absolute_import
 import re
 import os
 import sys
-import uuid
 import datetime
 import requests
 import redis
-from typing import List
+import pickle
+from typing import List, Iterator
 from threading import Thread
 from queue import Queue
 from urllib.parse import urlparse
@@ -14,6 +13,8 @@ from bs4 import BeautifulSoup
 from jieba import analyse
 
 sys.path[0] = os.path.abspath(os.curdir)
+from datainterface.function.keyword_weight import KeyWordWeight
+
 from digitalsmart.celeryconfig import app
 
 
@@ -26,7 +27,7 @@ class UrlDocAnalyse:
     def __init__(self):
         self.redis = redis.Redis(host='localhost', port=6379)
 
-    def analyse_word(self, target_url, pos, redis_key: uuid):
+    def analyse_word(self, target_url, pos, redis_key: str):
         """
         提取中文文本关键词以及频率------在内存不够调用celery情况下使用的方案
         :param target_url: 需要解析的链接
@@ -50,13 +51,16 @@ class UrlDocAnalyse:
         headers['Accept-Language'] = "zh-CN,zh;q=0.9,be;q=0.8"
 
         Thread(target=self.parse_url, args=(target_url,)).start()
-        keywords = self.analyse_text(pos)
-        # 缓存
-        self.redis.set(str(redis_key), str(keywords))
-        self.redis.expire(str(redis_key), datetime.timedelta(minutes=60))
+        keyword_objs: Iterator[KeyWordWeight] = self.analyse_text(pos)
+        kw_list = list()
+        for kw in keyword_objs:
+            kw_list.append(kw)
+        self.redis.set(redis_key, pickle.dumps(kw_list))
+
+        self.redis.expire(redis_key, datetime.timedelta(minutes=60))
 
     @app.task(queue="word", bind=True)
-    def analyse_url_info(self, target_url: str, pos: str) -> List[tuple]:
+    def analyse_url_info(self, target_url: str, pos: str) -> List[KeyWordWeight]:
         """
         提取中文文本关键词以及频率------在内存够调用celery情况下使用的方案
         :param target_url: 需要解析的链接
@@ -64,8 +68,8 @@ class UrlDocAnalyse:
         :return:
         """
         Thread(target=UrlDocAnalyse.parse_url, args=(target_url,)).start()
-        keywords = UrlDocAnalyse.analyse_text(pos)
-        return keywords
+        keywords_objs: Iterator[KeyWordWeight] = UrlDocAnalyse.analyse_text(pos)
+        return list(keywords_objs)
 
     @staticmethod
     def parse_url(target_url: str):
@@ -128,7 +132,7 @@ class UrlDocAnalyse:
         UrlDocAnalyse.doc_queue.put(zh_text)
 
     @staticmethod
-    def analyse_text(allowpos) -> List[tuple]:
+    def analyse_text(allowpos) -> Iterator[KeyWordWeight]:
         """
         提取关键词
         :param allowpos:
@@ -139,7 +143,8 @@ class UrlDocAnalyse:
         text: list = UrlDocAnalyse.doc_queue.get()
         keywords = rank(sentence=text, topK=10, allowPOS=(allowpos, allowpos, allowpos, allowpos),
                         withWeight=True)
-        return keywords
+        for word, weight in keywords:
+            yield KeyWordWeight(word, weight)
 
 
 if __name__ == "__main__":
