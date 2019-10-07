@@ -339,10 +339,12 @@ class Crack:
                     Thread(target=os.system, args=(cmd,)).start()
                 elif plan == 2:
                     ad = UrlDocAnalyse()
-                    ad.analyse_url_info.delay(url, pos)
+                    uid = ad.analyse_url_info.delay(url, pos)
+                    uid = str(uid)
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
-            return JsonResponse({"error": "请求方式有问题"})
+
+            return JsonResponse({"error": "请求方式有误"})
 
     @staticmethod
     def get_analyse_result(request):
@@ -352,12 +354,21 @@ class Crack:
         :param request:
         :return:
         """
-        uid = request.GET.get("id")
-        if uid is None:
+        task_uid = request.GET.get("id")
+        if task_uid is None:
             return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
-        analyse_result: List[KeyWordWeight] = redis_cache.get(uid).__next__()
+        redis_data = redis_cache.get(task_uid).__next__()  # 先查看redis里有没有直接缓存数据
+        analyse_result = None
         analyse_result_data_list = list()
-        for keyword_weight in pickle.loads(analyse_result):
-            analyse_result_data_list.append([keyword_weight.word, keyword_weight.weight])
 
+        if redis_data:  # 有的话获取
+            analyse_result: List[KeyWordWeight] = pickle.loads(redis_data)
+        else:  # 没有的话说明该key是任务id，而不是数据缓存id，所以应该看看celery里任务是否完成了
+            task_state = app.AsyncResult(task_uid).ready()
+            if not task_state:
+                return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
+            else:
+                analyse_result = app.AsyncResult(task_uid).result
+        for keyword_weight in analyse_result:
+            analyse_result_data_list.append([keyword_weight.word, keyword_weight.weight])
         return JsonResponse({"data": analyse_result_data_list})
