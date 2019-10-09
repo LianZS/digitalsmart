@@ -1,6 +1,6 @@
 import heapq
-import datetime
 import uuid
+import datetime
 from enum import Enum
 from typing import List, Tuple
 from queue import Queue
@@ -41,7 +41,8 @@ class ConversionFile:
         :return:
         """
 
-        pdf_file = PDFFile.objects.get(id=uid).file
+        file_info = PDFFile.objects.get(id=uid)
+        pdf_file = file_info.file
         file_type = None  # 转化的类型
         if exchange_type == FileType.DOC:
             file_type = "doc"
@@ -50,9 +51,9 @@ class ConversionFile:
         judge_pagetype, page_list = self.anlayse_which_page_need_exchange(page, page_type)
         # 准备写入文件
         write_path = "./media/pdf/" + str(uid) + "." + file_type
-        f = open(write_path, "a+")
-        self.exchange_file_type(pdf_file, f, judge_pagetype, page_list)
-        f.close()
+        write_file = open(write_path, "a+")
+        self.exchange_file_type(pdf_file, write_file, judge_pagetype, page_list)
+        write_file.close()
         pdf_file.close()
         redis_cache.set(str(uid), 1)  # 将转化状态写入内存，用户再次请求相同文件时直接取文件，不用再转换一边
         redis_cache.expire(str(uid), time_interval=datetime.timedelta(minutes=60))
@@ -61,7 +62,7 @@ class ConversionFile:
         # 存放需要指定解析的页码
         page_list = list()
         # 用来判断是用户想要哪种页面转换类型，1表示转换所有页，2表示偶数，3偶数页，4表示特定页码
-        judge_pagetype = 0
+        judge_pagetype = PageType.EVERY
         if page_type == PageType.EVERY:
             judge_pagetype = PageType.EVERY
         if page_type == PageType.EVEN:
@@ -75,8 +76,11 @@ class ConversionFile:
             for page in page_set:
                 try:
                     # 不是数字类型的话说明可能是3-8这类类型的
-                    page = int(page)
-                    page_list.append(page)
+                    if page:
+                        page = int(page)
+                        page_list.append(page)
+                    else:
+                        page = 1
                 except ValueError:
                     # "3-5类型的页面范围"
                     page_range = page.split("-")
