@@ -3,15 +3,15 @@ import os
 import pickle
 from threading import Thread
 from typing import List
-from attractions.tool.file_hander import Hander_File
-from datainterface.function.analyse import UrlDocAnalyse
-
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
 from digitalsmart.settings import redis_cache
 from datainterface.tasks import NetWorker
+from attractions.tool.file_hander import Hander_File
+from datainterface.function.analyse import UrlDocAnalyse
 from datainterface.function.conversion_file import ConversionFile
 from datainterface.function.keyword_weight import KeyWordWeight
 from datainterface.function.conversion_file import PageType, FileType
@@ -272,8 +272,8 @@ class Crack:
             # 产生一个用户访问凭证，并且用来下载解析好的文件
 
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
-            check_redis = redis_cache.exit_key(str(uid))
-            if check_redis:  # 已经存在该文件了
+            key_exits = redis_cache.exit_key(str(uid))
+            if key_exits:  # 已经存在该文件了
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
             else:
 
@@ -292,13 +292,15 @@ class Crack:
                     file_type = FileType.DOC
                 if exchange_type == "docx":
                     file_type = FileType.DOCX
+
                 # 解析pdf
                 pdf = PDFFile()
                 pdf.id = uid
+                pdf.create_time = timezone.now()
+                pdf.to_file_type = exchange_type
                 save_file_name = str(uid) + ".pdf"
                 pdf.file.save(save_file_name, pdf_file, save=True)
                 pdf.save()
-
                 Thread(target=conversion_file.pdf_parse_to_docx,
                        args=(uid, judge_pagetype, file_type, page)).start()
 
@@ -326,10 +328,14 @@ class Crack:
 
         uid = request.GET.get("id")
         try:
-            val = PDFFile.objects.get(id=uid)
+            file_info = PDFFile.objects.get(id=uid)
         except ValidationError:
             return JsonResponse({"code": 0, "p": "不存在该文件"})  # 只有p为100，且code为1时表示可以下载咯
-        doc = val.file
+        doc_type: str = file_info.to_file_type
+        pdf_path: str = file_info.file.path
+        target_file_path = pdf_path.replace(".pdf", "." + doc_type)
+        doc = open(target_file_path, 'rb')
+
         iter_chuncks = Hander_File().hander_file(doc)
         response = StreamingHttpResponse(iter_chuncks)
         response['Content-Type'] = 'application/octet-stream'
