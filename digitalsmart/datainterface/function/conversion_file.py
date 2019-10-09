@@ -31,16 +31,17 @@ class PageType(Enum):
 
 
 class ConversionFile:
-    def pdf_parse_to_docx(self, pdf_file, uid: uuid, page_type: PageType, exchange_type: FileType, page):
+    def pdf_parse_to_docx(self, uid: uuid, page_type: PageType, exchange_type: FileType, page):
         """
 
-        :param pdf_file:
         :param uid:
         :param page_type:
         :param exchange_type:
         :param page:
         :return:
         """
+
+        pdf_file = PDFFile.objects.get(id=uid).file
         file_type = None  # 转化的类型
         if exchange_type == FileType.DOC:
             file_type = "doc"
@@ -51,11 +52,6 @@ class ConversionFile:
         write_path = "./media/pdf/" + str(uid) + "." + file_type
         f = open(write_path, "a+")
         self.exchange_file_type(pdf_file, f, judge_pagetype, page_list)
-        # 保存到数据库
-        pdf = PDFFile()
-        pdf.id = uid
-        pdf.file = "pdf/" + str(uid) + "." + file_type
-        pdf.save()
         f.close()
         pdf_file.close()
         redis_cache.set(str(uid), 1)  # 将转化状态写入内存，用户再次请求相同文件时直接取文件，不用再转换一边
@@ -100,7 +96,6 @@ class ConversionFile:
 
     def exchange_file_type(self, pdf_file, write_file, judge_pagetype: PageType, page_list):
         parser = PDFParser(pdf_file)
-
         doc = PDFDocument()  # 创建一个PDF文档
         parser.set_document(doc)  # 连接分析器 与文档对象
         doc.set_parser(parser)
