@@ -37,11 +37,14 @@ class Comment():
         key = uuid.uuid5(uuid.NAMESPACE_OID, "searchrate" + str(pid * 1111 + flag))
         response = cache.get(key)
         if response is None:
-            old = datetime.datetime.today() - datetime.timedelta(days=30)
-            olddate = int(str(old.date()).replace("-", ""))
+            # 数据从今年出开始
+            year = datetime.datetime.now().year
+            init_date = datetime.datetime(year, 1, 1)
+            begin_date = int(str(init_date.date()).replace("-", ""))
 
-            rows = SearchRate.objects.filter(pid=pid, tmp_date__gt=olddate, flag=type_flag).values("tmp_date", "name",
-                                                                                                   "rate"). \
+            rows = SearchRate.objects.filter(pid=pid, tmp_date__gte=begin_date, flag=type_flag).values("tmp_date",
+                                                                                                       "name",
+                                                                                                       "rate"). \
                 iterator()
             wechat = list()
             baidu = list()
@@ -56,7 +59,8 @@ class Comment():
                 else:
                     baidu.append(item)
             response = {"wechat": wechat, "sougou": sougou, "baidu": baidu}
-            cache.set(key, response, 60 * 60 * 10)
+            if len(wechat) or len(baidu) or len(sougou):
+                cache.set(key, response, 60 * 60 * 10)
         return Comment.deal_response(response)
 
     @staticmethod
@@ -67,9 +71,6 @@ class Comment():
         :param request:
         :return:
         """
-        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-        #
-        #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if not pid:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
@@ -93,9 +94,7 @@ class Comment():
         :param request:
         :return:
         """
-        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-        #
-        #     return JsonResponse({"status": 0})
+
         pid = request.GET.get("pid")
         if not pid:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
@@ -121,9 +120,6 @@ class Comment():
         :param request:
         :return:
         """
-        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-        #
-        #     return JsonResponse({"status": 0})
         pid = request.GET.get("pid")
         if not pid:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
