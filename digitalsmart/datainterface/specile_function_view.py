@@ -278,8 +278,8 @@ class Crack:
             else:
 
                 conversion_file = ConversionFile()
-                judge_pagetype = 0
-                file_type = 1
+                judge_pagetype = PageType.EVERY
+                file_type = FileType.DOCX
                 if page_type == "every":
                     judge_pagetype = PageType.EVERY
                 if page_type == "even":
@@ -293,8 +293,14 @@ class Crack:
                 if exchange_type == "docx":
                     file_type = FileType.DOCX
                 # 解析pdf
+                pdf = PDFFile()
+                pdf.id = uid
+                save_file_name = str(uid) + ".pdf"
+                pdf.file.save(save_file_name, pdf_file, save=True)
+                pdf.save()
+
                 Thread(target=conversion_file.pdf_parse_to_docx,
-                       args=(pdf_file, uid, judge_pagetype, file_type, page)).start()
+                       args=(uid, judge_pagetype, file_type, page)).start()
 
                 # code为1表示正常，0表示文件类型有误
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
@@ -367,10 +373,11 @@ class Crack:
 
                 if url is None or pos is None:
                     return JsonResponse({"p": 0, "id": "", "code": 0})
-                cmd = " python datainterface/function/analyse.py  {url}  {allowpos} {uid} ".format(url=url,
-                                                                                                   allowpos=pos,
-                                                                                                   uid=str(uid))
+
                 if plan == 1:
+                    cmd = " python datainterface/function/analyse.py  {url}  {allowpos} {uid} ".format(url=url,
+                                                                                                       allowpos=pos,
+                                                                                                       uid=str(uid))
                     Thread(target=os.system, args=(cmd,)).start()
                 elif plan == 2:
                     ad = UrlDocAnalyse()
@@ -378,7 +385,6 @@ class Crack:
                     uid = str(uid)
             return JsonResponse({"code": 1, "p": 1, "id": uid})
         else:
-
             return JsonResponse({"error": "请求方式有误"})
 
     @staticmethod
