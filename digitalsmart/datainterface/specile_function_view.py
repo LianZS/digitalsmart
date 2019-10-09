@@ -52,9 +52,9 @@ class Crack:
     @staticmethod
     def get_music(request):
         """
-        针对性能比较好的服务器使用
+        针对性能比较好的服务器使用异步
         提交搜索音乐列表请求--链接格式：
-        http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
+        http://127.0.0.1:8000/interface/api/getMusicAsy?name=我愿意平凡的陪在你身旁&type=netease
         #netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
         # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
         # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
@@ -280,14 +280,22 @@ class Crack:
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
             else:
 
-                f = open(filepath, "wb+")
-                for line in pdf_file.chunks():
-                    f.write(line)
-                f.close()
-                # 解析pdf
+                # f = open(filepath, "wb+")
+                # for line in pdf_file.chunks():
+                #     f.write(line)
+                # f.close()
+                # # 解析pdf
                 conversion_file = ConversionFile()
-                Thread(target=conversion_file.pdf_parse_docx,
-                       args=(filepath, uid, page_type, exchange_type, page)).start()
+                # Thread(target=conversion_file.pdf_parse_docx,
+                #        args=(filepath, uid, page_type, exchange_type, page)).start()
+
+                # f = open(filepath, "wb+")
+                # for line in pdf_file.chunks():
+                #     f.write(line)
+                # f.close()
+                # # 解析pdf
+                Thread(target=conversion_file.pdf,
+                       args=(pdf_file, uid, page_type, exchange_type, page)).start()
 
                 # code为1表示正常，0表示文件类型有误
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
