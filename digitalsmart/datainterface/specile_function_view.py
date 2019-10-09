@@ -12,8 +12,9 @@ from django.http import StreamingHttpResponse, JsonResponse
 from .models import PDFFile
 from digitalsmart.settings import redis_cache
 from datainterface.tasks import NetWorker
-from datainterface.conversion_file import ConversionFile
+from datainterface.function.conversion_file import ConversionFile
 from datainterface.function.keyword_weight import KeyWordWeight
+from datainterface.function.conversion_file import PageType, FileType
 from digitalsmart.celeryconfig import app
 
 
@@ -261,9 +262,7 @@ class Crack:
         """
         page_type = request.POST.get("pagetype")
         exchange_type = request.POST.get("type")
-
         page = request.POST.get('page')
-
         pdf_file = request.FILES.get('pdf')
         # 预防同一个文件不同操作导致IO出错,只要其中一个参数不同就会导致新文件产生，如果存在了该uuid，则说明解析完了
         filename = pdf_file.name + str(page_type) + str(exchange_type) + str(page)
@@ -273,29 +272,29 @@ class Crack:
             # 产生一个用户访问凭证，并且用来下载解析好的文件
 
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
-            # 保存pdf文件路径
-            filepath = "./media/pdf/" + str(uid) + ".pdf"
             check_redis = redis_cache.exit_key(str(uid))
             if check_redis:  # 已经存在该文件了
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
             else:
 
-                # f = open(filepath, "wb+")
-                # for line in pdf_file.chunks():
-                #     f.write(line)
-                # f.close()
-                # # 解析pdf
                 conversion_file = ConversionFile()
-                # Thread(target=conversion_file.pdf_parse_docx,
-                #        args=(filepath, uid, page_type, exchange_type, page)).start()
-
-                # f = open(filepath, "wb+")
-                # for line in pdf_file.chunks():
-                #     f.write(line)
-                # f.close()
-                # # 解析pdf
-                Thread(target=conversion_file.pdf,
-                       args=(pdf_file, uid, page_type, exchange_type, page)).start()
+                judge_pagetype = 0
+                file_type = 1
+                if page_type == "every":
+                    judge_pagetype = PageType.EVERY
+                if page_type == "even":
+                    judge_pagetype = PageType.EVEN
+                if page_type == "singular":
+                    judge_pagetype = PageType.SINGULAR
+                if page_type == "specified":
+                    judge_pagetype = PageType.SPECIFIED
+                if exchange_type == "doc":
+                    file_type = FileType.DOC
+                if exchange_type == "docx":
+                    file_type = FileType.DOCX
+                # 解析pdf
+                Thread(target=conversion_file.pdf_parse_to_docx,
+                       args=(pdf_file, uid, judge_pagetype, file_type, page)).start()
 
                 # code为1表示正常，0表示文件类型有误
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
