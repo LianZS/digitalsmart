@@ -128,7 +128,7 @@ class NetWorker(object):
         return person
 
     # @app.task(queue="distribution", bind=True)
-    def get_music_list(self, name, soft_type='netease', page: int = 1):
+    def get_music_list(self, name, soft_type='netease', page: int = 1, cache: bool = False):
         """
         获所有与之相关的音乐
         :param page:
@@ -138,6 +138,7 @@ class NetWorker(object):
                                 xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
                                 qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
                                 5singfc：5sing翻唱
+        :param cache:是否缓存
 
         :return:
         """
@@ -172,9 +173,11 @@ class NetWorker(object):
                 song_word = item['lrc']
                 data.append({"author": author, "url": url.decode(), "title": title, "lrc": song_word, "img": imgurl})
                 # yield {"author": author, "url": url.decode(), "title": title, "lrc": song_word, "img": imgurl}
-        redis_key = "{soft_type}:{name}:{page}".format(soft_type=soft_type, name=name, page=page)  # 原型缓存key
-        redis_cache.set(redis_key, value=str(data))
-        redis_cache.expire(name=redis_key, time_interval=datetime.timedelta(minutes=5))
+        if cache:
+            redis_key = "{soft_type}:{name}:{page}".format(soft_type=soft_type, name=name, page=page)  # 原型缓存key
+            redis_cache.set(redis_key, value=str(data))
+            redis_cache.expire(name=redis_key, time_interval=datetime.timedelta(minutes=5))
+        return data
 
     @staticmethod
     def down_music_content(url) -> Iterator[ByteString]:
