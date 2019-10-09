@@ -116,7 +116,8 @@ class ConversionFile:
             interpreter = PDFPageInterpreter(rsrcmgr, device)  # 创建一个PDF解释器对象
             count = 0  # 计算第几页
             task_queue = Queue()  # 线程锁--用来记录有多少线程开启，等待所有线程结束后在写入文件
-            lock = Semaphore(1)
+            lock = Semaphore(1)  # 保证数据不差错
+            task_lock = Semaphore(5)  # 控制线程个数
             layout_list = []  # 用于并发时存放解析出来的layout，用优先队列来保证解析成功后写入文件时顺序不会乱
             for page in doc.get_pages():  # doc.get_pages() 获取page列表
                 def fast(page_index, page_content):  # page_index指第几页，page_content页面内容，
@@ -148,10 +149,12 @@ class ConversionFile:
                     lock.release()
                     heapq.heappush(layout_list, (page_index, layout))  # 设置优先级,页码数作为优先级，越小越优先
                     task_queue.put(1)
+                    task_lock.release()
 
                 count += 1  # 这个表示第几页，同时也可表示有多少线程
                 # 接受该页面的LTPage对象
                 Thread(target=fast, args=(count, page)).start()
+                task_lock.acquire()
             # 用来统计线程完成的个数
             num = 0
             while 1:
