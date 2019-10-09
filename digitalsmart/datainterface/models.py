@@ -1,10 +1,15 @@
+import datetime
 from django.db import models
 
 
 # Create your models here.
 class PDFFile(models.Model):
+    FILETYPE_CHOICE = [("doc", "转为doc文件"), ("docx", "转为docx文件")]
     id = models.UUIDField(primary_key=True, db_column="id", verbose_name="用户提交时唯一产生uuid，用于下载文件的凭证", editable=False)
     file = models.FileField(upload_to="pdf", db_column="file")
+    to_file_type = models.CharField(max_length=4, choices=FILETYPE_CHOICE, db_column='to_file_type',
+                                    verbose_name="转化类型")
+    create_time = models.DateTimeField(db_column="create_time", verbose_name='创建时间')
 
     class Meta:
         db_table = "pdfdb"
