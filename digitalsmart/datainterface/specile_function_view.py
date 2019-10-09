@@ -23,8 +23,36 @@ class Crack:
     """
 
     @staticmethod
+    def get_music_play_list(request):
+        """
+        下面是针对单核服务器对异步耗时操作吃不消
+        :param request:
+        :return:
+        """
+        music_name = request.GET.get("name")  # 音乐名
+        soft_type = request.GET.get("type")  # 软件类型，netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
+        # xiami：虾米，baidu：百度，1ting：一听，migu：咪咕，lizhi：荔枝，
+        # qingting：蜻蜓，ximalaya：喜马拉雅，kg：全民K歌，5singyc：5sing原创，
+        # 5singfc：5sing翻唱
+        page = request.GET.get("page")  # 第几页
+        if page is None:
+            page = 1
+        try:
+            page = int(page)
+        except Exception:
+            return JsonResponse({"status": 0, "message": "error"})
+
+        if not music_name:
+            return JsonResponse({"status": 0, "message": "error"})
+
+        net = NetWorker()
+        music_list = net.get_music_list(music_name, soft_type, page, cache=False)
+        return JsonResponse({"data": music_list})
+
+    @staticmethod
     def get_music(request):
         """
+        针对性能比较好的服务器使用
         提交搜索音乐列表请求--链接格式：
         http://127.0.0.1:8000/interface/api/getMusic?name=我愿意平凡的陪在你身旁&type=netease
         #netease：网易云，qq：qq音乐，kugou：酷狗音乐，kuwo：酷我，
@@ -58,7 +86,7 @@ class Crack:
             return JsonResponse({"result": "success"})
         else:
             net = NetWorker()
-            Thread(target=net.get_music_list, args=(music_name, soft_type, page)).start()
+            Thread(target=net.get_music_list, args=(music_name, soft_type, page, True)).start()
             # net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
             return JsonResponse({"result": "success"})
 
