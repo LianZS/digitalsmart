@@ -394,10 +394,12 @@ class Crack:
                     return JsonResponse({"p": 0, "id": "", "code": 0})
 
                 if plan == 1:
-                    cmd = " python datainterface/function/analyse.py  {url}  {allowpos} {uid} ".format(url=url,
-                                                                                                       allowpos=pos,
-                                                                                                       uid=str(uid))
-                    Thread(target=os.system, args=(cmd,)).start()
+                    # 下面的url一定要使用单引号扣起来，因为链接里会有一些特殊字符，导致os以为只有单个参数
+                    cmd = " python datainterface/function/analyse.py  '{url}'  {allowpos} {uid} ".format(url=url,
+                                                                                                         allowpos=pos,
+                                                                                                         uid=str(uid))
+                    Process(target=os.system, args=(cmd,)).start()
+                    # Thread(target=os.system, args=(cmd,)).start()
                 elif plan == 2:
                     ad = UrlDocAnalyse()
                     uid = ad.analyse_url_info.delay(url, pos)
@@ -424,7 +426,10 @@ class Crack:
         if redis_data:  # 有的话获取
             analyse_result: List[KeyWordWeight] = pickle.loads(redis_data)
         else:  # 没有的话说明该key是任务id，而不是数据缓存id，所以应该看看celery里任务是否完成了
-            task_state = app.AsyncResult(task_uid).ready()
+            try:
+                task_state = app.AsyncResult(task_uid).ready()  # 这个需要启动celery才能用
+            except AttributeError:
+                task_state = None
             if not task_state:
                 return JsonResponse({"code": 0, "p": 10})  # 只有p为100，且code为1时表示可以获取数据，否则继续请求
             else:
