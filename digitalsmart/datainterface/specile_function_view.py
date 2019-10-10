@@ -276,7 +276,6 @@ class Crack:
 
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
             key_exits: bool = redis_cache.exit_key(str(uid))
-            key_exits = None
             if key_exits:  # 已经存在该文件了
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
             else:
@@ -305,13 +304,16 @@ class Crack:
                 pdf.file.save(save_file_name, pdf_file, save=True)
                 pdf.save()
                 file_path = pdf.file.path
+                plane = 1  # 根据服务器性能选择方案，方案2速度更快，消耗也大
+                if plane == 2:
 
-                # conversion_file.pdf_parse_to_docx.delay(conversion_file, file_path, uid, judge_pagetype, file_type,
-                #                                         page)
-                command = "python datainterface/function/conversion_file.py  {file_path} {uid} {judge_pagetype}" \
-                          " {file_type} {page} ".format(file_path=file_path, uid=uid, judge_pagetype=judge_pagetype,
-                                                        file_type=file_type, page=page)
-                Process(target=os.system, args=(command,)).start()
+                    conversion_file.pdf_parse_to_docx.delay(conversion_file, file_path, uid, judge_pagetype, file_type,
+                                                            page)
+                elif plane == 1:
+                    command = "python datainterface/function/conversion_file.py  {file_path} {uid} {judge_pagetype}" \
+                              " {file_type} {page} ".format(file_path=file_path, uid=uid, judge_pagetype=judge_pagetype,
+                                                            file_type=file_type, page=page)
+                    Process(target=os.system, args=(command,)).start()
                 # Thread(target=conversion_file.pdf_parse_to_docx,
                 #        args=(uid, judge_pagetype, file_type, page)).start()
 
