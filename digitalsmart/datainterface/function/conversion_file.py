@@ -44,18 +44,18 @@ class ConversionFile:
         :return:
         """
 
-        # file_info = PDFFile.objects.get(id=uid)
-        # pdf_file = file_info.file
         pdf_file = open(file_path, 'rb')
         file_type = None  # 转化的类型
         if exchange_type == FileType.DOC:
             file_type = "doc"
         if exchange_type == FileType.DOCX:
             file_type = "docx"
-        judge_pagetype, page_list = ConversionFile.anlayse_which_page_need_exchange(page, page_type)
+        # page_list需要转化的页面
+        judge_pagetype, page_list = ConversionFile.anlayse_which_page_need_exchange(page,
+                                                                                    page_type)
         # 准备写入文件
         write_path = "./media/pdf/" + str(uid) + "." + file_type
-        write_file = open(write_path, "a+")
+        write_file = open(write_path, mode="a+", encoding='utf-8')
         ConversionFile.exchange_file_type(pdf_file, write_file, judge_pagetype, page_list)
         write_file.close()
         pdf_file.close()
@@ -64,6 +64,11 @@ class ConversionFile:
 
     @staticmethod
     def anlayse_which_page_need_exchange(page: str, page_type: PageType) -> Tuple[PageType, List[int]]:
+        """
+        :param page:
+        :param page_type:
+        :return:
+        """
         # 存放需要指定解析的页码
         page_list = list()
         # 用来判断是用户想要哪种页面转换类型，1表示转换所有页，2表示偶数，3偶数页，4表示特定页码
@@ -80,14 +85,10 @@ class ConversionFile:
             page_set = page.split(",")
             for page in page_set:
                 try:
-                    # 不是数字类型的话说明可能是3-8这类类型的
-                    if page:
-                        page = int(page)
-                        page_list.append(page)
-                    else:
-                        page = 1
+                    page = int(page)  # 针对单独一个页面，要是报错说明需要解析的页面集合是这种类型1,2,3-8这类类型的
+                    page_list.append(page)
                 except ValueError:
-                    # "3-5类型的页面范围"
+                    # 解析的页面集合是这种类型1,2,3-8这类类型的
                     page_range = page.split("-")
                     if len(page_range) == 2:
                         try:
@@ -132,17 +133,23 @@ class ConversionFile:
                     if judge_pagetype == PageType.EVEN:
                         if page_index % 2 != 0:
                             task_queue.put(1)
+                            task_lock.release()
                             return
                     if judge_pagetype == PageType.SINGULAR:
                         if page_index % 2 == 0:
                             task_queue.put(1)
+                            task_lock.release()
                             return
                     if judge_pagetype == PageType.SPECIFIED:
                         if len(page_list) == 0:
                             task_queue.put(1)
+                            task_lock.release()
+
                             return
                         if page_index not in page_list:
                             task_queue.put(1)
+                            task_lock.release()
+
                             return
                         # 页面所在列表的索引
                         element_index = page_list.index(page_index)
@@ -160,7 +167,7 @@ class ConversionFile:
                 count += 1  # 这个表示第几页，同时也可表示有多少线程
                 # 接受该页面的LTPage对象
                 Thread(target=fast, args=(count, page)).start()
-                task_lock.acquire()
+                task_lock.acquire(timeout=5)
             # 用来统计线程完成的个数
             num = 0
             while 1:
@@ -196,4 +203,5 @@ if __name__ == "__main__":
     elif to_file_type == "FileType.DOC":
         to_file_type = FileType.DOC
     conversion_file = ConversionFile()
-    conversion_file.pdf_parse_to_docx(conversion_file,pdf_filepath, redis_key, page_type, to_file_type, need_conversion_page)
+    conversion_file.pdf_parse_to_docx(conversion_file, pdf_filepath, redis_key, page_type, to_file_type,
+                                      need_conversion_page)
