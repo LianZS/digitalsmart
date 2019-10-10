@@ -79,7 +79,7 @@ class CityDemo:
             name = CityInfoManager.objects.get(pid=pid).cityname  # 获取城市名字
             result = redis_cache.hashget(key, data_key_name="ttime", data_value_name="rate")  # 直接从内存里获取数据，减轻数据库压力
             result = list(result)
-            if len(result) == 0:  # 当内存没有数据时从数据库读取
+            if not result or len(result) == 0:  # 当内存没有数据时从数据库读取
                 result = CityTraffic.objects.filter(pid=pid, ddate=ddate).values("ttime", "rate").iterator()
                 result = list(result)
             response = {"data":
@@ -122,10 +122,7 @@ class CityDemo:
 
         except ValueError:
             return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        now = datetime.datetime.now().timestamp()
 
-        # if now - request_datetime > 10:  ## 反爬虫
-        #     return JsonResponse({"status": 0})
         key = "road:{0}".format(pid)
 
         response = cache.get(key)
@@ -135,13 +132,14 @@ class CityDemo:
             result = redis_cache.get(keys, "roadname", "speed", "direction",
                                      "roadpid", "rate", "up_date")
             result = list(result)
-            if len(result) == 0:  # 当内存没有数据时从数据库读取
+            if not result or len(result) == 0:  # 当内存没有数据时从数据库读取
                 updateSet = RoadInfoManager.objects.filter(citypid=pid).values("up_date")
-                ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
-                up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
-                result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values("roadname", "speed",
-                                                                                         "direction",
-                                                                                         "roadpid", "rate")
+                if not updateSet:
+                    ##找出最早的时间，避免因为挖掘数据时出现了一个差错而导致部分未能正常录入，保证数据能完全展示给用户
+                    up_date = sorted(updateSet, key=lambda x: x['up_date'])[0]['up_date']
+                    result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date).values("roadname", "speed",
+                                                                                             "direction",
+                                                                                             "roadpid", "rate")
                 result = list(result)
             up_date = result[0]['up_date']  # 道路最近更新时间
             response = {
@@ -192,7 +190,7 @@ class CityDemo:
 
             result = redis_cache.get(key, "bounds", "data")
             result = list(result)
-            if len(result) == 0:  # 当内存没有数据时从数据库读取
+            if not result or len(result) == 0:  # 当内存没有数据时从数据库读取
                 result = RoadTraffic.objects.filter(citypid=pid, up_date=up_date, roadpid=roadid).values("bounds",
                                                                                                          "data")
                 result = list(result)
@@ -291,7 +289,7 @@ class CityDemo:
         if response is None or len(response.keys()) == 0:
             result = redis_cache.hashget(key=key)  # 先从内存获取数据
             result = list(result)[0]
-            if len(result.keys()) == 0:  # 当内存没有数据时从数据库获取
+            if not result or len(result.keys()) == 0:
 
                 try:
                     result = AirState.objects.filter(citypid=pid, flag=True).order_by("-lasttime"). \
