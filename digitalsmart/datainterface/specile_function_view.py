@@ -2,6 +2,7 @@ import uuid
 import os
 import pickle
 from threading import Thread
+from multiprocessing import Process
 from typing import List
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
@@ -88,7 +89,7 @@ class Crack:
         else:
             net = NetWorker()
             Thread(target=net.get_music_list, args=(music_name, soft_type, page, True)).start()
-            # net.get_music_list.delay(music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
+            # net.get_music_list.delay(net,music_name, soft_type, page)  # 请求获取所有与之相关的音乐，包括下载链接
             return JsonResponse({"result": "success"})
 
     @staticmethod
@@ -263,6 +264,8 @@ class Crack:
         page_type = request.POST.get("pagetype")
         exchange_type = request.POST.get("type")
         page = request.POST.get('page')
+        if not page:  # 在非指定页面情况下为，空的时候默认全部转化
+            page = '1'
         pdf_file = request.FILES.get('pdf')
         # 预防同一个文件不同操作导致IO出错,只要其中一个参数不同就会导致新文件产生，如果存在了该uuid，则说明解析完了
         filename = pdf_file.name + str(page_type) + str(exchange_type) + str(page)
@@ -272,11 +275,11 @@ class Crack:
             # 产生一个用户访问凭证，并且用来下载解析好的文件
 
             uid = uuid.uuid5(uuid.NAMESPACE_DNS, filename)
-            key_exits = redis_cache.exit_key(str(uid))
+            key_exits: bool = redis_cache.exit_key(str(uid))
+            key_exits = None
             if key_exits:  # 已经存在该文件了
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
             else:
-
                 conversion_file = ConversionFile()
                 judge_pagetype = PageType.EVERY
                 file_type = FileType.DOCX
@@ -301,8 +304,16 @@ class Crack:
                 save_file_name = str(uid) + ".pdf"
                 pdf.file.save(save_file_name, pdf_file, save=True)
                 pdf.save()
-                Thread(target=conversion_file.pdf_parse_to_docx,
-                       args=(uid, judge_pagetype, file_type, page)).start()
+                file_path = pdf.file.path
+
+                # conversion_file.pdf_parse_to_docx.delay(conversion_file, file_path, uid, judge_pagetype, file_type,
+                #                                         page)
+                command = "python datainterface/function/conversion_file.py  {file_path} {uid} {judge_pagetype}" \
+                          " {file_type} {page} ".format(file_path=file_path, uid=uid, judge_pagetype=judge_pagetype,
+                                                        file_type=file_type, page=page)
+                Process(target=os.system, args=(command,)).start()
+                # Thread(target=conversion_file.pdf_parse_to_docx,
+                #        args=(uid, judge_pagetype, file_type, page)).start()
 
                 # code为1表示正常，0表示文件类型有误
                 return JsonResponse({"message": "success", "code": 1, "id": uid})
