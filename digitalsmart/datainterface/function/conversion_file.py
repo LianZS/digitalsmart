@@ -1,21 +1,21 @@
 import heapq
 import uuid
+import sys
+import os
 import datetime
+import redis
 from enum import Enum
 from typing import List, Tuple
 from queue import Queue
 from threading import Thread, Semaphore
-from digitalsmart.settings import redis_cache
 from pdfminer.pdfparser import PDFParser, PDFDocument
-
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-
 from pdfminer.converter import PDFPageAggregator
-
 from pdfminer.layout import *
-
 from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
-from datainterface.models import PDFFile
+
+sys.path[0] = os.path.abspath(os.curdir)
+from digitalsmart.celeryconfig import app
 
 
 class FileType(Enum):
@@ -31,34 +31,39 @@ class PageType(Enum):
 
 
 class ConversionFile:
-    def pdf_parse_to_docx(self, uid: uuid, page_type: PageType, exchange_type: FileType, page):
-        """
+    redis_obj = redis.Redis(host='localhost', port=6379)
 
-        :param uid:
-        :param page_type:
-        :param exchange_type:
-        :param page:
+    @app.task(queue='docx')
+    def pdf_parse_to_docx(self, file_path: str, uid: uuid, page_type: PageType, exchange_type: FileType, page: str):
+        """
+        :param file_path:需要转化的文件路径
+        :param uid:缓存key
+        :param page_type:转换页面类型
+        :param exchange_type:转换文件类型
+        :param page:需要转化的页面 ,如 1,3,4-7
         :return:
         """
 
-        file_info = PDFFile.objects.get(id=uid)
-        pdf_file = file_info.file
+        # file_info = PDFFile.objects.get(id=uid)
+        # pdf_file = file_info.file
+        pdf_file = open(file_path, 'rb')
         file_type = None  # 转化的类型
         if exchange_type == FileType.DOC:
             file_type = "doc"
         if exchange_type == FileType.DOCX:
             file_type = "docx"
-        judge_pagetype, page_list = self.anlayse_which_page_need_exchange(page, page_type)
+        judge_pagetype, page_list = ConversionFile.anlayse_which_page_need_exchange(page, page_type)
         # 准备写入文件
         write_path = "./media/pdf/" + str(uid) + "." + file_type
         write_file = open(write_path, "a+")
-        self.exchange_file_type(pdf_file, write_file, judge_pagetype, page_list)
+        ConversionFile.exchange_file_type(pdf_file, write_file, judge_pagetype, page_list)
         write_file.close()
         pdf_file.close()
-        redis_cache.set(str(uid), 1)  # 将转化状态写入内存，用户再次请求相同文件时直接取文件，不用再转换一边
-        redis_cache.expire(str(uid), time_interval=datetime.timedelta(minutes=60))
+        ConversionFile.redis_obj.set(str(uid), 1)  # 将转化状态写入内存，用户再次请求相同文件时直接取文件，不用再转换一边
+        ConversionFile.redis_obj.expire(str(uid), datetime.timedelta(days=1))
 
-    def anlayse_which_page_need_exchange(self, page, page_type: PageType) -> Tuple[PageType, List[int]]:
+    @staticmethod
+    def anlayse_which_page_need_exchange(page: str, page_type: PageType) -> Tuple[PageType, List[int]]:
         # 存放需要指定解析的页码
         page_list = list()
         # 用来判断是用户想要哪种页面转换类型，1表示转换所有页，2表示偶数，3偶数页，4表示特定页码
@@ -98,7 +103,8 @@ class ConversionFile:
                             judge_pagetype = PageType.EVERY
         return judge_pagetype, page_list
 
-    def exchange_file_type(self, pdf_file, write_file, judge_pagetype: PageType, page_list):
+    @staticmethod
+    def exchange_file_type(pdf_file, write_file, judge_pagetype: PageType, page_list):
         parser = PDFParser(pdf_file)
         doc = PDFDocument()  # 创建一个PDF文档
         parser.set_document(doc)  # 连接分析器 与文档对象
@@ -172,3 +178,22 @@ class ConversionFile:
                         results = x.get_text()
                         write_file.write(results + '\n')
         parser.close()
+
+
+if __name__ == "__main__":
+    pdf_filepath, redis_key, page_type, to_file_type, need_conversion_page = sys.argv[1:6]
+    if page_type == "PageType.EVERY":
+        page_type = PageType.EVERY
+    elif page_type == "PageType.EVEN":
+        page_type = PageType.EVEN
+    elif page_type == "PageType.SINGULAR":
+        page_type = PageType.SINGULAR
+    elif page_type == "PageType.SPECIFIED":
+        page_type = PageType.SPECIFIED
+
+    if to_file_type == "FileType.DOCX":
+        to_file_type = FileType.DOCX
+    elif to_file_type == "FileType.DOC":
+        to_file_type = FileType.DOC
+    conversion_file = ConversionFile()
+    conversion_file.pdf_parse_to_docx(conversion_file,pdf_filepath, redis_key, page_type, to_file_type, need_conversion_page)
