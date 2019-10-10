@@ -151,8 +151,8 @@ if __name__ == "__main__":
 
     try:
         obj = UrlDocAnalyse()
-        url, allowPos, uid = sys.argv[1:4]
-        obj.analyse_word(url, allowPos, uid)
+        request_url, allowPos, uid = sys.argv[1:4]
+        obj.analyse_word(request_url, allowPos, uid)
 
     except Exception as e:
-        print(sys.argv)
+        print(e, sys.argv)
