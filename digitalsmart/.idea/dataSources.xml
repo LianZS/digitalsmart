@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="digitalsmart@localhost" uuid="0c39a46e-9332-4453-8288-c35701ffd4c8">
+    <data-source source="LOCAL" name="digitalsmart@39.108.13.150" read-only="true" uuid="0c39a46e-9332-4453-8288-c35701ffd4c8">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/digitalsmart</jdbc-url>
+      <jdbc-url>jdbc:mysql://39.108.13.150:3306/digitalsmart</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

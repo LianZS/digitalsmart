@@ -8,11 +8,10 @@ from attractions.tool.access_control_allow_origin import Access_Control_Allow_Or
 from attractions.models import SearchRate, CommentRate, NetComment, ScenceState
 
 
-class Comment():
+class Comment(object):
 
     @staticmethod
-    def search_heat(
-            request):
+    def search_heat(request):
         """
         景区搜索热度---链接格式：
         http://127.0.0.1:8000/attractions/api/getLocation_search_rate?&pid=158&sub_domain=&type_flag=0

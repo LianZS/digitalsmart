@@ -1,9 +1,7 @@
 import uuid
-from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.http.request import HttpRequest
-from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
 from attractions.models import ScenceManager
 from django.db import connection
 
