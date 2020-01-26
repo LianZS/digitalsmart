@@ -1,9 +1,10 @@
 import uuid
 from django.core.cache import cache
 from django.http import JsonResponse
-from django.http.request import HttpRequest
+
 from attractions.models import ScenceManager
 from django.db import connection
+from .tool.request_check import RequestMethod, check_request_method
 
 
 def access_control_allow_origin(httpresponse: dict) -> JsonResponse:
@@ -16,29 +17,13 @@ def access_control_allow_origin(httpresponse: dict) -> JsonResponse:
     return httpresponse
 
 
-class RequestMethod(object):
-    GET = 1
-    POST = 2
-
-
-def check_request_method(request: HttpRequest):
-    """
-    检查request方法
-    :param request:HttpRequest对象
-    :return:
-    """
-
-    if request.method == "GET":
-        return RequestMethod.GET
-    else:
-        return RequestMethod.POST
-
-
 class AreaInfoDetail(object):
 
     @staticmethod
     def get_city_queryset(request):
+
         """
+        获取省份下所有城市列表
         景区地理基本信息--链接格式：
         http://127.0.0.1:8000/attractions/api/getCitysByProvince?province=广东省
         :param request:
@@ -63,6 +48,7 @@ class AreaInfoDetail(object):
     @staticmethod
     def get_scenic_queryset(request):
         """
+        获取城市下所有地区列表
         景区数据---flag=1的景点暂时不公开--链接格式：
         http://127.0.0.1:8000/attractions/api/getRegionsByCity?province=广东省&location=深圳市&citypid=340
         :param request:
@@ -96,12 +82,12 @@ class AreaInfoDetail(object):
     @staticmethod
     def get_scenic_geographic(request):
         """
+        地区经纬度范围
          景区地理数据--链接格式：
          http://127.0.0.1:8000/attractions/api/getLocation_geographic_bounds?pid=1398&type_flag=1
         :param request:
         :return:
         """
-        jsonreponse: JsonResponse = None
 
         if check_request_method(request) == RequestMethod.GET:
 
@@ -142,7 +128,6 @@ class AreaInfoDetail(object):
         :param request:
         :return:
         """
-        jsonreponse: JsonResponse = None
 
         if check_request_method(request) == RequestMethod.GET:
 

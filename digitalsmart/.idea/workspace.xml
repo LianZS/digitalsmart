@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23f1096d-2f86-468b-8172-e3174d2975ed" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/attractions/tool/request_check.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0c39a46e-9332-4453-8288-c35701ffd4c8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/digitalsmart.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/digitalsmart.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attractions/areainfomation_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/areainfomation_view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/attractions/comment_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/comment_view.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/attractions/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/attractions/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/function/analyse.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/function/analyse.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datainterface/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/datainterface/urls.py" afterDir="false" />
@@ -18,34 +15,6 @@
       <change beforePath="$PROJECT_DIR$/digitalsmart/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/digitalsmart/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oauth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/oauth/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/5c1496d1e4b0e244fdf861bf(1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/5c1496d1e4b0e244fdf861bf.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/TCaptcha.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/analytics.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/basic.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/captcha-pre-verify.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/captcha-token-detect.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/collaboration.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/designer.2svg.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/designer.core.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/designer.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/designer.events.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/designer.methods.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/designer.ui.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/export.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/flow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/global-c7792d76.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/group.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/lane.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/qrcode-c7792d76.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/schema.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/svgUtil-c7792d76.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/tcaptcha-frame.1b406056.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/themes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/ui.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/util-c7792d76.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/数据库设计图/人流数据库设计图 - ProcessOn_files/zhuge.min.js" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,13 +65,6 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="digitalsmart@39.108.13.150" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="digitalsmart: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="historyscenceflow387: table" type="285a2a93:MysqlImplModel$Table" />
-      </path>
     </expand>
     <select />
   </component>
@@ -114,23 +76,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/attractions/areainfomation_view.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/attractions/comment_view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="139" column="22" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="22" />
+            <state relative-caret-position="216">
+              <caret line="31" column="43" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/attractions/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="23" column="54" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="54" />
+            <state relative-caret-position="81">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -193,7 +155,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/attractions/comment.py" />
         <option value="$PROJECT_DIR$/attractions/areainfomation.py" />
         <option value="$PROJECT_DIR$/internet/models.py" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
@@ -212,7 +173,6 @@
         <option value="$PROJECT_DIR$/attractions/a.py" />
         <option value="$PROJECT_DIR$/datainterface/models.py" />
         <option value="$PROJECT_DIR$/attractions/models.py" />
-        <option value="$PROJECT_DIR$/attractions/comment_view.py" />
         <option value="$PROJECT_DIR$/attractions/tool/file_hander.py" />
         <option value="$PROJECT_DIR$/attractions/tool/identity_authentication.py" />
         <option value="$PROJECT_DIR$/datainterface/scence_data_view.py" />
@@ -242,8 +202,10 @@
         <option value="$PROJECT_DIR$/oauth/urls.py" />
         <option value="$PROJECT_DIR$/digitalsmart/settings.py" />
         <option value="/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/django/db/backends/mysql/operations.py" />
-        <option value="$PROJECT_DIR$/attractions/areainfomation_view.py" />
         <option value="$PROJECT_DIR$/attractions/urls.py" />
+        <option value="$PROJECT_DIR$/attractions/tool/request_check.py" />
+        <option value="$PROJECT_DIR$/attractions/areainfomation_view.py" />
+        <option value="$PROJECT_DIR$/attractions/comment_view.py" />
       </list>
     </option>
   </component>
@@ -274,7 +236,8 @@
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
               <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
-              <item name="digitalsmart" type="462c0819:PsiDirectoryNode" />
+              <item name="attractions" type="462c0819:PsiDirectoryNode" />
+              <item name="tool" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="digitalsmart" type="b2602c69:ProjectViewProjectNode" />
@@ -606,8 +569,16 @@
       <workItem from="1567262410240" duration="1341000" />
       <workItem from="1567304461765" duration="690000" />
       <workItem from="1580034040953" duration="1099000" />
-      <workItem from="1580035165973" duration="7256000" />
+      <workItem from="1580035165973" duration="8957000" />
     </task>
+    <task id="LOCAL-00001" summary="景区地理信息优化">
+      <created>1580048321260</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1580048321261</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -643,7 +614,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="555117000" />
+    <option name="totallyTimeSpent" value="556818000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -656,7 +627,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="712" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49565217" visible="true" weight="0.19224556" />
       <window_info id="Structure" order="1" sideWeight="0.5043478" side_tool="true" weight="0.24394184" />
@@ -713,24 +683,11 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="景区地理信息优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="景区地理信息优化" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/attractions/tool/identity_authentication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="102" selection-start-line="102" selection-end-line="102" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/historyscenceflow0">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/internet/apps.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -901,16 +858,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/attractions/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/attractions/comment_view.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="76" column="12" lean-forward="true" selection-start-line="76" selection-start-column="6" selection-end-line="76" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/attractions/views.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1096,32 +1043,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/attractions/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://0c39a46e-9332-4453-8288-c35701ffd4c8/schema/digitalsmart/table/searchrate">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="13" />
+        <state relative-caret-position="202">
+          <caret line="36" column="15" lean-forward="true" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/attractions/tool/request_check.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/attractions/areainfomation_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="139" column="22" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="22" />
+        <state relative-caret-position="210">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/attractions/urls.py">
+    <entry file="file://$PROJECT_DIR$/attractions/comment_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="23" column="54" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="54" />
+        <state relative-caret-position="216">
+          <caret line="31" column="43" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
