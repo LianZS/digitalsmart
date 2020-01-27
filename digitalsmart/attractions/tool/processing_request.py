@@ -17,3 +17,15 @@ def check_request_method(request: HttpRequest):
         return RequestMethod.GET
     else:
         return RequestMethod.POST
+
+
+def get_request_args(request: HttpRequest, *args):
+    args_list = list()
+    for request_arg in args:
+        args_list.append(request.GET.get(request_arg, None))
+    if len(args_list) == 1:
+        return args_list[0]
+    elif len(args_list) == 0:
+        return None
+    else:
+        return args_list

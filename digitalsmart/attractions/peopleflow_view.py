@@ -5,7 +5,7 @@ from django.db import connection
 
 from digitalsmart.settings import redis_cache
 from .models import TableManager
-from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.processing_response import access_control_allow_origin
 from .predict import Predict
 from .model_choice import ModelChoice
 
@@ -196,6 +196,6 @@ class PeopleFlow():
 
     @staticmethod
     def deal_response(response):
-        response = Access_Control_Allow_Origin(response)
+        response = access_control_allow_origin(response)
 
         return response

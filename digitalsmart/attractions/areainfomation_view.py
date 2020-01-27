@@ -4,17 +4,8 @@ from django.http import JsonResponse
 
 from attractions.models import ScenceManager
 from django.db import connection
-from .tool.request_check import RequestMethod, check_request_method
-
-
-def access_control_allow_origin(httpresponse: dict) -> JsonResponse:
-    httpresponse = JsonResponse(httpresponse)
-    httpresponse["Access-Control-Allow-Origin"] = "*"
-    httpresponse["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-    httpresponse["Access-Control-Max-Age"] = "1000"
-    httpresponse["Access-Control-Allow-Headers"] = "*"
-
-    return httpresponse
+from .tool.processing_request import RequestMethod, check_request_method, get_request_args
+from .tool.processing_response import access_control_allow_origin, cache_response
 
 
 class AreaInfoDetail(object):
@@ -30,17 +21,22 @@ class AreaInfoDetail(object):
         :return:
         """
         jsonreponse: JsonResponse = None
+        err_msg = {"status": 0, "code": 0, "message": "参数有误"}
         if check_request_method(request) == RequestMethod.GET:
 
-            province = request.GET.get('province')  # 广东省
+            province = get_request_args(request, 'province')
             if province is None:
-                jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+                jsonreponse = JsonResponse(err_msg)
             else:
                 response = cache.get(province)
                 if response is None:
-                    result = ScenceManager.objects.filter(province=province).values("loaction", "citypid").distinct()
-                    response = {"province": province, "city": list(result)}
-                    cache.set(province, response, 60 * 60 * 10)
+                    city_query = ScenceManager.objects.filter(province=province).values("loaction",
+                                                                                        "citypid").distinct().iterator()
+                    city_query = list(city_query)
+
+                    response = {"province": province, "city": city_query}
+                    cache_response(province, response, 60 * 60 * 10, len(city_query))
+
                 jsonreponse = access_control_allow_origin(response)
         # 站点跨域请求的问题
         return jsonreponse
@@ -56,9 +52,8 @@ class AreaInfoDetail(object):
         """
         jsonreponse: JsonResponse = None
         if check_request_method(request) == RequestMethod.GET:
-            province = request.GET.get("province", None)
-            city = request.GET.get("location", None)  # 深圳市
-            citypid = request.GET.get("citypid", None)  # 123
+            province, city, citypid = get_request_args(request, 'province', 'location', 'citypid')
+
             if not (province and city and citypid):
                 jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
             # 作为城市唯一缓存key---province + city + citypid
@@ -66,14 +61,17 @@ class AreaInfoDetail(object):
                 key = uuid.uuid5(uuid.NAMESPACE_OID, province + city + citypid)
                 response = cache.get(key)
                 if response is None:
-                    result = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid,
-                                                          flag=0).values(
+                    area_detail_query = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid,
+                                                                     flag=0).values(
                         "area",
                         "pid",
                         "longitude",
                         "latitude", "type_flag")
-                    response = {"city": city, "area": list(result)}
-                    cache.set(key, response, 60 * 60 * 10)
+                    area_detail_query = list(area_detail_query)
+
+                    response = {"city": city, "area": area_detail_query}
+                    cache_response(key, response, 60 * 60 * 10, len(area_detail_query))
+
                 jsonreponse = access_control_allow_origin(response)
 
             # 站点跨域请求的问题
@@ -88,19 +86,19 @@ class AreaInfoDetail(object):
         :param request:
         :return:
         """
+        err_msg = {"status": 0, "code": 0, "message": "参数有误"}
 
         if check_request_method(request) == RequestMethod.GET:
 
-            pid = request.GET.get("pid")
-            type_flag = request.GET.get("type_flag")  # 避免同pid冲突
+            pid, type_flag = get_request_args(request, 'pid', 'type_flag')
             if not (pid and type_flag):
-                jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+                jsonreponse = JsonResponse(err_msg)
             else:
                 try:
                     pid = int(pid)
                     flag = int(type_flag)
-                except Exception:
-                    jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+                except ValueError:
+                    jsonreponse = JsonResponse(err_msg)
                     return jsonreponse
                 # 生产该景点的唯一key
                 key = uuid.uuid5(uuid.NAMESPACE_OID, "geographic" + str(pid * 1111 + flag))
@@ -110,13 +108,12 @@ class AreaInfoDetail(object):
                         cursor.execute(
                             "select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s",
                             [pid, flag])
-                        rows = cursor.fetchall()
-
-                    response = {"bounds": rows}
-                    cache.set(key, response, 60 * 60 * 10)
+                        bounds_detail_query = cursor.fetchall()
+                    response = {"bounds": bounds_detail_query}
+                    cache_response(key, response, 60 * 60 * 10, len(bounds_detail_query))
                 jsonreponse = access_control_allow_origin(response)
         else:
-            jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "请求方式有误"})
+            jsonreponse = JsonResponse(err_msg)
 
         return jsonreponse
 

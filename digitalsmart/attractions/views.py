@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.core.cache import cache
 
 from django.views.decorators.csrf import csrf_exempt
-from attractions.tool.access_control_allow_origin import Access_Control_Allow_Origin
+from attractions.tool.processing_response import access_control_allow_origin
 from attractions.models import ScenceImage
 
 
@@ -38,4 +38,4 @@ def get_photo_url(request):
         images = ScenceImage.objects.filter(pid=pid).values("photo").iterator()
         response = {"url": list(images)}
 
-    return Access_Control_Allow_Origin(response)
+    return access_control_allow_origin(response)
