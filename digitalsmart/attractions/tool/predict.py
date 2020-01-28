@@ -1,8 +1,7 @@
 import datetime
-from enum import Enum
 from typing import Dict
-from django.db.models import Max, aggregates
-from attractions.model_choice import ModelChoice
+from django.db.models import Max
+from attractions.tool.select_historyflown import get_historyscenceflow_class
 from attractions.models import PredictParamer, ScenceManager
 
 
@@ -36,10 +35,9 @@ class Predict(object):
         type_flag = ScenceManager.objects.get(pid=pid).type_flag
         today = int(str(ddate.date()).replace("-", ""))
         # 最近的时间
-        lasttime = \
-            ModelChoice.historyscenceflow(table_id).objects.filter(pid=pid, ddate=today).values("ttime").aggregate(
-                Max("ttime"))[
-                'ttime__max']
+        lasttime = get_historyscenceflow_class(table_id).objects.filter(pid=pid, ddate=today).values("ttime").aggregate(
+            Max("ttime"))[
+            'ttime__max']
         if lasttime is None:
             lasttime = ddate.time()
         if type_flag == 0:
