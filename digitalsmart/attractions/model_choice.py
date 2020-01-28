@@ -4,6 +4,7 @@ from .models import *
 class ModelChoice:
     @staticmethod
     def historyscenceflow(table_id):
+        table_id += 1
         if table_id == 1:
             return Historyscenceflow1
         elif table_id == 2:

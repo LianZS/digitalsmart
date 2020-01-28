@@ -1,89 +1,81 @@
-import uuid
 from django.core.cache import cache
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.db import connection
 
-from digitalsmart.settings import redis_cache
+from django.core.exceptions import ObjectDoesNotExist
 from .models import TableManager
-from attractions.tool.processing_response import access_control_allow_origin
-from .predict import Predict
+from attractions.tool.predict import Predict, predict_func
 from .model_choice import ModelChoice
+from .tool.processing_response import access_control_allow_origin, cache_response
+from .tool.processing_request import get_request_args, check_request_method, RequestMethod, conversion_args_type
 
 """
 人流数据
 """
 
 
-class PeopleFlow():
+class PeopleFlow(object):
 
     @staticmethod
-    def scenceflow_data(
-            request):
+    def get_scenicflow_data_queryset(request):
         """
         获取景区客流量(暂时不公开type_flag =1 的数据源的景区数据)--链接格式：
-        http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=6&date_begin=20190921&&date_end=20190723&
+        http://127.0.0.1:8000/attractions/api/getLocation_pn_percent_new?pid=6&date_begin=20190921&date_end=20190723&
         predict=true&sub_domain=
         :param request:
         :return:response = {"data": result, "future_time": predict_data['future_time'],
                         "future_data": predict_data['future_data']}
         """
-        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-        #     return JsonResponse({"status": 0})
 
-        type_flag = 0
-        pid = request.GET.get("pid")
-        date_begin = request.GET.get("date_begin")
-        date_end = request.GET.get("date_end")
-        predict = request.GET.get("predict")  # 是否预测,true,false
-        # sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+        err_msg = {"status": 0, "code": 0, "message": "参数有误"}
+        if check_request_method(request) == RequestMethod.GET:
 
-        if not (pid and date_begin and date_end and predict):
-            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        try:
-            pid = int(pid)
-            date_begin = int(date_begin)  # 格式为20190722
-            date_end = int(date_end)
-            inv = date_end - date_begin
-            if inv > 1:
-                return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+            type_flag = 0
+            pid, date_begin, date_end, predict, sub_domain = get_request_args(request, 'pid', 'date_begin', 'date_end',
+                                                                              'predict', 'sub_domain')
+            pid, date_begin, date_end = conversion_args_type({pid: int, date_begin: int, date_end: int})
 
-        except Exception:
-            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-            #  缓存key
-        key = "scence:{0}:{1}".format(pid, type_flag)
-        # 获取缓存数据
-        response = cache.get(key)
-        if response is None or len(response.keys()) == 0:  # 没有缓存数据
-            result = redis_cache.hashget(key=key)  # 先从内存获取数据
-            result = list(result)
-            # 获取该景区数据位于哪张表
-            table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
+            if not (pid and date_begin and date_end and predict):
+                response = err_msg
+            else:
+                date_interval = date_end - date_begin
+                if date_interval > 1:
+                    return JsonResponse(err_msg)
 
-            if len(result) == 0 or result[0] is None:  # 内存没有数据，查询数据库
-                result = ModelChoice.historyscenceflow(table_id).objects.filter(ddate=date_begin).values('ttime', 'num')
-                temp_result = list()
-                for item in result:
-                    temp_result.append([item['ttime'], item['num']])
-                result = temp_result
-            else:  # 数据统一格式
-                temp_result = list()
-                data = result[0]
-                for k in data.keys():
-                    v = data[k]
-                    temp_result.append([k, v])
-                result = temp_result
-            # 按时间排序
-            result = sorted(result, key=lambda x: str(x[0]))
-            # 预测客流量数据
-            predict_data = Predict().predict(pid, table_id)
-            response = {"data": result, "future_time": predict_data['future_time'],
-                        "future_data": predict_data['future_data']}
-            cache.set(key, response, 60 * 5)
+                #  缓存key
+                key = "scence:{0}:{1}".format(pid, type_flag)
+                # 获取缓存数据
+                response = cache.get(key)
+                if response is None:  # 没有缓存数据
 
-        return PeopleFlow.deal_response(response)
+                    # # 获取该景区数据位于哪张表
+                    table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
+                    scenic_people_detail_queryset = ModelChoice.historyscenceflow(table_id).objects.filter(
+                        ddate=date_begin).values(
+                        'ttime',
+                        'num')
+                    temp_result = list()
+                    for item in scenic_people_detail_queryset:
+                        temp_result.append([item['ttime'], item['num']])
+                    scenic_people_detail_queryset = temp_result
+                    # 按时间排序
+                    scenic_people_detail_queryset = sorted(scenic_people_detail_queryset, key=lambda x: str(x[0]))
+                    # 预测客流量数据
+                    if predict_func(predict) == Predict.PREDICT:
+                        predict_data = Predict().predict(pid, table_id)
+                    else:
+                        predict_data = {'future_time': None, 'future_data': None}
+                    response = {"data": scenic_people_detail_queryset, "future_time": predict_data['future_time'],
+                                "future_data": predict_data['future_data']}
+                    cache_response(key, response, 60 * 50,len(scenic_people_detail_queryset))
+        else:
+            response = err_msg
+        jsonreponse = access_control_allow_origin(response)
+
+        return jsonreponse
 
     @staticmethod
-    def scenceflow_trend(
+    def get_scenicflow_trend_queryset(
             request):
         """
         获取景区人流趋势--链接格式：
@@ -93,109 +85,82 @@ class PeopleFlow():
         :return: response = {"data": result}
 
         """
-        #
-        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-        #     return JsonResponse({"status": 0})
+        err_msg = {"status": 0, "code": 0, "message": "参数有误"}
+        if check_request_method(request) == RequestMethod.GET:
 
-        pid = request.GET.get("pid")
-        date_begin = request.GET.get("date_begin")
-        date_end = request.GET.get("date_end")
-        predict = request.GET.get("predict")  # 是否预测
-        # sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
+            pid, date_begin, date_end, predict, sub_domain = get_request_args(request, 'pid', 'date_begin', 'date_end',
+                                                                              'predict', 'sub_domain')
+            pid, date_begin, date_end = conversion_args_type({pid: int, date_begin: int, date_end: int})
+            if not (pid and date_begin and date_end):
+                response = err_msg
+            else:
+                #  缓存key构造规则
 
-        if not pid or not date_begin or not date_end or not predict:
-            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        try:
-            pid = int(pid)
-            date_begin = int(date_begin)
-            # date_end = int(date_end)
-        except Exception:
-            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        #  缓存key构造规则
+                key = "trend:{0}".format(pid)
 
-        key = "trend:{0}".format(pid)
+                response = cache.get(key)
+                if response is None:
+                    with connection.cursor() as cursor:
+                        cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s",
+                                       [pid, date_begin])
+                        trend_detail_queryset = cursor.fetchall()
 
-        response = cache.get(key)
-        if response is None or len(response.keys()) == 0:
-            result = redis_cache.hashget(key=key)
-            result = list(result)
-            if len(result) == 0 or result[0] is None:
-                with connection.cursor() as cursor:
-                    cursor.execute("select ttime,rate from digitalsmart.scencetrend where pid=%s and ddate=%s",
-                                   [pid, date_begin])
-                    result = cursor.fetchall()
-            else:  # 数据统一格式
-                temp_result = list()
-                data = result[0]
-                for k in data.keys():
-                    v = data[k]
-                    temp_result.append([k, v])
-                result = temp_result
-            result = sorted(result, key=lambda x: str(x[0]))  # 排序
+                    trend_detail_queryset = sorted(trend_detail_queryset, key=lambda x: str(x[0]))  # 排序
 
-            response = {"data": result}
-            cache.set(key, response, 60 * 6)
-        return PeopleFlow.deal_response(response)
+                    response = {"data": trend_detail_queryset}
+                    cache_response(key, response, 60 * 5,len(trend_detail_queryset))
+        else:
+            response = err_msg
+        jsonresponse = access_control_allow_origin(response)
+        return jsonresponse
 
     @staticmethod
     def scence_people_distribution(request):
         """
         获取景区实时客流分布情况--链接格式：
-        # http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&type_flag=0&sub_domain=
+         http://127.0.0.1:8000/attractions/api/getLocation_distribution_rate?pid=4910&type_flag=0&sub_domain=
         :param request:
         :return:{"data": result}
 
         """
-        # 人流分布数据
-        # if not 'User-Agent' in request.headers or len(request.COOKIES.values()) == 0:  # 反爬虫
-        #     return JsonResponse({"status": 0})
-        pid = request.GET.get("pid")
-        type_flag = request.GET.get("type_flag")
-        if not (pid and type_flag):
-            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        try:
-            pid = int(pid)
-            type_flag = int(type_flag)
-        except Exception:
-            return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-        # sub_domain = request.GET.get('sub_domain')  # 是否为开发者标识
-        #  缓存key构造规则
+        err_msg = {"status": 0, "code": 0, "message": "参数有误"}
+        if check_request_method(request) == RequestMethod.GET:
+            pid, type_flag, sub_domain = get_request_args(request, 'pid', 'type_flag', 'sub_domain')
+            pid, type_flag = conversion_args_type({pid: int, type_flag: int})
 
-        key = "distribution:{0}".format(pid)
-
-        response = cache.get(key)
-        if response is None or len(response.keys()) == 0:
-            result = redis_cache.get(key)
-            result = list(result)
-            if len(result) == 0 or result[0] is None:
-                try:
-                    obj = TableManager.objects.get(pid=pid, flag=type_flag)  # 避免重复冲突
-                except Exception:
-                    return JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
-                last_up: int = obj.last_date  # 最近更新时间
-                table_id: int = obj.table_id  # 表位置
-                # 下面之所以不格式化字符串，是预防注入
-                sql = "select lat,lon,num from digitalsmart.peopleposition{0} where  tmp_date=%s".format(
-                    table_id)
-
-                with connection.cursor() as cursor:
-                    cursor.execute(sql,
-                                   [last_up])
-                    rows = cursor.fetchall()
-                    result = list()
-                    for item in rows:
-                        lat = item[0]
-                        lon = item[1]
-                        num = item[2]
-                        result.append({"lat": lat, "lng": lon, "count": num})
+            if not (pid and isinstance(type_flag, int)):
+                response = err_msg
             else:
-                result = result[0]
-            response = {"data": result}
-            cache.set(key, response, 60 * 5)
-        return PeopleFlow.deal_response(response)
+                #  缓存key构造规则
+                key = "distribution:{0}".format(pid)
+                response = cache.get(key)
+                if response is None:
 
-    @staticmethod
-    def deal_response(response):
-        response = access_control_allow_origin(response)
+                    try:
+                        obj = TableManager.objects.get(pid=pid, flag=type_flag)  # 避免重复冲突
+                    except ObjectDoesNotExist:
+                        return JsonResponse(err_msg)
+                    last_up: int = obj.last_date  # 最近更新时间
+                    table_id: int = obj.table_id  # 表位置
+                    # 下面之所以不格式化字符串，是预防注入
+                    sql = "select lat,lon,num from digitalsmart.peopleposition{0} where  tmp_date=%s".format(
+                        table_id)
 
-        return response
+                    with connection.cursor() as cursor:
+                        cursor.execute(sql,
+                                       [last_up])
+                        rows = cursor.fetchall()
+                        distribution_queryset = list()
+                        for item in rows:
+                            lat = item[0]
+                            lon = item[1]
+                            num = item[2]
+                            distribution_queryset.append({"lat": lat, "lng": lon, "count": num})
+
+                    response = {"data": distribution_queryset}
+                    cache_response(key, response, 60 * 5,len(distribution_queryset))
+
+        else:
+            response = err_msg
+        jsonresponse = access_control_allow_origin(response)
+        return jsonresponse

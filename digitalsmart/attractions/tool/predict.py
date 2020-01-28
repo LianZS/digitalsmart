@@ -6,7 +6,7 @@ from attractions.model_choice import ModelChoice
 from attractions.models import PredictParamer, ScenceManager
 
 
-class Predict(Enum):
+class Predict(object):
     """
     人流预测模型
     """
@@ -66,7 +66,7 @@ class Predict(Enum):
 
             # 流量预测
         y_pos = [
-            int(hconstant * pow(x, hpower) + sconstant * pow(x, spower) + lconstant * pow(x, lpower) + mconstant)
+            abs(int(hconstant * pow(x, hpower) + sconstant * pow(x, spower) + lconstant * pow(x, lpower) + mconstant))
             for x
             in
             x_pos]
@@ -74,3 +74,10 @@ class Predict(Enum):
             "future_time": ttime_range,  # 未来时间序列
             "future_data": y_pos  # 预测值
         }
+
+
+def predict_func(conditions: str):
+    if conditions == "true":
+        return Predict.PREDICT
+    else:
+        return Predict.NOT_PREDICT

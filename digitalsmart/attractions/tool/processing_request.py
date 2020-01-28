@@ -51,8 +51,8 @@ def conversion_args_type(arg_type_map: dict):
             args_list.append(arg)
         except ValueError as e:
             print("参数 %s 转换类型有误" % arg, e)
+            args_list.append(False)
 
-            return False
     if len(args_list) == 1:
         return args_list[0]
     elif len(args_list) == 0:

@@ -4,7 +4,7 @@ from django.core.cache import cache
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from attractions.models import SearchRate, CommentRate, NetComment, ScenceState
-from .tool.processing_request import RequestMethod, check_request_method, get_request_args
+from .tool.processing_request import RequestMethod, check_request_method, get_request_args, conversion_args_type
 
 from .tool.processing_response import access_control_allow_origin, cache_response
 
@@ -23,23 +23,19 @@ class CommentDetail(object):
 
         if check_request_method(request) == RequestMethod.GET:
             pid, type_flag = get_request_args(request, 'pid', 'type_flag')
-            if not (pid and type_flag):
+            pid, type_flag = conversion_args_type({pid: int, type_flag: int})
+
+            if not (pid and isinstance(type_flag,int)):
                 response = err_msg
             else:
-                try:
-                    pid = int(pid)
-                    flag = int(type_flag)
-                except ValueError:
-                    return JsonResponse(err_msg)
                 # 缓存key构造规则--"searchrate"+str(pid * 1111 + flag)
-                key = uuid.uuid5(uuid.NAMESPACE_OID, "searchrate" + str(pid * 1111 + flag))
+                key = uuid.uuid5(uuid.NAMESPACE_OID, "searchrate" + str(pid * 1111 + type_flag))
                 response = cache.get(key)
                 if response is None:
                     # 数据从今年出开始
                     year = datetime.datetime.now().year
                     init_date = datetime.datetime(year, 1, 1)
                     begin_date = int(str(init_date.date()).replace("-", ""))
-
                     rows = SearchRate.objects.filter(pid=pid, tmp_date__gte=begin_date, flag=type_flag).values(
                         "tmp_date",
                         "name",
@@ -80,11 +76,8 @@ class CommentDetail(object):
         if check_request_method(request) == RequestMethod.GET:
 
             pid = get_request_args(request, 'pid')
+            pid = conversion_args_type({pid: int})
             if not pid:
-                return JsonResponse(err_msg)
-            try:
-                pid = int(pid)
-            except ValueError:
                 return JsonResponse(err_msg)
 
             key = uuid.uuid5(uuid.NAMESPACE_OID, "comment_rate" + str(pid))
@@ -112,11 +105,9 @@ class CommentDetail(object):
 
         if check_request_method(request) == RequestMethod.GET:
             pid = get_request_args(request, 'pid')
+            pid = conversion_args_type({pid: int})
+
             if not pid:
-                return JsonResponse(err_msg)
-            try:
-                pid = int(pid)
-            except ValueError:
                 return JsonResponse(err_msg)
             key = uuid.uuid5(uuid.NAMESPACE_OID, "comment" + str(pid))
             response = cache.get(key)
@@ -146,11 +137,9 @@ class CommentDetail(object):
 
         if check_request_method(request) == RequestMethod.GET:
             pid = get_request_args(request, 'pid')
+            pid = conversion_args_type({pid: int})
+
             if not pid:
-                return JsonResponse(err_msg)
-            try:
-                pid = int(pid)
-            except ValueError:
                 return JsonResponse(err_msg)
             key = uuid.uuid5(uuid.NAMESPACE_OID, "state" + str(pid))
 

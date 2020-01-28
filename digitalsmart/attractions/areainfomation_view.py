@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from attractions.models import ScenceManager
 from django.db import connection
-from .tool.processing_request import RequestMethod, check_request_method, get_request_args
+from .tool.processing_request import RequestMethod, check_request_method, get_request_args, conversion_args_type
 from .tool.processing_response import access_control_allow_origin, cache_response
 
 
@@ -25,7 +25,8 @@ class AreaInfoDetail(object):
         if check_request_method(request) == RequestMethod.GET:
 
             province = get_request_args(request, 'province')
-            if province is None:
+            province = conversion_args_type({province: str})
+            if not province:
                 jsonreponse = JsonResponse(err_msg)
             else:
                 response = cache.get(province)
@@ -53,12 +54,13 @@ class AreaInfoDetail(object):
         jsonreponse: JsonResponse = None
         if check_request_method(request) == RequestMethod.GET:
             province, city, citypid = get_request_args(request, 'province', 'location', 'citypid')
-
+            province, city, citypid = conversion_args_type({province: str, city: str, citypid: int})
             if not (province and city and citypid):
                 jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
             # 作为城市唯一缓存key---province + city + citypid
             else:
-                key = uuid.uuid5(uuid.NAMESPACE_OID, province + city + citypid)
+
+                key = uuid.uuid5(uuid.NAMESPACE_OID, province + city + str(citypid))
                 response = cache.get(key)
                 if response is None:
                     area_detail_query = ScenceManager.objects.filter(province=province, loaction=city, citypid=citypid,
@@ -91,23 +93,18 @@ class AreaInfoDetail(object):
         if check_request_method(request) == RequestMethod.GET:
 
             pid, type_flag = get_request_args(request, 'pid', 'type_flag')
-            if not (pid and type_flag):
+            pid, type_flag = conversion_args_type({pid: int, type_flag: int})
+            if not (pid and isinstance(type_flag,int)):
                 jsonreponse = JsonResponse(err_msg)
             else:
-                try:
-                    pid = int(pid)
-                    flag = int(type_flag)
-                except ValueError:
-                    jsonreponse = JsonResponse(err_msg)
-                    return jsonreponse
                 # 生产该景点的唯一key
-                key = uuid.uuid5(uuid.NAMESPACE_OID, "geographic" + str(pid * 1111 + flag))
+                key = uuid.uuid5(uuid.NAMESPACE_OID, "geographic" + str(pid * 1111 + type_flag))
                 response = cache.get(key)
                 if response is None:
                     with connection.cursor() as cursor:
                         cursor.execute(
                             "select longitude,latitude from digitalsmart.geographic where pid=%s and flag=%s",
-                            [pid, flag])
+                            [pid, type_flag])
                         bounds_detail_query = cursor.fetchall()
                     response = {"bounds": bounds_detail_query}
                     cache_response(key, response, 60 * 60 * 10, len(bounds_detail_query))
