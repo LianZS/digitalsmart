@@ -1,7 +1,5 @@
 import re
-import datetime
 
-from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from attractions.models import TableManager, ScenceManager
 from .models import WeatherDB
@@ -12,30 +10,6 @@ from attractions.tool.processing_request import check_request_method, conversion
 
 from attractions.tool.processing_response import access_control_allow_origin
 
-
-def check_paramer(request, flag=1):
-    """参数检查
-    flag为1时表示要检查ttime格式，0表示不需要
-    """
-    pid = request.GET.get("pid")
-    token: str = request.GET.get("token")  # 密钥
-    ddate = request.GET.get("ddate")  # 日期
-    ttime: str = request.GET.get("ttime")  # 时间
-
-    if not (pid and token and ddate):
-        return None, None, None, None
-    try:
-        ddate: int = int(ddate)
-        pid: int = int(pid)
-        if flag:
-
-            match_result = re.match("\d{2}:\d{2}:00", ttime)
-            if not match_result:
-                return None, None, None, None
-
-    except Exception:
-        return None, None, None, None
-    return pid, ddate, ttime, token
 
 
 class ScenceData(object):
