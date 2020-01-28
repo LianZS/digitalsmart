@@ -5,7 +5,7 @@ from django.db import connection
 from django.core.exceptions import ObjectDoesNotExist
 from .models import TableManager
 from attractions.tool.predict import Predict, predict_func
-from .model_choice import ModelChoice
+from attractions.tool.select_historyflown import get_historyscenceflow_class
 from .tool.processing_response import access_control_allow_origin, cache_response
 from .tool.processing_request import get_request_args, check_request_method, RequestMethod, conversion_args_type
 
@@ -14,7 +14,7 @@ from .tool.processing_request import get_request_args, check_request_method, Req
 """
 
 
-class PeopleFlow(object):
+class ScenicPeopleFlowDetail(object):
 
     @staticmethod
     def get_scenicflow_data_queryset(request):
@@ -50,7 +50,7 @@ class PeopleFlow(object):
 
                     # # 获取该景区数据位于哪张表
                     table_id = TableManager.objects.filter(pid=pid, flag=0).values("table_id")[0]["table_id"]
-                    scenic_people_detail_queryset = ModelChoice.historyscenceflow(table_id).objects.filter(
+                    scenic_people_detail_queryset = get_historyscenceflow_class(table_id).objects.filter(
                         ddate=date_begin).values(
                         'ttime',
                         'num')
