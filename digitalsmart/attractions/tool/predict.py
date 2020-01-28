@@ -1,17 +1,20 @@
 import datetime
+from enum import Enum
 from typing import Dict
 from django.db.models import Max, aggregates
-from .model_choice import ModelChoice
-from .models import PredictParamer, ScenceManager
+from attractions.model_choice import ModelChoice
+from attractions.models import PredictParamer, ScenceManager
 
 
-class Predict():
+class Predict(Enum):
     """
     人流预测模型
     """
+    NOT_PREDICT = 'false'
 
-    @staticmethod
-    def predict(pid, table_id) -> Dict:
+    PREDICT = 'true'
+
+    def predict(self, pid, table_id) -> Dict:
 
         try:
             # 非节假日
