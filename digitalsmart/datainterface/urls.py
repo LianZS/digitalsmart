@@ -1,13 +1,12 @@
 from django.urls import path, include
 
 from .scenic_data_view import ScenicDataDetail
-from .traffic_data_view import CityTrafficView
+from .traffic_data_view import CityTrafficDetail
 from .mobile_data_view import MobileDataDetail
 # from .specile_function_view import Crack
 from .weather_data_view import WeatherData
 
 # crack = Crack()
-city = CityTrafficView()
 weather = WeatherData()
 urlpatterns = {
     path("api/", include([
@@ -31,10 +30,10 @@ urlpatterns = {
         # path("downDocLink", crack.down_doc),  # 获取转换后的doc下载链接
         # path("analyse", crack.analyse_url),  # 请求分析链接里的中文文本关键词以及频率
         # path("analyseResult", crack.get_analyse_result),  # 文本分析结果
-        path("getCitydailyIndex", city.daily_index),  # 城市交通延迟指数
-        path("getCityRoadlist", city.road_list),  # 城市实时拥堵道路前10名
-        path("getCityMonthsTraffic", city.yeartraffic),  # 城市实时拥堵道路前10名
-        path("getCityAirState", city.get_city_air),  # 城市空气指标
+        path("getCitydailyIndex", CityTrafficDetail.get_daily_traffic_index_queryset),  # 城市交通延迟指数
+        path("getCityRoadlist", CityTrafficDetail.get_road_list__queryset),  # 城市实时拥堵道路前10名
+        path("getCityMonthsTraffic", CityTrafficDetail.get_city_year_traffic__queryset),  # 城市实时拥堵道路前10名
+        path("getCityAirState", CityTrafficDetail.get_city_air_queryset),  # 城市空气指标
         path("getBrandShare", MobileDataDetail.get_public_brand_share_queryset),  # 获取固定的公开品牌占有率数据
         path("getMobileSystemShare", MobileDataDetail.get_mobile_system_rate_queryset),  # 获取手机系统占有率数据
         path("getOperatorShare", MobileDataDetail.get_operator_rate_queryset),  # 获取运营商占有率数据
