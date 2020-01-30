@@ -1,21 +1,19 @@
 from django.urls import path, include
 
-from .scence_data_view import ScenceData
+from .scenic_data_view import ScenicDataDetail
 from .traffic_data_view import CityTrafficView
-from .internet_data_view import MobileData
+from .mobile_data_view import MobileDataDetail
 # from .specile_function_view import Crack
 from .weather_data_view import WeatherData
 
-scence = ScenceData()
 # crack = Crack()
 city = CityTrafficView()
-mobile = MobileData()
 weather = WeatherData()
 urlpatterns = {
     path("api/", include([
-        path("getScenceDataByTime", scence.interface_historytime_scence_data),  # 获取景区某时刻人流
-        path("getScenceDataByDate", scence.interface_historydate_scence_data),  # 获取景区某天人流
-        path("getScenceHeatmapDataByTime", scence.interface_hisroty_scence_distribution_data),  # 获取景区某时刻人流分布情况
+        path("getScenceDataByTime", ScenicDataDetail.interface_get_historytime_scence_queryset),  # 获取景区某时刻人流
+        path("getScenceDataByDate", ScenicDataDetail.interface_get_historydate_scence_queryset),  # 获取景区某天人流
+        path("getScenceHeatmapDataByTime", ScenicDataDetail.interface_get_hisroty_distribution_queryset),  # 获取景区某时刻人流分布情况
         # path("getMusic", crack.get_music_play_list),  # 搜索音乐
         # path("getMusicAsy", crack.get_music),  # 搜索音乐
         #
@@ -37,10 +35,10 @@ urlpatterns = {
         path("getCityRoadlist", city.road_list),  # 城市实时拥堵道路前10名
         path("getCityMonthsTraffic", city.yeartraffic),  # 城市实时拥堵道路前10名
         path("getCityAirState", city.get_city_air),  # 城市空气指标
-        path("getBrandShare", mobile.get_public_brand_share),  # 获取固定的公开品牌占有率数据
-        path("getMobileSystemShare", mobile.get_mobile_system_rate),  # 获取手机系统占有率数据
-        path("getOperatorShare", mobile.get_operator_rate),  # 获取运营商占有率数据
-        path("getNetShare", mobile.get_network_rate),  # 获取网络占有率数据
+        path("getBrandShare", MobileDataDetail.get_public_brand_share_queryset),  # 获取固定的公开品牌占有率数据
+        path("getMobileSystemShare", MobileDataDetail.get_mobile_system_rate_queryset),  # 获取手机系统占有率数据
+        path("getOperatorShare", MobileDataDetail.get_operator_rate_queryset),  # 获取运营商占有率数据
+        path("getNetShare", MobileDataDetail.get_network_rate__queryset),  # 获取网络占有率数据
         path("getWeather", weather.get_hisroty_day_weather),  # 获取某天历史天气数据
         path("getMonthWeather", weather.get_hisroty_month_weather),  # 获取某月历史天气数据
         # path("getUrlKeyword", crack.get_keyword),  # 获取链接关键词
