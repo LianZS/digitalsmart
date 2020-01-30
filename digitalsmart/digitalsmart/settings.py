@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'traffic.apps.TrafficConfig',
     'internet.apps.InternetConfig',
     'datainterface.apps.DatainterfaceConfig',
-    'oauth.apps.OauthConfig',
+    # 'oauth.apps.OauthConfig',
 
 ]
 
@@ -88,7 +88,7 @@ DATABASES = {
         "NAME": "digitalsmart",  # 数据库名
         'USER': "root",  # 用户
         'PASSWORD': 'lzs87724158',
-        'HOST': '',  # 数据库主机，留空默认为localhost
+        'HOST': '127.0.0.1',  # 数据库主机，留空默认为localhost
         'PORT': '3306',  # 数据库端口
     },
 
