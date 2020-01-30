@@ -20,14 +20,13 @@ class AreaInfoDetail(object):
         :param request:
         :return:
         """
-        jsonreponse: JsonResponse = None
-        err_msg = {"status": 0, "code": 0, "message": "参数有误"}
+        err_msg = {"status": 0, "code": 0, "message": "有误"}
         if check_request_method(request) == RequestMethod.GET:
 
             province = get_request_args(request, 'province')
             province = conversion_args_type({province: str})
             if not province:
-                jsonreponse = JsonResponse(err_msg)
+                response = err_msg
             else:
                 response = cache.get(province)
                 if response is None:
@@ -38,9 +37,12 @@ class AreaInfoDetail(object):
                     response = {"province": province, "city": city_query}
                     cache_response(province, response, 60 * 60 * 10, len(city_query))
 
-                jsonreponse = access_control_allow_origin(response)
-        # 站点跨域请求的问题
-        return jsonreponse
+        else:
+            response = err_msg
+            # 站点跨域请求的问题
+        json_reponse = access_control_allow_origin(response)
+
+        return json_reponse
 
     @staticmethod
     def get_scenic_queryset(request):
@@ -51,12 +53,12 @@ class AreaInfoDetail(object):
         :param request:
         :return:
         """
-        jsonreponse: JsonResponse = None
+        err_msg = {"status": 0, "code": 0, "message": "有误"}
         if check_request_method(request) == RequestMethod.GET:
             province, city, citypid = get_request_args(request, 'province', 'location', 'citypid')
             province, city, citypid = conversion_args_type({province: str, city: str, citypid: int})
             if not (province and city and citypid):
-                jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "参数有误"})
+                response = err_msg
             # 作为城市唯一缓存key---province + city + citypid
             else:
 
@@ -74,10 +76,12 @@ class AreaInfoDetail(object):
                     response = {"city": city, "area": area_detail_query}
                     cache_response(key, response, 60 * 60 * 10, len(area_detail_query))
 
-                jsonreponse = access_control_allow_origin(response)
+        else:
+            response = err_msg
+        # 站点跨域请求的问题
+        json_reponse = access_control_allow_origin(response)
 
-            # 站点跨域请求的问题
-        return jsonreponse
+        return json_reponse
 
     @staticmethod
     def get_scenic_geographic(request):
@@ -88,14 +92,14 @@ class AreaInfoDetail(object):
         :param request:
         :return:
         """
-        err_msg = {"status": 0, "code": 0, "message": "参数有误"}
+        err_msg = {"status": 0, "code": 0, "message": "有误"}
 
         if check_request_method(request) == RequestMethod.GET:
 
             pid, type_flag = get_request_args(request, 'pid', 'type_flag')
             pid, type_flag = conversion_args_type({pid: int, type_flag: int})
-            if not (pid and isinstance(type_flag,int)):
-                jsonreponse = JsonResponse(err_msg)
+            if not (pid and isinstance(type_flag, int)):
+                response = err_msg
             else:
                 # 生产该景点的唯一key
                 key = uuid.uuid5(uuid.NAMESPACE_OID, "geographic" + str(pid * 1111 + type_flag))
@@ -108,11 +112,12 @@ class AreaInfoDetail(object):
                         bounds_detail_query = cursor.fetchall()
                     response = {"bounds": bounds_detail_query}
                     cache_response(key, response, 60 * 60 * 10, len(bounds_detail_query))
-                jsonreponse = access_control_allow_origin(response)
         else:
-            jsonreponse = JsonResponse(err_msg)
+            response = err_msg
+            # 站点跨域请求的问题
+        json_reponse = access_control_allow_origin(response)
 
-        return jsonreponse
+        return json_reponse
 
     @staticmethod
     def get_scenic_map(request):
@@ -122,6 +127,7 @@ class AreaInfoDetail(object):
         :param request:
         :return:
         """
+        err_msg = {"status": 0, "code": 0, "message": "有误"}
 
         if check_request_method(request) == RequestMethod.GET:
 
@@ -135,6 +141,8 @@ class AreaInfoDetail(object):
                 cache.set(key, response, 60 * 60 * 10)
             jsonreponse = access_control_allow_origin(response)
         else:
-            jsonreponse = JsonResponse({"status": 0, "code": 0, "message": "请求方式有误"})
+            response = err_msg
+            # 站点跨域请求的问题
+        json_reponse = access_control_allow_origin(response)
 
-        return jsonreponse
+        return json_reponse
