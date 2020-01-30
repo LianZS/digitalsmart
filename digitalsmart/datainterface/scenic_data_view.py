@@ -11,8 +11,7 @@ from attractions.tool.processing_request import check_request_method, conversion
 from attractions.tool.processing_response import access_control_allow_origin
 
 
-
-class ScenceData(object):
+class ScenicDataDetail(object):
 
     @staticmethod
     def interface_get_historytime_scence_queryset(request):
@@ -50,8 +49,8 @@ class ScenceData(object):
                 response = {"num": num, "pid": pid, "area": area, "date": ddate, "ttime": ttime}
         else:
             response = err_msg
-        jsonresponse = access_control_allow_origin(response)
-        return jsonresponse
+        json_response = access_control_allow_origin(response)
+        return json_response
 
     @staticmethod
     def interface_get_historydate_scence_queryset(request):
@@ -94,8 +93,8 @@ class ScenceData(object):
                 response = {"area": area, "pid": pid, "datalist": history_scenic_queryset, "date": ddate}
         else:
             response = err_msg
-        jsonresponse = access_control_allow_origin(response)
-        return jsonresponse
+        json_response = access_control_allow_origin(response)
+        return json_response
 
     @staticmethod
     def interface_get_hisroty_distribution_queryset(request):
@@ -120,7 +119,7 @@ class ScenceData(object):
                 ddate = '-'.join([year, month, day])
                 try:
                     obj = ScenceManager.objects.get(pid=pid, flag=0)  # 检查是否存在
-                except:
+                except ObjectDoesNotExist:
                     return access_control_allow_origin(err_msg)
                 area = obj.area
                 longitude = obj.longitude  # 中心经度
@@ -132,11 +131,16 @@ class ScenceData(object):
                             "multiple": 10000}
         else:
             response = err_msg
-        jsonresponse = access_control_allow_origin(response)
-        return jsonresponse
+        json_response = access_control_allow_origin(response)
+        return json_response
 
     @staticmethod
     def interface_get_hisroty_weather(request):
+        """
+        获取历史天气数据
+        :param request:
+        :return:
+        """
         err_msg = {"status": 0, "message": "错误"}
 
         if check_request_method(request) == RequestMethod.GET:
@@ -150,5 +154,5 @@ class ScenceData(object):
                 response = {"data": list(result)}
         else:
             response = err_msg
-        jsonresponse = access_control_allow_origin(response)
-        return jsonresponse
+        json_response = access_control_allow_origin(response)
+        return json_response
