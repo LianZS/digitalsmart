@@ -4,7 +4,7 @@ atomicwrites==1.3.0
 attrs==19.1.0
 beautifulsoup4==4.8.0
 billiard==3.6.1.0
-celery==4.4.0rc3
+celery==5.2.2
 certifi==2019.6.16
 chardet==3.0.4
 Django==2.2.3
